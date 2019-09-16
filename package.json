@@ -10,14 +10,15 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:commitMessageEditor.openEditor"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "commitMessageEditor.openEditor",
+				"title": "Open the commit message editor",
+				"category": "Git"
 			}
 		]
 	},
