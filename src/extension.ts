@@ -1,3 +1,4 @@
+import { platform } from 'os';
 import * as vscode from 'vscode';
 import EditorTab from './views/EditorTab';
 import GitService from './GitService';
@@ -21,6 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 		currentPanel.webview.html = EditorTab({
 			extensionPath,
 			webview,
+			platform: platform(),
 		});
 
 		currentPanel.webview.onDidReceiveMessage(

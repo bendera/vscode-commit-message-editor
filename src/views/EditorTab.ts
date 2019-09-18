@@ -3,11 +3,13 @@ import * as vscode from 'vscode';
 
 interface EditorTabProps {
     extensionPath: string;
+    platform: string;
     webview: vscode.Webview;
 }
 
 const EditorTab = ({
     extensionPath,
+    platform,
     webview,
 }: EditorTabProps) => {
     const vscodeScriptUri = vscode.Uri.file(path.join(extensionPath, 'assets', 'scripts', 'tab.js'));
@@ -29,11 +31,13 @@ const EditorTab = ({
             <title>Commit message editor</title>
             <link rel="stylesheet" href="${stylesUri}">
         </head>
-        <body>
-            <form id="edit-form">
-                <textarea id="message-box"></textarea><br>
-                <button type="submit" id="success-button">OK</button>
-            </form>
+        <body class="${platform}">
+            <div class="content">
+                <form id="edit-form">
+                    <textarea id="message-box" class="message-box"></textarea><br>
+                    <button type="submit" id="success-button" class="button primary-button">OK</button>
+                </form>
+            </div>
             <script src="${scriptsUri}"></script>
         </body>
         </html>
