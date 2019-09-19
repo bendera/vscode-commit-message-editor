@@ -7,6 +7,13 @@ export function activate(context: vscode.ExtensionContext) {
   const git = new GitService();
   let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
+  const createPostMessageFromSCMInputBoxValue = () => ({
+    command: 'copyFromSCMInputBox',
+    payload: {
+      inputBoxValue: git.getSCMInputBoxMessage(),
+    },
+  });
+
   const openEditor: vscode.Disposable = vscode.commands.registerCommand(
     'commitMessageEditor.openEditor',
     () => {
@@ -55,6 +62,8 @@ export function activate(context: vscode.ExtensionContext) {
         null,
         context.subscriptions
       );
+
+      currentPanel.webview.postMessage(createPostMessageFromSCMInputBoxValue());
     }
   );
 
@@ -65,12 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      currentPanel.webview.postMessage({
-        command: 'copyFromSCMInputBox',
-        payload: {
-          inputBoxValue: git.getSCMInputBoxMessage(),
-        },
-      });
+      currentPanel.webview.postMessage(createPostMessageFromSCMInputBoxValue());
     }
   );
 
