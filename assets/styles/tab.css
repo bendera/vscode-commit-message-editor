@@ -3,41 +3,41 @@ platform classes: win32 | linux | darwin
 */
 
 body {
-    background-color: var(--vscode-editor-background);
-    color: var(--vscode-editor-foreground);
+  background-color: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
 }
 
 .message-box {
-    background-color: var(--vscode-input-background);
-    box-sizing: border-box;
-    color: var(--vscode-input-foreground);
-    font-family: inherit;
-    width: 100%;
+  background-color: var(--vscode-input-background);
+  box-sizing: border-box;
+  color: var(--vscode-input-foreground);
+  font-family: inherit;
+  width: 100%;
 }
 
 body.light .message-box {
-    border-color: rgba(0, 0, 0, 0.19);
+  border-color: rgba(0, 0, 0, 0.19);
 }
 
 body.dark .message-box {
-    border-color: rgba(255, 255, 255, 0.19);
+  border-color: rgba(255, 255, 255, 0.19);
 }
 
 body.hc .message-box {
-    border-color: #fff;
+  border-color: #fff;
 }
 
 .button {
-    background-color: var(--vscode-button-background);
-    border: 0;
-    box-sizing: border-box;
-    color: var(--vscode-button-foreground);
-    cursor: pointer;
-    display: inline-block;
-    font-family: inherit;
-    font-size: inherit;
-    outline-offset: 2px !important;
-    padding: 2px 14px;
-    text-align: center;
-    width: auto;
+  background-color: var(--vscode-button-background);
+  border: 0;
+  box-sizing: border-box;
+  color: var(--vscode-button-foreground);
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: inherit;
+  outline-offset: 2px !important;
+  padding: 2px 14px;
+  text-align: center;
+  width: auto;
 }
