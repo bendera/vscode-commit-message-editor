@@ -7,11 +7,100 @@ body {
   color: var(--vscode-editor-foreground);
 }
 
+.darwin {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.darwin:lang(zh-Hans) {
+  font-family: -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
+    sans-serif;
+}
+
+.darwin:lang(zh-Hant) {
+  font-family: -apple-system, BlinkMacSystemFont, PingFang TC, sans-serif;
+}
+
+.darwin:lang(ja) {
+  font-family: -apple-system, BlinkMacSystemFont, Hiragino Kaku Gothic Pro,
+    sans-serif;
+}
+
+.darwin:lang(ko) {
+  font-family: -apple-system, BlinkMacSystemFont, Nanum Gothic,
+    Apple SD Gothic Neo, AppleGothic, sans-serif;
+}
+
+.win32 {
+  font-family: Segoe WPC, Segoe UI, sans-serif;
+}
+
+.win32:lang(zh-Hans) {
+  font-family: Segoe WPC, Segoe UI, Microsoft YaHei, sans-serif;
+}
+
+.win32:lang(zh-Hant) {
+  font-family: Segoe WPC, Segoe UI, Microsoft Jhenghei, sans-serif;
+}
+
+.win32:lang(ja) {
+  font-family: Segoe WPC, Segoe UI, Meiryo, sans-serif;
+}
+
+.win32:lang(ko) {
+  font-family: Segoe WPC, Segoe UI, Malgun Gothic, Dotom, sans-serif;
+}
+
+.linux {
+  font-family: Ubuntu, Droid Sans, sans-serif;
+}
+
+.linux:lang(zh-Hans) {
+  font-family: Ubuntu, Droid Sans, Source Han Sans SC, Source Han Sans CN,
+    Source Han Sans, sans-serif;
+}
+
+.linux:lang(zh-Hant) {
+  font-family: Ubuntu, Droid Sans, Source Han Sans TC, Source Han Sans TW,
+    Source Han Sans, sans-serif;
+}
+
+.linux:lang(ja) {
+  font-family: Ubuntu, Droid Sans, Source Han Sans J, Source Han Sans JP,
+    Source Han Sans, sans-serif;
+}
+
+.linux:lang(ko) {
+  font-family: Ubuntu, Droid Sans, Source Han Sans K, Source Han Sans JR,
+    Source Han Sans, UnDotum, FBaekmuk Gulim, sans-serif;
+}
+
+.darwin {
+  --cme-monospace-font: Monaco, Menlo, Inconsolata, 'Courier New', monospace;
+}
+
+.win32 {
+  --cme-monospace-font: Consolas, Inconsolata, 'Courier New', monospace;
+}
+
+.linux {
+  --cme-monospace-font: 'Droid Sans Mono', Inconsolata, 'Courier New',
+    monospace, 'Droid Sans Fallback';
+}
+
+.content {
+  font-size: 13px;
+  margin: 0 auto;
+  padding-top: 13px;
+  max-width: 763px;
+}
+
 .message-box {
   background-color: var(--vscode-input-background);
   box-sizing: border-box;
   color: var(--vscode-input-foreground);
   font-family: inherit;
+  height: 200px;
+  resize: vertical;
   width: 100%;
 }
 
@@ -36,6 +125,7 @@ body.hc .message-box {
   display: inline-block;
   font-family: inherit;
   font-size: inherit;
+  line-height: 1.4;
   outline-offset: 2px !important;
   padding: 2px 14px;
   text-align: center;
