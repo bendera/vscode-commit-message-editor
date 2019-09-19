@@ -44,6 +44,10 @@ export function activate(context: vscode.ExtensionContext) {
   const copyFromSCMInputBox: vscode.Disposable = vscode.commands.registerCommand(
     'commitMessageEditor.copyFromSCMInputBox',
     () => {
+      if (!currentPanel) {
+        return;
+      }
+
       currentPanel.webview.postMessage({
         command: 'copyFromSCMInputBox',
         payload: {
