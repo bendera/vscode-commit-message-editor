@@ -5,15 +5,24 @@ import GitService from './GitService';
 
 export function activate(context: vscode.ExtensionContext) {
   const git = new GitService();
-  let currentPanel: vscode.WebviewPanel;
+  let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
   const openEditor: vscode.Disposable = vscode.commands.registerCommand(
     'commitMessageEditor.openEditor',
     () => {
+      const columnToShowIn = vscode.window.activeTextEditor
+        ? vscode.window.activeTextEditor.viewColumn
+        : undefined;
+
+      if (currentPanel) {
+        currentPanel.reveal(columnToShowIn);
+        return;
+      }
+
       currentPanel = vscode.window.createWebviewPanel(
         'editCommitMessage',
         'Edit commit message',
-        vscode.ViewColumn.Active,
+        (<vscode.ViewColumn>columnToShowIn),
         {
           enableScripts: true,
         }
@@ -32,10 +41,18 @@ export function activate(context: vscode.ExtensionContext) {
           if (data.command === 'copyFromExtensionMessageBox') {
             git.setSCMInputBoxMessage(data.payload);
           } else if (data.command === 'closeTab') {
-            currentPanel.dispose();
+            (<vscode.WebviewPanel>currentPanel).dispose();
           }
         },
         undefined,
+        context.subscriptions
+      );
+
+      currentPanel.onDidDispose(
+        () => {
+          currentPanel = undefined;
+        },
+        null,
         context.subscriptions
       );
     }
