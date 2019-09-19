@@ -1,53 +1,73 @@
 {
-	"name": "commit-message-editor",
-	"displayName": "Commit message editor",
-	"description": "Edit commit messages in a huge textarea",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.38.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:commitMessageEditor.openEditor",
-		"onCommand:commitMessageEditor.copyFromSCMInputBox",
-		"onWebviewPanel:copyFromExtensionMessageBox"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "commitMessageEditor.openEditor",
-				"title": "Open the commit message editor",
-				"category": "Git"
-			},
-			{
-				"command": "commitMessageEditor.copyFromSCMInputBox",
-				"title": "Copy text from SCM input box",
-				"category": "Git"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile",
-		"test": "node ./out/test/runTest.js"
-	},
-	"extensionDependencies": [
-		"vscode.git"
-	],
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^5.2.6",
-		"@types/node": "^10.12.21",
-		"@types/vscode": "^1.38.0",
-		"glob": "^7.1.4",
-		"mocha": "^6.1.4",
-		"typescript": "^3.3.1",
-		"tslint": "^5.12.1",
-		"vscode-test": "^1.0.2"
-	}
+  "name": "commit-message-editor",
+  "displayName": "Commit message editor",
+  "description": "Edit commit messages in a huge textarea",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.38.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:commitMessageEditor.openEditor",
+    "onCommand:commitMessageEditor.copyFromSCMInputBox",
+    "onWebviewPanel:copyFromExtensionMessageBox"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "commitMessageEditor.openEditor",
+        "title": "Open the commit message editor",
+        "category": "Git",
+        "icon": {
+          "light": "assets/images/icons/light/edit.svg",
+          "dark": "assets/images/icons/dark/edit.svg"
+        }
+      },
+      {
+        "command": "commitMessageEditor.copyFromSCMInputBox",
+        "title": "Copy text from SCM input box",
+        "category": "Git"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "commitMessageEditor.openEditor",
+          "group": "navigation@1",
+          "title": "Edit",
+          "when": "scmProvider == git"
+        },
+        {
+          "command": "commitMessageEditor.openEditor",
+          "group": "inline",
+          "title": "Edit",
+          "when": "scmProvider == git"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "extensionDependencies": [
+    "vscode.git"
+  ],
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.21",
+    "@types/vscode": "^1.38.0",
+    "glob": "^7.1.4",
+    "mocha": "^6.1.4",
+    "typescript": "^3.3.1",
+    "tslint": "^5.12.1",
+    "vscode-test": "^1.0.2"
+  }
 }
