@@ -35,7 +35,10 @@ const EditorTab = ({
             <div class="content">
                 <form id="edit-form">
                     <textarea id="message-box" class="message-box"></textarea><br>
-                    <button type="submit" id="success-button" class="button primary-button">OK</button>
+                    <div class="buttons">
+                        <button type="submit" id="success-button" class="button primary-button">Save and close</button>
+                        <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
+                    </div>
                 </form>
             </div>
             <script src="${scriptsUri}"></script>

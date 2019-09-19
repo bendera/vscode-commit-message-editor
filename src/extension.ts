@@ -29,6 +29,8 @@ export function activate(context: vscode.ExtensionContext) {
 			(data) => {
 				if (data.command === 'copyFromExtensionMessageBox') {
 					git.setSCMInputBoxMessage(data.payload);
+				} else if (data.command === 'closeTab') {
+					currentPanel.dispose();
 				}
 			}, 
 			undefined, 
