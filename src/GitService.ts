@@ -44,6 +44,27 @@ class GitService {
       repo.inputBox.value = message;
     }
   }
+
+  public async getRecentCommitMessages() {
+    const repo = this.getSelectedRepository((<API>this.api).repositories);
+    let log;
+
+    if (!repo) {
+      return Promise.resolve([]);
+    }
+
+    try {
+      log = await repo.log();
+    } catch(er) {
+      Promise.reject(er);
+    }
+
+    if (!log) {
+      return Promise.resolve([]);
+    }
+
+    return Promise.resolve(log);
+  }
 }
 
 export default GitService;

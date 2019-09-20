@@ -3,6 +3,11 @@ import * as vscode from 'vscode';
 import EditorTab from './views/EditorTab';
 import GitService from './GitService';
 
+const createPostMessage = (command: string, payload: object): object => ({
+  command,
+  payload,
+});
+
 export function activate(context: vscode.ExtensionContext) {
   const git = new GitService();
   let currentPanel: vscode.WebviewPanel | undefined = undefined;
@@ -29,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
       currentPanel = vscode.window.createWebviewPanel(
         'editCommitMessage',
         'Edit commit message',
-        (<vscode.ViewColumn>columnToShowIn),
+        <vscode.ViewColumn>columnToShowIn,
         {
           enableScripts: true,
         }
@@ -64,6 +69,19 @@ export function activate(context: vscode.ExtensionContext) {
       );
 
       currentPanel.webview.postMessage(createPostMessageFromSCMInputBoxValue());
+
+      git
+        .getRecentCommitMessages()
+        .then(commits => {
+          const message = createPostMessage('recentCommitMessages', { commits });
+
+          if (currentPanel) {
+            currentPanel.webview.postMessage(message);
+          }
+        })
+        .catch(er => {
+          vscode.window.showErrorMessage('Something went wrong', er);
+        });
     }
   );
 

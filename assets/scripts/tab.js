@@ -2,6 +2,9 @@ const elMessageBox = document.getElementById('message-box');
 const elEditForm = document.getElementById('edit-form');
 const elSuccessButton = document.getElementById('success-button');
 const elCancelButton = document.getElementById('cancel-button');
+const elCommitListWrapper = document.getElementById('commit-list-wrapper');
+
+const { CommitList } = __cme_components__;
 
 window.addEventListener('message', event => {
   const { data } = event;
@@ -9,6 +12,9 @@ window.addEventListener('message', event => {
   switch (data.command) {
     case 'copyFromSCMInputBox':
       elMessageBox.innerHTML = data.payload.inputBoxValue;
+      break;
+    case 'recentCommitMessages':
+      elCommitListWrapper.innerHTML = CommitList(data.payload.commits);
       break;
   }
 });

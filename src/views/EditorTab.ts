@@ -11,10 +11,14 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
   const vscodeScriptUri = vscode.Uri.file(
     path.join(extensionPath, 'assets', 'scripts', 'tab.js')
   );
+  const vscodeComponentsScriptUri = vscode.Uri.file(
+    path.join(extensionPath, 'assets', 'scripts', 'components.js')
+  );
   const vscodeStylesUri = vscode.Uri.file(
     path.join(extensionPath, 'assets', 'styles', 'tab.css')
   );
   const scriptsUri = webview.asWebviewUri(vscodeScriptUri);
+  const componentsScriptUri = webview.asWebviewUri(vscodeComponentsScriptUri);
   const stylesUri = webview.asWebviewUri(vscodeStylesUri);
   const { cspSource } = webview;
 
@@ -39,8 +43,10 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
             <button type="submit" id="success-button" class="button primary-button">Save and close</button>
             <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
           </div>
+          <div id="commit-list-wrapper" class="commit-list-wrapper"></div>
         </form>
       </div>
+      <script src="${componentsScriptUri}"></script>
       <script src="${scriptsUri}"></script>
     </body>
     </html>
