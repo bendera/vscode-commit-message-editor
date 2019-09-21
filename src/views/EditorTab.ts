@@ -37,14 +37,31 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
     </head>
     <body class="${platform}">
       <div class="content">
-        <form id="edit-form">
-          <textarea id="message-box" class="message-box"></textarea><br>
-          <div class="buttons">
-            <button type="submit" id="success-button" class="button primary-button">Save and close</button>
-            <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
+        <div class="layout">
+          <div class="col">
+            <section class="section section--commit-message">
+              <h2 class="section-title">Commit message</h2>
+              <div class="editor-wrapper">
+                <textarea id="message-box" class="message-box"></textarea><br>
+                <div class="buttons">
+                  <button type="submit" id="success-button" class="button primary-button">Save and close</button>
+                  <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
+                </div>
+              </div>
+            </section>
           </div>
-          <div id="commit-list-wrapper" class="commit-list-wrapper"></div>
-        </form>
+          <div class="col">
+            <section class="section section--recent-commits">
+              <h2 class="section-title">Recent commits</h2>
+              <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
+                <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
+                  <div class="recent-commits-wrapper__loading-icon"></div>
+                </div>
+                <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits"></div>
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
       <script src="${componentsScriptUri}"></script>
       <script src="${scriptsUri}"></script>

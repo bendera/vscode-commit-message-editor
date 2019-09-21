@@ -2,7 +2,8 @@ const elMessageBox = document.getElementById('message-box');
 const elEditForm = document.getElementById('edit-form');
 const elSuccessButton = document.getElementById('success-button');
 const elCancelButton = document.getElementById('cancel-button');
-const elCommitListWrapper = document.getElementById('commit-list-wrapper');
+const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
+const elRecentCommitsWrapperCommits = document.getElementById('recent-commits-wrapper__commits');
 
 const { CommitList } = __cme_components__;
 
@@ -14,7 +15,8 @@ window.addEventListener('message', event => {
       elMessageBox.innerHTML = data.payload.inputBoxValue;
       break;
     case 'recentCommitMessages':
-      elCommitListWrapper.innerHTML = CommitList(data.payload.commits);
+      elRecentCommitsWrapper.classList.remove('is-loading');
+      elRecentCommitsWrapperCommits.innerHTML = CommitList(data.payload.commits);
       break;
   }
 });

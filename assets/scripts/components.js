@@ -9,7 +9,7 @@ const __cme_components__ = (function() {
       return '<div class="commit-list">No recent commits</div>';
     }
 
-    return `<div class="commit-list"><ul>${items}</ul></div>`;
+    return `<ul class="commit-list">${items}</ul>`;
   }
 
   return {

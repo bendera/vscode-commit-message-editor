@@ -71,7 +71,7 @@ export function activate(context: vscode.ExtensionContext) {
       currentPanel.webview.postMessage(createPostMessageFromSCMInputBoxValue());
 
       git
-        .getRecentCommitMessages()
+        .getRecentCommitMessages(10)
         .then(commits => {
           const message = createPostMessage('recentCommitMessages', { commits });
 

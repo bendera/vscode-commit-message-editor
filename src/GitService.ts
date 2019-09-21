@@ -45,7 +45,7 @@ class GitService {
     }
   }
 
-  public async getRecentCommitMessages() {
+  public async getRecentCommitMessages(limit: number = 32) {
     const repo = this.getSelectedRepository((<API>this.api).repositories);
     let log;
 
@@ -54,7 +54,7 @@ class GitService {
     }
 
     try {
-      log = await repo.log();
+      log = await repo.log({ maxEntries: limit });
     } catch(er) {
       Promise.reject(er);
     }
