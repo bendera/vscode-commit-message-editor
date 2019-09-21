@@ -7,20 +7,28 @@ interface EditorTabProps {
   webview: vscode.Webview;
 }
 
+const getNonce = () => {
+  let text = '';
+  const possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
 const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
-  const vscodeScriptUri = vscode.Uri.file(
-    path.join(extensionPath, 'assets', 'scripts', 'tab.js')
-  );
-  const vscodeComponentsScriptUri = vscode.Uri.file(
-    path.join(extensionPath, 'assets', 'scripts', 'components.js')
-  );
-  const vscodeStylesUri = vscode.Uri.file(
-    path.join(extensionPath, 'assets', 'styles', 'tab.css')
-  );
-  const scriptsUri = webview.asWebviewUri(vscodeScriptUri);
-  const componentsScriptUri = webview.asWebviewUri(vscodeComponentsScriptUri);
-  const stylesUri = webview.asWebviewUri(vscodeStylesUri);
+  const assetUri = (fp: string) => {
+    const fragments = fp.split('/');
+    const vscodeUri = vscode.Uri.file(
+      path.join(extensionPath, ...fragments)
+    );
+
+    return webview.asWebviewUri(vscodeUri);
+  };
+
   const { cspSource } = webview;
+  const nonce = getNonce();
 
   const html = `
     <!DOCTYPE html>
@@ -30,17 +38,19 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta
         http-equiv="Content-Security-Policy"
-        content="default-src 'none'; img-src ${cspSource} https:; script-src ${cspSource}; style-src ${cspSource};"
+        content="default-src 'none'; img-src ${cspSource}; script-src ${cspSource} nonce-${nonce}; style-src ${cspSource} nonce-${nonce};"
       />
       <title>Commit message editor</title>
-      <link rel="stylesheet" href="${stylesUri}">
+      <link rel="stylesheet" href="${assetUri('assets/styles/tab.css')}" nonce="${nonce}">
     </head>
     <body class="${platform}">
       <div class="content">
+      <my-component first="a" middle="b" last="c"></my-component>
         <div class="layout">
           <div class="col">
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
+              <p>Every line that begins with &quot;#&quot; will be ignored</p>
               <div class="editor-wrapper">
                 <textarea id="message-box" class="message-box"></textarea><br>
                 <div class="buttons">
@@ -53,6 +63,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           <div class="col">
             <section class="section section--recent-commits">
               <h2 class="section-title">Recent commits</h2>
+              <p>Double click to add</p>
               <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
                 <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
                   <div class="recent-commits-wrapper__loading-icon"></div>
@@ -63,8 +74,8 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           </div>
         </div>
       </div>
-      <script src="${componentsScriptUri}"></script>
-      <script src="${scriptsUri}"></script>
+      <script src="${assetUri('assets/scripts/components.js')}" nonce="${nonce}"></script>
+      <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
     </body>
     </html>
   `;
