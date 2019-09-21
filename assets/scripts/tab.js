@@ -48,4 +48,14 @@ window.addEventListener('message', event => {
 
     closeTab();
   });
+
+  elRecentCommitsWrapper.addEventListener('dblclick', (event) => {
+    const el = event.target;
+
+    if (!el.classList.contains('commit-list__item')) {
+      return;
+    }
+
+    elMessageBox.value = el.innerHTML;
+  });
 })();
