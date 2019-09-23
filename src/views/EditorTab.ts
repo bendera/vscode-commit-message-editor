@@ -38,20 +38,20 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta
         http-equiv="Content-Security-Policy"
-        content="default-src 'none'; img-src ${cspSource}; script-src ${cspSource} nonce-${nonce}; style-src ${cspSource} nonce-${nonce};"
+        content="default-src 'none'; img-src ${cspSource}; script-src 'self' ${cspSource} nonce-${nonce}; style-src '${cspSource}' 'nonce-${nonce}';"
       />
       <title>Commit message editor</title>
       <link rel="stylesheet" href="${assetUri('assets/styles/tab.css')}" nonce="${nonce}">
     </head>
     <body class="${platform}">
       <div class="content">
-      <my-component first="a" middle="b" last="c"></my-component>
         <div class="layout">
           <div class="col">
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
               <p>Every line that begins with &quot;#&quot; will be ignored</p>
               <div class="editor-wrapper">
+                <greeter-element nonce=${nonce}></greeter-element>
                 <textarea id="message-box" class="message-box"></textarea><br>
                 <div class="buttons">
                   <button type="submit" id="success-button" class="button primary-button">Save and close</button>
@@ -74,6 +74,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           </div>
         </div>
       </div>
+      <script src="${assetUri('assets/components/vscodeWebviewElements.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/components.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
     </body>
