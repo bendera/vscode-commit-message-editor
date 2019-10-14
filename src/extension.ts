@@ -68,20 +68,22 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions
       );
 
+      currentPanel.onDidChangeViewState(() => {
+        git
+          .getRecentCommitMessages(10)
+          .then(commits => {
+            const message = createPostMessage('recentCommitMessages', { commits });
+
+            if (currentPanel) {
+              currentPanel.webview.postMessage(message);
+            }
+          })
+          .catch(er => {
+            vscode.window.showErrorMessage('Something went wrong', er);
+          });
+      });
+
       currentPanel.webview.postMessage(createPostMessageFromSCMInputBoxValue());
-
-      git
-        .getRecentCommitMessages(10)
-        .then(commits => {
-          const message = createPostMessage('recentCommitMessages', { commits });
-
-          if (currentPanel) {
-            currentPanel.webview.postMessage(message);
-          }
-        })
-        .catch(er => {
-          vscode.window.showErrorMessage('Something went wrong', er);
-        });
     }
   );
 
