@@ -224,30 +224,3 @@ body.vscode-light .recent-commits-wrapper__loading-icon {
 .recent-commits-wrapper.is-loading .recent-commits-wrapper__commits {
   display: none;
 }
-
-.commit-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.commit-list__item {
-  align-items: center;
-  cursor: default;
-  display: flex;
-  height: 24px;
-  line-height: 24px;
-  overflow: hidden;
-  padding: 0 6px;
-  text-overflow: ellipsis;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.commit-list li:nth-child(even) {
-  background-color: rgba(130, 130, 130, 0.04);
-}
-
-.commit-list li:hover {
-  background-color: rgba(0, 0, 0, 0.10);
-}

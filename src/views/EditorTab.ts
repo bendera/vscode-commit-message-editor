@@ -68,14 +68,15 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                 <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
                   <div class="recent-commits-wrapper__loading-icon"></div>
                 </div>
-                <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits"></div>
+                <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits">
+                  <vscode-tree id="recent-commits-wrapper__commits-list"></vscode-tree>
+                </div>
               </div>
             </section>
           </div>
         </div>
       </div>
       <script src="${assetUri('assets/vsc-we/vsc-we.js')}" nonce="${nonce}"></script>
-      <script src="${assetUri('assets/scripts/components.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
     </body>
     </html>

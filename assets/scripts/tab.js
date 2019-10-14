@@ -3,9 +3,26 @@ const elEditForm = document.getElementById('edit-form');
 const elSuccessButton = document.getElementById('success-button');
 const elCancelButton = document.getElementById('cancel-button');
 const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
-const elRecentCommitsWrapperCommits = document.getElementById('recent-commits-wrapper__commits');
+const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
 
-const { CommitList } = __cme_components__;
+function transformCommitList(commits) {
+  const icons = {
+    leaf: 'git-commit',
+  };
+
+  data = [];
+
+  commits.forEach((item) => {
+    const { message } = item;
+
+    data.push({
+      icons,
+      label: message,
+    });
+  });
+
+  return data;
+}
 
 window.addEventListener('message', event => {
   const { data } = event;
@@ -16,7 +33,7 @@ window.addEventListener('message', event => {
       break;
     case 'recentCommitMessages':
       elRecentCommitsWrapper.classList.remove('is-loading');
-      elRecentCommitsWrapperCommits.innerHTML = CommitList(data.payload.commits);
+      elRecentCommitsList.data = transformCommitList(data.payload.commits);
       break;
   }
 });
@@ -49,13 +66,7 @@ window.addEventListener('message', event => {
     closeTab();
   });
 
-  elRecentCommitsWrapper.addEventListener('dblclick', (event) => {
-    const el = event.target;
-
-    if (!el.classList.contains('commit-list__item')) {
-      return;
-    }
-
-    elMessageBox.value = el.innerHTML;
+  elRecentCommitsList.addEventListener('vsc-select', (event) => {
+    elMessageBox.value = event.detail.value;
   });
 })();
