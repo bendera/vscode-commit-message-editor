@@ -47,6 +47,30 @@
           "when": "scmProvider == git"
         }
       ]
+    },
+    "configuration": {
+      "title": "Commit Message Editor",
+      "properties": {
+        "commit-message-editor.templates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "[Type]($0): [Subject]$BL[Body]$BL[Footer]"
+          ]
+        },
+        "commit-message-editor.templates.enums": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "type:feat|fix|docs|style|refactor|test|chore"
+          ],
+          "description": "Lorem ipsum dolor sit"
+        }
+      }
     }
   },
   "scripts": {
