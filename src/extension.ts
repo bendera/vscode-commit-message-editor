@@ -26,6 +26,21 @@ export function activate(context: vscode.ExtensionContext) {
         ? vscode.window.activeTextEditor.viewColumn
         : undefined;
 
+      const populateCommitList = () => {
+        git
+          .getRecentCommitMessages(10)
+          .then(commits => {
+            const message = createPostMessage('recentCommitMessages', { commits });
+
+            if (currentPanel) {
+              currentPanel.webview.postMessage(message);
+            }
+          })
+          .catch(er => {
+            vscode.window.showErrorMessage('Something went wrong', er);
+          });
+      };
+
       if (currentPanel) {
         currentPanel.reveal(columnToShowIn);
         return;
@@ -69,20 +84,10 @@ export function activate(context: vscode.ExtensionContext) {
       );
 
       currentPanel.onDidChangeViewState(() => {
-        git
-          .getRecentCommitMessages(10)
-          .then(commits => {
-            const message = createPostMessage('recentCommitMessages', { commits });
-
-            if (currentPanel) {
-              currentPanel.webview.postMessage(message);
-            }
-          })
-          .catch(er => {
-            vscode.window.showErrorMessage('Something went wrong', er);
-          });
+        populateCommitList();
       });
 
+      populateCommitList();
       currentPanel.webview.postMessage(createPostMessageFromSCMInputBoxValue());
     }
   );
