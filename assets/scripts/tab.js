@@ -29,7 +29,7 @@ window.addEventListener('message', event => {
 
   switch (data.command) {
     case 'copyFromSCMInputBox':
-      elMessageBox.innerHTML = data.payload.inputBoxValue;
+      elMessageBox.value = data.payload.inputBoxValue;
       break;
     case 'recentCommitMessages':
       elRecentCommitsWrapper.classList.remove('is-loading');
