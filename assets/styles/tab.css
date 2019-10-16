@@ -3,8 +3,8 @@ platform classes: win32 | linux | darwin
 */
 
 body {
-  background-color: var(--vscode-editor-background);
-  color: var(--vscode-editor-foreground);
+  background-color: var(--vscode-background);
+  color: var(--vscode-foreground);
 }
 
 .darwin {
@@ -102,14 +102,10 @@ body {
   flex-basis: 100%;
 }
 
-@media (min-width: 900px) {
-  .col {
-    flex-basis: 50%;
-  }
-}
-
 .section {
-  padding: 0;
+  margin: 0 auto 30px;
+  max-width: 763px;
+  width: 100%;
 }
 
 @media (min-width: 900px) {
@@ -123,12 +119,17 @@ body {
 }
 
 .section-title {
-  font-weight: 200;
-  font-size: 19px;
-  line-height: normal;
-  margin-bottom: 5px;
-  margin-top: 17px;
+  color: var(--vscode-settings-headerForeground);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1;
+  margin: 7px 0 14px;
   user-select: none;
+}
+
+.description {
+  color: var(--vscode-descriptionForeground);
+  margin: 0 0 9px;
 }
 
 .message-box {
@@ -152,6 +153,10 @@ body.vscode-dark .message-box {
 
 body.vscode-high-contrast .message-box {
   border-color: #fff;
+}
+
+.buttons {
+  margin-top: 9px;
 }
 
 .button {

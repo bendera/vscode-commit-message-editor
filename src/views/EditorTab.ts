@@ -49,10 +49,14 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           <div class="col">
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
-              <p>Every line that begins with &quot;#&quot; will be ignored</p>
               <div class="editor-wrapper">
-                <greeter-element nonce=${nonce}></greeter-element>
-                <textarea id="message-box" class="message-box"></textarea><br>
+                <p class="description">Every line that begins with &quot;#&quot; will be ignored</p>
+                <vscode-inputbox
+                  multiline="true"
+                  id="message-box"
+                  lines="10"
+                  maxlines="20"
+                ></vscode-inputbox>
                 <div class="buttons">
                   <button type="submit" id="success-button" class="button primary-button">Save and close</button>
                   <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
@@ -63,7 +67,6 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           <div class="col">
             <section class="section section--recent-commits">
               <h2 class="section-title">Recent commits</h2>
-              <p>&nbsp;</p>
               <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
                 <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
                   <div class="recent-commits-wrapper__loading-icon"></div>
