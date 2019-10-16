@@ -57,18 +57,8 @@
             "type": "string"
           },
           "default": [
-            "[Type]($0): [Subject]$BL[Body]$BL[Footer]"
+            "<type>[optional scope]: <description>\r\n\r\n[optional body]\r\n[optional footer]"
           ]
-        },
-        "commit-message-editor.templates.enums": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [
-            "type:feat|fix|docs|style|refactor|test|chore"
-          ],
-          "description": "Lorem ipsum dolor sit"
         }
       }
     }
