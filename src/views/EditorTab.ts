@@ -50,7 +50,9 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
               <div class="editor-wrapper">
-                <p class="description">Every line that begins with &quot;#&quot; will be ignored</p>
+                <div class="editor-toolbar">
+                  <p><a href="#" title="Load configured template" id="load-template-button"><vscode-icon name="file"></vscode-icon>Load template</a></p>
+                </div>
                 <vscode-inputbox
                   multiline="true"
                   id="message-box"

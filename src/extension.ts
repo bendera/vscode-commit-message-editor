@@ -65,10 +65,22 @@ export function activate(context: vscode.ExtensionContext) {
 
       currentPanel.webview.onDidReceiveMessage(
         data => {
-          if (data.command === 'copyFromExtensionMessageBox') {
-            git.setSCMInputBoxMessage(data.payload);
-          } else if (data.command === 'closeTab') {
-            (<vscode.WebviewPanel>currentPanel).dispose();
+          switch (data.command) {
+            case 'copyFromExtensionMessageBox':
+              git.setSCMInputBoxMessage(data.payload);
+              break;
+            case 'closeTab':
+              (<vscode.WebviewPanel>currentPanel).dispose();
+              break;
+            case 'requestConfig':
+              (<vscode.WebviewPanel>currentPanel).webview.postMessage(
+                createPostMessage('receiveConfig', {
+                  template: vscode.workspace.getConfiguration('commit-message-editor').get('template'),
+                })
+              );
+              break;
+            default:
+              break;
           }
         },
         undefined,
@@ -103,8 +115,24 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  const loadTemplate: vscode.Disposable = vscode.commands.registerCommand(
+    'commitMessageEditor.loadTemplate',
+    () => {
+      if (!currentPanel) {
+        return;
+      }
+
+      currentPanel.webview.postMessage(
+        createPostMessage('receiveConfig', {
+          template: vscode.workspace.getConfiguration('commit-message-editor').get('template'),
+        })
+      );
+    }
+  );
+
   context.subscriptions.push(openEditor);
   context.subscriptions.push(copyFromSCMInputBox);
+  context.subscriptions.push(loadTemplate);
 }
 
 export function deactivate() {}

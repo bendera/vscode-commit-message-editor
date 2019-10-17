@@ -30,6 +30,11 @@
         "command": "commitMessageEditor.copyFromSCMInputBox",
         "title": "Copy text from SCM input box",
         "category": "Git"
+      },
+      {
+        "command": "commitMessageEditor.loadTemplate",
+        "title": "Load template",
+        "category": "Git"
       }
     ],
     "menus": {
@@ -51,13 +56,17 @@
     "configuration": {
       "title": "Commit Message Editor",
       "properties": {
-        "commit-message-editor.templates": {
+        "commit-message-editor.template": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "default": [
-            "<type>[optional scope]: <description>\r\n\r\n[optional body]\r\n[optional footer]"
+            "<type>[optional scope]: <description>",
+            "",
+            "[optional body]",
+            "",
+            "[optional footer]"
           ]
         }
       }

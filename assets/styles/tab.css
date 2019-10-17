@@ -127,9 +127,34 @@ body {
   user-select: none;
 }
 
-.description {
+.editor-toolbar {
+  display: block;
+  overflow: visible;
+}
+
+.editor-toolbar p {
   color: var(--vscode-descriptionForeground);
   margin: 0 0 9px;
+}
+
+.editor-toolbar a {
+  align-items: center;
+  color: var(--vscode-textLink-foreground);
+  display: inline-flex;
+  outline-color: var(--vscode-focusBorder);
+  text-decoration: none;
+}
+
+.editor-toolbar a:hover,
+.editor-toolbar a:focus,
+.editor-toolbar a:active {
+  color: var(--vscode-textLink-activeForeground);
+  text-decoration: underline;
+}
+
+.editor-toolbar vscode-icon {
+  cursor: pointer;
+  margin-right: 2px;
 }
 
 .message-box {
