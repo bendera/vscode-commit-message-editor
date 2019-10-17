@@ -28,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       const populateCommitList = () => {
         git
-          .getRecentCommitMessages(32)
+          .getRecentCommitMessages(10)
           .then(commits => {
             const message = createPostMessage('recentCommitMessages', { commits });
 

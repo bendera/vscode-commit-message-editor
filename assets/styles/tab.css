@@ -236,9 +236,3 @@ body.vscode-light .recent-commits-wrapper__loading-icon {
   overflow: hidden;
   width: 100%;
 }
-
-.recent-commits-wrapper__commits vscode-scrollable {
-  background-color: var(--vscode-sideBar-background);
-  height: 100%;
-  width: 100%;
-}

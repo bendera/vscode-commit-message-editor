@@ -72,9 +72,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                   <div class="recent-commits-wrapper__loading-icon"></div>
                 </div>
                 <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits">
-                  <vscode-scrollable>
-                    <vscode-tree id="recent-commits-wrapper__commits-list" tabindex="0"></vscode-tree>
-                  </vscode-scrollable>
+                  <vscode-tree id="recent-commits-wrapper__commits-list" tabindex="0"></vscode-tree>
                 </div>
               </div>
             </section>
