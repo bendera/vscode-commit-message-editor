@@ -2,9 +2,15 @@
 .vscode-test/**
 out/test/**
 src/**
+.editorconfig
 .gitignore
+.prettierrc
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/tslint.json
 **/*.map
 **/*.ts
+node_modules
+!assets/vsc-we/icons/**/file.svg
+!assets/vsc-we/icons/**/git-commit.svg
+assets/vsc-we/icons/**/*.svg
