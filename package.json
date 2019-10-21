@@ -75,6 +75,41 @@
             "",
             "[optional footer]"
           ]
+        },
+        "commit-message-editor.form.tokens": {
+          "type": "array",
+          "description": "Editable inputs in commit message form",
+          "default": [
+            {
+              "label": "Type",
+              "tokenType": "enum",
+              "value": "feat|bug|chore",
+              "required": true
+            },
+            {
+              "label": "Scope",
+              "tokenType": "text",
+              "multiline": false,
+              "prefix": "(",
+              "suffix": ")",
+              "required": false
+            },
+            {
+              "label": "Short description",
+              "tokenType": "text",
+              "multiline": false
+            },
+            {
+              "Label": "Body",
+              "tokenType": "text",
+              "multiline": true
+            },
+            {
+              "Label": "Footer",
+              "tokenType": "text",
+              "multiline": true
+            }
+          ]
         }
       }
     }
