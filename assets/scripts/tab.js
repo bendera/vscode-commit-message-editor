@@ -1,47 +1,11 @@
-const elMessageBox = document.getElementById('message-box');
-const elSuccessButton = document.getElementById('success-button');
-const elCancelButton = document.getElementById('cancel-button');
-const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
-const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
-const elLoadTemplateButton = document.getElementById('load-template-button');
-
-function transformCommitList(commits) {
-  const icons = {
-    leaf: 'git-commit',
-  };
-
-  data = [];
-
-  commits.forEach((item) => {
-    const { message } = item;
-
-    data.push({
-      icons,
-      label: message,
-    });
-  });
-
-  return data;
-}
-
-window.addEventListener('message', event => {
-  const { data } = event;
-
-  switch (data.command) {
-    case 'copyFromSCMInputBox':
-      elMessageBox.value = data.payload.inputBoxValue;
-      break;
-    case 'recentCommitMessages':
-      elRecentCommitsWrapper.classList.remove('is-loading');
-      elRecentCommitsList.data = transformCommitList(data.payload.commits);
-      break;
-    case 'receiveConfig':
-      elMessageBox.value = data.payload.template.join('\n');
-      break;
-  }
-});
-
 (function() {
+  const elMessageBox = document.getElementById('message-box');
+  const elSuccessButton = document.getElementById('success-button');
+  const elCancelButton = document.getElementById('cancel-button');
+  const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
+  const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
+  const elLoadTemplateButton = document.getElementById('load-template-button');
+
   const vscode = acquireVsCodeApi();
 
   const closeTab = () => {
@@ -49,6 +13,42 @@ window.addEventListener('message', event => {
       command: 'closeTab',
     });
   };
+
+  const transformCommitList = (commits) => {
+    const icons = {
+      leaf: 'git-commit',
+    };
+
+    data = [];
+
+    commits.forEach((item) => {
+      const { message } = item;
+
+      data.push({
+        icons,
+        label: message,
+      });
+    });
+
+    return data;
+  }
+
+  window.addEventListener('message', event => {
+    const { data } = event;
+
+    switch (data.command) {
+      case 'copyFromSCMInputBox':
+        elMessageBox.value = data.payload.inputBoxValue;
+        break;
+      case 'recentCommitMessages':
+        elRecentCommitsWrapper.classList.remove('is-loading');
+        elRecentCommitsList.data = transformCommitList(data.payload.commits);
+        break;
+      case 'receiveConfig':
+        elMessageBox.value = data.payload.template.join('\n');
+        break;
+    }
+  });
 
   elSuccessButton.addEventListener('click', event => {
     event.stopPropagation();
