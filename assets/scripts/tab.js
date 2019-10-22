@@ -7,6 +7,12 @@
   const elLoadTemplateButton = document.getElementById('load-template-button');
 
   const vscode = acquireVsCodeApi();
+  const formBuilder = new FormBuilder();
+  let config = {};
+
+  vscode.postMessage({
+    command: 'requestConfig'
+  });
 
   const closeTab = () => {
     vscode.postMessage({
@@ -45,7 +51,9 @@
         elRecentCommitsList.data = transformCommitList(data.payload.commits);
         break;
       case 'receiveConfig':
-        elMessageBox.value = data.payload.template.join('\n');
+        config = { ...data.payload };
+        formBuilder.setFields(config.fields);
+        formBuilder.compile();
         break;
     }
   });
@@ -77,8 +85,6 @@
     event.stopPropagation();
     event.preventDefault();
 
-    vscode.postMessage({
-      command: 'requestConfig'
-    });
+    elMessageBox.value = config.template.join('\n');
   });
 })();

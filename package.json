@@ -69,26 +69,41 @@
             "type": "string"
           },
           "default": [
-            "<type>[optional scope]: <description>",
+            "{type}{scope}: <description>",
             "",
             "[optional body]",
             "",
             "[optional footer]"
           ]
         },
-        "commit-message-editor.form.tokens": {
+        "commit-message-editor.form.fields": {
           "type": "array",
           "description": "Editable inputs in commit message form",
           "default": [
             {
               "label": "Type",
-              "tokenType": "enum",
-              "value": "feat|bug|chore",
+              "name": "type",
+              "type": "enum",
+              "options": [
+                {
+                  "label": "feat",
+                  "description": "A new feature"
+                },
+                {
+                  "label": "fix",
+                  "description": "A bug fix"
+                },
+                {
+                  "label": "style",
+                  "description": "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+                }
+              ],
               "required": true
             },
             {
               "label": "Scope",
-              "tokenType": "text",
+              "name": "scope",
+              "type": "text",
               "multiline": false,
               "prefix": "(",
               "suffix": ")",
@@ -96,17 +111,26 @@
             },
             {
               "label": "Short description",
-              "tokenType": "text",
+              "name": "description",
+              "type": "text",
               "multiline": false
             },
             {
               "Label": "Body",
-              "tokenType": "text",
+              "name": "body",
+              "type": "text",
               "multiline": true
             },
             {
+              "label": "Breaking changes",
+              "name": "breaking_footer",
+              "type": "boolean",
+              "default": false
+            },
+            {
               "Label": "Footer",
-              "tokenType": "text",
+              "name": "footer",
+              "type": "text",
               "multiline": true
             }
           ]

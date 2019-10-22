@@ -50,19 +50,28 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
               <div class="editor-wrapper">
-                <div class="editor-toolbar">
-                  <p><a href="#" title="Load configured template" id="load-template-button"><vscode-icon name="file"></vscode-icon>Load template</a></p>
-                </div>
-                <vscode-inputbox
-                  multiline="true"
-                  id="message-box"
-                  lines="10"
-                  maxlines="20"
-                ></vscode-inputbox>
-                <div class="buttons">
-                  <button type="submit" id="success-button" class="button primary-button">Save and close</button>
-                  <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
-                </div>
+                <vscode-tabs>
+                  <header slot="header">Free text</header>
+                  <section>
+                    <div class="editor-toolbar">
+                      <p><a href="#" title="Load configured template" id="load-template-button"><vscode-icon name="file"></vscode-icon>Load template</a></p>
+                    </div>
+                    <vscode-inputbox
+                      multiline="true"
+                      id="message-box"
+                      lines="10"
+                      maxlines="20"
+                    ></vscode-inputbox>
+                    <div class="buttons">
+                      <button type="submit" id="success-button" class="button primary-button">Save and close</button>
+                      <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
+                    </div>
+                  </section>
+                  <header slot="header">Edit form</header>
+                  <section>
+                    <p>edit form</p>
+                  </section>
+                </vscode-tabs>
               </div>
             </section>
           </div>
@@ -82,6 +91,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
         </div>
       </div>
       <script src="${assetUri('assets/vsc-we/vsc-we.js')}" nonce="${nonce}"></script>
+      <script src="${assetUri('assets/scripts/FormBuilder.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
     </body>
     </html>
