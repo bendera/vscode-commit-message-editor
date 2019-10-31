@@ -124,14 +124,14 @@
               "multiline": true
             },
             {
-              "label": "Breaking changes",
+              "label": "Breaking change",
               "name": "breaking_footer",
               "type": "boolean",
-              "value": "BREAKING CHANGES",
+              "value": "BREAKING CHANGE:",
               "default": false
             },
             {
-              "Label": "Footer",
+              "label": "Footer",
               "name": "footer",
               "type": "text",
               "multiline": true

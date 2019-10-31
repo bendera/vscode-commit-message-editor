@@ -1,6 +1,5 @@
 class FormBuilder {
   constructor() {
-    console.log('FormBuilder');
     this._template = {};
     this._fields = [];
     this._compiledFields = [];
@@ -25,10 +24,10 @@ class FormBuilder {
       formItemEl.appendChild(descriptionEl);
     }
 
-    const formWidgetEl = document.createElement('vscode-form-widget');
+    const formControlEl = document.createElement('vscode-form-control');
 
-    formWidgetEl.appendChild(widgetElement);
-    formItemEl.appendChild(formWidgetEl);
+    formControlEl.appendChild(widgetElement);
+    formItemEl.appendChild(formControlEl);
 
     return formItemEl;
   }
