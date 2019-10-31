@@ -134,7 +134,7 @@ body {
 
 .editor-toolbar p {
   color: var(--vscode-descriptionForeground);
-  margin: 0 0 9px;
+  margin: 12px 0 0;
 }
 
 .editor-toolbar a {

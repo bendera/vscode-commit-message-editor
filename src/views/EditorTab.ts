@@ -51,7 +51,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
               <h2 class="section-title">Commit message</h2>
               <div class="editor-wrapper">
                 <vscode-tabs>
-                  <header slot="header">Free text</header>
+                  <header slot="header">Edit as text</header>
                   <section>
                     <div class="editor-toolbar">
                       <p><a href="#" title="Load configured template" id="load-template-button"><vscode-icon name="file"></vscode-icon>Load template</a></p>
@@ -63,11 +63,11 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                       maxlines="20"
                     ></vscode-inputbox>
                     <div class="buttons">
-                      <button type="submit" id="success-button" class="button primary-button">Save and close</button>
-                      <button type="button" id="cancel-button" class="button secondary-button">Cancel</button>
+                      <button type="submit" id="success-button" class="button primary-button">Save</button>
+                      <button type="button" id="cancel-button" class="button secondary-button">Close</button>
                     </div>
                   </section>
-                  <header slot="header">Edit form</header>
+                  <header slot="header">Edit as form</header>
                   <section>
                     <div id="edit-form"></div>
                   </section>

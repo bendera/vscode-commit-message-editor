@@ -69,8 +69,6 @@
       command: 'copyFromExtensionMessageBox',
       payload: elMessageBox.value,
     });
-
-    closeTab();
   });
 
   elCancelButton.addEventListener('click', event => {
