@@ -98,11 +98,13 @@
                   "description": "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
                 }
               ],
-              "required": true
+              "required": true,
+              "description": "Type of changes"
             },
             {
               "label": "Scope",
               "name": "scope",
+              "description": "Scope of commit",
               "type": "text",
               "multiline": false,
               "prefix": "(",
@@ -116,7 +118,7 @@
               "multiline": false
             },
             {
-              "Label": "Body",
+              "label": "Body",
               "name": "body",
               "type": "text",
               "multiline": true
@@ -125,6 +127,7 @@
               "label": "Breaking changes",
               "name": "breaking_footer",
               "type": "boolean",
+              "value": "BREAKING CHANGES",
               "default": false
             },
             {

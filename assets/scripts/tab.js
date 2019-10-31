@@ -5,6 +5,7 @@
   const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
   const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
   const elLoadTemplateButton = document.getElementById('load-template-button');
+  const elEditForm = document.getElementById('edit-form');
 
   const vscode = acquireVsCodeApi();
   const formBuilder = new FormBuilder();
@@ -52,8 +53,10 @@
         break;
       case 'receiveConfig':
         config = { ...data.payload };
+        console.dir(config.fields);
         formBuilder.setFields(config.fields);
         formBuilder.compile();
+        formBuilder.appendTo(elEditForm);
         break;
     }
   });

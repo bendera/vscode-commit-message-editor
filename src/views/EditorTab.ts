@@ -69,7 +69,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                   </section>
                   <header slot="header">Edit form</header>
                   <section>
-                    <p>edit form</p>
+                    <div id="edit-form"></div>
                   </section>
                 </vscode-tabs>
               </div>

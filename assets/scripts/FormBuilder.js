@@ -3,21 +3,72 @@ class FormBuilder {
     console.log('FormBuilder');
     this._template = {};
     this._fields = [];
-    this._compiledFields = {};
+    this._compiledFields = [];
   }
 
-  _enumField() {
+  _formItem(fieldDef, widgetElement) {
+    const formItemEl = document.createElement('vscode-form-item');
 
+    if (fieldDef.label) {
+      const labelEl = document.createElement('vscode-form-label');
+
+      labelEl.innerHTML = fieldDef.label;
+
+      formItemEl.appendChild(labelEl);
+    }
+
+    if (fieldDef.description) {
+      const descriptionEl = document.createElement('vscode-form-description');
+
+      descriptionEl.innerHTML = `<p>${fieldDef.description}</p>`;
+
+      formItemEl.appendChild(descriptionEl);
+    }
+
+    const formWidgetEl = document.createElement('vscode-form-widget');
+
+    formWidgetEl.appendChild(widgetElement);
+    formItemEl.appendChild(formWidgetEl);
+
+    return formItemEl;
   }
 
-  _booleanField() {
+  _enumField(fieldDef) {
+    const el = document.createElement('vscode-select');
+    const options = [];
 
+    fieldDef.options.forEach((option) => {
+      const opt = {};
+      const { label, description } = option;
+
+      opt.label = label;
+      opt.value = label;
+      opt.description = description;
+
+      options.push(opt);
+    });
+
+    el.options = options;
+
+    return this._formItem(fieldDef, el);
   }
 
-  _textField() {
-    const el = document.createElement('input');
+  _booleanField(fieldDef) {
+    const el = document.createElement('vscode-checkbox');
 
-    return el;
+    el.label = fieldDef.label;
+
+    return this._formItem(fieldDef, el);
+  }
+
+  _textField(fieldDef) {
+    const el = document.createElement('vscode-inputbox');
+
+    if (fieldDef.multiline && fieldDef.multiline === true) {
+      el.multiline = true;
+    }
+
+    return this._formItem(fieldDef, el);
   }
 
   setTemplate(template) {
@@ -30,9 +81,19 @@ class FormBuilder {
 
   compile() {
     this._fields.forEach((fieldDef) => {
-      this._compiledFields[fieldDef.name] = this[`_${fieldDef.type}Field`](fieldDef);
+      this._compiledFields.push(this[`_${fieldDef.type}Field`](fieldDef));
     });
 
     console.dir(this._compiledFields);
+  }
+
+  getForm() {
+    return this._compiledFields;
+  }
+
+  appendTo(container) {
+    this._compiledFields.forEach((el) => {
+      container.appendChild(el);
+    });
   }
 }
