@@ -11,6 +11,7 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 node_modules
+!assets/vsc-we/icons/**/check.svg
 !assets/vsc-we/icons/**/file.svg
 !assets/vsc-we/icons/**/git-commit.svg
 assets/vsc-we/icons/**/*.svg
