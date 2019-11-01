@@ -76,7 +76,7 @@
             "[optional footer]"
           ]
         },
-        "commit-message-editor.form.fields": {
+        "commit-message-editor.tokens": {
           "type": "array",
           "description": "Editable inputs in commit message form",
           "default": [

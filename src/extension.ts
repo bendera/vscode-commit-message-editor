@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
               (<vscode.WebviewPanel>currentPanel).webview.postMessage(
                 createPostMessage('receiveConfig', {
                   template: vscode.workspace.getConfiguration('commit-message-editor').get('template'),
-                  fields: vscode.workspace.getConfiguration('commit-message-editor.form').get('fields'),
+                  tokens: vscode.workspace.getConfiguration('commit-message-editor').get('tokens'),
                 })
               );
               break;

@@ -53,8 +53,7 @@
         break;
       case 'receiveConfig':
         config = { ...data.payload };
-        console.dir(config.fields);
-        formBuilder.setFields(config.fields);
+        formBuilder.setFields(config.tokens);
         formBuilder.compile();
         formBuilder.appendTo(elEditForm);
         break;
