@@ -85,11 +85,9 @@
 
     const parser = new TemplateParser(elEditForm, config);
 
-    parser.compile();
-
     vscode.postMessage({
       command: 'copyFromExtensionMessageBox',
-      payload: 'parsed template value',
+      payload: parser.getCompiledTemplate(),
     });
   });
 

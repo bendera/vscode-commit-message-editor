@@ -1,14 +1,23 @@
 class TemplateParser {
   constructor(formElement, config) {
-    console.log('form, config:', formElement, config);
     this._formElement = formElement;
     this._template = config.template.join('\n');
     this._tokens = config.tokens;
-    this._values = {};
   }
 
-  compile() {
-    console.log(this._getValues());
+  getCompiledTemplate() {
+    const values = this._getValues();
+    let compiled = this._template;
+
+    values.forEach((val, key) => {
+      compiled = compiled.replace(new RegExp(`{${key}}`, 'g'), val);
+    });
+
+    compiled = compiled.replace(/\n{3,}/g, '\n');
+
+    compiled = compiled.replace(/\n+$/g, '');
+
+    return compiled;
   }
 
   _getTokenByName(name) {
@@ -34,7 +43,7 @@ class TemplateParser {
         value = el.value;
       }
 
-      value = prefix + value + suffix;
+      value = value ? prefix + value + suffix : '';
       valueMap.set(name, value);
     });
 

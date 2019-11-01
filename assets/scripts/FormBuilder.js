@@ -87,8 +87,6 @@ class FormBuilder {
     this._fields.forEach((fieldDef) => {
       this._compiledFields.push(this[`_${fieldDef.type}Field`](fieldDef));
     });
-
-    console.dir(this._compiledFields);
   }
 
   getForm() {

@@ -69,11 +69,11 @@
             "type": "string"
           },
           "default": [
-            "{type}{scope}: <description>",
+            "{type}{scope}: {description}",
             "",
-            "[optional body]",
+            "{body}",
             "",
-            "[optional footer]"
+            "{breaking_change}{footer}"
           ]
         },
         "commit-message-editor.tokens": {
@@ -122,7 +122,6 @@
                   "description": "Adding missing tests or correcting existing tests"
                 }
               ],
-              "required": true,
               "description": "Type of changes"
             },
             {
@@ -132,8 +131,7 @@
               "type": "text",
               "multiline": false,
               "prefix": "(",
-              "suffix": ")",
-              "required": false
+              "suffix": ")"
             },
             {
               "label": "Short description",
@@ -151,9 +149,9 @@
             },
             {
               "label": "Breaking change",
-              "name": "breaking_footer",
+              "name": "breaking_change",
               "type": "boolean",
-              "value": "BREAKING CHANGE:",
+              "value": "BREAKING CHANGE: ",
               "default": false
             },
             {
