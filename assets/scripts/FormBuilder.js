@@ -48,6 +48,7 @@ class FormBuilder {
     });
 
     el.options = options;
+    el.dataset.name = fieldDef.name;
 
     return this._formItem(fieldDef, el);
   }
@@ -56,6 +57,8 @@ class FormBuilder {
     const el = document.createElement('vscode-checkbox');
 
     el.label = fieldDef.label;
+    el.dataset.name = fieldDef.name;
+    el.value = fieldDef.value;
 
     return this._formItem(fieldDef, el);
   }
@@ -66,6 +69,8 @@ class FormBuilder {
     if (fieldDef.multiline && fieldDef.multiline === true) {
       el.multiline = true;
     }
+
+    el.dataset.name = fieldDef.name;
 
     return this._formItem(fieldDef, el);
   }

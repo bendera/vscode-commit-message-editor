@@ -1,7 +1,9 @@
 (function() {
   const elMessageBox = document.getElementById('message-box');
-  const elSuccessButton = document.getElementById('success-button-text');
-  const elCancelButton = document.getElementById('cancel-button-text');
+  const elTextSuccessButton = document.getElementById('success-button-text');
+  const elTextCancelButton = document.getElementById('cancel-button-text');
+  const elFormSuccessButton = document.getElementById('success-button-form');
+  const elFormCancelButton = document.getElementById('cancel-button-form');
   const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
   const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
   const elLoadTemplateButton = document.getElementById('load-template-button');
@@ -60,7 +62,7 @@
     }
   });
 
-  elSuccessButton.addEventListener('click', event => {
+  elTextSuccessButton.addEventListener('click', event => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -70,7 +72,28 @@
     });
   });
 
-  elCancelButton.addEventListener('click', event => {
+  elTextCancelButton.addEventListener('click', event => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    closeTab();
+  });
+
+  elFormSuccessButton.addEventListener('click', event => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const parser = new TemplateParser(elEditForm, config);
+
+    parser.compile();
+
+    vscode.postMessage({
+      command: 'copyFromExtensionMessageBox',
+      payload: 'parsed template value',
+    });
+  });
+
+  elFormCancelButton.addEventListener('click', event => {
     event.stopPropagation();
     event.preventDefault();
 

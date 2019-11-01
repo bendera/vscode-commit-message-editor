@@ -94,6 +94,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
       </div>
       <script src="${assetUri('assets/vsc-we/vsc-we.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/FormBuilder.js')}" nonce="${nonce}"></script>
+      <script src="${assetUri('assets/scripts/TemplateParser.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
     </body>
     </html>
