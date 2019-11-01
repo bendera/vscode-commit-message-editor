@@ -1,7 +1,7 @@
 (function() {
   const elMessageBox = document.getElementById('message-box');
-  const elSuccessButton = document.getElementById('success-button');
-  const elCancelButton = document.getElementById('cancel-button');
+  const elSuccessButton = document.getElementById('success-button-text');
+  const elCancelButton = document.getElementById('cancel-button-text');
   const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
   const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
   const elLoadTemplateButton = document.getElementById('load-template-button');

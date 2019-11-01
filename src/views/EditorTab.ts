@@ -63,28 +63,30 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                       maxlines="20"
                     ></vscode-inputbox>
                     <div class="buttons">
-                      <button type="submit" id="success-button" class="button primary-button">Save</button>
-                      <button type="button" id="cancel-button" class="button secondary-button">Close</button>
+                      <button type="submit" id="success-button-text" class="button primary-button">Save</button>
+                      <button type="button" id="cancel-button-text" class="button secondary-button">Close</button>
+                    </div>
+                    <div class="recent-commits">
+                      <h2 class="recent-commits__title">Recent commits:</h2>
+                      <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
+                        <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
+                          <div class="recent-commits-wrapper__loading-icon"></div>
+                        </div>
+                        <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits">
+                          <vscode-tree id="recent-commits-wrapper__commits-list" tabindex="0"></vscode-tree>
+                        </div>
+                      </div>
                     </div>
                   </section>
                   <header slot="header">Edit as form</header>
                   <section>
                     <div id="edit-form"></div>
+                    <div class="buttons">
+                      <button type="submit" id="success-button-form" class="button primary-button">Save</button>
+                      <button type="button" id="cancel-button-form" class="button secondary-button">Close</button>
+                    </div>
                   </section>
                 </vscode-tabs>
-              </div>
-            </section>
-          </div>
-          <div class="col">
-            <section class="section section--recent-commits">
-              <h2 class="section-title">Recent commits</h2>
-              <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
-                <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
-                  <div class="recent-commits-wrapper__loading-icon"></div>
-                </div>
-                <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits">
-                  <vscode-tree id="recent-commits-wrapper__commits-list" tabindex="0"></vscode-tree>
-                </div>
               </div>
             </section>
           </div>

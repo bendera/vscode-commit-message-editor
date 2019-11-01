@@ -108,16 +108,6 @@ body {
   width: 100%;
 }
 
-@media (min-width: 900px) {
-  .section--commit-message {
-    padding-right: 5px;
-  }
-
-  .section--recent-commits {
-    padding-left: 5px;
-  }
-}
-
 .section-title {
   color: var(--vscode-settings-headerForeground);
   font-weight: 600;
@@ -198,6 +188,18 @@ body.vscode-high-contrast .message-box {
   padding: 2px 14px;
   text-align: center;
   width: auto;
+}
+
+.recent-commits {
+  margin-top: 30px;
+}
+
+.recent-commits__title {
+  color: var(--vscode-settings-headerForeground);
+  font-size: var(--vscode-font-size);
+  font-weight: 600;
+  line-height: 22px;
+  margin: 0;
 }
 
 .recent-commits-wrapper {
