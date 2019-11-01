@@ -78,7 +78,7 @@
         },
         "commit-message-editor.tokens": {
           "type": "array",
-          "description": "Editable inputs in commit message form",
+          "description": "Editable inputs in the form view",
           "default": [
             {
               "label": "Type",
