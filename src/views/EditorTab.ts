@@ -63,8 +63,8 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                       maxlines="20"
                     ></vscode-inputbox>
                     <div class="buttons">
-                      <button type="submit" id="success-button-text" class="button primary-button">Save</button>
-                      <button type="button" id="cancel-button-text" class="button secondary-button">Close</button>
+                      <vscode-button id="success-button-text">Save</vscode-button>
+                      <vscode-button id="cancel-button-text">Cancel</vscode-button>
                     </div>
                     <div class="recent-commits">
                       <h2 class="recent-commits__title">Recent commits:</h2>
@@ -82,8 +82,8 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
                   <section>
                     <div id="edit-form"></div>
                     <div class="buttons">
-                      <button type="submit" id="success-button-form" class="button primary-button">Save</button>
-                      <button type="button" id="cancel-button-form" class="button secondary-button">Close</button>
+                      <vscode-button id="success-button-form">Save</vscode-button>
+                      <vscode-button id="cancel-button-form">Cancel</vscode-button>
                     </div>
                   </section>
                 </vscode-tabs>
@@ -92,7 +92,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           </div>
         </div>
       </div>
-      <script src="${assetUri('assets/vsc-we/vsc-we.js')}" nonce="${nonce}"></script>
+      <script src="${assetUri('assets/vscwe/vscwe.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/FormBuilder.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/TemplateParser.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
