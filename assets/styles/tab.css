@@ -124,7 +124,7 @@ body {
 
 .editor-toolbar p {
   color: var(--vscode-descriptionForeground);
-  margin: 12px 0 0;
+  margin: 10px 0;
 }
 
 .editor-toolbar a {
@@ -171,23 +171,12 @@ body.vscode-high-contrast .message-box {
 }
 
 .buttons {
-  margin-top: 4px;
+  display: flex;
+  margin-top: 10px;
 }
 
-.button {
-  background-color: var(--vscode-button-background);
-  border: 0;
-  box-sizing: border-box;
-  color: var(--vscode-button-foreground);
-  cursor: pointer;
-  display: inline-block;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: 1.4;
-  outline-offset: 2px !important;
-  padding: 2px 14px;
-  text-align: center;
-  width: auto;
+.buttons vscode-button {
+  margin-right: 10px;
 }
 
 .recent-commits {
