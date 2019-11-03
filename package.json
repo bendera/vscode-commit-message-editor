@@ -11,7 +11,10 @@
   "categories": [
     "Other"
   ],
-  "keywords": ["git", "vcs"],
+  "keywords": [
+    "git",
+    "vcs"
+  ],
   "icon": "icon.png",
   "repository": {
     "url": "https://github.com/bendera/vscode-commit-message-editor"
@@ -183,8 +186,11 @@
     "@types/vscode": "^1.38.0",
     "glob": "^7.1.4",
     "mocha": "^6.1.4",
-    "typescript": "^3.3.1",
     "tslint": "^5.12.1",
+    "typescript": "^3.3.1",
     "vscode-test": "^1.0.2"
+  },
+  "dependencies": {
+    "@bendera/vscode-webview-elements": "^0.1.2"
   }
 }

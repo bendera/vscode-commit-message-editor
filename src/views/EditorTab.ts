@@ -92,7 +92,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
           </div>
         </div>
       </div>
-      <script src="${assetUri('assets/vscwe/vscwe.js')}" nonce="${nonce}"></script>
+      <script src="${assetUri('node_modules/@bendera/vscode-webview-elements/dist/vscwe.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/FormBuilder.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/TemplateParser.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
