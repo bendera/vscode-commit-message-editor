@@ -1,6 +1,6 @@
 import { platform } from 'os';
 import * as vscode from 'vscode';
-import EditorTab from './views/EditorTab';
+import EditorTab from './webviews/EditorTab';
 import GitService from './GitService';
 
 const createPostMessage = (command: string, payload: object): object => ({
