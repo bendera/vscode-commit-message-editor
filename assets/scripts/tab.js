@@ -12,6 +12,7 @@
   const vscode = acquireVsCodeApi();
   const formBuilder = new FormBuilder();
   let config = {};
+  const prevState = vscode.getState();
 
   vscode.postMessage({
     command: 'requestConfig'
@@ -42,6 +43,27 @@
     return data;
   }
 
+  const saveFieldValueCallback = (name, value) => {
+    const newState = vscode.getState() || {};
+
+    newState.form = newState.form || {};
+    newState.form[name] = value;
+
+    vscode.setState(newState);
+  };
+
+  const buildForm = (tokens) => {
+    formBuilder.setFields(tokens);
+    formBuilder.setSaveFieldValueCallback(saveFieldValueCallback);
+
+    if (prevState) {
+      formBuilder.setPrevState(prevState.form);
+    }
+
+    formBuilder.compile();
+    formBuilder.appendTo(elEditForm);
+  };
+
   window.addEventListener('message', event => {
     const { data } = event;
 
@@ -55,9 +77,7 @@
         break;
       case 'receiveConfig':
         config = { ...data.payload };
-        formBuilder.setFields(config.tokens);
-        formBuilder.compile();
-        formBuilder.appendTo(elEditForm);
+        buildForm(config.tokens);
         break;
     }
   });

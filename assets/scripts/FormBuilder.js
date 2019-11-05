@@ -3,6 +3,16 @@ class FormBuilder {
     this._template = {};
     this._fields = [];
     this._compiledFields = [];
+    this._saveFieldValueCallback = () => {};
+    this._prevState = {};
+  }
+
+  _getFieldValue(name, defaultValue = '') {
+    if (this._prevState[name]) {
+      return this._prevState[name];
+    }
+
+    return defaultValue;
   }
 
   _formItem(fieldDef, widgetElement) {
@@ -34,9 +44,10 @@ class FormBuilder {
 
   _enumField(fieldDef) {
     const el = document.createElement('vscode-select');
-    const options = [];
+    const elOptions = [];
+    const { options, name } = fieldDef;
 
-    fieldDef.options.forEach((option) => {
+    options.forEach((option) => {
       const opt = {};
       const { label, description } = option;
 
@@ -44,35 +55,57 @@ class FormBuilder {
       opt.value = label;
       opt.description = description;
 
-      options.push(opt);
+      elOptions.push(opt);
     });
 
-    el.options = options;
-    el.dataset.name = fieldDef.name;
+    el.options = elOptions;
+    el.dataset.name = name;
+    el.selectedIndex = this._getFieldValue(name, 0);
+    el.addEventListener('vsc-change', () => {
+      this._saveFieldValueCallback(name, el.selectedIndex);
+    });
 
     return this._formItem(fieldDef, el);
   }
 
   _booleanField(fieldDef) {
     const el = document.createElement('vscode-checkbox');
+    const { label, name, value } = fieldDef;
 
-    el.label = fieldDef.label;
-    el.dataset.name = fieldDef.name;
-    el.value = fieldDef.value;
+    el.label = label;
+    el.dataset.name = name;
+    el.value = value;
+    el.checked = this._getFieldValue(name, false);
+
+    el.addEventListener('vsc-change', (event) => {
+      const { checked } = event.detail;
+
+      this._saveFieldValueCallback(name, checked);
+    });
 
     return this._formItem(fieldDef, el);
   }
 
   _textField(fieldDef) {
     const el = document.createElement('vscode-inputbox');
+    const { name, multiline } = fieldDef;
 
-    if (fieldDef.multiline && fieldDef.multiline === true) {
+    if (multiline && multiline === true) {
       el.multiline = true;
     }
 
-    el.dataset.name = fieldDef.name;
+    el.dataset.name = name;
+    el.value = this._getFieldValue(name);
+
+    el.addEventListener('vsc-input', () => {
+      this._saveFieldValueCallback(name, el.value);
+    });
 
     return this._formItem(fieldDef, el);
+  }
+
+  setPrevState(state) {
+    this._prevState = { ...state };
   }
 
   setTemplate(template) {
@@ -81,6 +114,10 @@ class FormBuilder {
 
   setFields(fields) {
     this._fields = fields;
+  }
+
+  setSaveFieldValueCallback(fn) {
+    this._saveFieldValueCallback = fn;
   }
 
   compile() {
