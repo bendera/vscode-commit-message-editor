@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { GitExtension, API, Repository } from './@types/git';
+import { GitExtension, API, Repository } from '../@types/git';
 
 class GitService {
   private isGitAvailable: boolean = false;

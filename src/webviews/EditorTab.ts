@@ -1,21 +1,12 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
+import getNonce from '../utils/getNonce';
 
 interface EditorTabProps {
   extensionPath: string;
   platform: string;
   webview: vscode.Webview;
 }
-
-const getNonce = () => {
-  let text = '';
-  const possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < 32; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
 
 const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
   const assetUri = (fp: string) => {
