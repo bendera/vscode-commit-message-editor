@@ -48,6 +48,14 @@
     }
   }
 
+  const getMessageBoxValue = () => {
+    const state = vscode.getState() || {};
+
+    if (state.messageBox) {
+      elMessageBox.value = state.messageBox;
+    }
+  }
+
   const transformCommitList = (commits) => {
     const icons = {
       leaf: 'git-commit',
@@ -76,6 +84,14 @@
     vscode.setState(newState);
   };
 
+  const saveMessageBoxValue = () => {
+    const state = vscode.getState() || {};
+
+    state.messageBox = elMessageBox.value;
+
+    vscode.setState(state);
+  }
+
   const buildForm = (tokens) => {
     formBuilder.setFields(tokens);
     formBuilder.setSaveFieldValueCallback(saveFieldValueCallback);
@@ -94,6 +110,7 @@
     switch (data.command) {
       case 'copyFromSCMInputBox':
         elMessageBox.value = data.payload.inputBoxValue;
+        saveMessageBoxValue();
         break;
       case 'recentCommitMessages':
         const transformedList = transformCommitList(data.payload.commits);
@@ -117,6 +134,10 @@
     state.tabs = state.tabs || {};
     state.tabs = event.detail.selectedIndex;
     vscode.setState(state);
+  });
+
+  elMessageBox.addEventListener('vsc-input', () => {
+    saveMessageBoxValue();
   });
 
   elTextSuccessButton.addEventListener('click', event => {
@@ -157,6 +178,7 @@
 
   elRecentCommitsList.addEventListener('vsc-select', (event) => {
     elMessageBox.value = event.detail.value;
+    saveMessageBoxValue();
   });
 
   elLoadTemplateButton.addEventListener('click', (event) => {
@@ -164,8 +186,10 @@
     event.preventDefault();
 
     elMessageBox.value = config.template.join('\n');
+    saveMessageBoxValue();
   });
 
   setActiveTab();
   getRecentCommits();
+  getMessageBoxValue();
 })();
