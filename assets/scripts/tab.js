@@ -65,10 +65,12 @@
 
     commits.forEach((item) => {
       const { message } = item;
+      const lines = message.split('\n');
 
       data.push({
         icons,
-        label: message,
+        label: lines[0],
+        value: message,
       });
     });
 
