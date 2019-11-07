@@ -74,6 +74,9 @@ const createOpenEditorCommand = ({
                 })
               );
               break;
+            case 'requestRecentCommits':
+              populateCommitList();
+              break;
             default:
               break;
           }
@@ -90,11 +93,6 @@ const createOpenEditorCommand = ({
         context.subscriptions
       );
 
-      currentPanel.onDidChangeViewState(() => {
-        populateCommitList();
-      });
-
-      populateCommitList();
       currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', {
         inputBoxValue: git.getSCMInputBoxMessage(),
       }));

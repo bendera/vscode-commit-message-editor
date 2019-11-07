@@ -31,6 +31,23 @@
     });
   };
 
+  const requestRecentCommits = () => {
+    vscode.postMessage({
+      command: 'requestRecentCommits',
+    });
+  }
+
+  const getRecentCommits = () => {
+    const state = prevState || {};
+
+    if (state.commits) {
+      elRecentCommitsWrapper.classList.remove('is-loading');
+      elRecentCommitsList.data = state.commits;
+    } else {
+      requestRecentCommits();
+    }
+  }
+
   const transformCommitList = (commits) => {
     const icons = {
       leaf: 'git-commit',
@@ -79,8 +96,13 @@
         elMessageBox.value = data.payload.inputBoxValue;
         break;
       case 'recentCommitMessages':
+        const transformedList = transformCommitList(data.payload.commits);
+        const state = vscode.getState() || {};
+
         elRecentCommitsWrapper.classList.remove('is-loading');
-        elRecentCommitsList.data = transformCommitList(data.payload.commits);
+        elRecentCommitsList.data = transformedList;
+        state.commits = transformedList;
+        vscode.setState(state);
         break;
       case 'receiveConfig':
         config = { ...data.payload };
@@ -145,4 +167,5 @@
   });
 
   setActiveTab();
+  getRecentCommits();
 })();
