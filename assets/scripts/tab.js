@@ -8,6 +8,7 @@
   const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
   const elLoadTemplateButton = document.getElementById('load-template-button');
   const elEditForm = document.getElementById('edit-form');
+  const elTabs = document.getElementById('main-tabs');
 
   const vscode = acquireVsCodeApi();
   const formBuilder = new FormBuilder();
@@ -17,6 +18,12 @@
   vscode.postMessage({
     command: 'requestConfig'
   });
+
+  const setActiveTab = () => {
+    if (prevState && prevState.tabs !== undefined) {
+      elTabs.selectedIndex = prevState.tabs;
+    }
+  }
 
   const closeTab = () => {
     vscode.postMessage({
@@ -82,6 +89,14 @@
     }
   });
 
+  elTabs.addEventListener('vsc-select', (event) => {
+    const state = vscode.getState() || {};
+
+    state.tabs = state.tabs || {};
+    state.tabs = event.detail.selectedIndex;
+    vscode.setState(state);
+  });
+
   elTextSuccessButton.addEventListener('click', event => {
     event.stopPropagation();
     event.preventDefault();
@@ -128,4 +143,6 @@
 
     elMessageBox.value = config.template.join('\n');
   });
+
+  setActiveTab();
 })();

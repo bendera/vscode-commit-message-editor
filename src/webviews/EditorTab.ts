@@ -41,7 +41,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
               <div class="editor-wrapper">
-                <vscode-tabs>
+                <vscode-tabs id="main-tabs">
                   <header slot="header">Edit as text</header>
                   <section>
                     <div class="editor-toolbar">
