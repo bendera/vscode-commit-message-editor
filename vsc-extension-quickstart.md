@@ -1,5 +1,14 @@
 # Welcome to your VS Code Extension
 
+## Publish (self note)
+
+```
+vsce package
+vsce publish [major | minor | patch]
+git tag <tagname>
+git push origin <tagname>
+```
+
 ## What's in the folder
 
 * This folder contains all of the files necessary for your extension.
