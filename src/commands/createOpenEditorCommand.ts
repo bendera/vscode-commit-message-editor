@@ -50,11 +50,15 @@ const createOpenEditorCommand = ({
       );
       const { webview } = currentPanel;
       const { extensionPath } = context;
+      const defaultView = String(
+        vscode.workspace.getConfiguration('commit-message-editor').get('defaultView')
+      );
 
       currentPanel.webview.html = EditorTab({
         extensionPath,
         webview,
         platform: platform(),
+        defaultView,
       });
 
       currentPanel.webview.onDidReceiveMessage(

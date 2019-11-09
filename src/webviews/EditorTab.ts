@@ -6,9 +6,10 @@ interface EditorTabProps {
   extensionPath: string;
   platform: string;
   webview: vscode.Webview;
+  defaultView: string;
 }
 
-const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
+const EditorTab = ({ extensionPath, platform, webview, defaultView }: EditorTabProps) => {
   const assetUri = (fp: string) => {
     const fragments = fp.split('/');
     const vscodeUri = vscode.Uri.file(
@@ -20,6 +21,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
 
   const { cspSource } = webview;
   const nonce = getNonce();
+  const selectedTabIndex = defaultView === 'text' ? 0 : 1;
 
   const html = `
     <!DOCTYPE html>
@@ -41,7 +43,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
             <section class="section section--commit-message">
               <h2 class="section-title">Commit message</h2>
               <div class="editor-wrapper">
-                <vscode-tabs id="main-tabs">
+                <vscode-tabs id="main-tabs" selectedindex="${selectedTabIndex}">
                   <header slot="header">Edit as text</header>
                   <section>
                     <div class="editor-toolbar">
