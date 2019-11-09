@@ -29,7 +29,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta
         http-equiv="Content-Security-Policy"
-        content="default-src 'none'; img-src ${cspSource}; script-src 'self' ${cspSource} nonce-${nonce}; style-src 'unsafe-inline' 'self' ${cspSource};"
+        content="default-src 'none'; img-src ${cspSource}; script-src ${cspSource} nonce-${nonce}; style-src 'unsafe-inline' ${cspSource}"
       />
       <title>Commit message editor</title>
       <link rel="stylesheet" href="${assetUri('assets/styles/tab.css')}" nonce="${nonce}">
