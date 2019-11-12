@@ -26,5 +26,6 @@ This extension contributes the following settings:
 
 * `commit-message-editor.template`: Predefined commmit message template
 * `commit-message-editor.tokens`: Editable inputs in the form view
+* `commit-message-editor.defaultView`: Default view of the editor (textarea or form)
 
 **Happy coding!**
