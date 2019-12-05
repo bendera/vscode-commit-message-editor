@@ -89,6 +89,10 @@
               "type": "enum",
               "options": [
                 {
+                  "label": "---",
+                  "value": ""
+                },
+                {
                   "label": "build",
                   "description": "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
                 },
@@ -199,6 +203,6 @@
     "vscode-test": "^1.0.2"
   },
   "dependencies": {
-    "@bendera/vscode-webview-elements": "^0.1.6"
+    "@bendera/vscode-webview-elements": "^0.1.7"
   }
 }

@@ -49,10 +49,10 @@ class FormBuilder {
 
     options.forEach((option) => {
       const opt = {};
-      const { label, description } = option;
+      const { label, description, value } = option;
 
       opt.label = label;
-      opt.value = label;
+      opt.value = value !== undefined ? value : label;
       opt.description = description;
 
       elOptions.push(opt);
