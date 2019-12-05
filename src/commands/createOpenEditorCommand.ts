@@ -73,7 +73,8 @@ const createOpenEditorCommand = ({
             case 'requestConfig':
               (<vscode.WebviewPanel>currentPanel).webview.postMessage(
                 createPostMessage('receiveConfig', {
-                  template: vscode.workspace.getConfiguration('commit-message-editor').get('template'),
+                  staticTemplate: vscode.workspace.getConfiguration('commit-message-editor').get('staticTemplate'),
+                  dynamicTemplate: vscode.workspace.getConfiguration('commit-message-editor').get('dynamicTemplate'),
                   tokens: vscode.workspace.getConfiguration('commit-message-editor').get('tokens'),
                 })
               );

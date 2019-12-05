@@ -4,7 +4,7 @@ import createPostMessage from '../utils/createPostMessage';
 const createLoadTemplateCommand = ({
   currentPanel,
 }: {
-  currentPanel: vscode.WebviewPanel | undefined,
+  currentPanel: vscode.WebviewPanel | undefined;
 }) => {
   return vscode.commands.registerCommand(
     'commitMessageEditor.loadTemplate',
@@ -15,7 +15,12 @@ const createLoadTemplateCommand = ({
 
       currentPanel.webview.postMessage(
         createPostMessage('receiveConfig', {
-          template: vscode.workspace.getConfiguration('commit-message-editor').get('template'),
+          staticTemplate: vscode.workspace
+            .getConfiguration('commit-message-editor')
+            .get('staticTemplate'),
+          dynamicTemplate: vscode.workspace
+            .getConfiguration('commit-message-editor')
+            .get('dynamicTemplate'),
         })
       );
     }

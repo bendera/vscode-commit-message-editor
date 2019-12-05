@@ -187,7 +187,7 @@
     event.stopPropagation();
     event.preventDefault();
 
-    elMessageBox.value = config.template.join('\n');
+    elMessageBox.value = config.staticTemplate.join('\n');
     saveMessageBoxValue();
   });
 

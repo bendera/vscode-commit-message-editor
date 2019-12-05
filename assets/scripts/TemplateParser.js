@@ -1,7 +1,7 @@
 class TemplateParser {
   constructor(formElement, config) {
     this._formElement = formElement;
-    this._template = config.template.join('\n');
+    this._template = config.dynamicTemplate.join('\n');
     this._tokens = config.tokens;
   }
 

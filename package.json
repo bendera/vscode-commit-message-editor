@@ -66,8 +66,9 @@
     "configuration": {
       "title": "Commit Message Editor",
       "properties": {
-        "commit-message-editor.template": {
+        "commit-message-editor.dynamicTemplate": {
           "type": "array",
+          "description": "Template for the form view. You can refer to tokens in {token_name} format.",
           "items": {
             "type": "string"
           },
@@ -77,6 +78,20 @@
             "{body}",
             "",
             "{breaking_change}{footer}"
+          ]
+        },
+        "commit-message-editor.staticTemplate": {
+          "type": "array",
+          "description": "Template for the text view.",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "feat: Short description",
+            "",
+            "Message body",
+            "",
+            "Message footer"
           ]
         },
         "commit-message-editor.tokens": {
