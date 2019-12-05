@@ -185,13 +185,18 @@
             }
           ]
         },
-        "commit-message-editor.defaultView": {
+        "commit-message-editor.view.defaultView": {
           "type": "string",
           "default": "text",
           "enum": [
             "text",
             "form"
           ]
+        },
+        "commit-message-editor.view.showRecentCommits": {
+          "type": "boolean",
+          "description": "Show recent commits in the main view.",
+          "default": true
         }
       }
     }

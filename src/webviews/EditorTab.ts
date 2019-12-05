@@ -7,9 +7,10 @@ interface EditorTabProps {
   platform: string;
   webview: vscode.Webview;
   defaultView: string;
+  showRecentCommits: boolean;
 }
 
-const EditorTab = ({ extensionPath, platform, webview, defaultView }: EditorTabProps) => {
+const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCommits }: EditorTabProps) => {
   const assetUri = (fp: string) => {
     const fragments = fp.split('/');
     const vscodeUri = vscode.Uri.file(
@@ -22,6 +23,24 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView }: EditorTabP
   const { cspSource } = webview;
   const nonce = getNonce();
   const selectedTabIndex = defaultView === 'text' ? 0 : 1;
+
+  let recentCommitsTemplate = '';
+
+  if (showRecentCommits) {
+    recentCommitsTemplate = `
+      <div class="recent-commits">
+        <h2 class="recent-commits__title">Recent commits:</h2>
+        <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
+          <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
+            <div class="recent-commits-wrapper__loading-icon"></div>
+          </div>
+          <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits">
+            <vscode-tree id="recent-commits-wrapper__commits-list" tabindex="0"></vscode-tree>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
   const html = `
     <!DOCTYPE html>
@@ -59,17 +78,7 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView }: EditorTabP
                       <vscode-button id="success-button-text">Save</vscode-button>
                       <vscode-button id="cancel-button-text">Cancel</vscode-button>
                     </div>
-                    <div class="recent-commits">
-                      <h2 class="recent-commits__title">Recent commits:</h2>
-                      <div id="recent-commits-wrapper" class="recent-commits-wrapper is-loading">
-                        <div id="recent-commits-wrapper__loading" class="recent-commits-wrapper__loading">
-                          <div class="recent-commits-wrapper__loading-icon"></div>
-                        </div>
-                        <div id="recent-commits-wrapper__commits" class="recent-commits-wrapper__commits">
-                          <vscode-tree id="recent-commits-wrapper__commits-list" tabindex="0"></vscode-tree>
-                        </div>
-                      </div>
-                    </div>
+                    ${recentCommitsTemplate}
                   </section>
                   <header slot="header">Edit as form</header>
                   <section>

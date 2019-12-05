@@ -21,6 +21,7 @@ const createLoadTemplateCommand = ({
           dynamicTemplate: vscode.workspace
             .getConfiguration('commit-message-editor')
             .get('dynamicTemplate'),
+          showRecentCommits: !!vscode.workspace.getConfiguration('commit-message-editor.view').get('showRecentCommits'),
         })
       );
     }

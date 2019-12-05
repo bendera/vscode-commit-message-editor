@@ -126,6 +126,11 @@
       case 'receiveConfig':
         config = { ...data.payload };
         buildForm(config.tokens);
+
+        if (config.showRecentCommits) {
+          getRecentCommits();
+        }
+
         break;
     }
   });
@@ -192,6 +197,5 @@
   });
 
   setActiveTab();
-  getRecentCommits();
   getMessageBoxValue();
 })();

@@ -51,7 +51,10 @@ const createOpenEditorCommand = ({
       const { webview } = currentPanel;
       const { extensionPath } = context;
       const defaultView = String(
-        vscode.workspace.getConfiguration('commit-message-editor').get('defaultView')
+        vscode.workspace.getConfiguration('commit-message-editor.view').get('defaultView')
+      );
+      const showRecentCommits = Boolean(
+        vscode.workspace.getConfiguration('commit-message-editor.view').get('showRecentCommits')
       );
 
       currentPanel.webview.html = EditorTab({
@@ -59,6 +62,7 @@ const createOpenEditorCommand = ({
         webview,
         platform: platform(),
         defaultView,
+        showRecentCommits,
       });
 
       currentPanel.webview.onDidReceiveMessage(
@@ -76,6 +80,7 @@ const createOpenEditorCommand = ({
                   staticTemplate: vscode.workspace.getConfiguration('commit-message-editor').get('staticTemplate'),
                   dynamicTemplate: vscode.workspace.getConfiguration('commit-message-editor').get('dynamicTemplate'),
                   tokens: vscode.workspace.getConfiguration('commit-message-editor').get('tokens'),
+                  showRecentCommits: !!vscode.workspace.getConfiguration('commit-message-editor.view').get('showRecentCommits'),
                 })
               );
               break;
