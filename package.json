@@ -13,7 +13,10 @@
   ],
   "keywords": [
     "git",
-    "vcs"
+    "vcs",
+    "semantic",
+    "conventional",
+    "commits"
   ],
   "icon": "icon.png",
   "repository": {
