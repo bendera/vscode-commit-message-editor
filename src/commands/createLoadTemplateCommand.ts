@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import createPostMessage from '../utils/createPostMessage';
+import getExtensionConfig from '../utils/getExtensionConfig';
 
 const createLoadTemplateCommand = ({
   currentPanel,
@@ -14,15 +15,7 @@ const createLoadTemplateCommand = ({
       }
 
       currentPanel.webview.postMessage(
-        createPostMessage('receiveConfig', {
-          staticTemplate: vscode.workspace
-            .getConfiguration('commit-message-editor')
-            .get('staticTemplate'),
-          dynamicTemplate: vscode.workspace
-            .getConfiguration('commit-message-editor')
-            .get('dynamicTemplate'),
-          showRecentCommits: !!vscode.workspace.getConfiguration('commit-message-editor.view').get('showRecentCommits'),
-        })
+        createPostMessage('receiveConfig', getExtensionConfig())
       );
     }
   );

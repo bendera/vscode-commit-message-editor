@@ -3,6 +3,7 @@ import { platform } from 'os';
 import createPostMessage from '../utils/createPostMessage';
 import EditorTab from '../webviews/EditorTab';
 import GitService from '../utils/GitService';
+import getExtensionConfig from '../utils/getExtensionConfig';
 
 const createOpenEditorCommand = ({
   context,
@@ -76,12 +77,7 @@ const createOpenEditorCommand = ({
               break;
             case 'requestConfig':
               (<vscode.WebviewPanel>currentPanel).webview.postMessage(
-                createPostMessage('receiveConfig', {
-                  staticTemplate: vscode.workspace.getConfiguration('commit-message-editor').get('staticTemplate'),
-                  dynamicTemplate: vscode.workspace.getConfiguration('commit-message-editor').get('dynamicTemplate'),
-                  tokens: vscode.workspace.getConfiguration('commit-message-editor').get('tokens'),
-                  showRecentCommits: !!vscode.workspace.getConfiguration('commit-message-editor.view').get('showRecentCommits'),
-                })
+                createPostMessage('receiveConfig', getExtensionConfig())
               );
               break;
             case 'requestRecentCommits':
