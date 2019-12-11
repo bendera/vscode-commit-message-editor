@@ -35,6 +35,18 @@ const createOpenEditorCommand = ({
           });
       };
 
+      const confirmAmend = () => {
+        vscode.window.showWarningMessage(
+          'Are you sure want to continue? Your last commit will be undone.',
+          { modal: true },
+          'Yes',
+          'Always'
+        )
+          .then(() => {
+            
+          });
+      };
+
       if (currentPanel) {
         currentPanel.reveal(columnToShowIn);
         return;
@@ -86,6 +98,9 @@ const createOpenEditorCommand = ({
               break;
             case 'requestRecentCommits':
               populateCommitList();
+              break;
+            case 'confirmAmend':
+              confirmAmend();
               break;
             default:
               break;

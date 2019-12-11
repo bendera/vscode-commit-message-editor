@@ -152,6 +152,10 @@
     event.preventDefault();
 
     vscode.postMessage({
+      command: 'confirmAmend',
+    });
+
+    vscode.postMessage({
       command: 'copyFromExtensionMessageBox',
       payload: elMessageBox.value,
     });

@@ -77,6 +77,10 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
                     <div class="buttons">
                       <vscode-button id="success-button-text">Save</vscode-button>
                       <vscode-button id="cancel-button-text">Cancel</vscode-button>
+                      <vscode-checkbox
+                        label="Amend previous commit"
+                        class="cb-amend"
+                      ></vscode-checkbox>
                     </div>
                     ${recentCommitsTemplate}
                   </section>
@@ -86,6 +90,10 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
                     <div class="buttons">
                       <vscode-button id="success-button-form">Save</vscode-button>
                       <vscode-button id="cancel-button-form">Cancel</vscode-button>
+                      <vscode-checkbox
+                        label="Amend previous commit"
+                        class="cb-amend"
+                      ></vscode-checkbox>
                     </div>
                   </section>
                 </vscode-tabs>
