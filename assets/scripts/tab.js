@@ -2,8 +2,10 @@
   const elMessageBox = document.getElementById('message-box');
   const elTextSuccessButton = document.getElementById('success-button-text');
   const elTextCancelButton = document.getElementById('cancel-button-text');
+  const elTextAmendCheckbox = document.getElementById('text-amend-checkbox');
   const elFormSuccessButton = document.getElementById('success-button-form');
   const elFormCancelButton = document.getElementById('cancel-button-form');
+  const elFormAmendCheckbox = document.getElementById('form-amend-checkbox');
   const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
   const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
   const elLoadTemplateButton = document.getElementById('load-template-button');
@@ -151,12 +153,10 @@
     event.stopPropagation();
     event.preventDefault();
 
-    vscode.postMessage({
-      command: 'confirmAmend',
-    });
+    const command = elTextAmendCheckbox.checked ? 'confirmAmend' : 'copyFromExtensionMessageBox';
 
     vscode.postMessage({
-      command: 'copyFromExtensionMessageBox',
+      command,
       payload: elMessageBox.value,
     });
   });

@@ -80,6 +80,7 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
                       <vscode-checkbox
                         label="Amend previous commit"
                         class="cb-amend"
+                        id="text-amend-checkbox"
                       ></vscode-checkbox>
                     </div>
                     ${recentCommitsTemplate}
@@ -93,6 +94,7 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
                       <vscode-checkbox
                         label="Amend previous commit"
                         class="cb-amend"
+                        id="form-amend-checkbox"
                       ></vscode-checkbox>
                     </div>
                   </section>

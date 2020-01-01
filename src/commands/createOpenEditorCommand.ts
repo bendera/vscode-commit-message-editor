@@ -35,16 +35,23 @@ const createOpenEditorCommand = ({
           });
       };
 
-      const confirmAmend = () => {
-        vscode.window.showWarningMessage(
+      const confirmAmend = async (payload: string) => {
+        const labelOk = 'Yes';
+        const labelAlways = 'Always';
+
+        const selected = await vscode.window.showWarningMessage(
           'Are you sure want to continue? Your last commit will be undone.',
           { modal: true },
-          'Yes',
-          'Always'
-        )
-          .then(() => {
-            
-          });
+          labelOk,
+          labelAlways
+        );
+
+        if ([labelOk, labelAlways].includes(selected as string)) {
+          await vscode.commands.executeCommand('git.undoCommit');
+
+          git.setSCMInputBoxMessage(payload);
+          populateCommitList();
+        }
       };
 
       if (currentPanel) {
@@ -79,9 +86,11 @@ const createOpenEditorCommand = ({
 
       currentPanel.webview.onDidReceiveMessage(
         data => {
-          switch (data.command) {
+          const { command, payload } = data;
+
+          switch (command) {
             case 'copyFromExtensionMessageBox':
-              git.setSCMInputBoxMessage(data.payload);
+              git.setSCMInputBoxMessage(payload);
               break;
             case 'closeTab':
               (<vscode.WebviewPanel>currentPanel).dispose();
@@ -100,7 +109,7 @@ const createOpenEditorCommand = ({
               populateCommitList();
               break;
             case 'confirmAmend':
-              confirmAmend();
+              confirmAmend(payload);
               break;
             default:
               break;
