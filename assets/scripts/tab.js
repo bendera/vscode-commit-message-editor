@@ -134,6 +134,8 @@
         }
 
         break;
+      default:
+        break;
     }
   });
 
@@ -153,6 +155,7 @@
     event.stopPropagation();
     event.preventDefault();
 
+    // TODO: when checkbox clicked: load last commit message if textarea empty
     const command = elTextAmendCheckbox.checked ? 'confirmAmend' : 'copyFromExtensionMessageBox';
 
     vscode.postMessage({
@@ -198,6 +201,10 @@
 
     elMessageBox.value = config.staticTemplate.join('\n');
     saveMessageBoxValue();
+  });
+
+  elTextAmendCheckbox.addEventListener('vsc-change', () => {
+
   });
 
   setActiveTab();
