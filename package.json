@@ -69,6 +69,11 @@
     "configuration": {
       "title": "Commit Message Editor",
       "properties": {
+        "commit-message-editor.confirmAmend": {
+          "type": "boolean",
+          "description": "Confirm amend commit",
+          "default": true
+        },
         "commit-message-editor.dynamicTemplate": {
           "type": "array",
           "description": "Template for the form view. You can refer to tokens in {token_name} format.",

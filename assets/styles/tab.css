@@ -171,12 +171,17 @@ body.vscode-high-contrast .message-box {
 }
 
 .buttons {
+  align-items: center;
   display: flex;
   margin-top: 10px;
 }
 
 .buttons vscode-button {
   margin-right: 10px;
+}
+
+.buttons .cb-amend {
+  margin-left: 20px;
 }
 
 .recent-commits {

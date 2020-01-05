@@ -2,8 +2,10 @@
   const elMessageBox = document.getElementById('message-box');
   const elTextSuccessButton = document.getElementById('success-button-text');
   const elTextCancelButton = document.getElementById('cancel-button-text');
+  const elTextAmendCheckbox = document.getElementById('text-amend-checkbox');
   const elFormSuccessButton = document.getElementById('success-button-form');
   const elFormCancelButton = document.getElementById('cancel-button-form');
+  const elFormAmendCheckbox = document.getElementById('form-amend-checkbox');
   const elRecentCommitsWrapper = document.getElementById('recent-commits-wrapper');
   const elRecentCommitsList = document.getElementById('recent-commits-wrapper__commits-list');
   const elLoadTemplateButton = document.getElementById('load-template-button');
@@ -42,7 +44,8 @@
 
     if (state.commits) {
       elRecentCommitsWrapper.classList.remove('is-loading');
-      elRecentCommitsList.data = state.commits;
+      elRecentCommitsList.data = transformCommitList(state.commits);
+      prefillInputboxForAmend();
     } else {
       requestRecentCommits();
     }
@@ -106,6 +109,23 @@
     formBuilder.appendTo(elEditForm);
   };
 
+  const prefillInputboxForAmend = () => {
+    const state = vscode.getState() || {};
+
+    if (elTextAmendCheckbox.checked && elMessageBox.value === '' && state.commits && state.commits.length > 0) {
+      elMessageBox.value = state.commits[0].message;
+    }
+  }
+
+  const submitMessageToHost = (message, amend) => {
+    const command = amend ? 'confirmAmend' : 'copyFromExtensionMessageBox';
+
+    vscode.postMessage({
+      command,
+      payload: message,
+    });
+  }
+
   window.addEventListener('message', event => {
     const { data } = event;
 
@@ -120,8 +140,9 @@
 
         elRecentCommitsWrapper.classList.remove('is-loading');
         elRecentCommitsList.data = transformedList;
-        state.commits = transformedList;
+        state.commits = data.payload.commits;
         vscode.setState(state);
+        prefillInputboxForAmend();
         break;
       case 'receiveConfig':
         config = { ...data.payload };
@@ -131,6 +152,8 @@
           getRecentCommits();
         }
 
+        break;
+      default:
         break;
     }
   });
@@ -151,10 +174,7 @@
     event.stopPropagation();
     event.preventDefault();
 
-    vscode.postMessage({
-      command: 'copyFromExtensionMessageBox',
-      payload: elMessageBox.value,
-    });
+    submitMessageToHost(elMessageBox.value, elTextAmendCheckbox.checked);
   });
 
   elTextCancelButton.addEventListener('click', event => {
@@ -169,11 +189,9 @@
     event.preventDefault();
 
     const parser = new TemplateParser(elEditForm, config);
+    const compiledTemplate = parser.getCompiledTemplate();
 
-    vscode.postMessage({
-      command: 'copyFromExtensionMessageBox',
-      payload: parser.getCompiledTemplate(),
-    });
+    submitMessageToHost(compiledTemplate, elFormAmendCheckbox.checked);
   });
 
   elFormCancelButton.addEventListener('click', event => {
@@ -194,6 +212,10 @@
 
     elMessageBox.value = config.staticTemplate.join('\n');
     saveMessageBoxValue();
+  });
+
+  elTextAmendCheckbox.addEventListener('vsc-change', () => {
+    prefillInputboxForAmend();
   });
 
   setActiveTab();

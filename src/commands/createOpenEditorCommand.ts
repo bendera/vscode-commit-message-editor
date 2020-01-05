@@ -36,6 +36,40 @@ const createOpenEditorCommand = ({
           });
       };
 
+      const confirmAmend = async (payload: string) => {
+        const confirmAmend = vscode.workspace.getConfiguration('commit-message-editor').get('confirmAmend');
+
+        if (!confirmAmend) {
+          performAmend(payload);
+          return;
+        }
+
+        const labelOk = 'Yes';
+        const labelAlways = 'Always';
+
+        const selected = await vscode.window.showWarningMessage(
+          'Are you sure want to continue? Your last commit will be undone.',
+          { modal: true },
+          labelOk,
+          labelAlways
+        );
+
+        if ([labelOk, labelAlways].includes(selected as string)) {
+          performAmend(payload);
+        }
+
+        if (selected === labelAlways) {
+          vscode.workspace.getConfiguration('commit-message-editor').update('confirmAmend', false, vscode.ConfigurationTarget.Global);
+        }
+      };
+
+      const performAmend = async (commitMessage: string) => {
+        await vscode.commands.executeCommand('git.undoCommit');
+
+        git.setSCMInputBoxMessage(commitMessage);
+        populateCommitList();
+      };
+
       if (currentPanel) {
         currentPanel.reveal(columnToShowIn);
         return;
@@ -68,9 +102,11 @@ const createOpenEditorCommand = ({
 
       currentPanel.webview.onDidReceiveMessage(
         data => {
-          switch (data.command) {
+          const { command, payload } = data;
+
+          switch (command) {
             case 'copyFromExtensionMessageBox':
-              git.setSCMInputBoxMessage(data.payload);
+              git.setSCMInputBoxMessage(payload);
               break;
             case 'closeTab':
               (<vscode.WebviewPanel>currentPanel).dispose();
@@ -82,6 +118,9 @@ const createOpenEditorCommand = ({
               break;
             case 'requestRecentCommits':
               populateCommitList();
+              break;
+            case 'confirmAmend':
+              confirmAmend(payload);
               break;
             default:
               break;
