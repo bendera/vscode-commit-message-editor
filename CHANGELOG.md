@@ -6,6 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.12.0] - 2020-01-05
+
+- Add ability to amend commit
+- Add `commit-message-editor.confirmAmend` configuration option
+
 ## [0.10.0] - 2019-11-09
 
 - Configurable default view (textfield or form), add `commit-message-editor.defaultView` config option

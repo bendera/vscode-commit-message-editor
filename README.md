@@ -8,6 +8,7 @@ Edit commit messages in a convenient way.
 * Edit commit message in a form
 * Customizable message template for conventional commits
 * Customizable form fields
+* Amend the last commit message
 * Native look and feel (provided by [Vscode Webview Elements](https://github.com/bendera/vscode-webview-elements))
 
 ![Preview](preview1.gif)
@@ -24,6 +25,7 @@ Built-in Git extension
 
 This extension contributes the following settings:
 
+* `commit-message-editor.confirmAmend`: Show confirm dialog before amend the commit message
 * `commit-message-editor.staticTemplate`: Template for the text view
 * `commit-message-editor.dynamicTemplate`: Template for the form view
 * `commit-message-editor.tokens`: Editable inputs in the form view
