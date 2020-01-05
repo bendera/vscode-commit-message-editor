@@ -44,7 +44,8 @@
 
     if (state.commits) {
       elRecentCommitsWrapper.classList.remove('is-loading');
-      elRecentCommitsList.data = state.commits;
+      elRecentCommitsList.data = transformCommitList(state.commits);
+      prefillInputboxForAmend();
     } else {
       requestRecentCommits();
     }
@@ -108,6 +109,14 @@
     formBuilder.appendTo(elEditForm);
   };
 
+  const prefillInputboxForAmend = () => {
+    const state = vscode.getState() || {};
+
+    if (elTextAmendCheckbox.checked && elMessageBox.value === '' && state.commits && state.commits.length > 0) {
+      elMessageBox.value = state.commits[0].message;
+    }
+  }
+
   window.addEventListener('message', event => {
     const { data } = event;
 
@@ -122,8 +131,9 @@
 
         elRecentCommitsWrapper.classList.remove('is-loading');
         elRecentCommitsList.data = transformedList;
-        state.commits = transformedList;
+        state.commits = data.payload.commits;
         vscode.setState(state);
+        prefillInputboxForAmend();
         break;
       case 'receiveConfig':
         config = { ...data.payload };
@@ -204,7 +214,7 @@
   });
 
   elTextAmendCheckbox.addEventListener('vsc-change', () => {
-
+    prefillInputboxForAmend();
   });
 
   setActiveTab();

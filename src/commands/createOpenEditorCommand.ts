@@ -36,6 +36,13 @@ const createOpenEditorCommand = ({
       };
 
       const confirmAmend = async (payload: string) => {
+        const confirmAmend = vscode.workspace.getConfiguration('commit-message-editor').get('confirmAmend');
+
+        if (!confirmAmend) {
+          performAmend(payload);
+          return;
+        }
+
         const labelOk = 'Yes';
         const labelAlways = 'Always';
 
@@ -47,11 +54,19 @@ const createOpenEditorCommand = ({
         );
 
         if ([labelOk, labelAlways].includes(selected as string)) {
-          await vscode.commands.executeCommand('git.undoCommit');
-
-          git.setSCMInputBoxMessage(payload);
-          populateCommitList();
+          performAmend(payload);
         }
+
+        if (selected === labelAlways) {
+          vscode.workspace.getConfiguration('commit-message-editor').update('confirmAmend', false, vscode.ConfigurationTarget.Global);
+        }
+      };
+
+      const performAmend = async (commitMessage: string) => {
+        await vscode.commands.executeCommand('git.undoCommit');
+
+        git.setSCMInputBoxMessage(commitMessage);
+        populateCommitList();
       };
 
       if (currentPanel) {
