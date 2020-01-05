@@ -117,6 +117,15 @@
     }
   }
 
+  const submitMessageToHost = (message, amend) => {
+    const command = amend ? 'confirmAmend' : 'copyFromExtensionMessageBox';
+
+    vscode.postMessage({
+      command,
+      payload: message,
+    });
+  }
+
   window.addEventListener('message', event => {
     const { data } = event;
 
@@ -165,13 +174,7 @@
     event.stopPropagation();
     event.preventDefault();
 
-    // TODO: when checkbox clicked: load last commit message if textarea empty
-    const command = elTextAmendCheckbox.checked ? 'confirmAmend' : 'copyFromExtensionMessageBox';
-
-    vscode.postMessage({
-      command,
-      payload: elMessageBox.value,
-    });
+    submitMessageToHost(elMessageBox.value, elTextAmendCheckbox.checked);
   });
 
   elTextCancelButton.addEventListener('click', event => {
@@ -186,11 +189,9 @@
     event.preventDefault();
 
     const parser = new TemplateParser(elEditForm, config);
+    const compiledTemplate = parser.getCompiledTemplate();
 
-    vscode.postMessage({
-      command: 'copyFromExtensionMessageBox',
-      payload: parser.getCompiledTemplate(),
-    });
+    submitMessageToHost(compiledTemplate, elFormAmendCheckbox.checked);
   });
 
   elFormCancelButton.addEventListener('click', event => {
