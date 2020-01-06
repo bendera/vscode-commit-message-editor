@@ -68,6 +68,10 @@ const createOpenEditorCommand = ({
 
         git.setSCMInputBoxMessage(commitMessage);
         populateCommitList();
+
+        if (currentPanel) {
+          currentPanel.webview.postMessage(createPostMessage('amendPerformed'));
+        }
       };
 
       if (currentPanel) {

@@ -45,7 +45,6 @@
     if (state.commits) {
       elRecentCommitsWrapper.classList.remove('is-loading');
       elRecentCommitsList.data = transformCommitList(state.commits);
-      prefillInputboxForAmend();
     } else {
       requestRecentCommits();
     }
@@ -152,7 +151,11 @@
           getRecentCommits();
         }
 
+        prefillInputboxForAmend();
         break;
+      case 'amendPerformed':
+        elTextAmendCheckbox.checked = false;
+        elFormAmendCheckbox.checked = false;
       default:
         break;
     }
