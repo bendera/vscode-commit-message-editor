@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.12.1] - 2020-01-06
+
+- Uncheck "Amend previous commit" checkbox when the last commit reverted
+
 ## [0.12.0] - 2020-01-05
 
 - Add ability to amend commit
