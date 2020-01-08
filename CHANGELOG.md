@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.12.2] - 2020-01-08
+
+- Fix the buggy select in the form view
+
 ## [0.12.1] - 2020-01-06
 
 - Uncheck "Amend previous commit" checkbox when the last commit reverted
