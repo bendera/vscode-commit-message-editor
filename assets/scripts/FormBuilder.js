@@ -97,8 +97,8 @@ class FormBuilder {
     el.dataset.name = name;
     el.value = this._getFieldValue(name);
 
-    el.addEventListener('vsc-input', () => {
-      this._saveFieldValueCallback(name, el.value);
+    el.addEventListener('vsc-input', (event) => {
+      this._saveFieldValueCallback(name, event.detail);
     });
 
     return this._formItem(fieldDef, el);
