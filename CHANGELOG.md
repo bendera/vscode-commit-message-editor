@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.12.3] - 2020-05-16
+
+- Fix [#5](https://github.com/bendera/vscode-commit-message-editor/issues/5)
+
 ## [0.12.2] - 2020-01-08
 
 - Fix the buggy select in the form view
