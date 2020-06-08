@@ -6,6 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.13.0] - 2020-06-08
+
+- Add "save and close" option
+- Minor changes
+
 ## [0.12.3] - 2020-05-16
 
 - Fix [#5](https://github.com/bendera/vscode-commit-message-editor/issues/5)

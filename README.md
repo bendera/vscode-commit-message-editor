@@ -31,5 +31,6 @@ This extension contributes the following settings:
 * `commit-message-editor.tokens`: Editable inputs in the form view
 * `commit-message-editor.view.defaultView`: Default view of the editor (textarea or form)
 * `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
+* `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
 
 **Happy coding!**
