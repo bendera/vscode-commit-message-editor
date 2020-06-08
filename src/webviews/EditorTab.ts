@@ -8,9 +8,10 @@ interface EditorTabProps {
   webview: vscode.Webview;
   defaultView: string;
   showRecentCommits: boolean;
+  saveAndClose: boolean;
 }
 
-const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCommits }: EditorTabProps) => {
+const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCommits, saveAndClose }: EditorTabProps) => {
   const assetUri = (fp: string) => {
     const fragments = fp.split('/');
     const vscodeUri = vscode.Uri.file(
@@ -75,7 +76,7 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
                       maxlines="20"
                     ></vscode-inputbox>
                     <div class="buttons">
-                      <vscode-button id="success-button-text">Save</vscode-button>
+                      <vscode-button id="success-button-text">${saveAndClose ? 'Save and close' : 'Save'}</vscode-button>
                       <vscode-button id="cancel-button-text">Cancel</vscode-button>
                       <vscode-checkbox
                         label="Amend previous commit"
@@ -89,7 +90,7 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
                   <section>
                     <div id="edit-form"></div>
                     <div class="buttons">
-                      <vscode-button id="success-button-form">Save</vscode-button>
+                      <vscode-button id="success-button-form">${saveAndClose ? 'Save and close' : 'Save'}</vscode-button>
                       <vscode-button id="cancel-button-form">Cancel</vscode-button>
                       <vscode-checkbox
                         label="Amend previous commit"

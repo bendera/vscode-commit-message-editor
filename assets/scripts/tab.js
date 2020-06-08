@@ -178,6 +178,10 @@
     event.preventDefault();
 
     submitMessageToHost(elMessageBox.value, elTextAmendCheckbox.checked);
+
+    if (config.saveAndClose) {
+      closeTab();
+    }
   });
 
   elTextCancelButton.addEventListener('click', event => {
@@ -195,6 +199,10 @@
     const compiledTemplate = parser.getCompiledTemplate();
 
     submitMessageToHost(compiledTemplate, elFormAmendCheckbox.checked);
+
+    if (config.saveAndClose) {
+      closeTab();
+    }
   });
 
   elFormCancelButton.addEventListener('click', event => {

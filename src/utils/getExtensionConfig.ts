@@ -22,29 +22,27 @@ interface ExtensionConfig {
   staticTemplate: string[] | undefined;
   tokens: Token[] | undefined;
   showRecentCommits: boolean;
+  saveAndClose: boolean;
 }
 
-let cachedConfig: ExtensionConfig;
-
 const getExtensionConfig = () => {
-  if (!cachedConfig) {
-    cachedConfig = {
-      staticTemplate: vscode.workspace
-        .getConfiguration('commit-message-editor')
-        .get('staticTemplate'),
-      dynamicTemplate: vscode.workspace
-        .getConfiguration('commit-message-editor')
-        .get('dynamicTemplate'),
-      tokens: vscode.workspace
-        .getConfiguration('commit-message-editor')
-        .get('tokens'),
-      showRecentCommits: !!vscode.workspace
-        .getConfiguration('commit-message-editor.view')
-        .get('showRecentCommits'),
-    };
-  }
-
-  return cachedConfig;
+  return {
+    staticTemplate: vscode.workspace
+      .getConfiguration('commit-message-editor')
+      .get('staticTemplate'),
+    dynamicTemplate: vscode.workspace
+      .getConfiguration('commit-message-editor')
+      .get('dynamicTemplate'),
+    tokens: vscode.workspace
+      .getConfiguration('commit-message-editor')
+      .get('tokens'),
+    showRecentCommits: !!vscode.workspace
+      .getConfiguration('commit-message-editor.view')
+      .get('showRecentCommits'),
+    saveAndClose: !!vscode.workspace
+      .getConfiguration('commit-message-editor.view')
+      .get('saveAndClose'),
+  };
 };
 
 export default getExtensionConfig;

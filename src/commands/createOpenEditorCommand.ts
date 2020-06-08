@@ -95,6 +95,9 @@ const createOpenEditorCommand = ({
       const showRecentCommits = Boolean(
         vscode.workspace.getConfiguration('commit-message-editor.view').get('showRecentCommits')
       );
+      const saveAndClose = Boolean(
+        vscode.workspace.getConfiguration('commit-message-editor.view').get('saveAndClose')
+      );
 
       currentPanel.webview.html = EditorTab({
         extensionPath,
@@ -102,6 +105,7 @@ const createOpenEditorCommand = ({
         platform: platform(),
         defaultView,
         showRecentCommits,
+        saveAndClose,
       });
 
       currentPanel.webview.onDidReceiveMessage(

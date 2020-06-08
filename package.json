@@ -205,6 +205,11 @@
           "type": "boolean",
           "description": "Show recent commits in the main view.",
           "default": true
+        },
+        "commit-message-editor.view.saveAndClose": {
+          "type": "boolean",
+          "description": "Close commit message editor tab after saving",
+          "default": false
         }
       }
     }
