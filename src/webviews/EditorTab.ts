@@ -61,7 +61,6 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
         <div class="layout">
           <div class="col">
             <section class="section section--commit-message">
-              <h2 class="section-title">Commit message</h2>
               <div class="editor-wrapper">
                 <vscode-tabs id="main-tabs" selectedindex="${selectedTabIndex}">
                   <header slot="header">Edit as text</header>
