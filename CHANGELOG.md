@@ -4,7 +4,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.13.1] - 2020-10-09
+
+- Fix typo in the default config
+- Update documentation
 
 ## [0.13.0] - 2020-06-08
 
