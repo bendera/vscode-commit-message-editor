@@ -4,12 +4,12 @@ Edit commit messages in a convenient way.
 
 ## Features
 
-* Pick an earlier commit message from recent commits
-* Edit commit message in a form
-* Customizable message template for conventional commits
-* Customizable form fields
-* Amend the last commit message
-* Native look and feel (provided by [Vscode Webview Elements](https://github.com/bendera/vscode-webview-elements))
+- Pick an earlier commit message from recent commits
+- Edit commit message in a form
+- Customizable message template for conventional commits
+- Customizable form fields
+- Amend the last commit message
+- Native look and feel (provided by [Vscode Webview Elements](https://github.com/bendera/vscode-webview-elements))
 
 ![Preview](preview1.gif)
 
@@ -25,12 +25,33 @@ Built-in Git extension
 
 This extension contributes the following settings:
 
-* `commit-message-editor.confirmAmend`: Show confirm dialog before amend the commit message
-* `commit-message-editor.staticTemplate`: Template for the text view
-* `commit-message-editor.dynamicTemplate`: Template for the form view
-* `commit-message-editor.tokens`: Editable inputs in the form view
-* `commit-message-editor.view.defaultView`: Default view of the editor (textarea or form)
-* `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
-* `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
+- `commit-message-editor.confirmAmend`: Show confirm dialog before amend the commit message
+- `commit-message-editor.staticTemplate`: Template for the text view
+- `commit-message-editor.dynamicTemplate`: Template for the form view
+- `commit-message-editor.tokens`: Editable inputs in the form view
+- `commit-message-editor.view.defaultView`: Default view of the editor (textarea or form)
+- `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
+- `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
+
+## Customizing the commit message form
+
+The dynamic template contains template variables (tokens), which are between curly braces. Every token is displayed as a form widget in the form view. The easiest way to customizing tokens is to edit the default configuration. Find the tokens option under the Commit Message Editor settings and copy the setting to your user configuration.
+
+![Tokens](settings-screenshot.png)
+
+The available settings are the following:
+
+| Name                       | Type    | Description                                                                                                                                                            |
+| -------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| label                      | string  | The label of the form item.                                                                                                                                            |
+| name                       | string  | The token name in the template.                                                                                                                                        |
+| type                       | enum    | The type of the token. Valid values are:<br> **text**: displayed as a text input<br>**boolean**: displayed as a checkbox<br>**enum**: displayed as a dropdown selector |
+| multiline                  | boolean | If the type is text, the input will be bigger                                                                                                                          |
+| description                | string  | A longer text under the form item                                                                                                                                      |
+| prefix                     | string  | Text before the value. Only applied if the value is not empty                                                                                                          |
+| suffix                     | string  | Text after the value. Only applied if the value is not empty                                                                                                           |
+| options                    | array   | Available options if the token type is enum                                                                                                                            |
+| options[_{n}_].label       | string  | The value of the option                                                                                                                                                |
+| options[_{n}_].description | string  | A longer description for the option                                                                                                                                    |
 
 **Happy coding!**

@@ -7,7 +7,7 @@ class GitService {
   private api: API | undefined;
 
   constructor() {
-    this.gitExtension = vscode.extensions.getExtension<GitExtension>(
+    this.gitExtension = vscode.extensions.getExtension(
       'vscode.git'
     );
 
