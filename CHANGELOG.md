@@ -4,6 +4,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.13.2] - 2020-10-09
+
+- Fix [#12](https://github.com/bendera/vscode-commit-message-editor/issues/12) type of change fading away some times.
+
 ## [0.13.1] - 2020-10-09
 
 - Fix typo in the default config
@@ -41,17 +45,18 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Save view state between tab switches
 
-## [0.9.1] - 
+## [0.9.1] -
 
 - Add VSCode Webview Elements as npm dependency
 
-## [0.9.0] - 
+## [0.9.0] -
 
 - Add ability to edit commit message in a customizable form
 - Add ability to use token variables in the template
 - Add `commit-message-editor.tokens` configuration option to define the available tokens
 
 ## [0.1.2] - 2019-10-18
+
 ## [0.1.1] - 2019-10-18
 
 - Not too much, familiarize myself with the VSCode publishing tool :D

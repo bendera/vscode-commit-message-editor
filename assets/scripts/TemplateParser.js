@@ -10,6 +10,8 @@ class TemplateParser {
     let compiled = this._template;
 
     values.forEach((val, key) => {
+      // prevent parse empty fields
+
       compiled = compiled.replace(new RegExp(`{${key}}`, 'g'), val);
     });
 
@@ -21,7 +23,7 @@ class TemplateParser {
   }
 
   _getTokenByName(name) {
-    return this._tokens.find(token => token.name === name);
+    return this._tokens.find((token) => token.name === name);
   }
 
   _getValues() {
@@ -30,23 +32,40 @@ class TemplateParser {
     );
     const valueMap = new Map();
 
-    inputs.forEach((el) => {
-      const name = el.dataset.name;
+    inputs.forEach((tag) => {
+      const name = tag.dataset.name;
       const token = this._getTokenByName(name);
       const prefix = token.prefix || '';
       const suffix = token.suffix || '';
-      let value = '';
+      const tagName = tag.tagName.toLowerCase();
+      const userValue = this._getTagValue(tagName, tag, prefix, suffix);
 
-      if (el.tagName.toLowerCase() === 'vscode-checkbox') {
-        value = el.checked ? el.value : '';
-      } else {
-        value = el.value;
-      }
-
-      value = value ? prefix + value + suffix : '';
-      valueMap.set(name, value);
+      valueMap.set(name, userValue);
     });
 
     return valueMap;
+  }
+
+  _getTagValue(tagName, tag, prefix, suffix) {
+    let tagValue = null;
+    try {
+      switch (tagName) {
+        case 'vscode-checkbox':
+          tagValue = tag.checked ? tag.value : '';
+          break;
+        case 'vscode-select':
+          if (tag._currentLabel && tag._selectedIndex != 0)
+            tagValue = tag._currentLabel;
+          break;
+        default:
+          tagValue = tag.value;
+          break;
+      }
+    } catch (e) {
+      tagValue = null;
+      console.error(e);
+    }
+
+    return tagValue ? prefix + tagValue + suffix : '';
   }
 }
