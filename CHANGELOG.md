@@ -4,6 +4,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.13.2] - 2020-10-09
+
+- Fix [#12](https://github.com/bendera/vscode-commit-message-editor/issues/12) 
+
 ## [0.13.1] - 2020-10-09
 
 - Fix typo in the default config
