@@ -4,6 +4,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.14.0] - 2020-10-15
+
+- Add ability to disable form or textarea view
+
 ## [0.13.2] - 2020-10-09
 
 - Fix [#12](https://github.com/bendera/vscode-commit-message-editor/issues/12) 
