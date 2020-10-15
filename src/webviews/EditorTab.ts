@@ -2,6 +2,8 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import getNonce from '../utils/getNonce';
 
+type VisibleViewsConfig = 'text' | 'form' | 'both';
+
 interface EditorTabProps {
   extensionPath: string;
   platform: string;
@@ -21,6 +23,8 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
     return webview.asWebviewUri(vscodeUri);
   };
 
+  const config = vscode.workspace.getConfiguration('commit-message-editor');
+  const visibleViews: VisibleViewsConfig = config.get('view.visibleViews') || 'both';
   const { cspSource } = webview;
   const nonce = getNonce();
   const selectedTabIndex = defaultView === 'text' ? 0 : 1;
@@ -43,6 +47,64 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
     `;
   }
 
+  const textareaTabHeader = `<header slot="header">Edit as text</header>`;
+
+  const textareaTabContent = `
+    <section>
+      <div class="editor-toolbar">
+        <p><a href="#" title="Load configured template" id="load-template-button"><vscode-icon name="file"></vscode-icon>Load template</a></p>
+      </div>
+      <vscode-inputbox
+        multiline="true"
+        id="message-box"
+        lines="10"
+        maxlines="20"
+      ></vscode-inputbox>
+      <div class="buttons">
+        <vscode-button id="success-button-text">${saveAndClose ? 'Save and close' : 'Save'}</vscode-button>
+        <vscode-button id="cancel-button-text">Cancel</vscode-button>
+        <vscode-checkbox
+          label="Amend previous commit"
+          class="cb-amend"
+          id="text-amend-checkbox"
+        ></vscode-checkbox>
+      </div>
+      ${recentCommitsTemplate}
+    </section>
+  `;
+
+  const formTabHeader = `<header slot="header">Edit as form</header>`;
+
+  const formTabContent = `
+    <section>
+      <div id="edit-form"></div>
+      <div class="buttons">
+        <vscode-button id="success-button-form">${saveAndClose ? 'Save and close' : 'Save'}</vscode-button>
+        <vscode-button id="cancel-button-form">Cancel</vscode-button>
+        <vscode-checkbox
+          label="Amend previous commit"
+          class="cb-amend"
+          id="form-amend-checkbox"
+        ></vscode-checkbox>
+      </div>
+    </section>
+  `;
+
+  let content = '';
+
+  if (visibleViews === 'form') {
+    content += formTabContent;
+  } else if (visibleViews === 'text') {
+    content += textareaTabContent;
+  } else {
+    content += `<vscode-tabs id="main-tabs" selectedindex="${selectedTabIndex}">`;
+    content += textareaTabHeader;
+    content += textareaTabContent;
+    content += formTabHeader;
+    content += formTabContent;
+    content += '</vscode-tabs>'
+  }
+
   const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -62,43 +124,7 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
           <div class="col">
             <section class="section section--commit-message">
               <div class="editor-wrapper">
-                <vscode-tabs id="main-tabs" selectedindex="${selectedTabIndex}">
-                  <header slot="header">Edit as text</header>
-                  <section>
-                    <div class="editor-toolbar">
-                      <p><a href="#" title="Load configured template" id="load-template-button"><vscode-icon name="file"></vscode-icon>Load template</a></p>
-                    </div>
-                    <vscode-inputbox
-                      multiline="true"
-                      id="message-box"
-                      lines="10"
-                      maxlines="20"
-                    ></vscode-inputbox>
-                    <div class="buttons">
-                      <vscode-button id="success-button-text">${saveAndClose ? 'Save and close' : 'Save'}</vscode-button>
-                      <vscode-button id="cancel-button-text">Cancel</vscode-button>
-                      <vscode-checkbox
-                        label="Amend previous commit"
-                        class="cb-amend"
-                        id="text-amend-checkbox"
-                      ></vscode-checkbox>
-                    </div>
-                    ${recentCommitsTemplate}
-                  </section>
-                  <header slot="header">Edit as form</header>
-                  <section>
-                    <div id="edit-form"></div>
-                    <div class="buttons">
-                      <vscode-button id="success-button-form">${saveAndClose ? 'Save and close' : 'Save'}</vscode-button>
-                      <vscode-button id="cancel-button-form">Cancel</vscode-button>
-                      <vscode-checkbox
-                        label="Amend previous commit"
-                        class="cb-amend"
-                        id="form-amend-checkbox"
-                      ></vscode-checkbox>
-                    </div>
-                  </section>
-                </vscode-tabs>
+                ${content}
               </div>
             </section>
           </div>

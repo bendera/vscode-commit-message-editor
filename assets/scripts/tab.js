@@ -97,6 +97,10 @@
   }
 
   const buildForm = (tokens) => {
+    if (!elEditForm) {
+      return;
+    }
+
     formBuilder.setFields(tokens);
     formBuilder.setSaveFieldValueCallback(saveFieldValueCallback);
 
@@ -111,7 +115,7 @@
   const prefillInputboxForAmend = () => {
     const state = vscode.getState() || {};
 
-    if (elTextAmendCheckbox.checked && elMessageBox.value === '' && state.commits && state.commits.length > 0) {
+    if (elTextAmendCheckbox && elTextAmendCheckbox.checked && elMessageBox.value === '' && state.commits && state.commits.length > 0) {
       elMessageBox.value = state.commits[0].message;
     }
   }
@@ -125,23 +129,49 @@
     });
   }
 
+  const copyFromSCMInputBox = (data) => {
+    if (!elMessageBox) {
+      return;
+    }
+
+    elMessageBox.value = data.payload.inputBoxValue;
+    saveMessageBoxValue();
+  }
+
+  const recentCommitMessages = (data) => {
+    if (!elRecentCommitsWrapper || !elRecentCommitsList) {
+      return;
+    }
+
+    const transformedList = transformCommitList(data.payload.commits);
+    const state = vscode.getState() || {};
+
+    elRecentCommitsWrapper.classList.remove('is-loading');
+    elRecentCommitsList.data = transformedList;
+    state.commits = data.payload.commits;
+    vscode.setState(state);
+    prefillInputboxForAmend();
+  }
+
+  const amendPerformed = () => {
+    if (elTextAmendCheckbox) {
+      elTextAmendCheckbox.checked = false;
+    }
+
+    if (elFormAmendCheckbox) {
+      elFormAmendCheckbox.checked = false;
+    }
+  }
+
   window.addEventListener('message', event => {
     const { data } = event;
 
     switch (data.command) {
       case 'copyFromSCMInputBox':
-        elMessageBox.value = data.payload.inputBoxValue;
-        saveMessageBoxValue();
+        copyFromSCMInputBox(data);
         break;
       case 'recentCommitMessages':
-        const transformedList = transformCommitList(data.payload.commits);
-        const state = vscode.getState() || {};
-
-        elRecentCommitsWrapper.classList.remove('is-loading');
-        elRecentCommitsList.data = transformedList;
-        state.commits = data.payload.commits;
-        vscode.setState(state);
-        prefillInputboxForAmend();
+        recentCommitMessages(data);
         break;
       case 'receiveConfig':
         config = { ...data.payload };
@@ -154,44 +184,51 @@
         prefillInputboxForAmend();
         break;
       case 'amendPerformed':
-        elTextAmendCheckbox.checked = false;
-        elFormAmendCheckbox.checked = false;
+        amendPerformed();
       default:
         break;
     }
   });
 
-  elTabs.addEventListener('vsc-select', (event) => {
-    const state = vscode.getState() || {};
+  if (elTabs) {
+    elTabs.addEventListener('vsc-select', (event) => {
+      const state = vscode.getState() || {};
 
-    state.tabs = state.tabs || {};
-    state.tabs = event.detail.selectedIndex;
-    vscode.setState(state);
-  });
+      state.tabs = state.tabs || {};
+      state.tabs = event.detail.selectedIndex;
+      vscode.setState(state);
+    });
+  }
 
-  elMessageBox.addEventListener('vsc-input', () => {
-    saveMessageBoxValue();
-  });
+  if (elMessageBox) {
+    elMessageBox.addEventListener('vsc-input', () => {
+      saveMessageBoxValue();
+    });
+  }
 
-  elTextSuccessButton.addEventListener('click', event => {
-    event.stopPropagation();
-    event.preventDefault();
+  if (elTextSuccessButton) {
+    elTextSuccessButton.addEventListener('click', event => {
+      event.stopPropagation();
+      event.preventDefault();
 
-    submitMessageToHost(elMessageBox.value, elTextAmendCheckbox.checked);
+      submitMessageToHost(elMessageBox.value, elTextAmendCheckbox.checked);
 
-    if (config.saveAndClose) {
+      if (config.saveAndClose) {
+        closeTab();
+      }
+    });
+  }
+
+  if (elTextCancelButton) {
+    elTextCancelButton.addEventListener('click', event => {
+      event.stopPropagation();
+      event.preventDefault();
+
       closeTab();
-    }
-  });
+    });
+  }
 
-  elTextCancelButton.addEventListener('click', event => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    closeTab();
-  });
-
-  elFormSuccessButton.addEventListener('click', event => {
+  elFormSuccessButton && elFormSuccessButton.addEventListener('click', event => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -205,29 +242,35 @@
     }
   });
 
-  elFormCancelButton.addEventListener('click', event => {
+  elFormCancelButton && elFormCancelButton.addEventListener('click', event => {
     event.stopPropagation();
     event.preventDefault();
 
     closeTab();
   });
 
-  elRecentCommitsList.addEventListener('vsc-select', (event) => {
-    elMessageBox.value = event.detail.value;
-    saveMessageBoxValue();
-  });
+  if (elRecentCommitsList) {
+    elRecentCommitsList.addEventListener('vsc-select', (event) => {
+      elMessageBox.value = event.detail.value;
+      saveMessageBoxValue();
+    });
+  }
 
-  elLoadTemplateButton.addEventListener('click', (event) => {
-    event.stopPropagation();
-    event.preventDefault();
+  if (elLoadTemplateButton) {
+    elLoadTemplateButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
 
-    elMessageBox.value = config.staticTemplate.join('\n');
-    saveMessageBoxValue();
-  });
+      elMessageBox.value = config.staticTemplate.join('\n');
+      saveMessageBoxValue();
+    });
+  }
 
-  elTextAmendCheckbox.addEventListener('vsc-change', () => {
-    prefillInputboxForAmend();
-  });
+  if (elTextAmendCheckbox) {
+    elTextAmendCheckbox.addEventListener('vsc-change', () => {
+      prefillInputboxForAmend();
+    });
+  }
 
   setActiveTab();
   getMessageBoxValue();

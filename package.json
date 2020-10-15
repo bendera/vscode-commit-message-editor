@@ -201,6 +201,15 @@
             "form"
           ]
         },
+        "commit-message-editor.view.visibleViews": {
+          "type": "string",
+          "default": "both",
+          "enum": [
+            "text",
+            "form",
+            "both"
+          ]
+        },
         "commit-message-editor.view.showRecentCommits": {
           "type": "boolean",
           "description": "Show recent commits in the main view.",
