@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
+      - run: npm ci
       - uses: ./.github-actions/vsce
         with:
           args: "publish -p $VSCE_TOKEN"
