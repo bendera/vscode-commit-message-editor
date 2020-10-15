@@ -1,0 +1,8 @@
+name: 'VSCE'
+description: 'Run VSCE in container'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: package
+  color: green

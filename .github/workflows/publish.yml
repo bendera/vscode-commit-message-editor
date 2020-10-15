@@ -12,10 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - run: npm install
+      - uses: ./.github-actions/vsce
         with:
-          node-version: '14.x'
-      - run: npm i -g vsce
-      - run: npm ci
-      - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
+          args: "publish -p $VSCE_TOKEN"
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
