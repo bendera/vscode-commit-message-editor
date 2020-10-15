@@ -1,4 +1,4 @@
-name: Publish to VSCode Marketplace
+name: Publish to Marketplace v3
 
 on:
   push:
