@@ -1,3 +1,5 @@
+.github
+.github-actions
 .vscode/**
 .vscode-test/**
 out/test/**
