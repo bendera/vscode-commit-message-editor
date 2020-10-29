@@ -32,6 +32,7 @@ This extension contributes the following settings:
 - `commit-message-editor.view.defaultView`: Default view of the editor (textarea or form)
 - `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
 - `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
+- `commit-message-editor.view.visibleViews`: Which tab(s) should be visible: text, form or both
 
 ## Customizing the commit message form
 
