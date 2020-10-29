@@ -13,7 +13,7 @@ Edit commit messages in a convenient way.
 
 ![Preview](preview1.gif)
 
-The factory settings use the [commit template](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines) of Angular.
+The factory settings follows the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
 ![Preview](preview2.gif)
 

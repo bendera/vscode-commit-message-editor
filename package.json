@@ -118,6 +118,10 @@
                   "description": "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
                 },
                 {
+                  "label": "chore",
+                  "description": "Updating grunt tasks etc; no production code change"
+                },
+                {
                   "label": "ci",
                   "description": "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
                 },
@@ -140,6 +144,9 @@
                 {
                   "label": "refactor",
                   "description": "A code change that neither fixes a bug nor adds a feature"
+                },
+                {
+                  "label": "revert"
                 },
                 {
                   "label": "style",
