@@ -1,11 +1,13 @@
 # Welcome to your VS Code Extension
 
-## Publish (self note)
+## How to publish (self note)
 
-```
-vsce package
-vsce publish [major | minor | patch]
-git tag <tagname>
+```bash
+# Bump a package version. It writes the modified data to the package.json and creates a new tag.
+npm version [<newversion> | major | minor | patch]
+
+# Publish the created tag. The new version will be automatically published 
+# to Marketplace by Github Actions.
 git push origin <tagname>
 ```
 
