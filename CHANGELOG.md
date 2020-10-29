@@ -4,6 +4,11 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.14.3] - 2020-10-29
+
+- The default config follows the Conventional Commits format
+- Uses built-in icons in the menu header
+
 ## [0.14.0] - 2020-10-15
 
 - Add ability to disable form or textarea view
