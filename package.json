@@ -35,10 +35,7 @@
         "command": "commitMessageEditor.openEditor",
         "title": "Open the commit message editor",
         "category": "Git",
-        "icon": {
-          "light": "assets/images/icons/light/edit.svg",
-          "dark": "assets/images/icons/dark/edit.svg"
-        }
+        "icon": "$(edit)"
       },
       {
         "command": "commitMessageEditor.copyFromSCMInputBox",
