@@ -20,7 +20,13 @@ class GitService {
   }
 
   private getSelectedRepository(repos: Repository[]): Repository | undefined {
-    return repos.find((repo: Repository) => repo.ui.selected);
+    const selected = repos.find((repo: Repository) => repo.ui.selected);
+
+    if (selected) {
+      return selected;
+    }
+
+    return repos[0];
   }
 
   public isAvailable(): boolean {
