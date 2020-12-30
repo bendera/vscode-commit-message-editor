@@ -250,6 +250,7 @@
     "vscode-test": "^1.4.0"
   },
   "dependencies": {
-    "@bendera/vscode-webview-elements": "^0.1.9"
+    "@bendera/vscode-webview-elements": "^0.1.11-alpha.4",
+    "vscode-codicons": "0.0.13"
   }
 }

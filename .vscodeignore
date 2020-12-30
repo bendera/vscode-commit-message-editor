@@ -13,11 +13,9 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 node_modules
-!node_modules/@bendera/vscode-webview-elements/dist/vscwe.js
-!node_modules/@bendera/vscode-webview-elements/dist/icons/**/check.svg
-!node_modules/@bendera/vscode-webview-elements/dist/icons/**/file.svg
-!node_modules/@bendera/vscode-webview-elements/dist/icons/**/git-commit.svg
-assets/vsc-we/icons/**/*.svg
+!node_modules/@bendera/vscode-webview-elements/dist/bundled.js
+!node_modules/vscode-codicons/dist/codicon.css
+!node_modules/vscode-codicons/dist/codicon.ttf
 preview1.gif
 preview2.gif
 settings-screenshot.png
