@@ -12,7 +12,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-icon';
 
 @customElement('cme-recent-commits')
 export class RecentCommits extends LitElement {
-  @property({type: Array}) data: string[] = [];
+  @property({type: Array}) data: {label: string; value: string}[] = [];
   @property({type: Boolean}) loading = false;
   @property({type: Number}) maxItems = 10;
 
@@ -82,11 +82,12 @@ export class RecentCommits extends LitElement {
   }
 
   render(): TemplateResult {
-    const treeData = this.data.map((el) => ({
+    const treeData = this.data.map(({label, value}) => ({
       icons: {
         leaf: 'git-commit',
       },
-      label: el,
+      label,
+      value,
     }));
 
     const placeholderItems = Array(this.maxItems).fill(

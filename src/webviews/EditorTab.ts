@@ -117,10 +117,11 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
       />
       <title>Commit message editor</title>
       <link rel="stylesheet" href="${assetUri('assets/styles/tab.css')}" nonce="${nonce}">
-      <link rel="stylesheet" href="${assetUri('node_modules/vscode-codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
+      <link rel="stylesheet" href="${assetUri('frontend/node_modules/vscode-codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
+      <script src="${assetUri('frontend/dist/bundled.js')}" nonce="${nonce}" type="module" async></script>
     </head>
     <body class="${platform}">
-      <div class="content">
+      <!--<div class="content">
         <div class="layout">
           <div class="col">
             <section class="section section--commit-message">
@@ -134,7 +135,9 @@ const EditorTab = ({ extensionPath, platform, webview, defaultView, showRecentCo
       <script src="${assetUri('node_modules/@bendera/vscode-webview-elements/dist/bundled.js')}" nonce="${nonce}" type="module"></script>
       <script src="${assetUri('assets/scripts/FormBuilder.js')}" nonce="${nonce}"></script>
       <script src="${assetUri('assets/scripts/TemplateParser.js')}" nonce="${nonce}"></script>
-      <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>
+      <script src="${assetUri('assets/scripts/tab.js')}" nonce="${nonce}"></script>-->
+      <vscode-cme-editor></vscode-cme-editor>
+      <vscode-icon name="bug"></vscode-icon>
     </body>
     </html>
   `;
