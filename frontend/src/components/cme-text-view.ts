@@ -6,22 +6,48 @@ import {
   CSSResult,
   TemplateResult,
   property,
+  internalProperty,
 } from 'lit-element';
 import {nothing} from 'lit-html';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
+import {getAPI} from '../utils/VSCodeAPIService';
 import {Commit} from '../@types/git';
 import './cme-recent-commits';
+
+const vscode = getAPI();
 
 @customElement('cme-text-view')
 export class TextView extends LitElement {
   @property({type: Boolean}) saveAndClose = false;
-  @property({type: Boolean}) showRecentCommits = true;
-  @property({type: Array}) commits: Commit[] = [];
 
-  private _vscode = window.acquireVsCodeApi();
+  @property({type: Boolean}) showRecentCommits = true;
+
+  @internalProperty()
+  private _isCommitsLoading = true;
+
+  @internalProperty()
+  private _commits: {label: string; value: string}[] = [];
+
+  @internalProperty()
+  private _staticTemplate = '';
+
+  private _getRecentCommits() {
+    const state = vscode.getState() || {};
+
+    if (state.commits) {
+      this._isCommitsLoading = false;
+      this._commits = this._transformCommitList(state.commits);
+    } else {
+      this._isCommitsLoading = true;
+
+      vscode.postMessage({
+        command: 'requestRecentCommits',
+      });
+    }
+  }
 
   private _transformCommitList(commits: Commit[]) {
     return commits.map((item) => {
@@ -36,9 +62,24 @@ export class TextView extends LitElement {
   }
 
   private _handleCancelButtonClick() {
-    this._vscode.postMessage({
+    vscode.postMessage({
       command: 'closeTab',
     });
+  }
+
+  private _handlePostMessages(ev: MessageEvent<MessageEventData>) {
+    const {data} = ev;
+
+    if (data.command === 'recentCommitMessages') {
+      this._commits = this._transformCommitList(data.payload.commits);
+      this._isCommitsLoading = false;
+    }
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    window.addEventListener('message', this._handlePostMessages.bind(this));
+    this._getRecentCommits();
   }
 
   static get styles(): CSSResult {
@@ -96,9 +137,11 @@ export class TextView extends LitElement {
     let recentCommits: TemplateResult | typeof nothing = nothing;
 
     if (this.showRecentCommits) {
-      const commits = this._transformCommitList(this.commits);
       recentCommits = html`
-        <cme-recent-commits .data="${commits}"></cme-recent-commits>
+        <cme-recent-commits
+          .data="${this._commits}"
+          ?loading="${this._isCommitsLoading}"
+        ></cme-recent-commits>
       `;
     }
 
@@ -111,10 +154,11 @@ export class TextView extends LitElement {
         </p>
       </div>
       <vscode-inputbox
-        multiline="true"
+        ?multiline="${true}"
         id="message-box"
         lines="10"
         maxlines="20"
+        value="${this._staticTemplate}"
       ></vscode-inputbox>
       <div class="buttons">
         <vscode-button id="success-button-text"

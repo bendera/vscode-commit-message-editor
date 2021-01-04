@@ -1,12 +1,12 @@
-import {RecentCommits} from '../components/cme-recent-commits';
+import {Editor} from '../../components/cme-editor';
 // import {expect, fixture, html} from '@open-wc/testing';
 
 const assert = chai.assert;
 
-suite('cme-recent-commits', () => {
+suite('cme-editor', () => {
   test('is defined', () => {
-    const el = document.createElement('cme-recent-commits');
-    assert.instanceOf(el, RecentCommits);
+    const el = document.createElement('cme-editor');
+    assert.instanceOf(el, Editor);
   });
 
   /* test('renders with default values', async () => {
