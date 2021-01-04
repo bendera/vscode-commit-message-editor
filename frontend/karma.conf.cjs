@@ -18,6 +18,7 @@ module.exports = (config) => {
       esm: {
         nodeResolve: true,
       },
+      customContextFile: 'context.html'
     })
   );
   return config;
