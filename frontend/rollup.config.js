@@ -18,7 +18,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 
 export default {
-  input: 'dist/components/cme-editor.js',
+  input: 'dist/pages/cme-editor-page.js',
   output: {
     file: 'dist/bundled.js',
     format: 'esm',
@@ -29,7 +29,10 @@ export default {
     }
   },
   plugins: [
-    replace({'Reflect.decorate': 'undefined'}),
+    replace({
+      'Reflect.decorate': 'undefined',
+      'process.env.NODE_ENV': '\'production\'',
+    }),
     resolve(),
     terser({
       module: true,
