@@ -9,21 +9,24 @@ import {
   internalProperty,
 } from 'lit-element';
 import {nothing} from 'lit-html';
+import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import {getAPI} from '../utils/VSCodeAPIService';
 import {Commit} from '../@types/git';
+import store, {RootState} from '../store/store';
 import './cme-recent-commits';
 
 const vscode = getAPI();
 
 @customElement('cme-text-view')
-export class TextView extends LitElement {
+export class TextView extends connect(store)(LitElement) {
   @property({type: Boolean}) saveAndClose = false;
 
-  @property({type: Boolean}) showRecentCommits = true;
+  @internalProperty()
+  private _showRecentCommits = false;
 
   @internalProperty()
   private _isCommitsLoading = true;
@@ -32,6 +35,12 @@ export class TextView extends LitElement {
   private _commits: {label: string; value: string}[] = [];
 
   @internalProperty()
+  private _saveAndClose = false;
+
+  @internalProperty()
+  private _inputBoxValue = '';
+
+  private _scmInputBoxValue = '';
   private _staticTemplate = '';
 
   private _getRecentCommits() {
@@ -61,18 +70,44 @@ export class TextView extends LitElement {
     });
   }
 
+  private _handleLoadTemplateButtonClick(ev: MouseEvent) {
+    ev.stopPropagation();
+    ev.preventDefault();
+    this._inputBoxValue = this._staticTemplate;
+  }
+
   private _handleCancelButtonClick() {
     vscode.postMessage({
       command: 'closeTab',
     });
   }
 
-  private _handlePostMessages(ev: MessageEvent<MessageEventData>) {
+  private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
     const {data} = ev;
 
     if (data.command === 'recentCommitMessages') {
       this._commits = this._transformCommitList(data.payload.commits);
       this._isCommitsLoading = false;
+    }
+  }
+
+  private _handleSelect(ev: CustomEvent) {
+    this._inputBoxValue = ev.detail;
+  }
+
+  stateChanged(state: RootState): void {
+    const {config} = state;
+
+    this._saveAndClose = config.view.saveAndClose;
+    this._staticTemplate = config.staticTemplate.join('\n');
+    this._showRecentCommits = config.view.showRecentCommits;
+
+    if (this._scmInputBoxValue !== state.scmInputBoxValue) {
+      this._scmInputBoxValue = state.scmInputBoxValue;
+
+      if (this._inputBoxValue === '' && this._scmInputBoxValue !== '') {
+        this._inputBoxValue = this._scmInputBoxValue;
+      }
     }
   }
 
@@ -136,11 +171,12 @@ export class TextView extends LitElement {
   render(): TemplateResult {
     let recentCommits: TemplateResult | typeof nothing = nothing;
 
-    if (this.showRecentCommits) {
+    if (this._showRecentCommits) {
       recentCommits = html`
         <cme-recent-commits
           .data="${this._commits}"
           ?loading="${this._isCommitsLoading}"
+          @cme-select="${this._handleSelect}"
         ></cme-recent-commits>
       `;
     }
@@ -148,7 +184,11 @@ export class TextView extends LitElement {
     return html`
       <div class="editor-toolbar">
         <p>
-          <a href="#" title="Load configured template">
+          <a
+            href="#"
+            title="Load configured template"
+            @click="${this._handleLoadTemplateButtonClick}"
+          >
             <vscode-icon name="file"></vscode-icon>Load template
           </a>
         </p>
@@ -158,11 +198,11 @@ export class TextView extends LitElement {
         id="message-box"
         lines="10"
         maxlines="20"
-        value="${this._staticTemplate}"
+        value="${this._inputBoxValue}"
       ></vscode-inputbox>
       <div class="buttons">
         <vscode-button id="success-button-text"
-          >${this.saveAndClose ? 'Save and close' : 'Save'}</vscode-button
+          >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button
         >
         <vscode-button
           id="cancel-button-text"
