@@ -16,6 +16,12 @@ export class RecentCommits extends LitElement {
   @property({type: Boolean}) loading = false;
   @property({type: Number}) maxItems = 10;
 
+  private _handleItemSelect(ev: CustomEvent) {
+    this.dispatchEvent(new CustomEvent('cme-select', {
+      detail: ev.detail.value,
+    }));
+  }
+
   static get styles(): CSSResult {
     return css`
       @keyframes pulse {
@@ -99,7 +105,11 @@ export class RecentCommits extends LitElement {
       ${
         this.loading
           ? html`<div class="placeholder">${placeholderItems}</div>`
-          : html`<vscode-tree tabindex="0" .data="${treeData}"></vscode-tree>`
+          : html`<vscode-tree
+              tabindex="0"
+              .data="${treeData}"
+              @vsc-select="${this._handleItemSelect}"
+            ></vscode-tree>`
       }
       </div>
     `;

@@ -5,7 +5,6 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  property,
   internalProperty,
 } from 'lit-element';
 import {nothing} from 'lit-html';
@@ -18,13 +17,12 @@ import {getAPI} from '../utils/VSCodeAPIService';
 import {Commit} from '../@types/git';
 import store, {RootState} from '../store/store';
 import './cme-recent-commits';
+import { recentCommitsRequest } from '../store/actions';
 
 const vscode = getAPI();
 
 @customElement('cme-text-view')
 export class TextView extends connect(store)(LitElement) {
-  @property({type: Boolean}) saveAndClose = false;
-
   @internalProperty()
   private _showRecentCommits = false;
 
@@ -51,10 +49,7 @@ export class TextView extends connect(store)(LitElement) {
       this._commits = this._transformCommitList(state.commits);
     } else {
       this._isCommitsLoading = true;
-
-      vscode.postMessage({
-        command: 'requestRecentCommits',
-      });
+      store.dispatch(recentCommitsRequest());
     }
   }
 
@@ -70,6 +65,15 @@ export class TextView extends connect(store)(LitElement) {
     });
   }
 
+  private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
+    const {data} = ev;
+
+    if (data.command === 'recentCommitMessages') {
+      this._commits = this._transformCommitList(data.payload.commits);
+      this._isCommitsLoading = false;
+    }
+  }
+
   private _handleLoadTemplateButtonClick(ev: MouseEvent) {
     ev.stopPropagation();
     ev.preventDefault();
@@ -82,12 +86,11 @@ export class TextView extends connect(store)(LitElement) {
     });
   }
 
-  private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
-    const {data} = ev;
+  private _handleCheckBoxChange(ev: CustomEvent) {
+    const { checked } = ev.detail;
 
-    if (data.command === 'recentCommitMessages') {
-      this._commits = this._transformCommitList(data.payload.commits);
-      this._isCommitsLoading = false;
+    if (checked) {
+      console.log('checked');
     }
   }
 
@@ -213,6 +216,7 @@ export class TextView extends connect(store)(LitElement) {
           label="Amend previous commit"
           class="cb-amend"
           id="text-amend-checkbox"
+          @vsc-change="${this._handleCheckBoxChange}"
         ></vscode-checkbox>
       </div>
       ${recentCommits}

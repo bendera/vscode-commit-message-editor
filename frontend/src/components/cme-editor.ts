@@ -38,3 +38,9 @@ export class Editor extends LitElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'cme-editor': Editor;
+  }
+}

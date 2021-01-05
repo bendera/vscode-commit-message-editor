@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const commits = [
   {
     hash: '98106c48a07d4d07f0f71b4db9b3ff156f223339',
@@ -95,22 +97,148 @@ const commits = [
   },
 ];
 
+const config = {
+  confirmAmend: true,
+  dynamicTemplate: [
+    '{type}{scope}: {description}',
+    '',
+    '{body}',
+    '',
+    '{breaking_change}{footer}',
+  ],
+  staticTemplate: [
+    'feat: Short description',
+    '',
+    'Message body',
+    '',
+    'Message footer',
+  ],
+  tokens: [
+    {
+      label: 'Type',
+      name: 'type',
+      type: 'enum',
+      options: [
+        {label: '---', value: ''},
+        {
+          label: 'build',
+          description:
+            'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
+        },
+        {
+          label: 'chore',
+          description: 'Updating grunt tasks etc; no production code change',
+        },
+        {
+          label: 'ci',
+          description:
+            'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
+        },
+        {label: 'docs', description: 'Documentation only changes'},
+        {label: 'feat', description: 'A new feature'},
+        {label: 'fix', description: 'A bug fix'},
+        {
+          label: 'perf',
+          description: 'A code change that improves performance',
+        },
+        {
+          label: 'refactor',
+          description:
+            'A code change that neither fixes a bug nor adds a feature',
+        },
+        {label: 'revert'},
+        {
+          label: 'style',
+          description:
+            'Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
+        },
+        {
+          label: 'test',
+          description: 'Adding missing tests or correcting existing tests',
+        },
+      ],
+      description: 'Type of changes',
+    },
+    {
+      label: 'Scope',
+      name: 'scope',
+      description:
+        'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., <code>feat(parser): add ability to parse arrays</code>.',
+      type: 'text',
+      multiline: false,
+      prefix: '(',
+      suffix: ')',
+    },
+    {
+      label: 'Short description',
+      name: 'description',
+      description: 'Short description in the subject line.',
+      type: 'text',
+      multiline: false,
+    },
+    {
+      label: 'Body',
+      name: 'body',
+      description: 'Optional body',
+      type: 'text',
+      multiline: true,
+    },
+    {
+      label: 'Breaking change',
+      name: 'breaking_change',
+      type: 'boolean',
+      value: 'BREAKING CHANGE: ',
+      default: false,
+    },
+    {
+      label: 'Footer',
+      name: 'footer',
+      description: 'Optional footer',
+      type: 'text',
+      multiline: true,
+    },
+  ],
+  view: {
+    defaultView: 'text',
+    visibleViews: 'both',
+    showRecentCommits: true,
+    saveAndClose: true,
+  },
+};
 
-/* eslint-disable no-undef */
+const submitFromHostToWebview = (data) => {
+  window.postMessage(data);
+  console.log('postmessage: host > webview', data);
+};
+
+const recentCommitMessages = () => {
+  setTimeout(() => {
+    submitFromHostToWebview({
+      command: 'recentCommitMessages',
+      payload: {
+        commits,
+      },
+    });
+  }, 2000);
+};
+
+const receiveConfig = () => {
+  submitFromHostToWebview({
+    command: 'receiveConfig',
+    payload: config,
+  });
+};
+
 window.acquireVsCodeApi = () => ({
   postMessage(msg) {
-    console.log('postmessage', msg);
+    console.log('postmessage: webview > host', msg);
 
-    switch(msg.command) {
+    switch (msg.command) {
       case 'requestRecentCommits':
-        setTimeout(() => {
-          window.postMessage({
-            command: 'recentCommitMessages',
-            payload: {
-              commits,
-            },
-          });
-        }, 2000);
+        recentCommitMessages();
+        break;
+      case 'requestConfig':
+        receiveConfig();
         break;
     }
   },

@@ -13,9 +13,13 @@ declare global {
     payload?: any;
   }
 
-  type MessageEventCommand = 'copyFromSCMInputBox' | 'recentCommitMessages';
+  type MessageEventCommand =
+    | 'amendPerformed'
+    | 'copyFromSCMInputBox'
+    | 'recentCommitMessages'
+    | 'receiveConfig';
 
-  interface MessageEventData {
+  interface ReceivedMessageDO {
     command: MessageEventCommand;
     payload?: any;
   }
@@ -33,6 +37,26 @@ declare global {
     postMessage: (message: PostMessageDO) => void;
     getState: () => AppState;
     setState: (state: AppState) => void;
+  }
+
+  type TokenType = 'text' | 'boolean' | 'enum';
+
+  interface Token {
+    label: string;
+    name: string;
+  }
+
+  interface ExtensionConfig {
+    confirmAmend: boolean;
+    dynamicTemplate: string[];
+    staticTemplate: string[];
+    tokens: Token[];
+    view: {
+      defaultView: 'text' | 'form';
+      visibleViews: 'text' | 'form' | 'both';
+      showRecentCommits: boolean;
+      saveAndClose: boolean;
+    };
   }
 
   function acquireVsCodeApi(): VSCodeAPI;

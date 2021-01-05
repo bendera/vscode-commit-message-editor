@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>cme-editor</title>
+    <link rel="stylesheet" href="../node_modules/vscode-codicons/dist/codicon.css" id="vscode-codicon-stylesheet">
+    <link rel="stylesheet" href="../dev-assets/default-webview-styles.css" />
+    <link rel="stylesheet" href="../dev-assets/default-dark-theme.css" />
+    <link
+      rel="stylesheet"
+      href="../dev-assets/default-high-contrast-theme.css"
+    />
+    <link rel="stylesheet" href="../dev-assets/default-light-theme.css" />
+    <link rel="stylesheet" href="../dev-assets/theme-switcher.css" />
+    <script src="../dev-assets/preview-page.js"></script>
+    <script type="module" src="../dev-assets/vscodeApiMocked.js"></script>
+    <script type="module" src="../dist/pages/cme-editor-page.js"></script>
+  </head>
+  <body class="vscode-light">
+    <div class="theme-switcher">
+      <div class="theme-switcher-option light">
+        <button value="vscode-light" type="button">Light</button>
+      </div>
+      <div class="theme-switcher-option dark">
+        <button value="vscode-dark" type="button">Dark</button>
+      </div>
+      <div class="theme-switcher-option hc">
+        <button value="vscode-high-contrast" type="button">
+          High contrast
+        </button>
+      </div>
+    </div>
+    <cme-editor-page></cme-editor-page>
+    <div>
+      <button type="button" id="btCopy">Copy from SCM Inputbox</button>
+      <script>
+        (() => {
+          const bt = document.getElementById('btCopy');
+
+          bt.addEventListener('click', () =>{
+            window.postMessage({
+              command: 'copyFromSCMInputBox',
+              payload: 'Lorem ipsum dolor sit',
+            });
+          });
+        })();
+      </script>
+    </div>
+  </body>
+</html>

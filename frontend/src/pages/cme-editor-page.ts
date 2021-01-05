@@ -3,7 +3,8 @@ import {connect} from 'pwa-helpers';
 import {getAPI} from '../utils/VSCodeAPIService';
 import store from '../store/store';
 import '../components/cme-editor';
-import {copyFromSCMInputBox, receiveConfig} from '../store/actions';
+import {copyFromSCMInputBox, receiveConfig, recentCommitsReceived} from '../store/actions';
+import { Commit } from '../@types/git';
 
 const vscode = getAPI();
 
@@ -29,6 +30,9 @@ export class EditorPage extends connect(store)(LitElement) {
     switch (command) {
       case 'receiveConfig':
         store.dispatch(receiveConfig(payload as ExtensionConfig));
+        break;
+      case 'recentCommitMessages':
+        store.dispatch(recentCommitsReceived(payload as Commit[]));
         break;
       case 'copyFromSCMInputBox':
         store.dispatch(copyFromSCMInputBox(payload as string));
