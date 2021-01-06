@@ -34,15 +34,21 @@
     <cme-editor-page></cme-editor-page>
     <div>
       <button type="button" id="btCopy">Copy from SCM Inputbox</button>
+      <button type="button" id="btClearStorage">Clear localStorage</button>
       <script>
         (() => {
-          const bt = document.getElementById('btCopy');
+          const btCopy = document.getElementById('btCopy');
+          const btClearStorage = document.getElementById('btClearStorage');
 
-          bt.addEventListener('click', () =>{
+          btCopy.addEventListener('click', () =>{
             window.postMessage({
               command: 'copyFromSCMInputBox',
               payload: 'Lorem ipsum dolor sit',
             });
+          });
+
+          btClearStorage.addEventListener('click', () => {
+            window.localStorage.clear();
           });
         })();
       </script>

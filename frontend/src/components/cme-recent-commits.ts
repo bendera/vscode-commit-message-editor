@@ -12,14 +12,18 @@ import '@bendera/vscode-webview-elements/dist/vscode-icon';
 
 @customElement('cme-recent-commits')
 export class RecentCommits extends LitElement {
-  @property({type: Array}) data: {label: string; value: string}[] = [];
+  @property({type: Array}) data:
+    | {label: string; value: string}[]
+    | undefined = [];
   @property({type: Boolean}) loading = false;
   @property({type: Number}) maxItems = 10;
 
   private _handleItemSelect(ev: CustomEvent) {
-    this.dispatchEvent(new CustomEvent('cme-select', {
-      detail: ev.detail.value,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('cme-select', {
+        detail: ev.detail.value,
+      })
+    );
   }
 
   static get styles(): CSSResult {
@@ -88,13 +92,16 @@ export class RecentCommits extends LitElement {
   }
 
   render(): TemplateResult {
-    const treeData = this.data.map(({label, value}) => ({
-      icons: {
-        leaf: 'git-commit',
-      },
-      label,
-      value,
-    }));
+    const treeData =
+      this.data !== undefined
+        ? this.data.map(({label, value}) => ({
+            icons: {
+              leaf: 'git-commit',
+            },
+            label,
+            value,
+          }))
+        : [];
 
     const placeholderItems = Array(this.maxItems).fill(
       html`<div class="placeholder-item"></div>`

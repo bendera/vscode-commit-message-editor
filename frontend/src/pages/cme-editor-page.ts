@@ -1,23 +1,36 @@
 import {LitElement, html, customElement, TemplateResult} from 'lit-element';
 import {connect} from 'pwa-helpers';
 import {getAPI} from '../utils/VSCodeAPIService';
-import store from '../store/store';
+import store, {RootState} from '../store/store';
 import '../components/cme-editor';
-import {copyFromSCMInputBox, receiveConfig, recentCommitsReceived} from '../store/actions';
-import { Commit } from '../@types/git';
+import {
+  copyFromSCMInputBox,
+  receiveConfig,
+  recentCommitsReceived,
+  replaceState,
+} from '../store/actions';
 
 const vscode = getAPI();
 
 @customElement('cme-editor-page')
 export class EditorPage extends connect(store)(LitElement) {
+  constructor() {
+    super();
+
+    const initialState = vscode.getState();
+
+    if (initialState) {
+      store.dispatch(replaceState(initialState as RootState));
+    } else {
+      vscode.postMessage({
+        command: 'requestConfig',
+      });
+    }
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
-
     window.addEventListener('message', this._handlePostMessages.bind(this));
-
-    vscode.postMessage({
-      command: 'requestConfig',
-    });
   }
 
   render(): TemplateResult {

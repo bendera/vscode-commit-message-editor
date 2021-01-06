@@ -215,9 +215,7 @@ const recentCommitMessages = () => {
   setTimeout(() => {
     submitFromHostToWebview({
       command: 'recentCommitMessages',
-      payload: {
-        commits,
-      },
+      payload: commits,
     });
   }, 2000);
 };

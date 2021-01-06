@@ -13,13 +13,15 @@ import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
-import {getAPI} from '../utils/VSCodeAPIService';
-import {Commit} from '../@types/git';
 import store, {RootState} from '../store/store';
 import './cme-recent-commits';
-import { recentCommitsRequest } from '../store/actions';
-
-const vscode = getAPI();
+import {
+  closeTab,
+  confirmAmend,
+  copyToSCMInputBox,
+  recentCommitsRequest,
+  textareaValueChanged,
+} from '../store/actions';
 
 @customElement('cme-text-view')
 export class TextView extends connect(store)(LitElement) {
@@ -27,10 +29,10 @@ export class TextView extends connect(store)(LitElement) {
   private _showRecentCommits = false;
 
   @internalProperty()
-  private _isCommitsLoading = true;
+  private _isCommitsLoading = false;
 
   @internalProperty()
-  private _commits: {label: string; value: string}[] = [];
+  private _commits: {label: string; value: string}[] | undefined = undefined;
 
   @internalProperty()
   private _saveAndClose = false;
@@ -38,22 +40,14 @@ export class TextView extends connect(store)(LitElement) {
   @internalProperty()
   private _inputBoxValue = '';
 
-  private _scmInputBoxValue = '';
   private _staticTemplate = '';
+  private _amendCbChecked = false;
 
-  private _getRecentCommits() {
-    const state = vscode.getState() || {};
-
-    if (state.commits) {
-      this._isCommitsLoading = false;
-      this._commits = this._transformCommitList(state.commits);
-    } else {
-      this._isCommitsLoading = true;
-      store.dispatch(recentCommitsRequest());
+  private _transformCommitList(commits: Commit[] | undefined) {
+    if (!Array.isArray(commits)) {
+      return;
     }
-  }
 
-  private _transformCommitList(commits: Commit[]) {
     return commits.map((item) => {
       const {message} = item;
       const lines = message.split('\n');
@@ -65,37 +59,45 @@ export class TextView extends connect(store)(LitElement) {
     });
   }
 
-  private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
-    const {data} = ev;
-
-    if (data.command === 'recentCommitMessages') {
-      this._commits = this._transformCommitList(data.payload.commits);
-      this._isCommitsLoading = false;
-    }
-  }
-
   private _handleLoadTemplateButtonClick(ev: MouseEvent) {
     ev.stopPropagation();
     ev.preventDefault();
-    this._inputBoxValue = this._staticTemplate;
+    store.dispatch(textareaValueChanged(this._staticTemplate));
+  }
+
+  private _handleInputBoxChange(ev: CustomEvent) {
+    this._inputBoxValue = ev.detail;
+    store.dispatch(textareaValueChanged(this._inputBoxValue));
+  }
+
+  private _handleSuccessButtonClick() {
+    store.dispatch(copyToSCMInputBox(this._inputBoxValue));
+
+    if (this._amendCbChecked) {
+      store.dispatch(confirmAmend());
+    }
+
+    if (this._saveAndClose) {
+      store.dispatch(closeTab());
+    }
   }
 
   private _handleCancelButtonClick() {
-    vscode.postMessage({
-      command: 'closeTab',
-    });
+    store.dispatch(closeTab());
   }
 
   private _handleCheckBoxChange(ev: CustomEvent) {
-    const { checked } = ev.detail;
+    const {checked} = ev.detail;
 
-    if (checked) {
-      console.log('checked');
+    this._amendCbChecked = checked;
+
+    if (checked && this._commits && this._commits.length > 0) {
+      store.dispatch(textareaValueChanged(this._commits[0].value));
     }
   }
 
   private _handleSelect(ev: CustomEvent) {
-    this._inputBoxValue = ev.detail;
+    store.dispatch(textareaValueChanged(ev.detail));
   }
 
   stateChanged(state: RootState): void {
@@ -104,20 +106,20 @@ export class TextView extends connect(store)(LitElement) {
     this._saveAndClose = config.view.saveAndClose;
     this._staticTemplate = config.staticTemplate.join('\n');
     this._showRecentCommits = config.view.showRecentCommits;
+    this._isCommitsLoading = state.recentCommitsLoading;
+    this._inputBoxValue = state.textareaValue;
 
-    if (this._scmInputBoxValue !== state.scmInputBoxValue) {
-      this._scmInputBoxValue = state.scmInputBoxValue;
-
-      if (this._inputBoxValue === '' && this._scmInputBoxValue !== '') {
-        this._inputBoxValue = this._scmInputBoxValue;
-      }
+    if (state.recentCommits !== undefined) {
+      this._commits = this._transformCommitList(state.recentCommits);
     }
   }
 
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener('message', this._handlePostMessages.bind(this));
-    this._getRecentCommits();
+
+    if (this._commits === undefined) {
+      store.dispatch(recentCommitsRequest());
+    }
   }
 
   static get styles(): CSSResult {
@@ -202,14 +204,13 @@ export class TextView extends connect(store)(LitElement) {
         lines="10"
         maxlines="20"
         value="${this._inputBoxValue}"
+        @vsc-change="${this._handleInputBoxChange}"
       ></vscode-inputbox>
       <div class="buttons">
-        <vscode-button id="success-button-text"
+        <vscode-button @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button
         >
-        <vscode-button
-          id="cancel-button-text"
-          @click="${this._handleCancelButtonClick}"
+        <vscode-button @click="${this._handleCancelButtonClick}"
           >Cancel</vscode-button
         >
         <vscode-checkbox

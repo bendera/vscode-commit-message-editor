@@ -1,6 +1,16 @@
-import {Commit} from './@types/git';
+import {RootState} from './store/store';
 
 declare global {
+  interface Commit {
+    readonly hash: string;
+    readonly message: string;
+    readonly parents: string[];
+    readonly authorDate: string;
+    readonly authorName: string;
+    readonly authorEmail?: string | undefined;
+    commitDate: string;
+  }
+
   type PostMessageCommand =
     | 'requestConfig'
     | 'closeTab'
@@ -24,19 +34,10 @@ declare global {
     payload?: any;
   }
 
-  interface AppState {
-    form?: {
-      [name: string]: string;
-    };
-    messageBox?: string;
-    commits?: Commit[];
-    tabs?: number;
-  }
-
   interface VSCodeAPI {
     postMessage: (message: PostMessageDO) => void;
-    getState: () => AppState;
-    setState: (state: AppState) => void;
+    getState: () => RootState;
+    setState: (state: RootState) => void;
   }
 
   type TokenType = 'text' | 'boolean' | 'enum';
