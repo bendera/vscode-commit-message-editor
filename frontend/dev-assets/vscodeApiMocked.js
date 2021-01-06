@@ -199,7 +199,7 @@ const config = {
     },
   ],
   view: {
-    defaultView: 'text',
+    defaultView: 'form',
     visibleViews: 'both',
     showRecentCommits: true,
     saveAndClose: true,

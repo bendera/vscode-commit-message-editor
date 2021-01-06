@@ -45,7 +45,23 @@ declare global {
   interface Token {
     label: string;
     name: string;
+    type: TokenType;
+    value: string;
+    options?: [
+      {
+        label: string;
+        value?: string;
+        description?: string;
+      }
+    ];
+    description?: string;
+    multiline?: boolean;
+    prefix?: '';
+    sufix?: '';
   }
+
+  type DefaultViewConfig = 'text' | 'form';
+  type VisibleViewsConfig = 'text' | 'form' | 'both';
 
   interface ExtensionConfig {
     confirmAmend: boolean;
@@ -53,8 +69,8 @@ declare global {
     staticTemplate: string[];
     tokens: Token[];
     view: {
-      defaultView: 'text' | 'form';
-      visibleViews: 'text' | 'form' | 'both';
+      defaultView: DefaultViewConfig;
+      visibleViews: VisibleViewsConfig;
       showRecentCommits: boolean;
       saveAndClose: boolean;
     };

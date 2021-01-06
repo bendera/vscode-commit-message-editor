@@ -5,16 +5,32 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
+  internalProperty,
 } from 'lit-element';
+import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-tabs';
 import './cme-text-view';
 import './cme-form-view';
+import store, {RootState} from '../store/store';
 
 @customElement('cme-editor')
-export class Editor extends LitElement {
+export class Editor extends connect(store)(LitElement) {
+  @internalProperty()
+  private _selectedIndex = 0;
+
+  @internalProperty()
+  private _visibleViews: VisibleViewsConfig = 'both';
+
+  stateChanged(state: RootState): void {
+    const {defaultView, visibleViews} = state.config.view;
+
+    this._selectedIndex = defaultView === 'text' ? 0 : 1;
+    this._visibleViews = visibleViews;
+  }
+
   static get styles(): CSSResult {
     return css`
-      vscode-tabs {
+      section {
         margin: 0 auto 30px;
         max-width: 763px;
         width: 100%;
@@ -23,19 +39,40 @@ export class Editor extends LitElement {
   }
 
   render(): TemplateResult {
-    // TODO: set selectedIndex dynamically
-    return html`
-      <vscode-tabs selectedIndex="0">
+    const textView = html`<section><cme-text-view></cme-text-view></section>`;
+    const formView = html`<section><cme-form-view></cme-form-view></section>`;
+
+    const tabs = html`
+      <vscode-tabs selectedIndex="${this._selectedIndex}">
         <header slot="header">Edit as text</header>
-        <section>
-          <cme-text-view></cme-text-view>
-        </section>
+        <section>${textView}</section>
         <header slot="header">Edit as form</header>
-        <section>
-          <cme-form-view></cme-form-view>
-        </section>
+        <section>${formView}</section>
       </vscode-tabs>
     `;
+
+    let content: TemplateResult;
+
+    if (this._visibleViews === 'text') {
+      content = textView;
+    } else if (this._visibleViews === 'form') {
+      content = formView;
+    } else {
+      content = tabs;
+    }
+
+    switch (this._visibleViews) {
+      case 'text':
+        content = textView;
+        break;
+      case 'form':
+        content = formView;
+        break;
+      default:
+        content = tabs;
+    }
+
+    return content;
   }
 }
 
