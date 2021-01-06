@@ -12,10 +12,10 @@ const store = configureStore({
 
 const saveState = () => {
   const vscode = getAPI();
-  const data = {...store.getState()}
+  const data = {...store.getState()};
   data.persisted = true;
   vscode.setState(data);
-}
+};
 
 store.subscribe(saveState);
 
@@ -28,4 +28,5 @@ export interface RootState {
   recentCommits?: Commit[];
   recentCommitsLoading: boolean;
   textareaValue: string;
+  tokenValues: {[name: string]: string};
 }

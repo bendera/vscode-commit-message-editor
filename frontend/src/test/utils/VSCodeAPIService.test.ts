@@ -25,6 +25,7 @@ suite('VSCodeAPIService', () => {
       recentCommits: [],
       recentCommitsLoading: false,
       textareaValue: '',
+      tokenValues: {},
     }
     const expected = {...state};
 

@@ -30,7 +30,7 @@ export class Editor extends connect(store)(LitElement) {
 
   static get styles(): CSSResult {
     return css`
-      section {
+      .wrapper {
         margin: 0 auto 30px;
         max-width: 763px;
         width: 100%;
@@ -43,12 +43,14 @@ export class Editor extends connect(store)(LitElement) {
     const formView = html`<section><cme-form-view></cme-form-view></section>`;
 
     const tabs = html`
-      <vscode-tabs selectedIndex="${this._selectedIndex}">
-        <header slot="header">Edit as text</header>
-        <section>${textView}</section>
-        <header slot="header">Edit as form</header>
-        <section>${formView}</section>
-      </vscode-tabs>
+      <div class="wrapper">
+        <vscode-tabs selectedIndex="${this._selectedIndex}">
+          <header slot="header">Edit as text</header>
+          <section>${textView}</section>
+          <header slot="header">Edit as form</header>
+          <section>${formView}</section>
+        </vscode-tabs>
+      </div>
     `;
 
     let content: TemplateResult;

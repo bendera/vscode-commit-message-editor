@@ -23,7 +23,12 @@ import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-input
 import {VscodeSelect} from '@bendera/vscode-webview-elements/dist/vscode-select';
 import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import store, {RootState} from '../store/store';
-import {confirmAmend, closeTab, copyToSCMInputBox} from '../store/actions';
+import {
+  confirmAmend,
+  closeTab,
+  copyToSCMInputBox,
+  formDataChanged,
+} from '../store/actions';
 
 type FormWidget = VscodeInputbox | VscodeSelect | VscodeCheckbox;
 
@@ -38,11 +43,15 @@ export class FormView extends connect(store)(LitElement) {
   @internalProperty()
   private _amendCbChecked = false;
 
+  @internalProperty()
+  private _tokenValues: {[name: string]: string} = {};
+
   stateChanged(state: RootState): void {
-    const {config} = state;
+    const {config, tokenValues} = state;
 
     this._saveAndClose = config.view.saveAndClose;
     this._tokens = config.tokens;
+    this._tokenValues = tokenValues;
   }
 
   private _renderFormItem(
@@ -86,6 +95,7 @@ export class FormView extends connect(store)(LitElement) {
       <vscode-select
         data-name="${name}"
         @vsc-change="${this._handleFormItemChange}"
+        value="${this._tokenValues[name] || ''}"
         >${options}</vscode-select
       >
     `;
@@ -101,6 +111,7 @@ export class FormView extends connect(store)(LitElement) {
         data-name="${name}"
         ?multiline="${multiline}"
         @vsc-change="${this._handleFormItemChange}"
+        value="${this._tokenValues[name] || ''}"
       ></vscode-inputbox>
     `;
 
@@ -109,6 +120,7 @@ export class FormView extends connect(store)(LitElement) {
 
   private _renderBooleanTypeWidget(token: Token) {
     const {description, label, name, value} = token;
+    const checked = this._tokenValues[name] && this._tokenValues[name] !== '' ? true : false;
 
     const checkbox = html`
       <vscode-checkbox
@@ -116,6 +128,7 @@ export class FormView extends connect(store)(LitElement) {
         value="${value}"
         label="${label}"
         @vsc-change="${this._handleFormItemChange}"
+        ?checked="${checked}"
       ></vscode-checkbox>
     `;
 
@@ -123,17 +136,26 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _handleFormItemChange(ev: CustomEvent) {
-    console.log(ev);
     const el = ev.target as FormWidget;
+    const {value} = el;
+    const name = el.dataset.name as string;
 
     if ((ev.target as Element).tagName.toLowerCase() === 'vscode-checkbox') {
       const {checked} = ev.detail;
 
-      if (checked) {
-        console.log(el.value);
-      }
+      store.dispatch(
+        formDataChanged({
+          name,
+          value: checked ? value : '',
+        })
+      );
     } else {
-      console.log(el.value);
+      store.dispatch(
+        formDataChanged({
+          name,
+          value,
+        })
+      );
     }
   }
 

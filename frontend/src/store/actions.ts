@@ -10,6 +10,7 @@ export const TEXTAREA_VALUE_CHANGED = 'TEXTAREA_VALUE_CHANGED';
 export const REPLACE_STATE = 'REPLACE_STATE';
 export const CONFIRM_AMEND = 'CONFIRM_AMEND';
 export const COPY_TO_SCM_INPUT_BOX = 'COPY_TO_SCM_INPUT_BOX';
+export const FORM_DATA_CHANGED = 'FORM_DATA_CHANGED';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
@@ -24,3 +25,6 @@ export const textareaValueChanged = createAction<string>(
 export const replaceState = createAction<RootState>(REPLACE_STATE);
 export const confirmAmend = createAction(CONFIRM_AMEND);
 export const copyToSCMInputBox = createAction<string>(COPY_TO_SCM_INPUT_BOX);
+export const formDataChanged = createAction<{[name: string]: string}>(
+  FORM_DATA_CHANGED
+);
