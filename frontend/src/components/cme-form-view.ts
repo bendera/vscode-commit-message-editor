@@ -19,8 +19,13 @@ import '@bendera/vscode-webview-elements/dist/vscode-form-item';
 import '@bendera/vscode-webview-elements/dist/vscode-form-label';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-select';
+import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
+import {VscodeSelect} from '@bendera/vscode-webview-elements/dist/vscode-select';
+import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import store, {RootState} from '../store/store';
 import {confirmAmend, closeTab, copyToSCMInputBox} from '../store/actions';
+
+type FormWidget = VscodeInputbox | VscodeSelect | VscodeCheckbox;
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -119,15 +124,16 @@ export class FormView extends connect(store)(LitElement) {
 
   private _handleFormItemChange(ev: CustomEvent) {
     console.log(ev);
+    const el = ev.target as FormWidget;
 
     if ((ev.target as Element).tagName.toLowerCase() === 'vscode-checkbox') {
       const {checked} = ev.detail;
 
       if (checked) {
-        console.log(ev.target.value);
+        console.log(el.value);
       }
     } else {
-      console.log(ev.target.value);
+      console.log(el.value);
     }
   }
 

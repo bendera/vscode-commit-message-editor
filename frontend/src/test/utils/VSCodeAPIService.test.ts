@@ -22,7 +22,7 @@ suite('VSCodeAPIService', () => {
         },
       },
       scmInputBoxValue: '',
-      recentCommits: undefined,
+      recentCommits: [],
       recentCommitsLoading: false,
       textareaValue: '',
     }
