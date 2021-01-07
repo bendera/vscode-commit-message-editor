@@ -57,7 +57,7 @@ declare global {
     description?: string;
     multiline?: boolean;
     prefix?: '';
-    sufix?: '';
+    suffix?: '';
   }
 
   type DefaultViewConfig = 'text' | 'form';

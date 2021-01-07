@@ -46,12 +46,45 @@ export class FormView extends connect(store)(LitElement) {
   @internalProperty()
   private _tokenValues: {[name: string]: string} = {};
 
+  private _dynamicTemplate: string[] = [];
+  private _tokenMap: {[name: string]: number} = {};
+
   stateChanged(state: RootState): void {
     const {config, tokenValues} = state;
+    const {view, tokens, dynamicTemplate} = config;
 
-    this._saveAndClose = config.view.saveAndClose;
-    this._tokens = config.tokens;
+    this._saveAndClose = view.saveAndClose;
+    this._tokens = tokens;
     this._tokenValues = tokenValues;
+
+    const tokenMap: {[name: string]: number} = {};
+
+    tokens.forEach((token, index) => {
+      tokenMap[token.name] = index;
+    });
+
+    this._tokenMap = tokenMap;
+    this._dynamicTemplate = dynamicTemplate;
+  }
+
+  private _compileTemplate() {
+    let compiled = this._dynamicTemplate.join('\n');
+    const tokenNames = Object.keys(this._tokenValues);
+
+    tokenNames.forEach((name) => {
+      let value = this._tokenValues[name];
+      const token = this._tokens[this._tokenMap[name]];
+      const prefix = token.prefix || '';
+      const suffix = token.suffix || '';
+      value = value ? prefix + value + suffix : '';
+
+      compiled = compiled.replace(new RegExp(`{${name}}`, 'g'), value);
+    });
+
+    compiled = compiled.replace(/\n{3,}/g, '\n');
+    compiled = compiled.replace(/\n+$/g, '');
+
+    return compiled;
   }
 
   private _renderFormItem(
@@ -120,7 +153,8 @@ export class FormView extends connect(store)(LitElement) {
 
   private _renderBooleanTypeWidget(token: Token) {
     const {description, label, name, value} = token;
-    const checked = this._tokenValues[name] && this._tokenValues[name] !== '' ? true : false;
+    const checked =
+      this._tokenValues[name] && this._tokenValues[name] !== '' ? true : false;
 
     const checkbox = html`
       <vscode-checkbox
@@ -137,7 +171,7 @@ export class FormView extends connect(store)(LitElement) {
 
   private _handleFormItemChange(ev: CustomEvent) {
     const el = ev.target as FormWidget;
-    const {value} = el;
+    const value = el.value;
     const name = el.dataset.name as string;
 
     if ((ev.target as Element).tagName.toLowerCase() === 'vscode-checkbox') {
@@ -160,7 +194,7 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _handleSuccessButtonClick() {
-    store.dispatch(copyToSCMInputBox('foo'));
+    store.dispatch(copyToSCMInputBox(this._compileTemplate()));
 
     if (this._amendCbChecked) {
       store.dispatch(confirmAmend());
