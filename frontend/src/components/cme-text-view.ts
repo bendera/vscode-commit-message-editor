@@ -32,7 +32,7 @@ export class TextView extends connect(store)(LitElement) {
   private _isCommitsLoading = false;
 
   @internalProperty()
-  private _commits: {label: string; value: string}[] | undefined = undefined;
+  private _commits: Commit[] | undefined = undefined;
 
   @internalProperty()
   private _saveAndClose = false;
@@ -110,7 +110,7 @@ export class TextView extends connect(store)(LitElement) {
     this._inputBoxValue = state.textareaValue;
 
     if (state.recentCommits !== undefined) {
-      this._commits = this._transformCommitList(state.recentCommits);
+      this._commits = state.recentCommits;
     }
   }
 
