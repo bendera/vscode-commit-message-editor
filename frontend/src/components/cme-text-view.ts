@@ -43,22 +43,6 @@ export class TextView extends connect(store)(LitElement) {
   private _staticTemplate = '';
   private _amendCbChecked = false;
 
-  private _transformCommitList(commits: Commit[] | undefined) {
-    if (!Array.isArray(commits)) {
-      return;
-    }
-
-    return commits.map((item) => {
-      const {message} = item;
-      const lines = message.split('\n');
-
-      return {
-        label: lines[0],
-        value: message,
-      };
-    });
-  }
-
   private _handleLoadTemplateButtonClick(ev: MouseEvent) {
     ev.stopPropagation();
     ev.preventDefault();
@@ -92,7 +76,7 @@ export class TextView extends connect(store)(LitElement) {
     this._amendCbChecked = checked;
 
     if (checked && this._commits && this._commits.length > 0) {
-      store.dispatch(textareaValueChanged(this._commits[0].value));
+      store.dispatch(textareaValueChanged(this._commits[0].message));
     }
   }
 

@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 module.exports = {
+  port: 8001,
   plugins: [
     {
       transform(context) {

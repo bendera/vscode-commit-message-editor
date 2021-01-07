@@ -10,9 +10,9 @@ import {
 import '@bendera/vscode-webview-elements/dist/vscode-tree';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 
-const transformCommitList = (commits: Commit[] | undefined) => {
+const transformCommitList = (commits: Commit[]) => {
   if (!Array.isArray(commits)) {
-    return;
+    return [];
   }
 
   return commits.map((item) => {
