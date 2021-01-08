@@ -16,6 +16,8 @@ node_modules
 !node_modules/@bendera/vscode-webview-elements/dist/bundled.js
 !node_modules/vscode-codicons/dist/codicon.css
 !node_modules/vscode-codicons/dist/codicon.ttf
+frontend/
+!frontend/dist/bundled.js
 preview1.gif
 preview2.gif
 settings-screenshot.png
