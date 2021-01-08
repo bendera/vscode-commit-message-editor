@@ -34,7 +34,6 @@
     "@types/vscode": "^1.38.0",
     "lit-element": "^2.4.0",
     "pwa-helpers": "^0.9.1",
-    "reselect": "^4.0.0",
     "vscode-codicons": "0.0.13"
   },
   "devDependencies": {
