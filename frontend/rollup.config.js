@@ -12,7 +12,9 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
+import vizualizer from 'rollup-plugin-visualizer';
 import filesize from 'rollup-plugin-filesize';
+import minifyHTML from 'rollup-plugin-minify-html-literals';
 import {terser} from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -34,6 +36,7 @@ export default {
       'process.env.NODE_ENV': '\'production\'',
     }),
     resolve(),
+    minifyHTML(),
     terser({
       module: true,
       warnings: true,
@@ -42,9 +45,13 @@ export default {
           regex: /^__/,
         },
       },
+      format: {
+        comments: false,
+      },
     }),
     filesize({
       showBrotliSize: true,
     }),
+    vizualizer(),
   ],
 };
