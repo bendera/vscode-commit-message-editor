@@ -1,4 +1,4 @@
-const createPostMessage = (command: string, payload: object = {}): object => ({
+const createPostMessage = (command: string, payload: any = undefined): object => ({
   command,
   payload,
 });

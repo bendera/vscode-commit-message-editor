@@ -55,14 +55,12 @@ export class TextView extends connect(store)(LitElement) {
   }
 
   private _handleSuccessButtonClick() {
-    store.dispatch(copyToSCMInputBox(this._inputBoxValue));
-
     if (this._amendCbChecked) {
-      store.dispatch(confirmAmend());
-    }
-
-    if (this._saveAndClose) {
+      store.dispatch(confirmAmend(this._inputBoxValue));
+    } else if (this._saveAndClose) {
       store.dispatch(closeTab());
+    } else {
+      store.dispatch(copyToSCMInputBox(this._inputBoxValue));
     }
   }
 

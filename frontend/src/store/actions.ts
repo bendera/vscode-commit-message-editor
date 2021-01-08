@@ -23,7 +23,7 @@ export const textareaValueChanged = createAction<string>(
   TEXTAREA_VALUE_CHANGED
 );
 export const replaceState = createAction<RootState>(REPLACE_STATE);
-export const confirmAmend = createAction(CONFIRM_AMEND);
+export const confirmAmend = createAction<string>(CONFIRM_AMEND);
 export const copyToSCMInputBox = createAction<string>(COPY_TO_SCM_INPUT_BOX);
 export const formDataChanged = createAction<{[name: string]: string}>(
   FORM_DATA_CHANGED

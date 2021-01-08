@@ -4,6 +4,7 @@ import {getAPI} from '../utils/VSCodeAPIService';
 import store, {RootState} from '../store/store';
 import '../components/cme-editor';
 import {
+  closeTab,
   copyFromSCMInputBox,
   receiveConfig,
   recentCommitsReceived,
@@ -39,8 +40,15 @@ export class EditorPage extends connect(store)(LitElement) {
 
   private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
     const {command, payload} = ev.data;
+    const state = store.getState();
+    const {saveAndClose} = state.config.view;
 
     switch (command) {
+      case 'amendPerformed':
+        if(saveAndClose) {
+          store.dispatch(closeTab());
+        }
+        break;
       case 'receiveConfig':
         store.dispatch(receiveConfig(payload as ExtensionConfig));
         break;

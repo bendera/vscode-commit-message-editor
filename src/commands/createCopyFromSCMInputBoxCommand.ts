@@ -16,9 +16,7 @@ const createCopyFromSCMInputBoxCommand = ({
         return;
       }
 
-      currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', {
-        inputBoxValue: git.getSCMInputBoxMessage(),
-      }));
+      currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', git.getSCMInputBoxMessage()));
     }
   );
 };

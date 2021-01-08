@@ -194,14 +194,12 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _handleSuccessButtonClick() {
-    store.dispatch(copyToSCMInputBox(this._compileTemplate()));
-
     if (this._amendCbChecked) {
-      store.dispatch(confirmAmend());
-    }
-
-    if (this._saveAndClose) {
+      store.dispatch(confirmAmend(this._compileTemplate()));
+    } if (this._saveAndClose) {
       store.dispatch(closeTab());
+    } else {
+      store.dispatch(copyToSCMInputBox(this._compileTemplate()));
     }
   }
 

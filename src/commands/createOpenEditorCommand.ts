@@ -3,7 +3,6 @@ import { platform } from 'os';
 import createPostMessage from '../utils/createPostMessage';
 import EditorTab from '../webviews/EditorTab';
 import GitService from '../utils/GitService';
-import getExtensionConfig from '../utils/getExtensionConfig';
 
 const createOpenEditorCommand = ({
   context,
@@ -25,7 +24,7 @@ const createOpenEditorCommand = ({
         git
           .getRecentCommitMessages(10)
           .then(commits => {
-            const message = createPostMessage('recentCommitMessages', { commits });
+            const message = createPostMessage('recentCommitMessages', commits);
 
             if (currentPanel) {
               currentPanel.webview.postMessage(message);
@@ -121,7 +120,7 @@ const createOpenEditorCommand = ({
               break;
             case 'requestConfig':
               (<vscode.WebviewPanel>currentPanel).webview.postMessage(
-                createPostMessage('receiveConfig', getExtensionConfig())
+                createPostMessage('receiveConfig', vscode.workspace.getConfiguration('commit-message-editor'))
               );
               break;
             case 'requestRecentCommits':
@@ -146,9 +145,7 @@ const createOpenEditorCommand = ({
         context.subscriptions
       );
 
-      currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', {
-        inputBoxValue: git.getSCMInputBoxMessage(),
-      }));
+      currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', git.getSCMInputBoxMessage()));
     }
   );
 };

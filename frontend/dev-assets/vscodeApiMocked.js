@@ -199,10 +199,10 @@ const config = {
     },
   ],
   view: {
-    defaultView: 'form',
+    defaultView: 'text',
     visibleViews: 'both',
     showRecentCommits: true,
-    saveAndClose: true,
+    saveAndClose: false,
   },
 };
 
@@ -227,6 +227,20 @@ const receiveConfig = () => {
   });
 };
 
+const confirmAmend = () => {
+  if(config.confirmAmend) {
+    if (window.confirm('Are you sure?')) {
+      submitFromHostToWebview({
+        command: 'amendPerformed'
+      });
+    }
+  } else {
+    submitFromHostToWebview({
+      command: 'amendPerformed'
+    });
+  }
+}
+
 window.acquireVsCodeApi = () => ({
   postMessage(msg) {
     console.log('postmessage: webview > host', msg);
@@ -237,6 +251,9 @@ window.acquireVsCodeApi = () => ({
         break;
       case 'requestConfig':
         receiveConfig();
+        break;
+      case 'confirmAmend':
+        confirmAmend();
         break;
     }
   },
