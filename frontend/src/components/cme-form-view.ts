@@ -82,10 +82,10 @@ export class FormView extends connect(store)(LitElement) {
 
   private _compileTemplate() {
     let compiled = this._dynamicTemplate.join('\n');
-    const tokenNames = Object.keys(this._tokenValues);
+    const tokenNames = this._tokens.map(({name}) => name);
 
     tokenNames.forEach((name) => {
-      let value = this._tokenValues[name];
+      let value = this._tokenValues[name] || '';
       const token = this._tokens[this._tokenMap[name]];
       const prefix = token.prefix || '';
       const suffix = token.suffix || '';
@@ -124,8 +124,6 @@ export class FormView extends connect(store)(LitElement) {
 
   private _renderEnumTypeWidget(token: Token) {
     const {description, label, name, multiple} = token;
-
-    console.log(multiple);
 
     const options = token.options?.map((op) => {
       const {label, value, description} = op;
