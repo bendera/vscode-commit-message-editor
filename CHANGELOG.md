@@ -4,6 +4,11 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.15.0] - 2021-01-27
+
+- The frontend has been completely rewritten from scratch
+- Added `multiple` option to the enum type
+
 ## [0.14.4] - 2020-11-07
 
 - Fix [#18](https://github.com/bendera/vscode-commit-message-editor/issues/18) 
