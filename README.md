@@ -42,17 +42,19 @@ The dynamic template contains template variables (tokens), which are between cur
 
 The available settings are the following:
 
-| Name                       | Type    | Description                                                                                                                                                            |
-| -------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| label                      | string  | The label of the form item.                                                                                                                                            |
-| name                       | string  | The token name in the template.                                                                                                                                        |
-| type                       | enum    | The type of the token. Valid values are:<br> **text**: displayed as a text input<br>**boolean**: displayed as a checkbox<br>**enum**: displayed as a dropdown selector |
-| multiline                  | boolean | If the type is text, the input will be bigger                                                                                                                          |
-| description                | string  | A longer text under the form item                                                                                                                                      |
-| prefix                     | string  | Text before the value. Only applied if the value is not empty                                                                                                          |
-| suffix                     | string  | Text after the value. Only applied if the value is not empty                                                                                                           |
-| options                    | array   | Available options if the token type is enum                                                                                                                            |
-| options[_{n}_].label       | string  | The value of the option                                                                                                                                                |
-| options[_{n}_].description | string  | A longer description for the option                                                                                                                                    |
+| Name                       | Type    | Description                                                                                                                                                            | Valid for |
+| -------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| label                      | string  | The label of the form item.                                                                                                                                            | all       |
+| name                       | string  | The token name in the template.                                                                                                                                        | all       |
+| type                       | enum    | The type of the token. Valid values are:<br> **text**: displayed as a text input<br>**boolean**: displayed as a checkbox<br>**enum**: displayed as a dropdown selector | all       |
+| multiline                  | boolean | Multiline text input                                                                                                                                                   | text      |
+| multiple                   | boolean | Multiple options                                                                                                                                                       | enum      |
+| separator                  | string  | Separator character when multiple options were selected                                                                                                                | enum      |
+| description                | string  | A longer text under the form item                                                                                                                                      | all       |
+| prefix                     | string  | Text before the value. It will only be applied if the value is not empty                                                                                               | all       |
+| suffix                     | string  | Text after the value. It will only be applied if the value is not empty                                                                                                | all       |
+| options                    | array   | Available options                                                                                                                                                      | enum      |
+| options[_{n}_].label       | string  | The value of the option                                                                                                                                                | enum      |
+| options[_{n}_].description | string  | A longer description for the option                                                                                                                                    | enum      |
 
 **Happy coding!**
