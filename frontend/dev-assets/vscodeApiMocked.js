@@ -164,8 +164,20 @@ const config = {
       name: 'scope',
       description:
         'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., "feat(parser): add ability to parse arrays".',
-      type: 'text',
-      multiline: false,
+      type: 'enum',
+      options: [
+        {
+          label: 'lorem',
+          description:
+            'Example scope',
+        },
+        {
+          label: 'ipsum',
+          description: 'Another example scope',
+        },
+      ],
+      multiple: true,
+      separator: '|',
       prefix: '(',
       suffix: ')',
     },

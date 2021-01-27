@@ -56,6 +56,8 @@ declare global {
     ];
     description?: string;
     multiline?: boolean;
+    multiple?: boolean;
+    separator?: string;
     prefix?: '';
     suffix?: '';
   }

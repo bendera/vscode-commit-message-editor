@@ -32,6 +32,19 @@ import {
 
 type FormWidget = VscodeInputbox | VscodeSelect | VscodeCheckbox;
 
+interface VscodeSelectEventDetail {
+  multiple: boolean;
+  selectedIndex: number;
+  selectedIndexes: number[];
+  selectedOptions: {
+    label: string;
+    value: string;
+    description: string;
+    selected: boolean;
+  }[];
+  value: string;
+}
+
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
   @internalProperty()
@@ -110,7 +123,9 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _renderEnumTypeWidget(token: Token) {
-    const {description, label, name} = token;
+    const {description, label, name, multiple} = token;
+
+    console.log(multiple);
 
     const options = token.options?.map((op) => {
       const {label, value, description} = op;
@@ -119,6 +134,7 @@ export class FormView extends connect(store)(LitElement) {
         <vscode-option
           value="${ifDefined(value)}"
           description="${ifDefined(description)}"
+          ?multiple="${multiple}"
           >${label}</vscode-option
         >
       `;
@@ -129,6 +145,7 @@ export class FormView extends connect(store)(LitElement) {
         data-name="${name}"
         @vsc-change="${this._handleFormItemChange}"
         value="${this._tokenValues[name] || ''}"
+        ?multiple="${multiple}"
         >${options}</vscode-select
       >
     `;
@@ -173,14 +190,31 @@ export class FormView extends connect(store)(LitElement) {
     const el = ev.target as FormWidget;
     const value = el.value;
     const name = el.dataset.name as string;
+    const tagName = (ev.target as Element).tagName.toLowerCase();
 
-    if ((ev.target as Element).tagName.toLowerCase() === 'vscode-checkbox') {
+    if (tagName === 'vscode-checkbox') {
       const {checked} = ev.detail;
 
       store.dispatch(
         formDataChanged({
           name,
           value: checked ? value : '',
+        })
+      );
+    } else if (tagName === 'vscode-select') {
+      const detail: VscodeSelectEventDetail = ev.detail;
+      const {multiple} = detail;
+      const tokenConfig = this._tokens[this._tokenMap[name]];
+      const separator = tokenConfig.separator || ', ';
+
+      const normalizedValue = multiple
+        ? detail.selectedOptions.map((op) => op.value).join(separator)
+        : detail.value;
+
+      store.dispatch(
+        formDataChanged({
+          name,
+          value: normalizedValue,
         })
       );
     } else {
@@ -196,7 +230,8 @@ export class FormView extends connect(store)(LitElement) {
   private _handleSuccessButtonClick() {
     if (this._amendCbChecked) {
       store.dispatch(confirmAmend(this._compileTemplate()));
-    } if (this._saveAndClose) {
+    }
+    if (this._saveAndClose) {
       store.dispatch(closeTab());
     } else {
       store.dispatch(copyToSCMInputBox(this._compileTemplate()));
