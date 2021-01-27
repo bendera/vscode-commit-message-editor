@@ -4,6 +4,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.15.1] - 2021-01-27
+
+- Github Actions fix
+
 ## [0.15.0] - 2021-01-27
 
 - The frontend has been completely rewritten from scratch
