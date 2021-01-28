@@ -214,7 +214,7 @@ const config = {
     defaultView: 'text',
     visibleViews: 'both',
     showRecentCommits: true,
-    saveAndClose: false,
+    saveAndClose: true,
   },
 };
 

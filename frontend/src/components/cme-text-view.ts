@@ -58,6 +58,7 @@ export class TextView extends connect(store)(LitElement) {
     if (this._amendCbChecked) {
       store.dispatch(confirmAmend(this._inputBoxValue));
     } else if (this._saveAndClose) {
+      store.dispatch(copyToSCMInputBox(this._inputBoxValue));
       store.dispatch(closeTab());
     } else {
       store.dispatch(copyToSCMInputBox(this._inputBoxValue));

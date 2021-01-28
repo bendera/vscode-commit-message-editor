@@ -228,8 +228,8 @@ export class FormView extends connect(store)(LitElement) {
   private _handleSuccessButtonClick() {
     if (this._amendCbChecked) {
       store.dispatch(confirmAmend(this._compileTemplate()));
-    }
-    if (this._saveAndClose) {
+    } else if (this._saveAndClose) {
+      store.dispatch(copyToSCMInputBox(this._compileTemplate()));
       store.dispatch(closeTab());
     } else {
       store.dispatch(copyToSCMInputBox(this._compileTemplate()));
