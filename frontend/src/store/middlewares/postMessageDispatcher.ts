@@ -33,6 +33,7 @@ export const postMessageDispatcher: Middleware = (_) => (next) => (action) => {
     case CONFIRM_AMEND:
       vscode.postMessage({
         command: 'confirmAmend',
+        payload,
       });
       break;
   }
