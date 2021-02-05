@@ -2,7 +2,13 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.15.3] - 2021-02-05
+
+- Fix [#26](https://github.com/bendera/vscode-commit-message-editor/issues/26)
+
+## [0.15.2] - 2021-01-28
+
+- Fix [#25](https://github.com/bendera/vscode-commit-message-editor/issues/25)
 
 ## [0.15.1] - 2021-01-27
 
