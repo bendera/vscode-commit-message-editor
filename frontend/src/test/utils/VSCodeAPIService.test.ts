@@ -1,38 +1,20 @@
-// import {assert} from 'chai';
-import {expect} from '@open-wc/testing';
-import { RootState } from '../../store/store';
+import {expect} from '@esm-bundle/chai';
+import sinon, { SinonSpy } from 'sinon';
 import {getAPI} from '../../utils/VSCodeAPIService';
 
-const assert = chai.assert;
+describe('VSCodeAPIService', () => {
+  before(() => {
+    window.acquireVsCodeApi = sinon.spy(() => ({
+      setState: sinon.fake(),
+      getState: sinon.fake(),
+      postMessage: sinon.fake(),
+    }));
+  });
 
-suite('VSCodeAPIService', () => {
-  test('is defined', () => {
-    const state: RootState = {
-      persisted: false,
-      config: {
-        confirmAmend: false,
-        dynamicTemplate: ['test dynamic template'],
-        staticTemplate: ['test static template'],
-        tokens: [],
-        view: {
-          defaultView: 'form',
-          saveAndClose: false,
-          showRecentCommits: false,
-          visibleViews: 'both',
-        },
-      },
-      scmInputBoxValue: '',
-      recentCommits: [],
-      recentCommitsLoading: false,
-      textareaValue: '',
-      tokenValues: {},
-    }
-    const expected = {...state};
+  it('is defined', () => {
+    getAPI();
+    getAPI();
 
-    const vscode = getAPI();
-
-    assert.isObject(vscode);
-    vscode.setState(state);
-    expect(vscode.getState()).to.deep.eq(expected);
+    expect((window.acquireVsCodeApi as SinonSpy).calledOnce).to.equal(true);
   });
 });

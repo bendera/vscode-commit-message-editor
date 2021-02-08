@@ -10,12 +10,18 @@ import {
 import '@bendera/vscode-webview-elements/dist/vscode-tree';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 
-const transformCommitList = (commits: Commit[]) => {
+const transformCommitList = (commits: Commit[], maxItems: number) => {
   if (!Array.isArray(commits)) {
     return [];
   }
 
-  return commits.map((item) => {
+  let list = commits;
+
+  if (commits.length > maxItems) {
+    list = commits.slice(0, maxItems);
+  }
+
+  return list.map((item) => {
     const {message} = item;
     const lines = message.split('\n');
 
@@ -108,7 +114,7 @@ export class RecentCommits extends LitElement {
   render(): TemplateResult {
     const treeData =
       this.data !== undefined
-        ? transformCommitList(this.data).map(({label, value}) => ({
+        ? transformCommitList(this.data, this.maxItems).map(({label, value}) => ({
             icons: {
               leaf: 'git-commit',
             },

@@ -31,7 +31,12 @@ export class EditorPage extends connect(store)(LitElement) {
 
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener('message', this._handlePostMessages.bind(this));
+    window.addEventListener('message', this._handlePostMessagesBound);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    window.removeEventListener('message', this._handlePostMessagesBound);
   }
 
   render(): TemplateResult {
@@ -60,4 +65,6 @@ export class EditorPage extends connect(store)(LitElement) {
         break;
     }
   }
+
+  private _handlePostMessagesBound = this._handlePostMessages.bind(this);
 }
