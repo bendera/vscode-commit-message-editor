@@ -1,4 +1,5 @@
 import {expect, fixture, html} from '@open-wc/testing';
+import sinon, {SinonSpy} from 'sinon';
 import commits from '../_data/commits';
 import {RecentCommits} from '../../components/cme-recent-commits';
 
@@ -62,7 +63,8 @@ describe('cme-recent-commits', () => {
           leaf: 'git-commit',
         },
         label: 'No need to create fake workspace folder for query builder',
-        value: 'No need to create fake workspace folder for query builder\nFix #111348',
+        value:
+          'No need to create fake workspace folder for query builder\nFix #111348',
       },
     ]);
   });
@@ -90,12 +92,35 @@ describe('cme-recent-commits', () => {
         icons: {
           leaf: 'git-commit',
         },
-        label: 'Don\'t use \'expandPatterns\' for workspaceContains search',
+        label: "Don't use 'expandPatterns' for workspaceContains search",
         value:
-          'Don\'t use \'expandPatterns\' for workspaceContains search\nFix #110510',
+          "Don't use 'expandPatterns' for workspaceContains search\nFix #110510",
       },
     ];
 
     expect(tree?.data).to.deep.equal(expected);
+  });
+
+  it('cme-select event should be dispatched when a list item is selected', async () => {
+    const el: RecentCommits = await fixture(
+      html`<cme-recent-commits></cme-recent-commits>`
+    );
+
+    const onSelectSpy = sinon.spy();
+    el.addEventListener('cme-select', onSelectSpy);
+
+    const tree = el.shadowRoot?.querySelector('vscode-tree');
+
+    tree?.dispatchEvent(
+      new CustomEvent('vsc-select', {
+        detail: {
+          value: 'test value',
+        },
+      })
+    );
+
+    expect((onSelectSpy as SinonSpy).firstCall.args[0].detail).to.be.eq(
+      'test value'
+    );
   });
 });
