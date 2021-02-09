@@ -1,15 +1,7 @@
-import {expect, fixture, html} from '@open-wc/testing';
+import {expect, fixture, html, nextFrame} from '@open-wc/testing';
 import sinon, {SinonSandbox, SinonSpy} from 'sinon';
 import store from '../../store/store';
 import {EditorPage} from '../../pages/cme-editor-page';
-
-const sleep = (ms: number) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, ms);
-  });
-};
 
 describe('cme-editor-page', () => {
   const setState = sinon.fake();
@@ -73,7 +65,7 @@ describe('cme-editor-page', () => {
         window.origin
       );
 
-      await sleep(0);
+      await nextFrame();
 
       const receivedConfig = store.getState().config;
 
@@ -105,7 +97,7 @@ describe('cme-editor-page', () => {
         window.origin
       );
 
-      await sleep(0);
+      await nextFrame();
 
       window.postMessage(
         {
@@ -114,7 +106,7 @@ describe('cme-editor-page', () => {
         window.origin
       );
 
-      await sleep(0);
+      await nextFrame();
 
       expect((store.dispatch as SinonSpy).args[2]).to.deep.equal([
         {type: 'CLOSE_TAB', payload: undefined},
@@ -140,7 +132,7 @@ describe('cme-editor-page', () => {
         window.origin
       );
 
-      await sleep(0);
+      await nextFrame();
 
       const recentCommits = store.getState().recentCommits;
 
@@ -166,7 +158,7 @@ describe('cme-editor-page', () => {
         window.origin
       );
 
-      await sleep(0);
+      await nextFrame();
 
       const {textareaValue} = store.getState();
 
