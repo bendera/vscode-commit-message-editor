@@ -92,15 +92,19 @@ export class TextView extends connect(store)(LitElement) {
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;
 
-    if (state.recentCommits !== undefined) {
+    if (state.recentCommits !== undefined && this._showRecentCommits) {
       this._commits = state.recentCommits;
+    }
+
+    if (state.recentCommits === undefined && this._showRecentCommits && !this._isCommitsLoading) {
+      store.dispatch(recentCommitsRequest());
     }
   }
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    if (this._commits === undefined) {
+    if (this._commits === undefined && this._showRecentCommits) {
       store.dispatch(recentCommitsRequest());
     }
   }
