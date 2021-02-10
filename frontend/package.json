@@ -7,8 +7,8 @@
   "type": "module",
   "scripts": {
     "build": "npm run build:bundle",
-    "build:ts": "tsc",
-    "build:watch": "tsc --watch",
+    "build:ts": "npm run clean && tsc",
+    "build:watch": "npm run clean && tsc --watch",
     "build:bundle": "npm run build:ts && rollup -c --file dist/bundled.js",
     "clean": "rimraf dist",
     "lint:eslint": "eslint src/**/*.ts",
