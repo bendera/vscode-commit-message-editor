@@ -2,6 +2,7 @@ import {expect, fixture, html, aTimeout} from '@open-wc/testing';
 import sinon, {SinonSandbox, SinonSpy} from 'sinon';
 import store from '../../store/store';
 import {EditorPage} from '../../pages/cme-editor-page';
+import {Action} from '@reduxjs/toolkit';
 
 describe('cme-editor-page', () => {
   const setState = sinon.fake();
@@ -21,7 +22,9 @@ describe('cme-editor-page', () => {
   });
 
   it('should render an editor instance', async () => {
-    const el: EditorPage = await fixture(html`<cme-editor-page></cme-editor-page>`);
+    const el: EditorPage = await fixture(
+      html`<cme-editor-page></cme-editor-page>`
+    );
 
     expect(el).shadowDom.to.equal('<cme-editor></cme-editor>');
   });
@@ -108,9 +111,54 @@ describe('cme-editor-page', () => {
 
       await aTimeout(0);
 
-      expect((store.dispatch as SinonSpy).args[2]).to.deep.equal([
+      const actions = (store.dispatch as SinonSpy).args.map((params) => params[0]);
+      const closeTabActions = (actions as Action[]).filter(
+        (action) => action.type === 'CLOSE_TAB'
+      );
+
+      expect(closeTabActions).to.deep.equal([
         {type: 'CLOSE_TAB', payload: undefined},
       ]);
+    });
+
+    it('should not dispatch a "CLOSE_TAB" action when an "amendPerformed" command is received and the "saveAndClose" config flag is false', async () => {
+      window.postMessage(
+        {
+          command: 'receiveConfig',
+          payload: {
+            confirmAmend: false,
+            dynamicTemplate: [],
+            staticTemplate: [],
+            tokens: [],
+            view: {
+              defaultView: 'form',
+              saveAndClose: false,
+              showRecentCommits: false,
+              visibleViews: 'both',
+            },
+          } as ExtensionConfig,
+        },
+        window.origin
+      );
+
+      await aTimeout(0);
+
+      window.postMessage(
+        {
+          command: 'amendPerformed',
+        },
+        window.origin
+      );
+
+      await aTimeout(0);
+
+      const argsHistory = (store.dispatch as SinonSpy).args;
+      const actions = argsHistory.map((args) => args[0]);
+      const closeTabActions = (actions as Action[]).filter(
+        (action) => action.type === 'CLOSE_TAB'
+      );
+
+      expect(closeTabActions).to.deep.equal([]);
     });
 
     it('should dispatch a "RECENT_COMMITS_RECEIVED" action when a "recentCommitMessages" command is received', async () => {
