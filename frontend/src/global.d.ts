@@ -31,7 +31,7 @@ declare global {
 
   interface ReceivedMessageDO {
     command: MessageEventCommand;
-    payload?: any;
+    payload?: unknown;
   }
 
   interface VSCodeAPI {
@@ -46,14 +46,12 @@ declare global {
     label: string;
     name: string;
     type: TokenType;
-    value: string;
-    options?: [
-      {
-        label: string;
-        value?: string;
-        description?: string;
-      }
-    ];
+    value?: string;
+    options?: {
+      label: string;
+      value?: string;
+      description?: string;
+    }[];
     description?: string;
     multiline?: boolean;
     multiple?: boolean;
