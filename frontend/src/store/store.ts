@@ -29,4 +29,6 @@ export interface RootState {
   recentCommitsLoading: boolean;
   textareaValue: string;
   tokenValues: {[name: string]: string};
+  numberOfRepositories: number;
+  selectedRepositoryPath: string;
 }

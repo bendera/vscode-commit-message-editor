@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { GitExtension, API, Repository } from '../@types/git';
+import { GitExtension, API, Repository, APIState } from '../@types/git';
 
 class GitService {
   private isGitAvailable: boolean = false;
@@ -7,9 +7,7 @@ class GitService {
   private api: API | undefined;
 
   constructor() {
-    this.gitExtension = vscode.extensions.getExtension(
-      'vscode.git'
-    );
+    this.gitExtension = vscode.extensions.getExtension('vscode.git');
 
     if (!this.gitExtension) {
       return;
@@ -19,14 +17,32 @@ class GitService {
     this.api = this.gitExtension.exports.getAPI(1);
   }
 
-  private getSelectedRepository(repos: Repository[]): Repository | undefined {
-    const selected = repos.find((repo: Repository) => repo.ui.selected);
+  private getSelectedRepository(): Repository | undefined {
+    const selected = this.api?.repositories.find(
+      (repo: Repository) => repo.ui.selected
+    );
 
     if (selected) {
       return selected;
     }
 
-    return repos[0];
+    return this.api?.repositories[0];
+  }
+
+  public onRepositoryDidChange = (handler: (e: void) => any) => {
+    this.api?.repositories.forEach((repo) => {
+      repo.ui.onDidChange(handler);
+    });
+  };
+
+  public getNumberOfRepositories() {
+    return this.api?.repositories.length || 0;
+  }
+
+  public getSelectedRepositoryPath() {
+    const repo = this.getSelectedRepository();
+
+    return repo?.rootUri.path;
   }
 
   public isAvailable(): boolean {
@@ -34,7 +50,7 @@ class GitService {
   }
 
   public getSCMInputBoxMessage(): string {
-    const repo = this.getSelectedRepository((<API>this.api).repositories);
+    const repo = this.getSelectedRepository();
 
     if (repo) {
       return repo.inputBox.value;
@@ -44,7 +60,7 @@ class GitService {
   }
 
   public setSCMInputBoxMessage(message: string): void {
-    const repo = this.getSelectedRepository((<API>this.api).repositories);
+    const repo = this.getSelectedRepository();
 
     if (repo) {
       repo.inputBox.value = message;
@@ -52,7 +68,7 @@ class GitService {
   }
 
   public async getRecentCommitMessages(limit: number = 32) {
-    const repo = this.getSelectedRepository((<API>this.api).repositories);
+    const repo = this.getSelectedRepository();
     let log;
 
     if (!repo) {
@@ -61,7 +77,7 @@ class GitService {
 
     try {
       log = await repo.log({ maxEntries: limit });
-    } catch(er) {
+    } catch (er) {
       Promise.reject(er);
     }
 

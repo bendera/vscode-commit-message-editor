@@ -239,6 +239,16 @@ const receiveConfig = () => {
   });
 };
 
+const repositoryInfo = () => {
+  submitFromHostToWebview({
+    command: 'repositoryInfo',
+    payload: {
+      numberOfRepositories: 5,
+      selectedRepositoryPath: 'C:/fakepath',
+    },
+  });
+};
+
 const confirmAmend = () => {
   if(config.confirmAmend) {
     if (window.confirm('Are you sure?')) {
@@ -263,6 +273,7 @@ window.acquireVsCodeApi = () => ({
         break;
       case 'requestConfig':
         receiveConfig();
+        repositoryInfo();
         break;
       case 'confirmAmend':
         confirmAmend();

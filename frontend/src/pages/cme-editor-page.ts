@@ -7,6 +7,7 @@ import {
   closeTab,
   copyFromSCMInputBox,
   receiveConfig,
+  receiveRepositoryInfo,
   recentCommitsReceived,
   replaceState,
 } from '../store/actions';
@@ -56,6 +57,9 @@ export class EditorPage extends connect(store)(LitElement) {
         break;
       case 'receiveConfig':
         store.dispatch(receiveConfig(payload as ExtensionConfig));
+        break;
+      case 'repositoryInfo':
+        store.dispatch(receiveRepositoryInfo(payload as RepositoryInfo));
         break;
       case 'recentCommitMessages':
         store.dispatch(recentCommitsReceived(payload as Commit[]));
