@@ -27,7 +27,8 @@ declare global {
     | 'amendPerformed'
     | 'copyFromSCMInputBox'
     | 'recentCommitMessages'
-    | 'receiveConfig';
+    | 'receiveConfig'
+    | 'repositoryInfo';
 
   interface ReceivedMessageDO {
     command: MessageEventCommand;
@@ -76,6 +77,11 @@ declare global {
       showRecentCommits: boolean;
       saveAndClose: boolean;
     };
+  }
+
+  interface RepositoryInfo {
+    numberOfRepositories: number;
+    selectedRepositoryPath: string;
   }
 
   function acquireVsCodeApi(): VSCodeAPI;

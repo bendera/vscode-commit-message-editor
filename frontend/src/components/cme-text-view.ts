@@ -15,6 +15,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import store, {RootState} from '../store/store';
 import './cme-recent-commits';
+import './cme-repo-info';
 import {
   closeTab,
   confirmAmend,
@@ -189,6 +190,7 @@ export class TextView extends connect(store)(LitElement) {
         value="${this._inputBoxValue}"
         @vsc-change="${this._handleInputBoxChange}"
       ></vscode-inputbox>
+      <cme-repo-info></cme-repo-info>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button

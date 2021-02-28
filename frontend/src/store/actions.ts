@@ -11,6 +11,7 @@ export const REPLACE_STATE = 'REPLACE_STATE';
 export const CONFIRM_AMEND = 'CONFIRM_AMEND';
 export const COPY_TO_SCM_INPUT_BOX = 'COPY_TO_SCM_INPUT_BOX';
 export const FORM_DATA_CHANGED = 'FORM_DATA_CHANGED';
+export const REPOSITORY_INFO_RECEIVED = 'REPOSITORY_INFO_RECEIVED';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
@@ -28,3 +29,4 @@ export const copyToSCMInputBox = createAction<string>(COPY_TO_SCM_INPUT_BOX);
 export const formDataChanged = createAction<{[name: string]: string}>(
   FORM_DATA_CHANGED
 );
+export const receiveRepositoryInfo = createAction<RepositoryInfo>(REPOSITORY_INFO_RECEIVED);

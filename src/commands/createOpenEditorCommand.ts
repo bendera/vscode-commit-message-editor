@@ -73,6 +73,15 @@ const createOpenEditorCommand = ({
         }
       };
 
+      const createRepositoryInfoPostMessage = () => {
+        const info = {
+          numberOfRepositories: git.getNumberOfRepositories(),
+          selectedRepositoryPath: git.getSelectedRepositoryPath(),
+        };
+
+        return createPostMessage('repositoryInfo', info);
+      };
+
       if (currentPanel) {
         currentPanel.reveal(columnToShowIn);
         return;
@@ -145,7 +154,13 @@ const createOpenEditorCommand = ({
         context.subscriptions
       );
 
+      git.onRepositoryDidChange(() => {
+        console.log('on repository did change');
+        currentPanel?.webview.postMessage(createRepositoryInfoPostMessage());
+      });
+
       currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', git.getSCMInputBoxMessage()));
+      currentPanel.webview.postMessage(createRepositoryInfoPostMessage());
     }
   );
 };

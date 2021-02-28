@@ -7,6 +7,7 @@ import {
   RECENT_COMMITS_RECEIVED,
   RECENT_COMMITS_REQUEST,
   REPLACE_STATE,
+  REPOSITORY_INFO_RECEIVED,
   TEXTAREA_VALUE_CHANGED,
 } from './actions';
 
@@ -29,6 +30,8 @@ export const createInitialState = (): RootState => ({
   recentCommitsLoading: false,
   textareaValue: '',
   tokenValues: {},
+  numberOfRepositories: 0,
+  selectedRepositoryPath: '',
 });
 
 const initialState = createInitialState();
@@ -43,6 +46,12 @@ export const rootReducer = createReducer(initialState, {
   [RECENT_COMMITS_RECEIVED]: (state: RootState, action) => {
     state.recentCommits = action.payload;
     state.recentCommitsLoading = false;
+  },
+  [REPOSITORY_INFO_RECEIVED]: (state: RootState, action) => {
+    const {numberOfRepositories, selectedRepositoryPath} = action.payload;
+
+    state.numberOfRepositories = numberOfRepositories;
+    state.selectedRepositoryPath = selectedRepositoryPath;
   },
   [COPY_FROM_SCM_INPUTBOX]: (state: RootState, action) => {
     const {payload} = action;

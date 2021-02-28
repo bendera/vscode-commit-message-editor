@@ -29,6 +29,7 @@ import {
   copyToSCMInputBox,
   formDataChanged,
 } from '../store/actions';
+import './cme-repo-info';
 
 type FormWidget = VscodeInputbox | VscodeSelect | VscodeCheckbox;
 
@@ -280,6 +281,7 @@ export class FormView extends connect(store)(LitElement) {
 
     return html`
       <div id="edit-form">${formElements}</div>
+      <cme-repo-info></cme-repo-info>
       <div class="buttons">
         <vscode-button
           id="success-button-form"
