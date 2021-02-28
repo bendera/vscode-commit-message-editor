@@ -180,7 +180,9 @@
               "name": "body",
               "description": "Optional body",
               "type": "text",
-              "multiline": true
+              "multiline": true,
+              "lines": 5,
+              "maxLines": 10
             },
             {
               "label": "Breaking change",

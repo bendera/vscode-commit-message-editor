@@ -2,6 +2,10 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.16.0] - 2021-
+
+- Configurable textarea height in the form view
+
 ## [0.15.3] - 2021-02-05
 
 - Fix [#26](https://github.com/bendera/vscode-commit-message-editor/issues/26)

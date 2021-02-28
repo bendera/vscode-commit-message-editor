@@ -152,7 +152,7 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _renderTextTypeWidget(token: Token) {
-    const {description, label, multiline, name} = token;
+    const {description, label, multiline, name, lines, maxLines} = token;
 
     const inputbox = html`
       <vscode-inputbox
@@ -160,6 +160,8 @@ export class FormView extends connect(store)(LitElement) {
         ?multiline="${multiline}"
         @vsc-change="${this._handleFormItemChange}"
         value="${this._tokenValues[name] || ''}"
+        lines="${ifDefined(lines)}"
+        maxLines="${ifDefined(maxLines)}"
       ></vscode-inputbox>
     `;
 

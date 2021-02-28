@@ -1,9 +1,9 @@
 /node_modules/
 /lib/
 /test/
-
 /dist/
 /coverage/
 
+debug.log
 stats.html
 debug.log
