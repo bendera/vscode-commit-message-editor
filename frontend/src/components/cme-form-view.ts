@@ -124,16 +124,25 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _renderEnumTypeWidget(token: Token) {
-    const {description, label, name, multiple} = token;
+    const {description, label, name, multiple, separator} = token;
+    const normalizedSeparator = typeof separator !== 'string' ? '' : separator;
+    const multipleValues = multiple
+      ? this._tokenValues[name]?.split(normalizedSeparator)
+      : [];
+    const selectValue = multiple ? undefined : this._tokenValues[name];
 
     const options = token.options?.map((op) => {
       const {label, value, description} = op;
+      const normalizedValue = value === undefined ? label : value;
+
+      const selected = multipleValues?.includes(normalizedValue);
 
       return html`
         <vscode-option
           value="${ifDefined(value)}"
           description="${ifDefined(description)}"
           ?multiple="${multiple}"
+          ?selected="${selected}"
           >${label}</vscode-option
         >
       `;
@@ -143,7 +152,7 @@ export class FormView extends connect(store)(LitElement) {
       <vscode-select
         data-name="${name}"
         @vsc-change="${this._handleFormItemChange}"
-        value="${this._tokenValues[name] || ''}"
+        value="${ifDefined(selectValue)}"
         ?multiple="${multiple}"
         >${options}</vscode-select
       >
