@@ -2,9 +2,16 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
-## [0.16.0] - 2021-
+## [0.16.0] - 2021-02-28
+
+### Features
 
 - Configurable textarea height in the form view
+- The selected repository name will be displayed above the buttons if more than one repo is available
+
+### Fix
+
+- Description was not displayed in the multi-select widget
 
 ## [0.15.3] - 2021-02-05
 
