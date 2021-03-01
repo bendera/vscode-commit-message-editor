@@ -155,8 +155,8 @@ const createOpenEditorCommand = ({
       );
 
       git.onRepositoryDidChange(() => {
-        console.log('on repository did change');
         currentPanel?.webview.postMessage(createRepositoryInfoPostMessage());
+        populateCommitList();
       });
 
       currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', git.getSCMInputBoxMessage()));
