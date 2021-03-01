@@ -6,9 +6,6 @@ interface EditorTabProps {
   extensionPath: string;
   platform: string;
   webview: vscode.Webview;
-  defaultView: string;
-  showRecentCommits: boolean;
-  saveAndClose: boolean;
 }
 
 const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
