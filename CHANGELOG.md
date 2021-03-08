@@ -2,6 +2,10 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.16.2] - 2021-03-08
+
+- Fix option hover color
+
 ## [0.16.1] - 2021-03-01
 
 - The recent commit list will be updated when the selected repo is changed
