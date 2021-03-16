@@ -2,6 +2,10 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.16.3] - 2021-03-16
+
+- Fix option hover color (again)
+
 ## [0.16.2] - 2021-03-08
 
 - Fix option hover color
