@@ -94,20 +94,16 @@ describe('cme-form-view', () => {
             Test description
           </vscode-form-description>
           <vscode-form-control>
-            <vscode-select
-              aria-activedescendant=""
+            <vscode-single-select
               aria-expanded="false"
-              aria-label=""
-              aria-multiselectable="false"
               data-name="test_name"
               role="listbox"
               tabindex="0"
-              value=""
             >
               <vscode-option>Lorem</vscode-option>
               <vscode-option value="ipsum">Ipsum</vscode-option>
               <vscode-option value="dolor" description="foo bar">Dolor</vscode-option>
-            </vscode-select>
+            </vscode-single-select>
           </vscode-form-control>
         </vscode-form-item>
       `);

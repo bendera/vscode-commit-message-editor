@@ -17,10 +17,12 @@ import '@bendera/vscode-webview-elements/dist/vscode-form-control';
 import '@bendera/vscode-webview-elements/dist/vscode-form-description';
 import '@bendera/vscode-webview-elements/dist/vscode-form-item';
 import '@bendera/vscode-webview-elements/dist/vscode-form-label';
-import '@bendera/vscode-webview-elements/dist/vscode-option';
-import '@bendera/vscode-webview-elements/dist/vscode-select';
+import '@bendera/vscode-webview-elements/dist/vscode-select/vscode-option';
+import '@bendera/vscode-webview-elements/dist/vscode-select/vscode-multi-select';
+import '@bendera/vscode-webview-elements/dist/vscode-select/vscode-single-select';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
-import {VscodeSelect} from '@bendera/vscode-webview-elements/dist/vscode-select';
+import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-select/vscode-multi-select';
+import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-select/vscode-single-select';
 import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import store, {RootState} from '../store/store';
 import {
@@ -31,7 +33,11 @@ import {
 } from '../store/actions';
 import './cme-repo-info';
 
-type FormWidget = VscodeInputbox | VscodeSelect | VscodeCheckbox;
+type FormWidget =
+  | VscodeInputbox
+  | VscodeSingleSelect
+  | VscodeMultiSelect
+  | VscodeCheckbox;
 
 interface VscodeSelectEventDetail {
   multiple: boolean;
@@ -58,7 +64,7 @@ export class FormView extends connect(store)(LitElement) {
   private _amendCbChecked = false;
 
   @internalProperty()
-  private _tokenValues: {[name: string]: string} = {};
+  private _tokenValues: {[name: string]: string | string[]} = {};
 
   private _dynamicTemplate: string[] = [];
   private _tokenMap: {[name: string]: number} = {};
@@ -124,52 +130,60 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _renderEnumTypeWidget(token: Token) {
-    const {description, label, name, multiple, separator} = token;
-    const normalizedSeparator = typeof separator !== 'string' ? '' : separator;
-    const multipleValues = multiple
-      ? this._tokenValues[name]?.split(normalizedSeparator)
-      : [];
-    const selectValue = multiple ? undefined : this._tokenValues[name];
+    const {description, label, name, multiple} = token;
+    const selectValue = this._tokenValues[name];
 
     const options = token.options?.map((op) => {
       const {label, value, description} = op;
       const normalizedValue = value === undefined ? label : value;
 
-      const selected = multipleValues?.includes(normalizedValue);
+      const selected = selectValue?.includes(normalizedValue);
 
       return html`
         <vscode-option
           value="${ifDefined(value)}"
           description="${ifDefined(description)}"
-          ?multiple="${multiple}"
           ?selected="${selected}"
           >${label}</vscode-option
         >
       `;
     });
 
-    const select = html`
-      <vscode-select
-        data-name="${name}"
-        @vsc-change="${this._handleFormItemChange}"
-        value="${ifDefined(selectValue)}"
-        ?multiple="${multiple}"
-        >${options}</vscode-select
-      >
-    `;
+    const select = multiple
+      ? html`
+          <vscode-multi-select
+            data-name="${name}"
+            @vsc-change="${this._handleFormItemChange}"
+            .value="${Array.isArray(selectValue) ? selectValue : []}"
+            class="vscode-select"
+            >${options}</vscode-multi-select
+          >
+        `
+      : html`
+          <vscode-single-select
+            data-name="${name}"
+            @vsc-change="${this._handleFormItemChange}"
+            .value="${Array.isArray(selectValue) ? '' : selectValue}"
+            class="vscode-select"
+            >${options}</vscode-single-select
+          >
+        `;
 
     return this._renderFormItem(select, label, description);
   }
 
   private _renderTextTypeWidget(token: Token) {
     const {description, label, multiline, name, lines, maxLines} = token;
-
+    const normalizedValue =
+      typeof this._tokenValues[name] === 'string'
+        ? this._tokenValues[name]
+        : '';
     const inputbox = html`
       <vscode-inputbox
         data-name="${name}"
         ?multiline="${multiline}"
         @vsc-change="${this._handleFormItemChange}"
-        value="${this._tokenValues[name] || ''}"
+        value="${normalizedValue as string}"
         lines="${ifDefined(lines)}"
         maxLines="${ifDefined(maxLines)}"
       ></vscode-inputbox>
@@ -182,11 +196,12 @@ export class FormView extends connect(store)(LitElement) {
     const {description, label, name, value} = token;
     const checked =
       this._tokenValues[name] && this._tokenValues[name] !== '' ? true : false;
+    const normalizedValue = typeof value === 'string' ? value : '';
 
     const checkbox = html`
       <vscode-checkbox
         data-name="${name}"
-        value="${value}"
+        value="${normalizedValue}"
         label="${label}"
         @vsc-change="${this._handleFormItemChange}"
         ?checked="${checked}"
@@ -198,7 +213,7 @@ export class FormView extends connect(store)(LitElement) {
 
   private _handleFormItemChange(ev: CustomEvent) {
     const el = ev.target as FormWidget;
-    const value = el.value;
+    const value = el.value as string;
     const name = el.dataset.name as string;
     const tagName = (ev.target as Element).tagName.toLowerCase();
 
@@ -260,6 +275,10 @@ export class FormView extends connect(store)(LitElement) {
 
   static get styles(): CSSResult {
     return css`
+      .vscode-select {
+        display: block;
+      }
+
       .buttons {
         align-items: center;
         display: flex;
