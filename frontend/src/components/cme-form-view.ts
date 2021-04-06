@@ -130,7 +130,8 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _renderEnumTypeWidget(token: Token) {
-    const {description, label, name, multiple} = token;
+    const {description, label, name, multiple, combobox} = token;
+    const selectComboboxMode = combobox || false;
     const selectValue = this._tokenValues[name];
 
     const options = token.options?.map((op) => {
@@ -155,6 +156,7 @@ export class FormView extends connect(store)(LitElement) {
             data-name="${name}"
             @vsc-change="${this._handleFormItemChange}"
             .value="${Array.isArray(selectValue) ? selectValue : []}"
+            .combobox="${selectComboboxMode}"
             class="vscode-select"
             >${options}</vscode-multi-select
           >
@@ -164,6 +166,7 @@ export class FormView extends connect(store)(LitElement) {
             data-name="${name}"
             @vsc-change="${this._handleFormItemChange}"
             .value="${Array.isArray(selectValue) ? '' : selectValue}"
+            .combobox="${selectComboboxMode}"
             class="vscode-select"
             >${options}</vscode-single-select
           >

@@ -55,6 +55,7 @@ declare global {
     }[];
     description?: string;
     multiline?: boolean;
+    combobox?: boolean;
     lines?: number;
     maxLines?: number;
     multiple?: boolean;

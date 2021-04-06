@@ -100,7 +100,7 @@ const commits = [
 const config = {
   confirmAmend: true,
   dynamicTemplate: [
-    '{type}{scope}: {description}',
+    '{type}{scope}{gitmoji}: {description}',
     '',
     '{body}',
     '',
@@ -180,6 +180,28 @@ const config = {
       separator: '|',
       prefix: '(',
       suffix: ')',
+    },
+    {
+      label: 'Gitmoji',
+      name: 'gitmoji',
+      description: 'Gitmoji example',
+      type: 'enum',
+      options: [
+        {
+          label: '⚡️ zap',
+          value: '⚡️'
+        },
+        {
+          label: '🔥 fire',
+          value: '🔥'
+        },
+        {
+          label: '💚 green_heart',
+          value: '💚'
+        }
+      ],
+      combobox: true,
+      filter: 'fuzzy',
     },
     {
       label: 'Short description',
