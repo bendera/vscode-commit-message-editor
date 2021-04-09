@@ -40,7 +40,7 @@ The dynamic template contains template variables (tokens), which are between cur
 
 ![Tokens](settings-screenshot.png)
 
-The available settings are the following:
+### Available settings
 
 | Name                       | Type    | Description                                                                                                                                                            | Valid for |
 | -------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
@@ -59,5 +59,10 @@ The available settings are the following:
 | options                    | array   | Available options                                                                                                                                                      | enum      |
 | options[_{n}_].label       | string  | The value of the option                                                                                                                                                | enum      |
 | options[_{n}_].description | string  | A longer description for the option                                                                                                                                    | enum      |
+
+### Sample configs
+
+- [Default](https://github.com/bendera/vscode-commit-message-editor/blob/master/example-configs/default.json)
+- [Gitmojis](https://github.com/bendera/vscode-commit-message-editor/blob/master/example-configs/gitmojis.json)
 
 **Happy coding!**
