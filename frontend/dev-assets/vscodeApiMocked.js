@@ -167,13 +167,22 @@ const config = {
       type: 'enum',
       options: [
         {
-          label: 'lorem',
-          description:
-            'Example scope',
+          label: 'Lorem',
+          value: 'lorem',
+          description: 'Example scope',
         },
         {
-          label: 'ipsum',
+          label: 'Ipsum',
+          value: 'ipsum',
           description: 'Another example scope',
+        },
+        {
+          label: 'Dolor',
+          value: 'dolor'
+        },
+        {
+          label: 'Sit',
+          value: 'sit'
         },
       ],
       multiple: true,
@@ -189,16 +198,16 @@ const config = {
       options: [
         {
           label: '⚡️ zap',
-          value: '⚡️'
+          value: '⚡️',
         },
         {
           label: '🔥 fire',
-          value: '🔥'
+          value: '🔥',
         },
         {
           label: '💚 green_heart',
-          value: '💚'
-        }
+          value: '💚',
+        },
       ],
       combobox: true,
       filter: 'fuzzy',
@@ -272,18 +281,18 @@ const repositoryInfo = () => {
 };
 
 const confirmAmend = () => {
-  if(config.confirmAmend) {
+  if (config.confirmAmend) {
     if (window.confirm('Are you sure?')) {
       submitFromHostToWebview({
-        command: 'amendPerformed'
+        command: 'amendPerformed',
       });
     }
   } else {
     submitFromHostToWebview({
-      command: 'amendPerformed'
+      command: 'amendPerformed',
     });
   }
-}
+};
 
 window.acquireVsCodeApi = () => ({
   postMessage(msg) {

@@ -40,16 +40,9 @@ type FormWidget =
   | VscodeCheckbox;
 
 interface VscodeSelectEventDetail {
-  multiple: boolean;
   selectedIndex: number;
   selectedIndexes: number[];
-  selectedOptions: {
-    label: string;
-    value: string;
-    description: string;
-    selected: boolean;
-  }[];
-  value: string;
+  value: string | string[];
 }
 
 @customElement('cme-form-view')
@@ -96,8 +89,8 @@ export class FormView extends connect(store)(LitElement) {
       const token = this._tokens[this._tokenMap[name]];
       const prefix = token.prefix || '';
       const suffix = token.suffix || '';
-      value = value ? prefix + value + suffix : '';
 
+      value = value ? prefix + value + suffix : '';
       compiled = compiled.replace(new RegExp(`{${name}}`, 'g'), value);
     });
 
@@ -229,14 +222,15 @@ export class FormView extends connect(store)(LitElement) {
           value: checked ? value : '',
         })
       );
-    } else if (tagName === 'vscode-select') {
+    } else if (
+      tagName === 'vscode-single-select' ||
+      tagName === 'vscode-multi-select'
+    ) {
       const detail: VscodeSelectEventDetail = ev.detail;
-      const {multiple} = detail;
       const tokenConfig = this._tokens[this._tokenMap[name]];
       const separator = tokenConfig.separator || ', ';
-
-      const normalizedValue = multiple
-        ? detail.selectedOptions.map((op) => op.value).join(separator)
+      const normalizedValue = Array.isArray(detail.value)
+        ? detail.value.join(separator)
         : detail.value;
 
       store.dispatch(
