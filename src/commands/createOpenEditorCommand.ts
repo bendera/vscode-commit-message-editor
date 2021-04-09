@@ -93,6 +93,7 @@ const createOpenEditorCommand = ({
         <vscode.ViewColumn>columnToShowIn,
         {
           enableScripts: true,
+          retainContextWhenHidden: true,
         }
       );
       const { webview } = currentPanel;
