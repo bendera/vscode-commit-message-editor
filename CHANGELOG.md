@@ -6,6 +6,7 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 - `combobox` option added to the enum type token
 - Added "Select all/Deselect all" buttons to the multi-select widget
+- Tab content won't be destroyed when the active tab is changed
 
 ## [0.16.3] - 2021-03-16
 
