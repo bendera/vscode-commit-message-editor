@@ -2,6 +2,11 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.17.0] - 2021-04-10
+
+- `combobox` option added to the enum type token
+- Added "Select all/Deselect all" buttons to the multi-select widget
+
 ## [0.16.3] - 2021-03-16
 
 - Fix option hover color (again)
