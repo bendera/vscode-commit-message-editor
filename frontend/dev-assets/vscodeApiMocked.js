@@ -314,9 +314,9 @@ window.acquireVsCodeApi = () => ({
   },
   setState(state) {
     const encoded = JSON.stringify(state);
-    window.localStorage.setItem('__vscodeMockedState__', encoded);
+    window.sessionStorage.setItem('__vscodeMockedState__', encoded);
   },
   getState() {
-    return JSON.parse(window.localStorage.getItem('__vscodeMockedState__'));
+    return JSON.parse(window.sessionStorage.getItem('__vscodeMockedState__'));
   },
 });
