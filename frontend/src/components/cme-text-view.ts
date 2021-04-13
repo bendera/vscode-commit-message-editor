@@ -41,6 +41,9 @@ export class TextView extends connect(store)(LitElement) {
   @internalProperty()
   private _inputBoxValue = '';
 
+  @internalProperty()
+  private _inputBoxHeight = 10;
+
   private _staticTemplate = '';
   private _amendCbChecked = false;
 
@@ -92,6 +95,7 @@ export class TextView extends connect(store)(LitElement) {
     this._showRecentCommits = config.view.showRecentCommits;
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;
+    this._inputBoxHeight = config.view.plainTextEditorHeight;
 
     if (state.recentCommits !== undefined && this._showRecentCommits) {
       this._commits = state.recentCommits;
@@ -189,8 +193,8 @@ export class TextView extends connect(store)(LitElement) {
       <vscode-inputbox
         ?multiline="${true}"
         id="message-box"
-        lines="10"
-        maxlines="20"
+        lines="${this._inputBoxHeight}"
+        maxLines="${this._inputBoxHeight}"
         value="${this._inputBoxValue}"
         @vsc-change="${this._handleInputBoxChange}"
       ></vscode-inputbox>

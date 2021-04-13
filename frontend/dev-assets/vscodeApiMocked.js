@@ -245,6 +245,7 @@ const config = {
     defaultView: 'text',
     visibleViews: 'both',
     fullWidth: true,
+    plainTextEditorHeight: 10,
     showRecentCommits: true,
     saveAndClose: true,
   },
