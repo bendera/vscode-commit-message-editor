@@ -33,6 +33,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
       />
       <title>Commit message editor</title>
       <link rel="stylesheet" href="${assetUri('node_modules/vscode-codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
+      <style>body { padding: 0 10px; }</style>
     </head>
     <body class="${platform}">
       <cme-editor-page></cme-editor-page>

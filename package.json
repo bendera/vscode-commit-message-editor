@@ -217,6 +217,11 @@
             "both"
           ]
         },
+        "commit-message-editor.view.fullWidth": {
+          "type": "boolean",
+          "description": "The editor fills the whole available space.",
+          "default": false
+        },
         "commit-message-editor.view.showRecentCommits": {
           "type": "boolean",
           "description": "Show recent commits in the main view.",

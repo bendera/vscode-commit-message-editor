@@ -77,6 +77,7 @@ declare global {
       visibleViews: VisibleViewsConfig;
       showRecentCommits: boolean;
       saveAndClose: boolean;
+      fullWidth: boolean;
     };
   }
 
