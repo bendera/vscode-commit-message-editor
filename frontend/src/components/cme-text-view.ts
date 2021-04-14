@@ -14,6 +14,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import store, {RootState} from '../store/store';
+import './cme-code-editor/cme-code-editor';
 import './cme-recent-commits';
 import './cme-repo-info';
 import {
@@ -198,6 +199,7 @@ export class TextView extends connect(store)(LitElement) {
         value="${this._inputBoxValue}"
         @vsc-change="${this._handleInputBoxChange}"
       ></vscode-inputbox>
+      <cme-code-editor></cme-code-editor>
       <cme-repo-info></cme-repo-info>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"
