@@ -102,7 +102,11 @@ export class TextView extends connect(store)(LitElement) {
       this._commits = state.recentCommits;
     }
 
-    if (state.recentCommits === undefined && this._showRecentCommits && !this._isCommitsLoading) {
+    if (
+      state.recentCommits === undefined &&
+      this._showRecentCommits &&
+      !this._isCommitsLoading
+    ) {
       store.dispatch(recentCommitsRequest());
     }
   }
@@ -199,7 +203,10 @@ export class TextView extends connect(store)(LitElement) {
         value="${this._inputBoxValue}"
         @vsc-change="${this._handleInputBoxChange}"
       ></vscode-inputbox>
-      <cme-code-editor></cme-code-editor>
+      <cme-code-editor
+        style="margin-top: 20px;"
+        value="Aenean interdum ex at fringilla fermentum."
+      ></cme-code-editor>
       <cme-repo-info></cme-repo-info>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"
