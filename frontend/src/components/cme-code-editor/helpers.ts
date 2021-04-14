@@ -57,18 +57,21 @@ export const insertNewline = (el: HTMLTextAreaElement, indent = true): void => {
   } = getSelectionInfo(el);
   const newValueWithoutIndentation =
     textBeforeSelection + '\n' + textAfterSelection;
-  const appendedNewlinePos = selectionEnd;
-  const newlinePosList = getNewlinePosList(newValueWithoutIndentation);
-  const lines = newValueWithoutIndentation.split('\n');
-  const prevLineIndex = binarySearch(newlinePosList, appendedNewlinePos);
-  const matches = /^\s+/g.exec(lines[prevLineIndex]);
-  const prevLineIndenation = matches ? matches[0] : '';
 
   if (!indent) {
     el.value = newValueWithoutIndentation;
     el.selectionStart = el.selectionEnd = selectionStart + 1;
   } else {
+    const selectionSize = selectionEnd - selectionStart;
+    const appendedNewlinePos = selectionEnd - selectionSize;
+    const newlinePosList = getNewlinePosList(newValueWithoutIndentation);
+    const lines = newValueWithoutIndentation.split('\n');
+    const prevLineIndex = binarySearch(newlinePosList, appendedNewlinePos);
+    const matches = /^\s+/g.exec(lines[prevLineIndex]);
+    const prevLineIndenation = matches ? matches[0] : '';
+
     lines[prevLineIndex + 1] = prevLineIndenation + lines[prevLineIndex + 1];
+
     let caretPos = 0;
 
     lines.forEach((line, index) => {
@@ -76,6 +79,7 @@ export const insertNewline = (el: HTMLTextAreaElement, indent = true): void => {
         caretPos += line.length + 1;
       }
     });
+    console.log(lines, prevLineIndex, caretPos);
 
     el.value = lines.join('\n');
     el.selectionStart = el.selectionEnd = caretPos + prevLineIndenation.length;
