@@ -79,7 +79,6 @@ export const insertNewline = (el: HTMLTextAreaElement, indent = true): void => {
         caretPos += line.length + 1;
       }
     });
-    console.log(lines, prevLineIndex, caretPos);
 
     el.value = lines.join('\n');
     el.selectionStart = el.selectionEnd = caretPos + prevLineIndenation.length;

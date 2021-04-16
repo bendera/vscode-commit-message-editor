@@ -206,6 +206,7 @@ export class TextView extends connect(store)(LitElement) {
       <cme-code-editor
         style="margin-top: 20px;"
         value="Aenean interdum ex at fringilla fermentum."
+        .rulers="${[10, 80, 100]}"
       ></cme-code-editor>
       <cme-repo-info></cme-repo-info>
       <div class="buttons">
