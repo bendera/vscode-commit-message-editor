@@ -88,6 +88,7 @@ export class CodeEditor extends LitElement {
   private _handleChange(ev: InputEvent) {
     const el = ev.composedPath()[0] as HTMLInputElement;
     this._history.add({type: 'inputchange', value: el.value});
+    this._linefeedPositions = getNewlinePosList(el.value);
   }
 
   private _handleKeyDown(ev: KeyboardEvent) {
@@ -103,6 +104,16 @@ export class CodeEditor extends LitElement {
       ev.preventDefault();
       insertNewline(el);
       this._history.add({type: 'keypress', value: el.value});
+
+      const wrapper = this.shadowRoot?.querySelector('.wrapper');
+
+      if (wrapper) {
+        wrapper.scrollLeft = 0;
+
+        setTimeout(() => {
+          wrapper.scrollTop = 99999;
+        }, 1);
+      }
     }
 
     if (ev.key === 'z' && ev.ctrlKey) {
@@ -131,7 +142,6 @@ export class CodeEditor extends LitElement {
 
       return acc;
     }, 0);
-    console.log(this._longestLineStrLength);
   }
 
   static get styles(): CSSResult {
@@ -150,26 +160,30 @@ export class CodeEditor extends LitElement {
       .editor {
         display: flex;
         height: 100%;
+        min-width: 100%;
       }
 
       .line-numbers {
-        background-color: var(--vscode-editor-background);
         color: var(--vscode-editorLineNumber-foreground);
         font-family: var(--vscode-editor-font-family);
         font-size: var(--vscode-editor-font-size);
         left: 0;
-        padding-right: 10px;
         position: sticky;
+        user-select: none;
+        z-index: 1;
       }
 
       .line-numbers div {
+        background-color: var(--vscode-editor-background);
         min-width: 27px;
         padding-left: 10px;
+        padding-right: 10px;
         text-align: right;
       }
 
       .editable-area-wrapper {
         overflow: visible;
+        position: relative;
         width: 100%;
       }
 
@@ -208,6 +222,7 @@ export class CodeEditor extends LitElement {
         display: none;
         height: 100%;
         left: 0;
+        overflow: hidden;
         pointer-events: none;
         position: absolute;
         top: 0;
@@ -215,6 +230,7 @@ export class CodeEditor extends LitElement {
       }
 
       .ruler {
+        border-right: 1px solid var(--vscode-editorRuler-foreground);
         display: flex;
         height: 100%;
         left: 0;
@@ -255,7 +271,12 @@ export class CodeEditor extends LitElement {
       class="wrapper"
       style="${styleMap({height: `${this._lineHeight * VISIBLE_LINES}px`})}"
     >
-      <div class="editor">
+      <div
+        class="editor"
+        style="${styleMap({
+          width: `${textareaWidth}px`,
+        })}"
+      >
         <div
           class="line-numbers"
           style="${styleMap({lineHeight: `${this._lineHeight}px`})}"
