@@ -8,6 +8,7 @@ export interface CodeEditorHistoryItem {
 export class CodeEditorHistory {
   private _length;
   private _history: CodeEditorHistoryItem[] = [];
+  private _undoSteps = 0;
 
   constructor(length = 10) {
     this._length = length;
@@ -21,26 +22,47 @@ export class CodeEditorHistory {
     const {value, type} = item;
     const l = this._history.length;
 
+    if (this._undoSteps > 0) {
+      this._history = this._history.slice(0, 0 - this._undoSteps);
+      this._undoSteps = 0;
+    }
+
     if (type === 'inputchange') {
       if (this._history[l - 1]?.type === 'inputchange') {
         this._history[l - 1].value = value;
       } else {
         this._history.push({value, type});
       }
-    } else if (type === 'keypress') {
+    } else {
       this._history.push({value, type});
+    }
+
+    if (this._history.length > this._length) {
+      this._history.shift();
     }
   }
 
-  prev(): CodeEditorHistoryItem | undefined {
-    if (this._history.length === 0) {
-      return;
+  undo(): CodeEditorHistoryItem | undefined {
+    let item = undefined;
+    const nextIndex = this._history.length - 2 - this._undoSteps;
+
+    if (this._history[nextIndex]) {
+      this._undoSteps++;
+      item = this._history[nextIndex];
     }
 
-    if (this._history.length === 1) {
-      return this._history[0];
+    return item;
+  }
+
+  redo(): CodeEditorHistoryItem | undefined {
+    let item = undefined;
+    const nextIndex = this._history.length - this._undoSteps;
+
+    if (this._history[nextIndex]) {
+      this._undoSteps--;
+      item = this._history[nextIndex];
     }
 
-    return this._history.pop();
+    return item;
   }
 }
