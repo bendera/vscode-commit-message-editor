@@ -10,7 +10,12 @@ import {
 } from 'lit-element';
 import {styleMap} from 'lit-html/directives/style-map';
 import {CodeEditorHistory} from './CommandHistory';
-import {insertTab, insertNewline, getNewlinePosList} from './helpers';
+import {
+  insertTab,
+  insertNewline,
+  getNewlinePosList,
+  getCurrentLine,
+} from './helpers';
 
 const VISIBLE_LINES = 10;
 const HISTORY_LENGTH = 20;
@@ -54,6 +59,9 @@ export class CodeEditor extends LitElement {
   @internalProperty()
   private _linefeedPositions: number[] = [];
 
+  @internalProperty()
+  private _currentLine = 0;
+
   private _history: CodeEditorHistory = new CodeEditorHistory(HISTORY_LENGTH);
   private _lineHeight = 0;
   private _longestLineStrLength = 0;
@@ -85,10 +93,26 @@ export class CodeEditor extends LitElement {
     };
   }
 
+  private _handleWrapperClick() {
+    const textareaEl = this.shadowRoot?.querySelector(
+      '#inputElement'
+    ) as HTMLTextAreaElement;
+
+    if (textareaEl) {
+      textareaEl.focus();
+
+      this._linefeedPositions = getNewlinePosList(textareaEl.value);
+      this._currentLine = getCurrentLine(textareaEl, this._linefeedPositions);
+      console.log(this._currentLine);
+    }
+  }
+
   private _handleChange(ev: InputEvent) {
-    const el = ev.composedPath()[0] as HTMLInputElement;
+    const el = ev.composedPath()[0] as HTMLTextAreaElement;
     this._history.add({type: 'inputchange', value: el.value});
     this._linefeedPositions = getNewlinePosList(el.value);
+    this._currentLine = getCurrentLine(el, this._linefeedPositions);
+    console.log(this._currentLine);
   }
 
   private _handleKeyDown(ev: KeyboardEvent) {
@@ -135,6 +159,7 @@ export class CodeEditor extends LitElement {
     }
 
     this._linefeedPositions = getNewlinePosList(el.value);
+    this._currentLine = getCurrentLine(el, this._linefeedPositions);
     this._longestLineStrLength = el.value.split('\n').reduce((acc, curr) => {
       if (curr.length > acc) {
         return curr.length;
@@ -144,6 +169,15 @@ export class CodeEditor extends LitElement {
     }, 0);
   }
 
+  private _handleKeyUp(ev: KeyboardEvent) {
+    if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
+      const el = ev.composedPath()[0] as HTMLTextAreaElement;
+
+      this._linefeedPositions = getNewlinePosList(el.value);
+      this._currentLine = getCurrentLine(el, this._linefeedPositions);
+    }
+  }
+
   static get styles(): CSSResult {
     return css`
       :host {
@@ -151,16 +185,34 @@ export class CodeEditor extends LitElement {
       }
 
       .wrapper {
-        border: 1px solid var(--vscode-editorWidget-border);
+        background-color: var(--vscode-editor-background);
+        border: 1px solid var(--vscode-settings-textInputBorder);
         box-sizing: border-box;
+        cursor: text;
         overflow-y: auto;
         position: relative;
+      }
+
+      .wrapper::-webkit-scrollbar {
+        cursor: default;
+        height: 10px;
+        width: 10px;
+      }
+
+      .wrapper::-webkit-scrollbar-thumb {
+        background-color: var(--vscode-scrollbarSlider-background);
+      }
+
+      .wrapper::-webkit-scrollbar-corner {
+        background-color: var(--vscode-editor-background);
       }
 
       .editor {
         display: flex;
         height: 100%;
         min-width: 100%;
+        position: relative;
+        z-index: 2;
       }
 
       .line-numbers {
@@ -170,7 +222,7 @@ export class CodeEditor extends LitElement {
         left: 0;
         position: sticky;
         user-select: none;
-        z-index: 1;
+        z-index: 2;
       }
 
       .line-numbers div {
@@ -193,10 +245,10 @@ export class CodeEditor extends LitElement {
       }
 
       .textarea {
-        background-color: var(--vscode-editor-background);
+        background-color: transparent;
         border: 0;
         box-sizing: border-box;
-        color: var(--vscode-editor-foreground);
+        color: var(--vscode-editorWidget-foreground);
         font-family: var(--vscode-editor-font-family);
         font-size: var(--vscode-editor-font-size);
         font-weight: var(--vscode-font-weight);
@@ -204,10 +256,12 @@ export class CodeEditor extends LitElement {
         line-height: 1.3;
         overflow: hidden;
         padding: 0;
+        position: relative;
         resize: none;
         tab-size: 2;
         width: 100%;
         white-space: pre;
+        z-index: 1;
       }
 
       .textarea::selection {
@@ -219,14 +273,15 @@ export class CodeEditor extends LitElement {
       }
 
       .rulers {
-        display: none;
-        height: 100%;
+        display: block;
         left: 0;
+        margin-left: 47px;
+        min-height: 100%;
         overflow: hidden;
         pointer-events: none;
         position: absolute;
         top: 0;
-        width: 100%;
+        width: calc(100% - 47px);
       }
 
       .ruler {
@@ -244,6 +299,19 @@ export class CodeEditor extends LitElement {
         font-weight: var(--vscode-font-weight);
         white-space: pre;
       }
+
+      .current-line {
+        background-color: var(--vscode-editor-lineHighlightBackground);
+        border-bottom: 2px solid var(--vscode-editor-lineHighlightBorder);
+        border-top: 2px solid var(--vscode-editor-lineHighlightBorder);
+        box-sizing: border-box;
+        font-family: var(--vscode-editor-font-family);
+        font-size: var(--vscode-editor-font-size);
+        font-weight: var(--vscode-font-weight);
+        position: absolute;
+        white-space: pre;
+        width: 100%;
+      }
     `;
   }
 
@@ -256,7 +324,6 @@ export class CodeEditor extends LitElement {
       (pos) => html`
         <div class="ruler">
           <div class="placeholder">${''.padStart(pos, ' ')}</div>
-          <div class="pos-indicator">${pos}</div>
         </div>
       `
     );
@@ -267,9 +334,15 @@ export class CodeEditor extends LitElement {
       lineNumbers.push(html`<div>${i}</div>`);
     }
 
+    const currentLineStyles = styleMap({
+      height: `${this._lineHeight}px`,
+      top: `${this._currentLine * this._lineHeight}px`,
+    });
+
     return html`<div
       class="wrapper"
       style="${styleMap({height: `${this._lineHeight * VISIBLE_LINES}px`})}"
+      @click="${this._handleWrapperClick}"
     >
       <div
         class="editor"
@@ -295,6 +368,7 @@ export class CodeEditor extends LitElement {
               class="textarea"
               spellcheck="false"
               @keydown="${this._handleKeyDown}"
+              @keyup="${this._handleKeyUp}"
               @input="${this._handleChange}"
               .value="${this._value}"
               style="${styleMap({
@@ -302,11 +376,19 @@ export class CodeEditor extends LitElement {
                 lineHeight: `${this._lineHeight}px`,
               })}"
             ></textarea>
+            <div
+              class="rulers"
+              style="${styleMap({
+                height: `${textareaHeight}px`,
+              })}"
+            >
+              ${rulerElements}
+            </div>
           </div>
         </div>
+        <div class="current-line" style=${currentLineStyles}>&nbsp;</div>
       </div>
-      <div class="rulers">${rulerElements}</div>
-    </div>`;
+    </div> `;
   }
 }
 

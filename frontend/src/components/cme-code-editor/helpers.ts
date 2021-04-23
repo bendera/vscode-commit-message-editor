@@ -17,6 +17,39 @@ export const getNewlinePosList = (text: string): number[] => {
   return res;
 };
 
+export const getCurrentLine = (
+  el: HTMLTextAreaElement,
+  newlinePosList: number[]
+): number => {
+  const {selectionStart, selectionEnd, value} = el;
+
+  if (selectionStart !== selectionEnd) {
+    console.log('asd');
+    return -1;
+  }
+
+  const caretPos = selectionStart;
+  const lastPos = value.length;
+
+  console.log(newlinePosList, selectionStart, lastPos);
+
+  if (newlinePosList.length === 0) {
+    return 0;
+  }
+
+  if (caretPos > newlinePosList[newlinePosList.length - 1]) {
+    return newlinePosList.length;
+  }
+
+  return newlinePosList.findIndex((nlPos, index, arr) => {
+    if (index === 0) {
+      return caretPos >= 0 && caretPos <= nlPos;
+    } else {
+      return caretPos > arr[index-1] && caretPos <= nlPos;
+    }
+  });
+};
+
 const getSelectionInfo = (
   el: HTMLTextAreaElement
 ): {
