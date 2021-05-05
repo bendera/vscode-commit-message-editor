@@ -47,15 +47,6 @@ export class CodeEditor extends LitElement {
   @property({type: Array})
   rulers: number[] = [];
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    const charDimensions = this._measureCharacter();
-
-    this._lineHeight = charDimensions.h;
-    this._charWidth = charDimensions.w;
-  }
-
   @property({type: Number})
   lines = 10;
 
@@ -64,6 +55,15 @@ export class CodeEditor extends LitElement {
 
   @property({type: Boolean})
   useTabs = false;
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    const charDimensions = this._measureCharacter();
+
+    this._lineHeight = charDimensions.h;
+    this._charWidth = charDimensions.w;
+  }
 
   @internalProperty()
   private _value = '';
