@@ -59,6 +59,12 @@ export class CodeEditor extends LitElement {
   @property({type: Number})
   lines = 10;
 
+  @property({type: Number})
+  tabSize = 2;
+
+  @property({type: Boolean})
+  useTabs = false;
+
   @internalProperty()
   private _value = '';
 
@@ -141,7 +147,7 @@ export class CodeEditor extends LitElement {
 
     if (ev.key === 'Tab') {
       ev.preventDefault();
-      insertTab(el);
+      insertTab(el, this.useTabs, this.tabSize);
       this._history.add({type: 'keypress', value: el.value});
       this._scrollCaretToVisibleArea(el);
     }
@@ -243,7 +249,6 @@ export class CodeEditor extends LitElement {
         padding: 0;
         position: relative;
         resize: none;
-        tab-size: 2;
         width: 100%;
         white-space: pre;
         z-index: 1;
@@ -301,6 +306,7 @@ export class CodeEditor extends LitElement {
     const textareaStyles = styleMap({
       height: `${textareaHeight}px`,
       lineHeight: `${this._lineHeight}px`,
+      tabSize: String(this.tabSize),
     });
     const rulersStyles = styleMap({
       height: `${textareaHeight + PADDING * 2}px`,

@@ -207,6 +207,7 @@ export class TextView extends connect(store)(LitElement) {
         style="margin-top: 20px;"
         value="lorem\nipsum\ndolor\nsit\net\namur\nsadispcing\nconsectetur\ninteger\norci"
         lines="10"
+        tabsize="4"
         .rulers="${[50, 72]}"
       ></cme-code-editor>
       <cme-repo-info></cme-repo-info>

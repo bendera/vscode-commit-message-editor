@@ -21,17 +21,13 @@ export const getCurrentLine = (
   el: HTMLTextAreaElement,
   newlinePosList: number[]
 ): number => {
-  const {selectionStart, selectionEnd, value} = el;
+  const {selectionStart, selectionEnd} = el;
 
   if (selectionStart !== selectionEnd) {
-    console.log('asd');
     return -1;
   }
 
   const caretPos = selectionStart;
-  const lastPos = value.length;
-
-  console.log(newlinePosList, selectionStart, lastPos);
 
   if (newlinePosList.length === 0) {
     return 0;
@@ -45,7 +41,7 @@ export const getCurrentLine = (
     if (index === 0) {
       return caretPos >= 0 && caretPos <= nlPos;
     } else {
-      return caretPos > arr[index-1] && caretPos <= nlPos;
+      return caretPos > arr[index - 1] && caretPos <= nlPos;
     }
   });
 };
@@ -80,15 +76,20 @@ export const getLongestLineLength = (el: HTMLTextAreaElement): number => {
   }, 0);
 };
 
-export const insertTab = (el: HTMLTextAreaElement): void => {
+export const insertTab = (
+  el: HTMLTextAreaElement,
+  useTab = true,
+  tabSize = 2
+): void => {
   const {
     selectionStart,
     textBeforeSelection,
     textAfterSelection,
   } = getSelectionInfo(el);
+  const tab = useTab ? '\t' : ''.padEnd(tabSize, ' ');
 
-  el.value = textBeforeSelection + '\t' + textAfterSelection;
-  el.selectionStart = el.selectionEnd = selectionStart + 1;
+  el.value = textBeforeSelection + tab + textAfterSelection;
+  el.selectionStart = el.selectionEnd = selectionStart + tab.length;
 };
 
 export const insertNewline = (el: HTMLTextAreaElement, indent = true): void => {
