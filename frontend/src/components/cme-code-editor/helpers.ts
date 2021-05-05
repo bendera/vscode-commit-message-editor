@@ -70,6 +70,16 @@ const getSelectionInfo = (
   };
 };
 
+export const getLongestLineLength = (el: HTMLTextAreaElement): number => {
+  return el.value.split('\n').reduce((acc, curr) => {
+    if (curr.length > acc) {
+      return curr.length;
+    }
+
+    return acc;
+  }, 0);
+};
+
 export const insertTab = (el: HTMLTextAreaElement): void => {
   const {
     selectionStart,

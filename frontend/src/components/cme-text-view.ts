@@ -205,7 +205,8 @@ export class TextView extends connect(store)(LitElement) {
       ></vscode-inputbox>
       <cme-code-editor
         style="margin-top: 20px;"
-        value="Aenean interdum ex at fringilla fermentum."
+        value="lorem\nipsum\ndolor\nsit\net\namur\nsadispcing\nconsectetur\ninteger\norci"
+        lines="10"
         .rulers="${[50, 72]}"
       ></cme-code-editor>
       <cme-repo-info></cme-repo-info>
