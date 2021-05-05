@@ -43,6 +43,12 @@ export class TextView extends connect(store)(LitElement) {
   private _inputBoxValue = '';
 
   @internalProperty()
+  private _useMonospaceEditor = false;
+
+  @internalProperty()
+  private _rulers: number[] = [];
+
+  @internalProperty()
   private _visibleLines = 10;
 
   private _staticTemplate = '';
@@ -90,10 +96,20 @@ export class TextView extends connect(store)(LitElement) {
 
   stateChanged(state: RootState): void {
     const {config} = state;
+    const {
+      saveAndClose,
+      showRecentCommits,
+      useMonospaceEditor,
+      rulers,
+      visibleLines,
+    } = config.view;
 
-    this._saveAndClose = config.view.saveAndClose;
+    this._saveAndClose = saveAndClose;
     this._staticTemplate = config.staticTemplate.join('\n');
-    this._showRecentCommits = config.view.showRecentCommits;
+    this._showRecentCommits = showRecentCommits;
+    this._useMonospaceEditor = useMonospaceEditor;
+    this._rulers = rulers;
+    this._visibleLines = visibleLines;
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;
     this._visibleLines = config.view.visibleLines;
@@ -183,6 +199,26 @@ export class TextView extends connect(store)(LitElement) {
       `;
     }
 
+    const inputbox = html`
+      <vscode-inputbox
+        ?multiline="${true}"
+        id="message-box"
+        lines="${this._visibleLines}"
+        maxlines="${this._visibleLines}"
+        value="${this._inputBoxValue}"
+        @vsc-change="${this._handleInputBoxChange}"
+      ></vscode-inputbox>
+    `;
+
+    const monospaceEditor = html`
+      <cme-code-editor
+        value="${this._inputBoxValue}"
+        lines="${this._visibleLines}"
+        tabsize="4"
+        .rulers="${this._rulers}"
+      ></cme-code-editor>
+    `;
+
     return html`
       <div class="editor-toolbar">
         <p>
@@ -195,21 +231,7 @@ export class TextView extends connect(store)(LitElement) {
           </a>
         </p>
       </div>
-      <vscode-inputbox
-        ?multiline="${true}"
-        id="message-box"
-        lines="${this._visibleLines}"
-        maxLines="${this._visibleLines}"
-        value="${this._inputBoxValue}"
-        @vsc-change="${this._handleInputBoxChange}"
-      ></vscode-inputbox>
-      <cme-code-editor
-        style="margin-top: 20px;"
-        value="lorem\nipsum\ndolor\nsit\net\namur\nsadispcing\nconsectetur\ninteger\norci"
-        lines="10"
-        tabsize="4"
-        .rulers="${[50, 72]}"
-      ></cme-code-editor>
+      ${this._useMonospaceEditor ? monospaceEditor : inputbox}
       <cme-repo-info></cme-repo-info>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"

@@ -78,6 +78,8 @@ declare global {
       showRecentCommits: boolean;
       saveAndClose: boolean;
       fullWidth: boolean;
+      useMonospaceEditor: boolean;
+      rulers: number[];
       visibleLines: number;
     };
   }

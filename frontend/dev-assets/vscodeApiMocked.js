@@ -245,6 +245,8 @@ const config = {
     defaultView: 'text',
     visibleViews: 'both',
     fullWidth: true,
+    useMonospaceEditor: true,
+    rulers: [50, 72],
     visibleLines: 10,
     showRecentCommits: true,
     saveAndClose: true,
