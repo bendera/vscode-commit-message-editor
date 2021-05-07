@@ -5,6 +5,7 @@ All notable changes to the "commit-message-editor" extension will be documented 
 ## Unreleased
 
 - Added full-width mode: the content fills the whole available space.
+- Monospace editor: optional editor in the text view which uses a monospace font
 
 ## [0.17.0] - 2021-04-10
 

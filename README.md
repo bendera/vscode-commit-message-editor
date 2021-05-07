@@ -34,6 +34,11 @@ This extension contributes the following settings:
 - `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
 - `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
 - `commit-message-editor.view.visibleViews`: Which tab(s) should be visible: text, form or both
+- `commit-message-editor.view.visibleLines`: Visible lines in the text view
+- `commit-message-editor.view.useMonospaceEditor`: Use monospace font in the text view
+- `commit-message-editor.view.tabSize`: Tab size in the monospace editor
+- `commit-message-editor.view.useTabs`: Use tabs for indentation in the monospace editor
+- `commit-message-editor.view.rulers`: Render vertical rulers after a certain number of monospace characters in the monospace editor. Use multiple values for multiple rulers. No rulers are drawn if array is empty.
 
 ## Customizing the commit message form
 
