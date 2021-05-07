@@ -15,6 +15,8 @@ const createConfig = (): ExtensionConfig => ({
     visibleViews: 'both',
     visibleLines: 10,
     fullWidth: false,
+    rulers: [],
+    useMonospaceEditor: false,
   },
 });
 

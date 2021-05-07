@@ -25,6 +25,8 @@ export const createInitialState = (): RootState => ({
       showRecentCommits: false,
       visibleViews: 'both',
       visibleLines: 10,
+      rulers: [],
+      useMonospaceEditor: false,
     },
   },
   scmInputBoxValue: '',
