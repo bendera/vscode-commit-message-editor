@@ -216,11 +216,12 @@ export class CodeEditor extends LitElement {
       }
 
       .wrapper::-webkit-scrollbar-corner {
-        background-color: var(--vscode-editor-background);
+        background-color: var(--vscode-editorWidget-background);
       }
 
       .editable-area-wrapper {
         cursor: text;
+        min-height: 100%;
         min-width: 100%;
         overflow: visible;
         position: relative;
