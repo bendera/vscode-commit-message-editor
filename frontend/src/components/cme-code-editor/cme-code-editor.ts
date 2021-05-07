@@ -33,7 +33,7 @@ export class CodeEditor extends LitElement {
   set value(val: string) {
     this._value = val;
     this._history.clear();
-    this._history.add({type: 'initializing', value: val});
+    this._history.add({type: 'initializing', value: val, caretPos: 0});
     this._linefeedPositions = getNewlinePosList(val);
   }
   get value(): string {
@@ -119,7 +119,11 @@ export class CodeEditor extends LitElement {
 
   private _handleChange(ev: InputEvent) {
     const el = ev.composedPath()[0] as HTMLTextAreaElement;
-    this._history.add({type: 'inputchange', value: el.value});
+    this._history.add({
+      type: 'inputchange',
+      value: el.value,
+      caretPos: el.selectionEnd,
+    });
     this._linefeedPositions = getNewlinePosList(el.value);
     this._longestLineStrLength = getLongestLineLength(el);
   }
@@ -148,33 +152,47 @@ export class CodeEditor extends LitElement {
     if (ev.key === 'Tab') {
       ev.preventDefault();
       insertTab(el, this.useTabs, this.tabSize);
-      this._history.add({type: 'keypress', value: el.value});
+      this._history.add({
+        type: 'keypress',
+        value: el.value,
+        caretPos: el.selectionEnd,
+      });
       this._scrollCaretToVisibleArea(el);
     }
 
     if (ev.key === 'Enter') {
       ev.preventDefault();
       insertNewline(el);
-      this._history.add({type: 'keypress', value: el.value});
+      this._history.add({
+        type: 'keypress',
+        value: el.value,
+        caretPos: el.selectionEnd,
+      });
       this._wrapperEl.scrollLeft = 0;
       this._scrollCaretToVisibleArea(el);
     }
 
     if (ev.key === 'z' && ev.ctrlKey) {
       ev.preventDefault();
-      const prev = this._history.undo()?.value;
+      const prev = this._history.undo();
 
       if (prev) {
-        el.value = prev;
+        const {value, caretPos} = prev;
+
+        el.value = value;
+        el.selectionStart = el.selectionEnd = caretPos;
       }
     }
 
     if (ev.key === 'y' && ev.ctrlKey) {
       ev.preventDefault();
-      const next = this._history.redo()?.value;
+      const next = this._history.redo();
 
       if (next) {
-        el.value = next;
+        const {value, caretPos} = next;
+
+        el.value = value;
+        el.selectionStart = el.selectionEnd = caretPos;
       }
     }
 

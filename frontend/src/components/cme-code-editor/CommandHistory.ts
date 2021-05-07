@@ -3,6 +3,7 @@ export type CodeEditorHistoryType = 'keypress' | 'inputchange' | 'initializing';
 export interface CodeEditorHistoryItem {
   type: CodeEditorHistoryType;
   value: string;
+  caretPos: number;
 }
 
 export class CodeEditorHistory {
@@ -19,7 +20,7 @@ export class CodeEditorHistory {
   }
 
   add(item: CodeEditorHistoryItem): void {
-    const {value, type} = item;
+    const {value, type, caretPos} = item;
     const l = this._history.length;
 
     if (this._undoSteps > 0) {
@@ -30,11 +31,12 @@ export class CodeEditorHistory {
     if (type === 'inputchange') {
       if (this._history[l - 1]?.type === 'inputchange') {
         this._history[l - 1].value = value;
+        this._history[l - 1].caretPos = caretPos;
       } else {
-        this._history.push({value, type});
+        this._history.push({value, type, caretPos});
       }
     } else {
-      this._history.push({value, type});
+      this._history.push({value, type, caretPos});
     }
 
     if (this._history.length > this._length) {
