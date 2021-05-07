@@ -17,6 +17,8 @@ const createConfig = (): ExtensionConfig => ({
     fullWidth: false,
     rulers: [],
     useMonospaceEditor: false,
+    tabSize: 4,
+    useTabs: false,
   },
 });
 

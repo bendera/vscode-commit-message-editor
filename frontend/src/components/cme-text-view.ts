@@ -56,6 +56,12 @@ export class TextView extends connect(store)(LitElement) {
   private _useMonospaceEditor = false;
 
   @internalProperty()
+  private _tabSize = 4;
+
+  @internalProperty()
+  private _useTabs = false;
+
+  @internalProperty()
   private _rulers: number[] = [];
 
   @internalProperty()
@@ -110,6 +116,8 @@ export class TextView extends connect(store)(LitElement) {
       saveAndClose,
       showRecentCommits,
       useMonospaceEditor,
+      tabSize,
+      useTabs,
       rulers,
       visibleLines,
     } = config.view;
@@ -118,6 +126,8 @@ export class TextView extends connect(store)(LitElement) {
     this._staticTemplate = config.staticTemplate.join('\n');
     this._showRecentCommits = showRecentCommits;
     this._useMonospaceEditor = useMonospaceEditor;
+    this._tabSize = tabSize;
+    this._useTabs = useTabs;
     this._rulers = rulers;
     this._visibleLines = visibleLines;
     this._isCommitsLoading = state.recentCommitsLoading;
@@ -224,7 +234,8 @@ export class TextView extends connect(store)(LitElement) {
       <cme-code-editor
         value="${this._inputBoxValue}"
         lines="${this._visibleLines}"
-        tabsize="4"
+        tabsize="${this._tabSize}"
+        .useTabs="${this._useTabs}"
         .rulers="${this._rulers}"
       ></cme-code-editor>
     `;

@@ -227,10 +227,23 @@
           "description": "Use monospace font in the text view",
           "default": false
         },
+        "commit-message-editor.view.tabSize": {
+          "type": "number",
+          "description": "Tab size in the monospace editor",
+          "default": 4
+        },
+        "commit-message-editor.view.useTabs": {
+          "type": "boolean",
+          "description": "Use tabs for indentation in the monospace editor",
+          "default": false
+        },
         "commit-message-editor.view.rulers": {
           "type": "array",
-          "description": "Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers. No rulers are drawn if array is empty.",
-          "default": [50, 72]
+          "description": "Render vertical rulers after a certain number of monospace characters in the monospace editor. Use multiple values for multiple rulers. No rulers are drawn if array is empty.",
+          "default": [
+            50,
+            72
+          ]
         },
         "commit-message-editor.view.visibleLines": {
           "type": "number",

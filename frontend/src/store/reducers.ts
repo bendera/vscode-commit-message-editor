@@ -27,6 +27,8 @@ export const createInitialState = (): RootState => ({
       visibleLines: 10,
       rulers: [],
       useMonospaceEditor: false,
+      tabSize: 4,
+      useTabs: false,
     },
   },
   scmInputBoxValue: '',

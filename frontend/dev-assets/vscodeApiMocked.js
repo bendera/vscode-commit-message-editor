@@ -246,6 +246,8 @@ const config = {
     visibleViews: 'both',
     fullWidth: true,
     useMonospaceEditor: true,
+    tabSize: 2,
+    useTabs: true,
     rulers: [50, 72],
     visibleLines: 10,
     showRecentCommits: true,

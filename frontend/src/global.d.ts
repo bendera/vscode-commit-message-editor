@@ -79,6 +79,8 @@ declare global {
       saveAndClose: boolean;
       fullWidth: boolean;
       useMonospaceEditor: boolean;
+      tabSize: number;
+      useTabs: boolean;
       rulers: number[];
       visibleLines: number;
     };
