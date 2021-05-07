@@ -31,6 +31,7 @@ import {
   copyToSCMInputBox,
   formDataChanged,
 } from '../store/actions';
+import { triggerInputboxRerender } from './helpers';
 import './cme-repo-info';
 
 type FormWidget =
@@ -47,6 +48,14 @@ interface VscodeSelectEventDetail {
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
+  visibleCallback(): void {
+    const inputs = this.shadowRoot?.querySelectorAll(
+      'vscode-inputbox[multiline]'
+    );
+
+    triggerInputboxRerender(inputs as NodeListOf<VscodeInputbox>);
+  }
+
   @internalProperty()
   private _saveAndClose = false;
 

@@ -13,10 +13,8 @@ import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
+import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import store, {RootState} from '../store/store';
-import './cme-code-editor/cme-code-editor';
-import './cme-recent-commits';
-import './cme-repo-info';
 import {
   closeTab,
   confirmAmend,
@@ -24,9 +22,21 @@ import {
   recentCommitsRequest,
   textareaValueChanged,
 } from '../store/actions';
+import './cme-code-editor/cme-code-editor';
+import './cme-recent-commits';
+import './cme-repo-info';
+import { triggerInputboxRerender } from './helpers';
 
 @customElement('cme-text-view')
 export class TextView extends connect(store)(LitElement) {
+  visibleCallback(): void {
+    const inputs = this.shadowRoot?.querySelectorAll(
+      'vscode-inputbox[multiline]'
+    );
+
+    triggerInputboxRerender(inputs as NodeListOf<VscodeInputbox>);
+  }
+
   @internalProperty()
   private _showRecentCommits = false;
 

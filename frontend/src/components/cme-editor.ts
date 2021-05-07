@@ -13,6 +13,8 @@ import '@bendera/vscode-webview-elements/dist/vscode-tabs';
 import './cme-text-view';
 import './cme-form-view';
 import store, {RootState} from '../store/store';
+import { TextView } from './cme-text-view';
+import { FormView } from './cme-form-view';
 
 @customElement('cme-editor')
 export class Editor extends connect(store)(LitElement) {
@@ -47,6 +49,15 @@ export class Editor extends connect(store)(LitElement) {
     `;
   }
 
+  private _handleTabChange(ev: CustomEvent) {
+    const activeViewSelector =
+      ev.detail.selectedIndex === 0 ? 'cme-text-view' : 'cme-form-view';
+    type Content = TextView | FormView;
+
+    const el = this.shadowRoot?.querySelector(activeViewSelector) as Content;
+    el.visibleCallback();
+  }
+
   render(): TemplateResult {
     const textView = html`<cme-text-view></cme-text-view>`;
     const formView = html`<cme-form-view></cme-form-view>`;
@@ -57,7 +68,10 @@ export class Editor extends connect(store)(LitElement) {
 
     const tabs = html`
       <div class="${wrapperClasses}">
-        <vscode-tabs selectedIndex="${this._selectedIndex}">
+        <vscode-tabs
+          selectedIndex="${this._selectedIndex}"
+          @vsc-select="${this._handleTabChange}"
+        >
           <header slot="header">Edit as text</header>
           <section>${textView}</section>
           <header slot="header">Edit as form</header>
