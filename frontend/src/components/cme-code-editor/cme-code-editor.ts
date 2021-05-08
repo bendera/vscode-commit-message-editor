@@ -117,7 +117,7 @@ export class CodeEditor extends LitElement {
     }
   }
 
-  private _handleChange(ev: InputEvent) {
+  private _handleInput(ev: InputEvent) {
     const el = ev.composedPath()[0] as HTMLTextAreaElement;
     this._history.add({
       type: 'inputchange',
@@ -126,6 +126,16 @@ export class CodeEditor extends LitElement {
     });
     this._linefeedPositions = getNewlinePosList(el.value);
     this._longestLineStrLength = getLongestLineLength(el);
+  }
+
+  private _handleChange(ev: InputEvent) {
+    const ta = ev
+      .composedPath()
+      .find((e) => (e as Element).nodeName.toUpperCase() === 'TEXTAREA');
+
+    this.dispatchEvent(
+      new CustomEvent('vsc-change', {detail: (ta as HTMLTextAreaElement).value})
+    );
   }
 
   private _scrollCaretToVisibleArea(ta: HTMLTextAreaElement) {
@@ -353,7 +363,8 @@ export class CodeEditor extends LitElement {
           spellcheck="false"
           @keydown="${this._handleKeyDown}"
           @keyup="${this._handleKeyUp}"
-          @input="${this._handleChange}"
+          @input="${this._handleInput}"
+          @change="${this._handleChange}"
           .value="${this._value}"
           style="${textareaStyles}"
         ></textarea>

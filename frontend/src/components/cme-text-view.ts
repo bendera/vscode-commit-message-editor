@@ -237,6 +237,7 @@ export class TextView extends connect(store)(LitElement) {
         tabsize="${this._tabSize}"
         .useTabs="${this._useTabs}"
         .rulers="${this._rulers}"
+        @vsc-change="${this._handleInputBoxChange}"
       ></cme-code-editor>
     `;
 
