@@ -2,6 +2,10 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## Unreleased
+
+- Added full-width mode: the content fills the whole available space.
+
 ## [0.17.0] - 2021-04-10
 
 - `combobox` option added to the enum type token

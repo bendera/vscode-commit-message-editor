@@ -30,6 +30,7 @@ This extension contributes the following settings:
 - `commit-message-editor.dynamicTemplate`: Template for the form view
 - `commit-message-editor.tokens`: Editable inputs in the form view
 - `commit-message-editor.view.defaultView`: Default view of the editor (textarea or form)
+- `commit-message-editor.view.fullWidth`: The editor fills the whole available space
 - `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
 - `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
 - `commit-message-editor.view.visibleViews`: Which tab(s) should be visible: text, form or both
