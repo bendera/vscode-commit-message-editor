@@ -259,11 +259,6 @@
           "type": "boolean",
           "description": "Close commit message editor tab after saving",
           "default": false
-        },
-        "commit-message-editor.view.plainTextEditorHeight": {
-          "type": "number",
-          "description": "Textarea height in lines in the text view",
-          "default": 10
         }
       }
     }
