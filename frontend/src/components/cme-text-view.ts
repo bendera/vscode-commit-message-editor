@@ -95,7 +95,7 @@ export class TextView extends connect(store)(LitElement) {
     this._showRecentCommits = config.view.showRecentCommits;
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;
-    this._inputBoxHeight = config.view.plainTextEditorHeight;
+    this._inputBoxHeight = config.view.visibleLines;
 
     if (state.recentCommits !== undefined && this._showRecentCommits) {
       this._commits = state.recentCommits;

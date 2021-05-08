@@ -78,7 +78,7 @@ declare global {
       showRecentCommits: boolean;
       saveAndClose: boolean;
       fullWidth: boolean;
-      plainTextEditorHeight: number;
+      visibleLines: number;
     };
   }
 

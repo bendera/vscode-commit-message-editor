@@ -13,6 +13,8 @@ const createConfig = (): ExtensionConfig => ({
     saveAndClose: false,
     showRecentCommits: false,
     visibleViews: 'both',
+    visibleLines: 10,
+    fullWidth: false,
   },
 });
 

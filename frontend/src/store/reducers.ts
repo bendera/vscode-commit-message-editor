@@ -20,9 +20,11 @@ export const createInitialState = (): RootState => ({
     tokens: [],
     view: {
       defaultView: 'form',
+      fullWidth: false,
       saveAndClose: false,
       showRecentCommits: false,
       visibleViews: 'both',
+      visibleLines: 10,
     },
   },
   scmInputBoxValue: '',
