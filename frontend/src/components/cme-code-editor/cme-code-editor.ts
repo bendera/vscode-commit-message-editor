@@ -33,7 +33,7 @@ export class CodeEditor extends LitElement {
   set value(val: string) {
     this._value = val;
     this._history.clear();
-    this._history.add({type: 'initializing', value: val, caretPos: 0});
+    this._history.add({type: 'initializing', value: val, caretPos: val.length});
     this._linefeedPositions = getNewlinePosList(val);
   }
   get value(): string {
@@ -174,6 +174,7 @@ export class CodeEditor extends LitElement {
 
     if (ev.key === 'z' && ev.ctrlKey) {
       ev.preventDefault();
+      ev.stopPropagation();
       const prev = this._history.undo();
 
       if (prev) {
@@ -186,6 +187,7 @@ export class CodeEditor extends LitElement {
 
     if (ev.key === 'y' && ev.ctrlKey) {
       ev.preventDefault();
+      ev.stopPropagation();
       const next = this._history.redo();
 
       if (next) {
