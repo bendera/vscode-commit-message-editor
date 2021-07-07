@@ -108,4 +108,6 @@ An array of token objects. It defines the form fields. The table below shows the
 - [Gitmojis](example-configs/gitmojis.json)
 - [Gitmojis - With Simplifed Chinese descriptions](example-configs/gitmojis_zh-CN.json)
 
+You can customize the Gitmoji config with the `scripts/gitmoji-config.js` script
+
 **Happy coding!**
