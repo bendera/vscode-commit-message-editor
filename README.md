@@ -104,7 +104,7 @@ An array of token objects. It defines the form fields. The table below shows the
 
 ### Sample configs
 
-- [Default](https://github.com/bendera/vscode-commit-message-editor/blob/master/example-configs/default.json)
-- [Gitmojis](https://github.com/bendera/vscode-commit-message-editor/blob/master/example-configs/gitmojis.json)
+- [Default](example-configs/default.json)
+- [Gitmojis](example-configs/gitmojis.json)
 
 **Happy coding!**
