@@ -106,5 +106,6 @@ An array of token objects. It defines the form fields. The table below shows the
 
 - [Default](example-configs/default.json)
 - [Gitmojis](example-configs/gitmojis.json)
+- [Gitmojis - With Simplifed Chinese descriptions](example-configs/gitmojis_zh-CN.json)
 
 **Happy coding!**
