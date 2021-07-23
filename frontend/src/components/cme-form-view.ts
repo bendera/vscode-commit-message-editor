@@ -13,16 +13,16 @@ import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
-import '@bendera/vscode-webview-elements/dist/vscode-form-control';
-import '@bendera/vscode-webview-elements/dist/vscode-form-description';
-import '@bendera/vscode-webview-elements/dist/vscode-form-item';
-import '@bendera/vscode-webview-elements/dist/vscode-form-label';
-import '@bendera/vscode-webview-elements/dist/vscode-select/vscode-option';
-import '@bendera/vscode-webview-elements/dist/vscode-select/vscode-multi-select';
-import '@bendera/vscode-webview-elements/dist/vscode-select/vscode-single-select';
+import '@bendera/vscode-webview-elements/dist/vscode-form-container';
+import '@bendera/vscode-webview-elements/dist/vscode-form-group';
+import '@bendera/vscode-webview-elements/dist/vscode-form-helper';
+import '@bendera/vscode-webview-elements/dist/vscode-label';
+import '@bendera/vscode-webview-elements/dist/vscode-option';
+import '@bendera/vscode-webview-elements/dist/vscode-multi-select';
+import '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
-import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-select/vscode-multi-select';
-import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-select/vscode-single-select';
+import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-multi-select';
+import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import store, {RootState} from '../store/store';
 import {
@@ -31,7 +31,7 @@ import {
   copyToSCMInputBox,
   formDataChanged,
 } from '../store/actions';
-import { triggerInputboxRerender } from './helpers';
+import {triggerInputboxRerender} from './helpers';
 import './cme-repo-info';
 
 type FormWidget =
@@ -117,17 +117,15 @@ export class FormView extends connect(store)(LitElement) {
     let desc = nothing;
 
     if (description) {
-      desc = html`<vscode-form-description
-        >${description}</vscode-form-description
-      >`;
+      desc = html`<vscode-form-helper>${description}</vscode-form-helper>`;
     }
 
     return html`
-      <vscode-form-item>
-        <vscode-form-label>${label}</vscode-form-label>
+      <vscode-form-group variant="settings-group">
+        <vscode-label>${label}</vscode-label>
         ${desc}
-        <vscode-form-control> ${widget} </vscode-form-control>
-      </vscode-form-item>
+        ${widget}
+      </vscode-form-group>
     `;
   }
 
@@ -191,6 +189,7 @@ export class FormView extends connect(store)(LitElement) {
         value="${normalizedValue as string}"
         lines="${ifDefined(lines)}"
         maxLines="${ifDefined(maxLines)}"
+        style="width: 100%;"
       ></vscode-inputbox>
     `;
 
@@ -316,7 +315,11 @@ export class FormView extends connect(store)(LitElement) {
     });
 
     return html`
-      <div id="edit-form">${formElements}</div>
+      <div id="edit-form">
+        <vscode-form-container>
+          ${formElements}
+        </vscode-form-container>
+      </div>
       <cme-repo-info></cme-repo-info>
       <div class="buttons">
         <vscode-button
