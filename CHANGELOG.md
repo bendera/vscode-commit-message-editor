@@ -2,6 +2,11 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.18.2] - 2021-08-04
+
+- VSCode Webview Elements updated to 0.6.2
+- Full width mode fixed when only one view is visible
+
 ## [0.18.0] - 2021-05-08
 
 - Added full-width mode: the content fills the whole available space.
