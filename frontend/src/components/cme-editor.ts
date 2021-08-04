@@ -13,8 +13,8 @@ import '@bendera/vscode-webview-elements/dist/vscode-tabs';
 import './cme-text-view';
 import './cme-form-view';
 import store, {RootState} from '../store/store';
-import { TextView } from './cme-text-view';
-import { FormView } from './cme-form-view';
+import {TextView} from './cme-text-view';
+import {FormView} from './cme-form-view';
 
 @customElement('cme-editor')
 export class Editor extends connect(store)(LitElement) {
@@ -59,12 +59,13 @@ export class Editor extends connect(store)(LitElement) {
   }
 
   render(): TemplateResult {
-    const textView = html`<cme-text-view></cme-text-view>`;
-    const formView = html`<cme-form-view></cme-form-view>`;
     const wrapperClasses = classMap({
       wrapper: true,
       full: this._fullWidth,
-    })
+    });
+
+    const textView = html`<cme-text-view></cme-text-view>`;
+    const formView = html`<cme-form-view></cme-form-view>`;
 
     const tabs = html`
       <div class="${wrapperClasses}">
@@ -82,20 +83,12 @@ export class Editor extends connect(store)(LitElement) {
 
     let content: TemplateResult;
 
-    if (this._visibleViews === 'text') {
-      content = textView;
-    } else if (this._visibleViews === 'form') {
-      content = formView;
-    } else {
-      content = tabs;
-    }
-
     switch (this._visibleViews) {
       case 'text':
-        content = textView;
+        content = html`<div class="${wrapperClasses}">${textView}</div>`;
         break;
       case 'form':
-        content = formView;
+        content = html`<div class="${wrapperClasses}">${formView}</div>`;
         break;
       default:
         content = tabs;

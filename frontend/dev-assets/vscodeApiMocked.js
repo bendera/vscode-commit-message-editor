@@ -243,7 +243,7 @@ const config = {
   ],
   view: {
     defaultView: 'text',
-    visibleViews: 'both',
+    visibleViews: 'form',
     fullWidth: false,
     useMonospaceEditor: true,
     tabSize: 2,
