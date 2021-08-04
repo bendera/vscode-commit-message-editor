@@ -39,7 +39,7 @@ export class Editor extends connect(store)(LitElement) {
     return css`
       .wrapper {
         margin: 0 auto 30px;
-        max-width: 763px;
+        max-width: 727px;
         width: 100%;
       }
 

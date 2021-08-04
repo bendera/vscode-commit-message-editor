@@ -280,6 +280,21 @@ export class FormView extends connect(store)(LitElement) {
 
   static get styles(): CSSResult {
     return css`
+      .edit-form {
+        margin: 0 auto;
+      }
+
+      .edit-form vscode-form-container {
+        max-width: none;
+        width: 100%;
+      }
+
+      .edit-form vscode-form-group {
+        max-width: none;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
       .vscode-select {
         display: block;
       }
@@ -315,7 +330,7 @@ export class FormView extends connect(store)(LitElement) {
     });
 
     return html`
-      <div id="edit-form">
+      <div id="edit-form" class="edit-form">
         <vscode-form-container>
           ${formElements}
         </vscode-form-container>

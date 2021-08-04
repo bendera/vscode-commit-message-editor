@@ -244,7 +244,7 @@ const config = {
   view: {
     defaultView: 'text',
     visibleViews: 'both',
-    fullWidth: true,
+    fullWidth: false,
     useMonospaceEditor: true,
     tabSize: 2,
     useTabs: true,
