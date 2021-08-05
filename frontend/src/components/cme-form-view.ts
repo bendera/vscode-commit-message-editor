@@ -177,7 +177,7 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _renderTextTypeWidget(token: Token) {
-    const {description, label, multiline, name, lines, maxLines} = token;
+    const {description, label, multiline, name, lines, maxLines, maxLength} = token;
     const normalizedValue =
       typeof this._tokenValues[name] === 'string'
         ? this._tokenValues[name]
@@ -191,6 +191,7 @@ export class FormView extends connect(store)(LitElement) {
         value="${normalizedValue as string}"
         lines="${ifDefined(lines)}"
         maxLines="${ifDefined(maxLines)}"
+        maxLength="${ifDefined(maxLength)}"
         style="width: 100%;"
       ></vscode-inputbox>
     `;

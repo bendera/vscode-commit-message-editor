@@ -62,6 +62,7 @@ declare global {
     separator?: string;
     prefix?: '';
     suffix?: '';
+    maxLength?: number;
   }
 
   type DefaultViewConfig = 'text' | 'form';
