@@ -157,6 +157,10 @@ export class TextView extends connect(store)(LitElement) {
 
   static get styles(): CSSResult {
     return css`
+      .inputbox {
+        width: 100%;
+      }
+
       .editor-toolbar {
         display: block;
         overflow: visible;
@@ -227,6 +231,7 @@ export class TextView extends connect(store)(LitElement) {
         maxlines="${this._visibleLines}"
         value="${this._inputBoxValue}"
         @vsc-change="${this._handleInputBoxChange}"
+        class="inputbox"
       ></vscode-inputbox>
     `;
 
