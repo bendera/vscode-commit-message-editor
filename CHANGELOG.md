@@ -2,6 +2,10 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.18.3] - 2021-08-07
+
+- Fix [#38](https://github.com/bendera/vscode-commit-message-editor/issues/38)
+
 ## [0.18.2] - 2021-08-04
 
 - VSCode Webview Elements updated to 0.6.2
