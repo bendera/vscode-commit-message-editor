@@ -2,7 +2,6 @@ import {createReducer} from '@reduxjs/toolkit';
 import {RootState} from './store';
 import {
   COPY_FROM_SCM_INPUTBOX,
-  FORM_DATA_CHANGED,
   RECEIVE_CONFIG,
   RECENT_COMMITS_RECEIVED,
   RECENT_COMMITS_REQUEST,
@@ -74,11 +73,6 @@ export const rootReducer = createReducer(initialState, {
     Object.keys(state).forEach((key) => {
       state[key] = action.payload[key];
     });
-  },
-  [FORM_DATA_CHANGED]: (state: RootState, action) => {
-    const {payload} = action;
-    const {name, value} = payload;
-    state.tokenValues[name] = value;
   },
   [UPDATE_TOKEN_VALUES]: (state: RootState, action) => {
     const {payload} = action;
