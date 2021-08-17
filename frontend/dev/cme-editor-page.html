@@ -16,7 +16,7 @@
     </component-preview>
     <div>
       <button type="button" id="btCopy">Copy from SCM Inputbox</button>
-      <button type="button" id="btClearStorage">Clear localStorage</button>
+      <button type="button" id="btClearStorage">Clear sessionStorage</button>
       <script>
         (() => {
           const btCopy = document.getElementById('btCopy');
@@ -30,7 +30,7 @@
           });
 
           btClearStorage.addEventListener('click', () => {
-            window.localStorage.clear();
+            window.sessionStorage.clear();
           });
         })();
       </script>
