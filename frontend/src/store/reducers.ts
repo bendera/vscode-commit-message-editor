@@ -9,6 +9,7 @@ import {
   REPLACE_STATE,
   REPOSITORY_INFO_RECEIVED,
   TEXTAREA_VALUE_CHANGED,
+  UPDATE_TOKEN_VALUES,
 } from './actions';
 
 export const createInitialState = (): RootState => ({
@@ -79,4 +80,8 @@ export const rootReducer = createReducer(initialState, {
     const {name, value} = payload;
     state.tokenValues[name] = value;
   },
+  [UPDATE_TOKEN_VALUES]: (state: RootState, action) => {
+    const {payload} = action;
+    state.tokenValues = payload;
+  }
 });

@@ -6,6 +6,7 @@ import {
   CSSResult,
   TemplateResult,
   internalProperty,
+  query,
 } from 'lit-element';
 import {nothing} from 'lit-html';
 import {ifDefined} from 'lit-html/directives/if-defined';
@@ -20,31 +21,17 @@ import '@bendera/vscode-webview-elements/dist/vscode-label';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-multi-select';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
+import {VscodeFormContainer} from '@bendera/vscode-webview-elements/dist/vscode-form-container';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
-import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-multi-select';
-import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-single-select';
-import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import store, {RootState} from '../store/store';
 import {
   confirmAmend,
   closeTab,
   copyToSCMInputBox,
-  formDataChanged,
+  updateTokenValues,
 } from '../store/actions';
 import {triggerInputboxRerender} from './helpers';
 import './cme-repo-info';
-
-type FormWidget =
-  | VscodeInputbox
-  | VscodeSingleSelect
-  | VscodeMultiSelect
-  | VscodeCheckbox;
-
-interface VscodeSelectEventDetail {
-  selectedIndex: number;
-  selectedIndexes: number[];
-  value: string | string[];
-}
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -55,6 +42,9 @@ export class FormView extends connect(store)(LitElement) {
 
     triggerInputboxRerender(inputs as NodeListOf<VscodeInputbox>);
   }
+
+  @query('#form-container')
+  private _formContainer!: VscodeFormContainer;
 
   @internalProperty()
   private _saveAndClose = false;
@@ -70,6 +60,16 @@ export class FormView extends connect(store)(LitElement) {
 
   private _dynamicTemplate: string[] = [];
   private _tokenMap: {[name: string]: number} = {};
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this.updateComplete.then(() => {
+      requestAnimationFrame(() => {
+        this._updateTokenValues();
+      });
+    });
+  }
 
   stateChanged(state: RootState): void {
     const {config, tokenValues} = state;
@@ -154,6 +154,7 @@ export class FormView extends connect(store)(LitElement) {
       ? html`
           <vscode-multi-select
             data-name="${name}"
+            name="${name}"
             @vsc-change="${this._handleFormItemChange}"
             .value="${Array.isArray(selectValue) ? selectValue : []}"
             .combobox="${selectComboboxMode}"
@@ -164,6 +165,7 @@ export class FormView extends connect(store)(LitElement) {
       : html`
           <vscode-single-select
             data-name="${name}"
+            name="${name}"
             @vsc-change="${this._handleFormItemChange}"
             .value="${Array.isArray(selectValue) ? '' : selectValue}"
             .combobox="${selectComboboxMode}"
@@ -184,6 +186,7 @@ export class FormView extends connect(store)(LitElement) {
     const inputbox = html`
       <vscode-inputbox
         data-name="${name}"
+        name="${name}"
         ?multiline="${multiline}"
         @vsc-change="${this._handleFormItemChange}"
         value="${normalizedValue as string}"
@@ -205,6 +208,7 @@ export class FormView extends connect(store)(LitElement) {
     const checkbox = html`
       <vscode-checkbox
         data-name="${name}"
+        name="${name}"
         value="${normalizedValue}"
         label="${label}"
         @vsc-change="${this._handleFormItemChange}"
@@ -215,46 +219,35 @@ export class FormView extends connect(store)(LitElement) {
     return this._renderFormItem(checkbox, label, description);
   }
 
-  private _handleFormItemChange(ev: CustomEvent) {
-    const el = ev.target as FormWidget;
-    const value = el.value as string;
-    const name = el.dataset.name as string;
-    const tagName = (ev.target as Element).tagName.toLowerCase();
+  private _updateTokenValues() {
+    const formData = this._formContainer.data;
+    const payload: {[key: string]: string} = {};
 
-    if (tagName === 'vscode-checkbox') {
-      const {checked} = ev.detail;
+    this._tokens.forEach((t) => {
+      const {name, type, separator = ''} = t;
+      const rawValue = formData[name];
 
-      store.dispatch(
-        formDataChanged({
-          name,
-          value: checked ? value : '',
-        })
-      );
-    } else if (
-      tagName === 'vscode-single-select' ||
-      tagName === 'vscode-multi-select'
-    ) {
-      const detail: VscodeSelectEventDetail = ev.detail;
-      const tokenConfig = this._tokens[this._tokenMap[name]];
-      const separator = tokenConfig.separator || ', ';
-      const normalizedValue = Array.isArray(detail.value)
-        ? detail.value.join(separator)
-        : detail.value;
+      switch (type) {
+        case 'enum':
+          payload[name] = Array.isArray(rawValue)
+            ? rawValue.join(separator)
+            : rawValue;
+          break;
+        case 'text':
+          payload[name] = String(rawValue);
+          break;
+        case 'boolean':
+          payload[name] = rawValue[0];
+          break;
+        default:
+      }
+    });
 
-      store.dispatch(
-        formDataChanged({
-          name,
-          value: normalizedValue,
-        })
-      );
-    } else {
-      store.dispatch(
-        formDataChanged({
-          name,
-          value,
-        })
-      );
-    }
+    store.dispatch(updateTokenValues(payload));
+  }
+
+  private _handleFormItemChange() {
+    this._updateTokenValues();
   }
 
   private _handleSuccessButtonClick() {
@@ -331,7 +324,7 @@ export class FormView extends connect(store)(LitElement) {
 
     return html`
       <div id="edit-form" class="edit-form">
-        <vscode-form-container>
+        <vscode-form-container id="form-container">
           ${formElements}
         </vscode-form-container>
       </div>
