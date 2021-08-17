@@ -77,5 +77,5 @@ export const rootReducer = createReducer(initialState, {
   [UPDATE_TOKEN_VALUES]: (state: RootState, action) => {
     const {payload} = action;
     state.tokenValues = payload;
-  }
+  },
 });

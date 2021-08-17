@@ -123,8 +123,7 @@ export class FormView extends connect(store)(LitElement) {
     return html`
       <vscode-form-group variant="settings-group">
         <vscode-label>${label}</vscode-label>
-        ${desc}
-        ${widget}
+        ${desc} ${widget}
       </vscode-form-group>
     `;
   }

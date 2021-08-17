@@ -26,6 +26,8 @@ export const textareaValueChanged = createAction<string>(
 export const replaceState = createAction<RootState>(REPLACE_STATE);
 export const confirmAmend = createAction<string>(CONFIRM_AMEND);
 export const copyToSCMInputBox = createAction<string>(COPY_TO_SCM_INPUT_BOX);
-export const receiveRepositoryInfo = createAction<RepositoryInfo>(REPOSITORY_INFO_RECEIVED);
+export const receiveRepositoryInfo = createAction<RepositoryInfo>(
+  REPOSITORY_INFO_RECEIVED
+);
 export const updateTokenValues =
   createAction<{[key: string]: string}>(UPDATE_TOKEN_VALUES);
