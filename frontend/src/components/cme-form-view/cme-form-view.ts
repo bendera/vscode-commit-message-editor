@@ -190,7 +190,9 @@ export class FormView extends connect(store)(LitElement) {
           @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button
         >
-        <vscode-button @click="${this._handleCancelButtonClick}"
+        <vscode-button
+          id="cancel-button-form"
+          @click="${this._handleCancelButtonClick}"
           >Cancel</vscode-button
         >
         <vscode-checkbox

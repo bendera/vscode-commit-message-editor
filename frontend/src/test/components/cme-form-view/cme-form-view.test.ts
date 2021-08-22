@@ -1,8 +1,9 @@
-import {expect, fixture, html} from '@open-wc/testing';
+import {expect, fixture, html, nextFrame} from '@open-wc/testing';
 import {FormView} from '../../../components/cme-form-view/cme-form-view';
 import store from '../../../store/store';
 import {
   closeTab,
+  confirmAmend,
   copyToSCMInputBox,
   receiveConfig,
   updateTokenValues,
@@ -224,5 +225,126 @@ describe('cme-form-view', () => {
 
     expect(calls[0].firstArg).to.deep.equal(copyToSCMInputBox(message));
     expect(calls[1]).to.be.undefined;
+  });
+
+  it('confirm amend action should be dispatched', async () => {
+    const config = createConfig();
+    const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
+
+    await el.updateComplete;
+
+    store.dispatch(receiveConfig(config));
+    store.dispatch(
+      updateTokenValues({
+        type: 'feat',
+        scope: 'lorem',
+        gitmoji: '⚡️',
+        description: 'short description test',
+        body: 'body test',
+        breaking_change: 'BREAKING CHANGE: ',
+        footer: 'footer test',
+      })
+    );
+
+    await el.updateComplete;
+
+    const checkbox = el.shadowRoot?.querySelector('#form-amend-checkbox');
+    checkbox?.dispatchEvent(
+      new CustomEvent('vsc-change', {detail: {checked: true}})
+    );
+
+    await el.updateComplete;
+
+    storeSpy.resetHistory();
+    const successButton = el.shadowRoot?.querySelector('#success-button-form');
+    successButton?.dispatchEvent(new MouseEvent('click'));
+    const calls = storeSpy.getCalls();
+
+    let message = '';
+    message += 'feat(lorem)⚡️: short description test\n';
+    message += '\n';
+    message += 'body test\n';
+    message += '\n';
+    message += 'BREAKING CHANGE: footer test';
+
+    expect(calls[0].firstArg).to.deep.equal(confirmAmend(message));
+    expect(calls[1]).to.be.undefined;
+  });
+
+  it('closeTab action should be called when cancel button is clicked', async () => {
+    const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
+
+    const button = el.shadowRoot?.querySelector('#cancel-button-form');
+    button?.dispatchEvent(new MouseEvent('click'));
+
+    const calls = storeSpy.getCalls();
+
+    expect(calls[0].firstArg).to.deep.equal(closeTab());
+  });
+
+  it('token values should be updated when connectedCallback is called', async () => {
+    const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
+
+    await el.updateComplete;
+    await nextFrame();
+
+    const calls = storeSpy.getCalls();
+
+    expect(calls[0].firstArg).to.deep.equal(
+      updateTokenValues({
+        body: 'body test',
+        breaking_change: 'BREAKING CHANGE: ',
+        description: 'short description test',
+        footer: 'footer test',
+        gitmoji: '⚡️',
+        scope: '',
+        type: 'build',
+      })
+    );
+  });
+
+  it('idk', async () => {
+    const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
+
+    await el.updateComplete;
+    await nextFrame();
+
+    storeSpy.resetHistory();
+
+    const slType = el.shadowRoot?.querySelector(
+      'vscode-single-select[name="type"]'
+    );
+    const slScope = el.shadowRoot?.querySelector(
+      'vscode-multi-select[name="scope"]'
+    );
+    const tfScope = el.shadowRoot?.querySelector(
+      'vscode-inputbox[name="description"]'
+    );
+    const cbBreakingChange = el.shadowRoot?.querySelector(
+      'vscode-checkbox[name="breaking_change"]'
+    );
+
+    slType?.dispatchEvent(new CustomEvent('vsc-change'));
+    slScope?.dispatchEvent(new CustomEvent('vsc-change'));
+    tfScope?.dispatchEvent(new CustomEvent('vsc-change'));
+    cbBreakingChange?.dispatchEvent(new CustomEvent('vsc-change'));
+
+    const expectedAction = updateTokenValues({
+      body: 'body test',
+      breaking_change: 'BREAKING CHANGE: ',
+      description: 'short description test',
+      footer: 'footer test',
+      gitmoji: '⚡️',
+      scope: '',
+      type: 'build',
+    });
+
+    const calls = storeSpy.getCalls();
+
+    expect(calls[0].firstArg).to.deep.equal(expectedAction);
+    expect(calls[1].firstArg).to.deep.equal(expectedAction);
+    expect(calls[2].firstArg).to.deep.equal(expectedAction);
+    expect(calls[3].firstArg).to.deep.equal(expectedAction);
+    expect(calls[4]).to.be.undefined;
   });
 });
