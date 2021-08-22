@@ -22,7 +22,7 @@ class FormBuilder {
   }
 
   set tokens(val: Token[]) {
-    this._tokens = val
+    this._tokens = val;
   }
 
   get tokens(): Token[] {
@@ -52,7 +52,7 @@ class FormBuilder {
 
   private _tokens: Token[] = [];
 
-  private _tokenValues: TokenValueDTO = {}
+  private _tokenValues: TokenValueDTO = {};
 
   private _handleFormItemChange: () => void = noop;
 
@@ -124,7 +124,8 @@ class FormBuilder {
   }
 
   private _renderTextTypeWidget(token: Token) {
-    const {description, label, multiline, name, lines, maxLines} = token;
+    const {description, label, multiline, name, lines, maxLines, maxLength} =
+      token;
     const normalizedValue =
       typeof this._tokenValues[name] === 'string'
         ? this._tokenValues[name]
@@ -138,6 +139,7 @@ class FormBuilder {
         value="${normalizedValue as string}"
         lines="${ifDefined(lines)}"
         maxLines="${ifDefined(maxLines)}"
+        maxLength="${ifDefined(maxLength)}"
         style="width: 100%;"
       ></vscode-inputbox>
     `;
