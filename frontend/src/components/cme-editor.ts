@@ -11,10 +11,10 @@ import {classMap} from 'lit-html/directives/class-map';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-tabs';
 import './cme-text-view';
-import './cme-form-view';
+import './cme-form-view/cme-form-view';
 import store, {RootState} from '../store/store';
 import {TextView} from './cme-text-view';
-import {FormView} from './cme-form-view';
+import {FormView} from './cme-form-view/cme-form-view';
 
 @customElement('cme-editor')
 export class Editor extends connect(store)(LitElement) {

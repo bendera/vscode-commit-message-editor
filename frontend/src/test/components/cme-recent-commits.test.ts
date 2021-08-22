@@ -59,12 +59,16 @@ describe('cme-recent-commits', () => {
     `);
     expect(tree?.data).to.deep.equal([
       {
+        focused: false,
         icons: {
           leaf: 'git-commit',
         },
+        open: false,
         label: 'No need to create fake workspace folder for query builder',
         value:
           'No need to create fake workspace folder for query builder\nFix #111348',
+        path: [0],
+        selected: false,
       },
     ]);
   });
@@ -79,26 +83,7 @@ describe('cme-recent-commits', () => {
 
     const tree = el.shadowRoot?.querySelector('vscode-tree');
 
-    const expected = [
-      {
-        icons: {
-          leaf: 'git-commit',
-        },
-        label: 'No need to create fake workspace folder for query builder',
-        value:
-          'No need to create fake workspace folder for query builder\nFix #111348',
-      },
-      {
-        icons: {
-          leaf: 'git-commit',
-        },
-        label: "Don't use 'expandPatterns' for workspaceContains search",
-        value:
-          "Don't use 'expandPatterns' for workspaceContains search\nFix #110510",
-      },
-    ];
-
-    expect(tree?.data).to.deep.equal(expected);
+    expect(tree?.data).to.have.length(2);
   });
 
   it('cme-select event should be dispatched when a list item is selected', async () => {

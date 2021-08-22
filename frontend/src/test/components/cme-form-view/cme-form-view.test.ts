@@ -1,7 +1,7 @@
 import {expect} from '@open-wc/testing';
-import {FormView} from '../../components/cme-form-view';
-import store from '../../store/store';
-import {receiveConfig} from '../../store/actions';
+import {FormView} from '../../../components/cme-form-view/cme-form-view';
+import store from '../../../store/store';
+import {receiveConfig} from '../../../store/actions';
 
 const createConfig = (): ExtensionConfig => ({
   confirmAmend: false,
@@ -59,15 +59,21 @@ describe('cme-form-view', () => {
       await el?.updateComplete;
 
       expect(el?.shadowRoot?.querySelector('#edit-form')).lightDom.to.eq(`
-        <vscode-form-item>
-          <vscode-form-label>Test label</vscode-form-label>
-          <vscode-form-description>
-            Test description
-          </vscode-form-description>
-          <vscode-form-control>
-            <vscode-inputbox data-name="test_name" value="" multiline></vscode-inputbox>
-          </vscode-form-control>
-        </vscode-form-item>
+        <vscode-form-container id="form-container">
+          <vscode-form-group variant="settings-group">
+            <vscode-label>Test label</vscode-label>
+            <vscode-form-helper>
+              Test description
+            </vscode-form-helper>
+            <vscode-inputbox
+              data-name="test_name"
+              name="test_name"
+              value=""
+              multiline
+              style="width: 100%;"
+            ></vscode-inputbox>
+          </vscode-form-group>
+        </vscode-form-container>
       `);
     });
 
@@ -94,15 +100,17 @@ describe('cme-form-view', () => {
       await el?.updateComplete;
 
       expect(el?.shadowRoot?.querySelector('#edit-form')).lightDom.to.eq(`
-        <vscode-form-item>
-          <vscode-form-label>Test label</vscode-form-label>
-          <vscode-form-description>
-            Test description
-          </vscode-form-description>
-          <vscode-form-control>
+        <vscode-form-container id="form-container">
+          <vscode-form-group variant="settings-group">
+            <vscode-label>Test label</vscode-label>
+            <vscode-form-helper>
+              Test description
+            </vscode-form-helper>
             <vscode-single-select
               aria-expanded="false"
+              class="vscode-select"
               data-name="test_name"
+              name="test_name"
               role="listbox"
               tabindex="0"
             >
@@ -110,8 +118,8 @@ describe('cme-form-view', () => {
               <vscode-option value="ipsum">Ipsum</vscode-option>
               <vscode-option value="dolor" description="foo bar">Dolor</vscode-option>
             </vscode-single-select>
-          </vscode-form-control>
-        </vscode-form-item>
+          </vscode-form-group>
+        </vscode-form-container>
       `);
     });
 
@@ -132,20 +140,22 @@ describe('cme-form-view', () => {
       await el?.updateComplete;
 
       expect(el?.shadowRoot?.querySelector('#edit-form')).lightDom.to.eq(`
-        <vscode-form-item>
-          <vscode-form-label>Test label</vscode-form-label>
-          <vscode-form-description>
-            Test description
-          </vscode-form-description>
-          <vscode-form-control>
+        <vscode-form-container id="form-container">
+          <vscode-form-group variant="settings-group">
+            <vscode-label>Test label</vscode-label>
+            <vscode-form-helper>
+              Test description
+            </vscode-form-helper>
             <vscode-checkbox
-              label="Test label"
+              checked
               data-name="test_name"
+              label="Test label"
+              name="test_name"
               tabindex="0"
-              value="undefined"
-            ></vscode-checkbox>
-          </vscode-form-control>
-        </vscode-form-item>
+              value=""
+            >
+          </vscode-form-group>
+        </vscode-form-container>
       `);
     });
   });
