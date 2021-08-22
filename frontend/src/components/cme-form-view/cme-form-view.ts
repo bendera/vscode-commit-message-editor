@@ -23,6 +23,7 @@ import {
 import {triggerInputboxRerender} from '../helpers';
 import '../cme-repo-info';
 import FormBuilder from './FormBuilder';
+import TemplateCompiler from './TemplateCompiler';
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -50,7 +51,6 @@ export class FormView extends connect(store)(LitElement) {
   private _tokenValues: {[name: string]: string | string[]} = {};
 
   private _dynamicTemplate: string[] = [];
-  private _tokenMap: {[name: string]: number} = {};
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -69,35 +69,7 @@ export class FormView extends connect(store)(LitElement) {
     this._saveAndClose = view.saveAndClose;
     this._tokens = tokens;
     this._tokenValues = tokenValues;
-
-    const tokenMap: {[name: string]: number} = {};
-
-    tokens.forEach((token, index) => {
-      tokenMap[token.name] = index;
-    });
-
-    this._tokenMap = tokenMap;
     this._dynamicTemplate = dynamicTemplate;
-  }
-
-  private _compileTemplate() {
-    let compiled = this._dynamicTemplate.join('\n');
-    const tokenNames = this._tokens.map(({name}) => name);
-
-    tokenNames.forEach((name) => {
-      let value = this._tokenValues[name] || '';
-      const token = this._tokens[this._tokenMap[name]];
-      const prefix = token.prefix || '';
-      const suffix = token.suffix || '';
-
-      value = value ? prefix + value + suffix : '';
-      compiled = compiled.replace(new RegExp(`{${name}}`, 'g'), value);
-    });
-
-    compiled = compiled.replace(/\n{3,}/g, '\n');
-    compiled = compiled.replace(/\n+$/g, '');
-
-    return compiled;
   }
 
   private _updateTokenValues() {
@@ -132,13 +104,20 @@ export class FormView extends connect(store)(LitElement) {
   }
 
   private _handleSuccessButtonClick() {
+    const compiler = new TemplateCompiler(
+      this._dynamicTemplate,
+      this._tokens,
+      this._tokenValues
+    );
+    const compiled = compiler.compile();
+
     if (this._amendCbChecked) {
-      store.dispatch(confirmAmend(this._compileTemplate()));
+      store.dispatch(confirmAmend(compiled));
     } else if (this._saveAndClose) {
-      store.dispatch(copyToSCMInputBox(this._compileTemplate()));
+      store.dispatch(copyToSCMInputBox(compiled));
       store.dispatch(closeTab());
     } else {
-      store.dispatch(copyToSCMInputBox(this._compileTemplate()));
+      store.dispatch(copyToSCMInputBox(compiled));
     }
   }
 

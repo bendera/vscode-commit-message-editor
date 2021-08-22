@@ -56,13 +56,14 @@ declare global {
     description?: string;
     multiline?: boolean;
     combobox?: boolean;
+    filter?: string;
     lines?: number;
     maxLines?: number;
+    maxLength?: number;
     multiple?: boolean;
     separator?: string;
-    prefix?: '';
-    suffix?: '';
-    maxLength?: number;
+    prefix?: string;
+    suffix?: string;
   }
 
   type DefaultViewConfig = 'text' | 'form';
