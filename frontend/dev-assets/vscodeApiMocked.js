@@ -218,6 +218,7 @@ const config = {
       description: 'Short description in the subject line.',
       type: 'text',
       multiline: false,
+      maxLength: 72,
     },
     {
       label: 'Body',
