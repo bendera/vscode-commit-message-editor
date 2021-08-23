@@ -12,6 +12,7 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
+import alias from '@rollup/plugin-alias';
 import vizualizer from 'rollup-plugin-visualizer';
 import filesize from 'rollup-plugin-filesize';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
@@ -27,6 +28,14 @@ const baseConfig = ({vizualizerFilename, vizualizerTitle}) => {
       }
     },
     plugins: [
+      alias({
+        entries: [
+          {
+            find: 'lit-html/lib/shady-render.js',
+            replacement: 'node_modules/lit-html/lit-html.js',
+          },
+        ],
+      }),
       replace({
         'Reflect.decorate': 'undefined',
         'process.env.NODE_ENV': "'production'",
