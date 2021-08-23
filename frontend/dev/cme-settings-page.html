@@ -1,11 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>&lt;my-button> Demo</title>
+    <meta charset="utf-8" />
+    <title>cme-settings-page</title>
+    <link rel="stylesheet" href="../node_modules/vscode-codicons/dist/codicon.css" id="vscode-codicon-stylesheet">
+    <link rel="stylesheet" href="../dev-assets/default-webview-styles.css" />
+    <script type="module" src="../dev-assets/component-preview.js"></script>
+    <script type="module" src="../dev-assets/vscodeApiMocked.js"></script>
+    <script type="module" src="../dist/pages/cme-settings-page.js"></script>
   </head>
   <body>
-    <h1>TODO</h1>
+    <component-preview>
+      <cme-settings-page></cme-settings-page>
+    </component-preview>
+    <div>
+      <button type="button" id="btCopy">Copy from SCM Inputbox</button>
+      <button type="button" id="btClearStorage">Clear sessionStorage</button>
+      <script>
+        (() => {
+          const btCopy = document.getElementById('btCopy');
+          const btClearStorage = document.getElementById('btClearStorage');
+
+          btCopy.addEventListener('click', () =>{
+            window.postMessage({
+              command: 'copyFromSCMInputBox',
+              payload: 'Lorem ipsum dolor sit',
+            });
+          });
+
+          btClearStorage.addEventListener('click', () => {
+            window.sessionStorage.clear();
+          });
+        })();
+      </script>
+    </div>
   </body>
 </html>

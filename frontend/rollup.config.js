@@ -19,39 +19,61 @@ import {terser} from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 
-export default {
-  input: 'dist/pages/cme-editor-page.js',
-  output: {
-    file: 'dist/bundled.js',
-    format: 'esm',
-  },
-  onwarn(warning) {
-    if (warning.code !== 'THIS_IS_UNDEFINED') {
-      console.error(`(!) ${warning.message}`);
-    }
-  },
-  plugins: [
-    replace({
-      'Reflect.decorate': 'undefined',
-      'process.env.NODE_ENV': '\'production\'',
-    }),
-    resolve(),
-    minifyHTML(),
-    terser({
-      module: true,
-      warnings: true,
-      mangle: {
-        properties: {
-          regex: /^__/,
+const baseConfig = ({vizualizerFilename, vizualizerTitle}) => {
+  return {
+    onwarn(warning) {
+      if (warning.code !== 'THIS_IS_UNDEFINED') {
+        console.error(`(!) ${warning.message}`);
+      }
+    },
+    plugins: [
+      replace({
+        'Reflect.decorate': 'undefined',
+        'process.env.NODE_ENV': "'production'",
+      }),
+      resolve(),
+      minifyHTML(),
+      terser({
+        module: true,
+        warnings: true,
+        mangle: {
+          properties: {
+            regex: /^__/,
+          },
         },
-      },
-      format: {
-        comments: false,
-      },
-    }),
-    filesize({
-      showBrotliSize: true,
-    }),
-    vizualizer(),
-  ],
+        format: {
+          comments: false,
+        },
+      }),
+      filesize({
+        showBrotliSize: true,
+      }),
+      vizualizer({filename: vizualizerFilename, title: vizualizerTitle}),
+    ],
+  };
 };
+
+export default [
+  {
+    ...baseConfig({
+      vizualizerFilename: 'stats_editor.html',
+      title: 'Editor Page',
+    }),
+    input: 'dist/pages/cme-editor-page.js',
+    output: {
+      file: 'dist/editor.bundled.js',
+      format: 'esm',
+    },
+  },
+  {
+    ...baseConfig({
+      vizualizerFilename: 'stats_settings.html',
+      title: 'Settings Page',
+    }),
+    input: 'dist/pages/cme-settings-page.js',
+    output: {
+      file: 'dist/settings.bundled.js',
+      format: 'esm',
+    },
+  },
+];
