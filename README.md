@@ -12,6 +12,7 @@ Edit commit messages in a convenient way.
 - Native look and feel (provided by [Vscode Webview Elements](https://github.com/bendera/vscode-webview-elements))
 
 ![Preview](preview1.gif)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbendera%2Fvscode-commit-message-editor.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbendera%2Fvscode-commit-message-editor?ref=badge_shield)
 
 The factory settings follows the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
@@ -72,3 +73,7 @@ The dynamic template contains template variables (tokens), which are between cur
 - [Gitmojis](https://github.com/bendera/vscode-commit-message-editor/blob/master/example-configs/gitmojis.json)
 
 **Happy coding!**
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbendera%2Fvscode-commit-message-editor.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbendera%2Fvscode-commit-message-editor?ref=badge_large)
