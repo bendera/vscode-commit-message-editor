@@ -26,6 +26,7 @@
   "activationEvents": [
     "onCommand:commitMessageEditor.openEditor",
     "onCommand:commitMessageEditor.copyFromSCMInputBox",
+    "onCommand:commitMessageEditor.openSettingsPage",
     "onWebviewPanel:copyFromExtensionMessageBox"
   ],
   "main": "./out/extension.js",
@@ -46,6 +47,11 @@
         "command": "commitMessageEditor.loadTemplate",
         "title": "Load template",
         "category": "Git"
+      },
+      {
+        "command": "commitMessageEditor.openSettingsPage",
+        "title": "Open Settings Page",
+        "category": "Commit Message Editor"
       }
     ],
     "menus": {
