@@ -15,8 +15,6 @@
  */
 
 import alias from '@rollup/plugin-alias';
-import vizualizer from 'rollup-plugin-visualizer';
-import filesize from 'rollup-plugin-filesize';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import {terser} from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
@@ -61,7 +59,5 @@ export default {
         comments: false,
       },
     }),
-    filesize(),
-    vizualizer(),
   ],
 };
