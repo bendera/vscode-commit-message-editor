@@ -37,7 +37,7 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
     </head>
     <body class="${platform}">
       <cme-editor-page></cme-editor-page>
-      <script src="${assetUri('frontend/dist/bundled.js')}" nonce="${nonce}" type="module"></script>
+      <script src="${assetUri('frontend/dist/_bundled/cme-editor-page.js')}" nonce="${nonce}" type="module"></script>
     </body>
     </html>
   `;

@@ -13,11 +13,10 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 node_modules
-!node_modules/@bendera/vscode-webview-elements/dist/bundled.js
 !node_modules/vscode-codicons/dist/codicon.css
 !node_modules/vscode-codicons/dist/codicon.ttf
 frontend/
-!frontend/dist/bundled.js
+!frontend/dist/_bundled/
 scripts/
 example-configs/
 preview1.gif

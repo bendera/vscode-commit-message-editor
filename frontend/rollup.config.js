@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable no-undef */
 /**
  * @license
  * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
@@ -20,69 +22,46 @@ import {terser} from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 
-const baseConfig = ({vizualizerFilename, vizualizerTitle}) => {
-  return {
-    onwarn(warning) {
-      if (warning.code !== 'THIS_IS_UNDEFINED') {
-        console.error(`(!) ${warning.message}`);
-      }
-    },
-    plugins: [
-      alias({
-        entries: [
-          {
-            find: 'lit-html/lib/shady-render.js',
-            replacement: 'node_modules/lit-html/lit-html.js',
-          },
-        ],
-      }),
-      replace({
-        'Reflect.decorate': 'undefined',
-        'process.env.NODE_ENV': "'production'",
-      }),
-      resolve(),
-      minifyHTML(),
-      terser({
-        module: true,
-        warnings: true,
-        mangle: {
-          properties: {
-            regex: /^__/,
-          },
+export default {
+  input: ['dist/pages/cme-editor-page.js', 'dist/pages/cme-settings-page.js'],
+  output: {
+    dir: 'dist/_bundled',
+    format: 'esm',
+    chunkFileNames: '[hash].js',
+  },
+  onwarn(warning) {
+    if (warning.code !== 'THIS_IS_UNDEFINED') {
+      console.error(`(!) ${warning.message}`);
+    }
+  },
+  plugins: [
+    alias({
+      entries: [
+        {
+          find: 'lit-html/lib/shady-render.js',
+          replacement: 'node_modules/lit-html/lit-html.js',
         },
-        format: {
-          comments: false,
+      ],
+    }),
+    replace({
+      'Reflect.decorate': 'undefined',
+      'process.env.NODE_ENV': "'production'",
+    }),
+    resolve(),
+    minifyHTML(),
+    terser({
+      module: true,
+      warnings: true,
+      mangle: {
+        properties: {
+          regex: /^__/,
         },
-      }),
-      filesize({
-        showBrotliSize: true,
-      }),
-      vizualizer({filename: vizualizerFilename, title: vizualizerTitle}),
-    ],
-  };
+      },
+      format: {
+        comments: false,
+      },
+    }),
+    filesize(),
+    vizualizer(),
+  ],
 };
-
-export default [
-  {
-    ...baseConfig({
-      vizualizerFilename: 'stats_editor.html',
-      title: 'Editor Page',
-    }),
-    input: 'dist/pages/cme-editor-page.js',
-    output: {
-      file: 'dist/editor.bundled.js',
-      format: 'esm',
-    },
-  },
-  {
-    ...baseConfig({
-      vizualizerFilename: 'stats_settings.html',
-      title: 'Settings Page',
-    }),
-    input: 'dist/pages/cme-settings-page.js',
-    output: {
-      file: 'dist/settings.bundled.js',
-      format: 'esm',
-    },
-  },
-];
