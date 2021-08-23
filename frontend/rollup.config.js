@@ -44,6 +44,7 @@ export default {
     replace({
       'Reflect.decorate': 'undefined',
       'process.env.NODE_ENV': "'production'",
+      preventAssignment: true,
     }),
     resolve(),
     minifyHTML(),
