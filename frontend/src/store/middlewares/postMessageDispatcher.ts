@@ -3,6 +3,7 @@ import {
   CLOSE_TAB,
   CONFIRM_AMEND,
   COPY_TO_SCM_INPUT_BOX,
+  IMPORT_CONFIG,
   RECENT_COMMITS_REQUEST,
 } from '../actions';
 import {getAPI} from '../../utils/VSCodeAPIService';
@@ -36,6 +37,12 @@ export const postMessageDispatcher: Middleware = (_) => (next) => (action) => {
         payload,
       });
       break;
+    case IMPORT_CONFIG:
+      vscode.postMessage({
+        command: 'importConfig',
+      });
+      break;
+    default:
   }
 
   return next(action);

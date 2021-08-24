@@ -286,6 +286,7 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.3.1",
     "@types/vscode": "^1.50.0",
+    "ajv": "^8.6.2",
     "glob": "^7.1.7",
     "mocha": "^8.4.0",
     "tslint": "^6.1.2",

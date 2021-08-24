@@ -16,7 +16,8 @@ declare global {
     | 'closeTab'
     | 'requestRecentCommits'
     | 'confirmAmend'
-    | 'copyFromExtensionMessageBox';
+    | 'copyFromExtensionMessageBox'
+    | 'importConfig';
 
   interface PostMessageDO {
     command: PostMessageCommand;
@@ -28,7 +29,9 @@ declare global {
     | 'copyFromSCMInputBox'
     | 'recentCommitMessages'
     | 'receiveConfig'
-    | 'repositoryInfo';
+    | 'repositoryInfo'
+    | 'receiveImportedConfig'
+    | 'importedConfigError';
 
   interface ReceivedMessageDO {
     command: MessageEventCommand;

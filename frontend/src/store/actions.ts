@@ -13,6 +13,8 @@ export const COPY_TO_SCM_INPUT_BOX = 'COPY_TO_SCM_INPUT_BOX';
 export const REPOSITORY_INFO_RECEIVED = 'REPOSITORY_INFO_RECEIVED';
 export const UPDATE_TOKEN_VALUES = 'UPDATE_TOKEN_VALUES';
 
+export const IMPORT_CONFIG = 'IMPORT_CONFIG';
+
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
 export const recentCommitsReceived = createAction<Commit[]>(
@@ -31,3 +33,5 @@ export const receiveRepositoryInfo = createAction<RepositoryInfo>(
 );
 export const updateTokenValues =
   createAction<{[key: string]: string}>(UPDATE_TOKEN_VALUES);
+
+export const importConfig = createAction(IMPORT_CONFIG);
