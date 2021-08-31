@@ -5,7 +5,7 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  internalProperty,
+  state,
 } from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {connect} from 'pwa-helpers';
@@ -18,13 +18,13 @@ import {FormView} from './cme-form-view/cme-form-view';
 
 @customElement('cme-editor')
 export class Editor extends connect(store)(LitElement) {
-  @internalProperty()
+  @state()
   private _selectedIndex = 0;
 
-  @internalProperty()
+  @state()
   private _visibleViews: VisibleViewsConfig = 'both';
 
-  @internalProperty()
+  @state()
   private _fullWidth = false;
 
   stateChanged(state: RootState): void {

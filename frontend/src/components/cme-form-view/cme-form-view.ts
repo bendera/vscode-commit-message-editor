@@ -5,7 +5,7 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  internalProperty,
+  state,
   query,
 } from 'lit-element';
 import {connect} from 'pwa-helpers';
@@ -38,16 +38,16 @@ export class FormView extends connect(store)(LitElement) {
   @query('#form-container')
   private _formContainer!: VscodeFormContainer;
 
-  @internalProperty()
+  @state()
   private _saveAndClose = false;
 
-  @internalProperty()
+  @state()
   private _tokens: Token[] = [];
 
-  @internalProperty()
+  @state()
   private _amendCbChecked = false;
 
-  @internalProperty()
+  @state()
   private _tokenValues: {[name: string]: string | string[]} = {};
 
   private _dynamicTemplate: string[] = [];

@@ -5,7 +5,7 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  internalProperty,
+  state,
 } from 'lit-element';
 import {nothing} from 'lit-html';
 import {connect} from 'pwa-helpers';
@@ -37,34 +37,34 @@ export class TextView extends connect(store)(LitElement) {
     triggerInputboxRerender(inputs as NodeListOf<VscodeInputbox>);
   }
 
-  @internalProperty()
+  @state()
   private _showRecentCommits = false;
 
-  @internalProperty()
+  @state()
   private _isCommitsLoading = false;
 
-  @internalProperty()
+  @state()
   private _commits: Commit[] | undefined = undefined;
 
-  @internalProperty()
+  @state()
   private _saveAndClose = false;
 
-  @internalProperty()
+  @state()
   private _inputBoxValue = '';
 
-  @internalProperty()
+  @state()
   private _useMonospaceEditor = false;
 
-  @internalProperty()
+  @state()
   private _tabSize = 4;
 
-  @internalProperty()
+  @state()
   private _useTabs = false;
 
-  @internalProperty()
+  @state()
   private _rulers: number[] = [];
 
-  @internalProperty()
+  @state()
   private _visibleLines = 10;
 
   private _staticTemplate = '';

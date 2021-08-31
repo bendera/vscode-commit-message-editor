@@ -5,7 +5,7 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  internalProperty,
+  state,
 } from 'lit-element';
 import {nothing} from 'lit-html';
 import {connect} from 'pwa-helpers';
@@ -14,10 +14,10 @@ import store, {RootState} from '../store/store';
 
 @customElement('cme-repo-info')
 export class RepoInfo extends connect(store)(LitElement) {
-  @internalProperty()
+  @state()
   private _numberOfRepositories = 1;
 
-  @internalProperty()
+  @state()
   private _selectedRepositoryPath = '';
 
   stateChanged(state: RootState): void {

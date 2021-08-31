@@ -6,7 +6,7 @@ import {
   CSSResult,
   TemplateResult,
   property,
-  internalProperty,
+  state,
   query,
 } from 'lit-element';
 import {styleMap} from 'lit-html/directives/style-map';
@@ -65,10 +65,10 @@ export class CodeEditor extends LitElement {
     this._charWidth = charDimensions.w;
   }
 
-  @internalProperty()
+  @state()
   private _value = '';
 
-  @internalProperty()
+  @state()
   private _linefeedPositions: number[] = [];
 
   @query('.wrapper')
