@@ -14,10 +14,9 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-import alias from '@rollup/plugin-alias';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import {terser} from 'rollup-plugin-terser';
-import resolve from 'rollup-plugin-node-resolve';
+import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 
 export default {
@@ -33,14 +32,6 @@ export default {
     }
   },
   plugins: [
-    alias({
-      entries: [
-        {
-          find: 'lit-html/lib/shady-render.js',
-          replacement: 'node_modules/lit-html/lit-html.js',
-        },
-      ],
-    }),
     replace({
       'Reflect.decorate': 'undefined',
       'process.env.NODE_ENV': "'production'",
@@ -49,6 +40,7 @@ export default {
     resolve(),
     minifyHTML(),
     terser({
+      ecma: 2017,
       module: true,
       warnings: true,
       mangle: {

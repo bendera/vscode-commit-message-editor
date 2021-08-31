@@ -1,5 +1,7 @@
 export default {
   files: ['dist/test/**/*.test.js', 'dist/test/**/*.test.html'],
+  nodeResolve: true,
+  preserveSymlinks: true,
   testRunnerHtml: (testFramework) =>
     `<html>
       <head>
