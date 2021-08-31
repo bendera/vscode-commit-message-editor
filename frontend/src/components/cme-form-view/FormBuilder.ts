@@ -1,6 +1,5 @@
-import {html, TemplateResult} from 'lit-element';
-import {nothing} from 'lit-html';
-import {ifDefined} from 'lit-html/directives/if-defined';
+import {html, TemplateResult, nothing} from 'lit';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-form-group';
 import '@bendera/vscode-webview-elements/dist/vscode-form-helper';
@@ -33,7 +32,7 @@ class FormBuilder {
     this._handleFormItemChange = fn;
   }
 
-  build(): typeof nothing | TemplateResult[] {
+  build(): TemplateResult[] {
     const formElements = this._tokens.map((token) => {
       switch (token.type) {
         case 'enum':
@@ -43,7 +42,7 @@ class FormBuilder {
         case 'boolean':
           return this._renderBooleanTypeWidget(token);
         default:
-          return nothing;
+          return html`${nothing}`;
       }
     });
 
@@ -61,7 +60,7 @@ class FormBuilder {
     label: string,
     description = ''
   ) {
-    let desc = nothing;
+    let desc: TemplateResult = html`${nothing}`;
 
     if (description) {
       desc = html`<vscode-form-helper>${description}</vscode-form-helper>`;

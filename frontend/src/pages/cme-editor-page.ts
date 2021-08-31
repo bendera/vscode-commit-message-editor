@@ -1,4 +1,5 @@
-import {LitElement, html, customElement, TemplateResult} from 'lit-element';
+import {LitElement, html, TemplateResult} from 'lit';
+import {customElement} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import {getAPI} from '../utils/VSCodeAPIService';
 import store, {RootState} from '../store/store';
@@ -51,7 +52,7 @@ export class EditorPage extends connect(store)(LitElement) {
 
     switch (command) {
       case 'amendPerformed':
-        if(saveAndClose) {
+        if (saveAndClose) {
           store.dispatch(closeTab());
         }
         break;

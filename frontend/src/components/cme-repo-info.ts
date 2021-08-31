@@ -1,13 +1,6 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  CSSResult,
-  TemplateResult,
-  state,
-} from 'lit-element';
-import {nothing} from 'lit-html';
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
+import {nothing} from 'lit';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import store, {RootState} from '../store/store';

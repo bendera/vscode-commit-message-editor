@@ -1,13 +1,5 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  CSSResult,
-  TemplateResult,
-  state,
-} from 'lit-element';
-import {nothing} from 'lit-html';
+import {LitElement, html, css, CSSResult, nothing, TemplateResult} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
@@ -25,7 +17,7 @@ import {
 import './cme-code-editor/cme-code-editor';
 import './cme-recent-commits';
 import './cme-repo-info';
-import { triggerInputboxRerender } from './helpers';
+import {triggerInputboxRerender} from './helpers';
 
 @customElement('cme-text-view')
 export class TextView extends connect(store)(LitElement) {

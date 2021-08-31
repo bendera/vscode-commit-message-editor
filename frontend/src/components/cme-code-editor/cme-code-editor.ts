@@ -1,15 +1,6 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  CSSResult,
-  TemplateResult,
-  property,
-  state,
-  query,
-} from 'lit-element';
-import {styleMap} from 'lit-html/directives/style-map';
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, property, state, query} from 'lit/decorators.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import {CodeEditorHistory} from './CommandHistory';
 import {
   insertTab,

@@ -1,16 +1,6 @@
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  property,
-  query,
-  state,
-  TemplateResult,
-} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
-import {nothing} from 'lit-html';
+import {css, CSSResult, html, LitElement, nothing, TemplateResult} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-form-container';
 import '@bendera/vscode-webview-elements/dist/vscode-form-group';

@@ -1,15 +1,6 @@
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  property,
-  query,
-  state,
-  TemplateResult,
-} from 'lit-element';
-import {ifDefined} from 'lit-html/directives/if-defined';
+import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-form-group';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';

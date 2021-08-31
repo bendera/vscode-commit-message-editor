@@ -1,13 +1,5 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  CSSResult,
-  TemplateResult,
-  state,
-  query,
-} from 'lit-element';
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, state, query} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-form-container';

@@ -1,13 +1,6 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  CSSResult,
-  TemplateResult,
-  state,
-} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-tabs';
 import './cme-text-view';

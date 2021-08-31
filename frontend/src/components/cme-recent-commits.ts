@@ -1,12 +1,5 @@
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  property,
-  TemplateResult,
-} from 'lit-element';
+import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
 import '@bendera/vscode-webview-elements/dist/vscode-tree';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 
@@ -114,13 +107,15 @@ export class RecentCommits extends LitElement {
   render(): TemplateResult {
     const treeData =
       this.data !== undefined
-        ? transformCommitList(this.data, this.maxItems).map(({label, value}) => ({
-            icons: {
-              leaf: 'git-commit',
-            },
-            label,
-            value,
-          }))
+        ? transformCommitList(this.data, this.maxItems).map(
+            ({label, value}) => ({
+              icons: {
+                leaf: 'git-commit',
+              },
+              label,
+              value,
+            })
+          )
         : [];
 
     const placeholderItems = Array(this.maxItems).fill(

@@ -1,9 +1,10 @@
-import {LitElement, html, customElement, TemplateResult} from 'lit-element';
+import {LitElement, html, TemplateResult} from 'lit';
+import {customElement} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import store from '../store/store';
 import '../components/cme-settings-content';
-import { shareableConfigChange } from '../store/actions';
+import {shareableConfigChange} from '../store/actions';
 
 @customElement('cme-settings-page')
 export class SettingsPage extends connect(store)(LitElement) {
@@ -37,8 +38,6 @@ export class SettingsPage extends connect(store)(LitElement) {
   private _handlePostMessagesBound = this._handlePostMessages.bind(this);
 
   render(): TemplateResult {
-    return html`
-      <cme-settings-content></cme-settings-content>
-    `;
+    return html` <cme-settings-content></cme-settings-content> `;
   }
 }

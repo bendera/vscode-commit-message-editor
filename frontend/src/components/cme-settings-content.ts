@@ -1,12 +1,5 @@
-import {
-  LitElement,
-  html,
-  customElement,
-  TemplateResult,
-  state,
-  CSSResult,
-  css,
-} from 'lit-element';
+import {LitElement, html, TemplateResult, CSSResult, css} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-collapsible';
@@ -99,10 +92,7 @@ export class SettingsContent extends connect(store)(LitElement) {
             icon="folder-opened"
             >Open</vscode-button
           >
-          <vscode-button
-            icon="save"
-            >Save</vscode-button
-          >
+          <vscode-button icon="save">Save</vscode-button>
         </p>
       </div>
     `;
