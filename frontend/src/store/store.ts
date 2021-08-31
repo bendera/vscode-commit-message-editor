@@ -24,6 +24,7 @@ export default store;
 export interface RootState {
   persisted: boolean;
   config: ExtensionConfig;
+  shareableConfig: ShareableConfig;
   scmInputBoxValue: string;
   recentCommits?: Commit[];
   recentCommitsLoading: boolean;

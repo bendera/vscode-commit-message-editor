@@ -2,9 +2,8 @@ import {LitElement, html, customElement, TemplateResult} from 'lit-element';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import store from '../store/store';
-import {getAPI} from '../utils/VSCodeAPIService';
-
-const vscode = getAPI();
+import '../components/cme-settings-content';
+import { shareableConfigChange } from '../store/actions';
 
 @customElement('cme-settings-page')
 export class SettingsPage extends connect(store)(LitElement) {
@@ -25,6 +24,7 @@ export class SettingsPage extends connect(store)(LitElement) {
       case 'receiveImportedConfig':
         console.log('receive imported config');
         console.log(payload);
+        store.dispatch(shareableConfigChange(payload as ShareableConfig));
         break;
       case 'importedConfigError':
         console.log('importedConfigError');
@@ -36,22 +36,9 @@ export class SettingsPage extends connect(store)(LitElement) {
 
   private _handlePostMessagesBound = this._handlePostMessages.bind(this);
 
-  private _onImportButtonClick() {
-    vscode.postMessage({
-      command: 'importConfig',
-    });
-  }
-
   render(): TemplateResult {
     return html`
-      <div>
-        <p>Settings page</p>
-        <p>
-          <vscode-button @click="${this._onImportButtonClick}">
-            Import
-          </vscode-button>
-        </p>
-      </div>
+      <cme-settings-content></cme-settings-content>
     `;
   }
 }

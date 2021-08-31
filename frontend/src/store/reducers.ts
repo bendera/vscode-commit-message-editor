@@ -7,6 +7,7 @@ import {
   RECENT_COMMITS_REQUEST,
   REPLACE_STATE,
   REPOSITORY_INFO_RECEIVED,
+  SHAREABLE_CONFIG_CHANGED,
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
 } from './actions';
@@ -30,6 +31,11 @@ export const createInitialState = (): RootState => ({
       tabSize: 4,
       useTabs: false,
     },
+  },
+  shareableConfig: {
+    dynamicTemplate: [],
+    staticTemplate: [],
+    tokens: [],
   },
   scmInputBoxValue: '',
   recentCommits: undefined,
@@ -77,5 +83,11 @@ export const rootReducer = createReducer(initialState, {
   [UPDATE_TOKEN_VALUES]: (state: RootState, action) => {
     const {payload} = action;
     state.tokenValues = payload;
+  },
+  [SHAREABLE_CONFIG_CHANGED]: (state: RootState, action) => {
+    const {payload} = action;
+    const {staticTemplate, dynamicTemplate, tokens} = payload;
+
+    state.shareableConfig = {staticTemplate, dynamicTemplate, tokens};
   },
 });

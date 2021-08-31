@@ -46,16 +46,18 @@ declare global {
 
   type TokenType = 'text' | 'boolean' | 'enum';
 
+  interface EnumTokenOption {
+    label: string;
+    value?: string;
+    description?: string;
+  }
+
   interface Token {
     label: string;
     name: string;
     type: TokenType;
     value?: string;
-    options?: {
-      label: string;
-      value?: string;
-      description?: string;
-    }[];
+    options?: EnumTokenOption[];
     description?: string;
     multiline?: boolean;
     combobox?: boolean;
@@ -90,6 +92,11 @@ declare global {
       visibleLines: number;
     };
   }
+
+  type ShareableConfig = Pick<
+    ExtensionConfig,
+    'dynamicTemplate' | 'staticTemplate' | 'tokens'
+  >;
 
   interface RepositoryInfo {
     numberOfRepositories: number;

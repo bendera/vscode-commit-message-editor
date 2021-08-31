@@ -1,39 +1,160 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>cme-settings-page</title>
-    <link rel="stylesheet" href="../node_modules/vscode-codicons/dist/codicon.css" id="vscode-codicon-stylesheet">
-    <link rel="stylesheet" href="../dev-assets/default-webview-styles.css" />
-    <script type="module" src="../dev-assets/component-preview.js"></script>
-    <script type="module" src="../dev-assets/vscodeApiMocked.js"></script>
-    <script type="module" src="../dist/pages/cme-settings-page.js"></script>
-  </head>
-  <body>
-    <component-preview>
-      <cme-settings-page></cme-settings-page>
-    </component-preview>
-    <div>
-      <button type="button" id="btCopy">Copy from SCM Inputbox</button>
-      <button type="button" id="btClearStorage">Clear sessionStorage</button>
-      <script>
-        (() => {
-          const btCopy = document.getElementById('btCopy');
-          const btClearStorage = document.getElementById('btClearStorage');
 
-          btCopy.addEventListener('click', () =>{
-            window.postMessage({
-              command: 'copyFromSCMInputBox',
-              payload: 'Lorem ipsum dolor sit',
-            });
-          });
+<head>
+  <meta charset="utf-8" />
+  <title>cme-settings-page</title>
+  <link rel="stylesheet" href="../node_modules/vscode-codicons/dist/codicon.css" id="vscode-codicon-stylesheet">
+  <link rel="stylesheet" href="../dev-assets/default-webview-styles.css" />
+  <script type="module" src="../dev-assets/component-preview.js"></script>
+  <script type="module" src="../dev-assets/vscodeApiMocked.js"></script>
+  <script type="module" src="../dist/pages/cme-settings-page.js"></script>
+</head>
 
-          btClearStorage.addEventListener('click', () => {
-            window.sessionStorage.clear();
+<body>
+  <component-preview>
+    <cme-settings-page></cme-settings-page>
+  </component-preview>
+  <div>
+    <button type="button" id="btImportedConfig">receiveImportedConfig</button>
+    <button type="button" id="btImportedConfigError">importedConfigError</button>
+    <button type="button" id="btClearStorage">Clear sessionStorage</button>
+    <script>
+      (() => {
+        const btImportedConfig = document.getElementById('btImportedConfig');
+        const btClearStorage = document.getElementById('btClearStorage');
+
+        btImportedConfig.addEventListener('click', () => {
+          window.postMessage({
+            command: 'receiveImportedConfig',
+            payload: {
+              "$schema": "./config-v1.schema.json",
+              "staticTemplate": [
+                "feat: Short description",
+                "",
+                "Message body",
+                "",
+                "Message footer"
+              ],
+              "dynamicTemplate": [
+                "{type}{scope}: {description}",
+                "",
+                "{body}",
+                "",
+                "{breaking_change}{footer}"
+              ],
+              "tokens": [
+                {
+                  label: 'Type',
+                  name: 'type',
+                  type: 'enum',
+                  options: [
+                    {
+                      label: '---',
+                      value: '',
+                    },
+                    {
+                      label: 'build',
+                      description:
+                        'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
+                    },
+                    {
+                      label: 'chore',
+                      description: 'Updating grunt tasks etc; no production code change',
+                    },
+                    {
+                      label: 'ci',
+                      description:
+                        'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
+                    },
+                    {
+                      label: 'docs',
+                      description: 'Documentation only changes',
+                    },
+                    {
+                      label: 'feat',
+                      description: 'A new feature',
+                    },
+                    {
+                      label: 'fix',
+                      description: 'A bug fix',
+                    },
+                    {
+                      label: 'perf',
+                      description: 'A code change that improves performance',
+                    },
+                    {
+                      label: 'refactor',
+                      description:
+                        'A code change that neither fixes a bug nor adds a feature',
+                    },
+                    {
+                      label: 'revert',
+                    },
+                    {
+                      label: 'style',
+                      description:
+                        'Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
+                    },
+                    {
+                      label: 'test',
+                      description: 'Adding missing tests or correcting existing tests',
+                    },
+                  ],
+                  description: 'Type of changes',
+                },
+                {
+                  label: 'Scope',
+                  name: 'scope',
+                  description:
+                    'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., "feat(parser): add ability to parse arrays".',
+                  type: 'text',
+                  multiline: false,
+                  prefix: '(',
+                  suffix: ')',
+                },
+                {
+                  label: 'Short description',
+                  name: 'description',
+                  description: 'Short description in the subject line.',
+                  type: 'text',
+                  multiline: false,
+                },
+                {
+                  label: 'Body',
+                  name: 'body',
+                  description: 'Optional body',
+                  type: 'text',
+                  multiline: true,
+                  lines: 5,
+                  maxLines: 10,
+                },
+                {
+                  label: 'Breaking change',
+                  name: 'breaking_change',
+                  type: 'boolean',
+                  value: 'BREAKING CHANGE: ',
+                  default: false,
+                },
+                {
+                  label: 'Footer',
+                  name: 'footer',
+                  description: 'Optional footer',
+                  type: 'text',
+                  multiline: true,
+                },
+              ]
+            },
           });
-        })();
-      </script>
-    </div>
-  </body>
+        });
+
+        btClearStorage.addEventListener('click', () => {
+          window.sessionStorage.clear();
+        });
+      })();
+    </script>
+  </div>
+</body>
+
 </html>
