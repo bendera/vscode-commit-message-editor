@@ -43,18 +43,9 @@ export class SettingsContent extends connect(store)(LitElement) {
   }
 
   private _onTokenSave(ev: CustomEvent) {
-    console.log(ev.detail);
     const {index, data} = ev.detail;
 
     store.dispatch(shareableConfigTokenChange({index, data}));
-
-    /* this._tokens = this._tokens.map((t, i) => {
-      if (i === index) {
-        return data;
-      }
-
-      return t;
-    }); */
   }
 
   static get styles(): CSSResult {

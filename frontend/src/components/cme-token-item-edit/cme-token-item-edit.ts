@@ -188,7 +188,6 @@ export class TokenItemEdit extends LitElement {
   }
 
   private _onSaveClick() {
-    console.log('TOKEN:', this.token);
     this.dispatchEvent(
       new CustomEvent('save', {
         detail: {
@@ -234,6 +233,7 @@ export class TokenItemEdit extends LitElement {
       }
 
       vscode-form-container {
+        margin-bottom: 20px;
         max-width: none;
         padding-bottom: 26px;
         padding-top: 26px;

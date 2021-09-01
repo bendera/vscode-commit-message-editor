@@ -92,7 +92,7 @@ export const rootReducer = createReducer(initialState, {
     state.shareableConfig = {staticTemplate, dynamicTemplate, tokens};
   },
   [SHAREABLE_CONFIG_TOKEN_CHANGED]: (state: RootState, action) => {
-    const {index, data} = action;
+    const {index, data} = action.payload;
 
     state.shareableConfig.tokens = state.shareableConfig.tokens.map((t, i) => {
       if (i === index) {
