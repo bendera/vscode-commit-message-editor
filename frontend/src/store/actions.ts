@@ -14,6 +14,7 @@ export const REPOSITORY_INFO_RECEIVED = 'REPOSITORY_INFO_RECEIVED';
 export const UPDATE_TOKEN_VALUES = 'UPDATE_TOKEN_VALUES';
 
 export const IMPORT_CONFIG = 'IMPORT_CONFIG';
+export const SHAREABLE_CONFIG_IMPORT_ERROR = 'SHAREABLE_CONFIG_IMPORT_ERROR';
 export const SHAREABLE_CONFIG_CHANGED = 'SHAREABLE_CONFIG_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_CHANGED = 'SHAREABLE_CONFIG_TOKEN_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_DELETE = 'SHAREABLE_CONFIG_TOKEN_DELETE';
@@ -38,6 +39,9 @@ export const updateTokenValues =
   createAction<{[key: string]: string}>(UPDATE_TOKEN_VALUES);
 
 export const importConfig = createAction(IMPORT_CONFIG);
+export const shareableConfigImportError = createAction<{errorMessage: string}>(
+  SHAREABLE_CONFIG_IMPORT_ERROR
+);
 export const shareableConfigChange = createAction<ShareableConfig>(
   SHAREABLE_CONFIG_CHANGED
 );

@@ -23,6 +23,7 @@
     <script>
       (() => {
         const btImportedConfig = document.getElementById('btImportedConfig');
+        const btImportedConfigError = document.getElementById('btImportedConfigError');
         const btClearStorage = document.getElementById('btClearStorage');
 
         btImportedConfig.addEventListener('click', () => {
@@ -147,6 +148,13 @@
               ]
             },
           });
+        });
+
+        btImportedConfigError.addEventListener('click', () => {
+          window.postMessage({
+            command: 'importedConfigError',
+            payload: 'Unexpected token ] in JSON at position 281',
+          })
         });
 
         btClearStorage.addEventListener('click', () => {

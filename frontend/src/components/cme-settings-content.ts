@@ -1,4 +1,4 @@
-import {LitElement, html, TemplateResult, CSSResult, css} from 'lit';
+import {LitElement, html, TemplateResult, CSSResult, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
@@ -30,12 +30,21 @@ export class SettingsContent extends connect(store)(LitElement) {
   @state()
   private _tokens: Token[] = [];
 
+  @state()
+  private _importError = false;
+
+  @state()
+  private _importErrorMessage = '';
+
   stateChanged(state: RootState): void {
+    const {importError, importErrorMessage} = state;
     const {staticTemplate, dynamicTemplate, tokens} = state.shareableConfig;
 
     this._staticTemplate = staticTemplate;
     this._dynamicTemplate = dynamicTemplate;
     this._tokens = tokens;
+    this._importError = importError;
+    this._importErrorMessage = importErrorMessage;
   }
 
   private _onImportButtonClick() {
@@ -62,14 +71,18 @@ export class SettingsContent extends connect(store)(LitElement) {
         margin: 0 auto;
         width: 755px;
       }
+
+      .error {
+        background-color: var(--vscode-inputValidation-errorBackground);
+        border: 1px solid var(--vscode-inputValidation-errorBorder);
+        padding: 3px 6px;
+      }
     `;
   }
 
   render(): TemplateResult {
     return html`
       <div class="settings-content">
-        <p>Settings page</p>
-
         <vscode-form-group variant="settings-group">
           <vscode-label for="staticTemplate">Static template</vscode-label>
           <vscode-inputbox
@@ -112,6 +125,9 @@ export class SettingsContent extends connect(store)(LitElement) {
           >
           <vscode-button icon="save">Save</vscode-button>
         </p>
+        ${this._importError
+          ? html`<div class="error">${this._importErrorMessage}</div>`
+          : html`${nothing}`}
       </div>
     `;
   }

@@ -4,7 +4,10 @@ import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import store from '../store/store';
 import '../components/cme-settings-content';
-import {shareableConfigChange} from '../store/actions';
+import {
+  shareableConfigChange,
+  shareableConfigImportError,
+} from '../store/actions';
 
 @customElement('cme-settings-page')
 export class SettingsPage extends connect(store)(LitElement) {
@@ -23,13 +26,12 @@ export class SettingsPage extends connect(store)(LitElement) {
 
     switch (command) {
       case 'receiveImportedConfig':
-        console.log('receive imported config');
-        console.log(payload);
         store.dispatch(shareableConfigChange(payload as ShareableConfig));
         break;
       case 'importedConfigError':
-        console.log('importedConfigError');
-        console.log(payload);
+        store.dispatch(
+          shareableConfigImportError({errorMessage: payload as string})
+        );
         break;
       default:
     }

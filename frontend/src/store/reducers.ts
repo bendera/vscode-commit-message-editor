@@ -8,6 +8,7 @@ import {
   REPLACE_STATE,
   REPOSITORY_INFO_RECEIVED,
   SHAREABLE_CONFIG_CHANGED,
+  SHAREABLE_CONFIG_IMPORT_ERROR,
   SHAREABLE_CONFIG_TOKEN_CHANGED,
   SHAREABLE_CONFIG_TOKEN_DELETE,
   TEXTAREA_VALUE_CHANGED,
@@ -39,6 +40,8 @@ export const createInitialState = (): RootState => ({
     staticTemplate: [],
     tokens: [],
   },
+  importError: false,
+  importErrorMessage: '',
   scmInputBoxValue: '',
   recentCommits: undefined,
   recentCommitsLoading: false,
@@ -91,6 +94,8 @@ export const rootReducer = createReducer(initialState, {
     const {staticTemplate, dynamicTemplate, tokens} = payload;
 
     state.shareableConfig = {staticTemplate, dynamicTemplate, tokens};
+    state.importError = false;
+    state.importErrorMessage = '';
   },
   [SHAREABLE_CONFIG_TOKEN_CHANGED]: (state: RootState, action) => {
     const {index, data} = action.payload;
@@ -109,5 +114,11 @@ export const rootReducer = createReducer(initialState, {
     state.shareableConfig.tokens = state.shareableConfig.tokens.filter(
       (_t, i) => i !== index
     );
+  },
+  [SHAREABLE_CONFIG_IMPORT_ERROR]: (state: RootState, action) => {
+    const {errorMessage} = action.payload;
+
+    state.importError = true;
+    state.importErrorMessage = errorMessage;
   },
 });
