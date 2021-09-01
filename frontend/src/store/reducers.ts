@@ -9,6 +9,7 @@ import {
   REPOSITORY_INFO_RECEIVED,
   SHAREABLE_CONFIG_CHANGED,
   SHAREABLE_CONFIG_TOKEN_CHANGED,
+  SHAREABLE_CONFIG_TOKEN_DELETE,
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
 } from './actions';
@@ -101,5 +102,12 @@ export const rootReducer = createReducer(initialState, {
 
       return t;
     });
-  }
+  },
+  [SHAREABLE_CONFIG_TOKEN_DELETE]: (state: RootState, action) => {
+    const {index} = action.payload;
+
+    state.shareableConfig.tokens = state.shareableConfig.tokens.filter(
+      (_t, i) => i !== index
+    );
+  },
 });

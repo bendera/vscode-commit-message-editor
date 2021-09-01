@@ -183,6 +183,16 @@ export class TokenItemEdit extends LitElement {
     this.active = true;
   }
 
+  private _onDeleteClick() {
+    this.dispatchEvent(
+      new CustomEvent('delete', {
+        detail: {
+          index: this.dataset.index ? Number(this.dataset.index) : -1,
+        },
+      })
+    );
+  }
+
   private _onWindowClose() {
     this._isOptionsWindowVisible = false;
   }
@@ -192,7 +202,7 @@ export class TokenItemEdit extends LitElement {
       new CustomEvent('save', {
         detail: {
           index: this.dataset.index ? Number(this.dataset.index) : -1,
-          data: this.token
+          data: this.token,
         },
       })
     );
@@ -492,7 +502,11 @@ export class TokenItemEdit extends LitElement {
             action-icon
             @click="${this._onEditClick}"
           ></vscode-icon>
-          <vscode-icon name="x" action-icon></vscode-icon>
+          <vscode-icon
+            name="x"
+            action-icon
+            @click="${this._onDeleteClick}"
+          ></vscode-icon>
         </div>
       </div>
     `;
