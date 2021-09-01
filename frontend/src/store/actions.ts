@@ -15,6 +15,7 @@ export const UPDATE_TOKEN_VALUES = 'UPDATE_TOKEN_VALUES';
 
 export const IMPORT_CONFIG = 'IMPORT_CONFIG';
 export const SHAREABLE_CONFIG_CHANGED = 'SHAREABLE_CONFIG_CHANGED';
+export const SHAREABLE_CONFIG_TOKEN_CHANGED = 'SHAREABLE_CONFIG_TOKEN_CHANGED';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
@@ -39,3 +40,7 @@ export const importConfig = createAction(IMPORT_CONFIG);
 export const shareableConfigChange = createAction<ShareableConfig>(
   SHAREABLE_CONFIG_CHANGED
 );
+export const shareableConfigTokenChange = createAction<{
+  index: number;
+  data: Token;
+}>(SHAREABLE_CONFIG_TOKEN_CHANGED);

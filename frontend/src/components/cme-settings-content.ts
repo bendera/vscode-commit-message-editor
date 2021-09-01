@@ -6,6 +6,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-collapsible';
 import store, {RootState} from '../store/store';
 import {getAPI} from '../utils/VSCodeAPIService';
 import './cme-token-item-edit/cme-token-item-edit';
+import {shareableConfigTokenChange} from '../store/actions';
 
 const vscode = getAPI();
 
@@ -39,6 +40,21 @@ export class SettingsContent extends connect(store)(LitElement) {
     vscode.postMessage({
       command: 'importConfig',
     });
+  }
+
+  private _onTokenSave(ev: CustomEvent) {
+    console.log(ev.detail);
+    const {index, data} = ev.detail;
+
+    store.dispatch(shareableConfigTokenChange({index, data}));
+
+    /* this._tokens = this._tokens.map((t, i) => {
+      if (i === index) {
+        return data;
+      }
+
+      return t;
+    }); */
   }
 
   static get styles(): CSSResult {
@@ -78,11 +94,13 @@ export class SettingsContent extends connect(store)(LitElement) {
         </vscode-form-group>
 
         ${this._tokens.map(
-          (t) =>
+          (t, i) =>
             html`
               <cme-token-item-edit
+                data-index="${i}"
                 .token="${t}"
                 slot="body"
+                @save="${this._onTokenSave}"
               ></cme-token-item-edit>
             `
         )}

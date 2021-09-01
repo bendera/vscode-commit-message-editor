@@ -8,6 +8,7 @@ import {
   REPLACE_STATE,
   REPOSITORY_INFO_RECEIVED,
   SHAREABLE_CONFIG_CHANGED,
+  SHAREABLE_CONFIG_TOKEN_CHANGED,
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
 } from './actions';
@@ -90,4 +91,15 @@ export const rootReducer = createReducer(initialState, {
 
     state.shareableConfig = {staticTemplate, dynamicTemplate, tokens};
   },
+  [SHAREABLE_CONFIG_TOKEN_CHANGED]: (state: RootState, action) => {
+    const {index, data} = action;
+
+    state.shareableConfig.tokens = state.shareableConfig.tokens.map((t, i) => {
+      if (i === index) {
+        return data;
+      }
+
+      return t;
+    });
+  }
 });

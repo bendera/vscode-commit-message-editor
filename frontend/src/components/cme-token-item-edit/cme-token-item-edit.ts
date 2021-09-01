@@ -1,5 +1,5 @@
 import {css, CSSResult, html, LitElement, nothing, TemplateResult} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-form-container';
@@ -9,7 +9,6 @@ import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import '@bendera/vscode-webview-elements/dist/vscode-label';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
-import {VscodeFormContainer} from '@bendera/vscode-webview-elements/dist/vscode-form-container';
 import './cme-token-options-edit';
 
 type TokenType = 'text' | 'enum' | 'boolean';
@@ -118,53 +117,91 @@ export class TokenItemEdit extends LitElement {
   @state()
   private _isOptionsWindowVisible = false;
 
-  @query('#form')
-  private _form!: VscodeFormContainer;
-
-  private async _onFormChange() {
-    await this.updateComplete;
-    console.log(this._form.data);
-  }
-
   private _onNameChange(ev: CustomEvent) {
     this._name = ev.detail;
+  }
+
+  private _onLabelChange(ev: CustomEvent) {
+    this._label = ev.detail;
   }
 
   private _onTokenTypeChange(ev: CustomEvent) {
     const val = (ev.detail.value as string).trim();
 
     this._tokenType = val as TokenType;
-    this._onFormChange();
+  }
+
+  private _onDescriptionChange(ev: CustomEvent) {
+    this._description = ev.detail;
+  }
+
+  private _onPrefixChange(ev: CustomEvent) {
+    this._prefix = ev.detail;
+  }
+
+  private _onSuffixChange(ev: CustomEvent) {
+    this._suffix = ev.detail;
   }
 
   private _onMultilineChange(ev: CustomEvent) {
     this._multiline = ev.detail.checked;
-    this._onFormChange();
+  }
+
+  private _onLinesChange(ev: CustomEvent) {
+    this._lines = ev.detail;
+  }
+
+  private _onMaxLinesChange(ev: CustomEvent) {
+    this._maxLines = ev.detail;
+  }
+
+  private _onMaxLengthChange(ev: CustomEvent) {
+    this._maxLength = ev.detail;
   }
 
   private _onMultipleChange(ev: CustomEvent) {
-    console.log(ev);
     this._multiple = ev.detail.checked;
+  }
+
+  private _onSeparatorChange(ev: CustomEvent) {
+    this._separator = ev.detail;
   }
 
   private _onComboboxChange(ev: CustomEvent) {
     this._combobox = ev.detail.checked;
   }
 
-  private _onEditClick() {
-    this.active = true;
-  }
-
   private _onOptionsButtonClick() {
     this._isOptionsWindowVisible = true;
+  }
+
+  private _onOptionsSave(ev: CustomEvent<EnumTokenOption[]>) {
+    this._options = ev.detail;
+  }
+
+  private _onEditClick() {
+    this.active = true;
   }
 
   private _onWindowClose() {
     this._isOptionsWindowVisible = false;
   }
 
-  private _onOptionsSave(ev: CustomEvent<EnumTokenOption[]>) {
-    console.log(ev.detail);
+  private _onSaveClick() {
+    console.log('TOKEN:', this.token);
+    this.dispatchEvent(
+      new CustomEvent('save', {
+        detail: {
+          index: this.dataset.index ? Number(this.dataset.index) : -1,
+          data: this.token
+        },
+      })
+    );
+    this.active = false;
+  }
+
+  private _onCancelClick() {
+    this.active = false;
   }
 
   static get styles(): CSSResult {
@@ -208,7 +245,7 @@ export class TokenItemEdit extends LitElement {
       }
 
       vscode-form-group:not(:last-child) {
-        margin-bottom: 2px;
+        margin-bottom: 10px;
       }
 
       vscode-form-group.disabled {
@@ -223,11 +260,9 @@ export class TokenItemEdit extends LitElement {
       }
 
       cme-token-options-edit {
-        bottom: 0;
-        left: 0;
+        inset: 0;
         position: absolute;
-        right: 0;
-        top: 0;
+        z-index: 1;
       }
     `;
   }
@@ -240,7 +275,7 @@ export class TokenItemEdit extends LitElement {
           value="${this._label}"
           id="label"
           name="label"
-          @vsc-change="${this._onFormChange}"
+          @vsc-input="${this._onLabelChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -301,6 +336,7 @@ export class TokenItemEdit extends LitElement {
           value="${this._description}"
           name="description"
           multiline
+          @vsc-input="${this._onDescriptionChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -312,7 +348,7 @@ export class TokenItemEdit extends LitElement {
           value="${this._prefix}"
           id="prefix"
           name="prefix"
-          @vsc-input="${this._onFormChange}"
+          @vsc-input="${this._onPrefixChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -324,7 +360,7 @@ export class TokenItemEdit extends LitElement {
           value="${this._suffix}"
           id="suffix"
           name="suffix"
-          @vsc-input="${this._onFormChange}"
+          @vsc-input="${this._onSuffixChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -340,7 +376,7 @@ export class TokenItemEdit extends LitElement {
           name="lines"
           type="number"
           min="1"
-          @vsc-input="${this._onFormChange}"
+          @vsc-input="${this._onLinesChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -356,7 +392,7 @@ export class TokenItemEdit extends LitElement {
           name="maxLines"
           type="number"
           min="1"
-          @vsc-input="${this._onFormChange}"
+          @vsc-input="${this._onMaxLinesChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -372,7 +408,7 @@ export class TokenItemEdit extends LitElement {
           name="maxLength"
           type="number"
           min="1"
-          @vsc-input="${this._onFormChange}"
+          @vsc-input="${this._onMaxLengthChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -418,7 +454,7 @@ export class TokenItemEdit extends LitElement {
           value="${this._separator}"
           id="separator"
           name="separator"
-          @vsc-input="${this._onFormChange}"
+          @vsc-input="${this._onSeparatorChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -469,6 +505,12 @@ export class TokenItemEdit extends LitElement {
           ${maxLinesWidget} ${maxLengthWidget} ${multipleWidget}
           ${separatorWidget} ${comboboxWidget} ${optionsWidget}
           ${this._isOptionsWindowVisible ? optionsWindow : nothing}
+          <vscode-form-group>
+            <vscode-button @click="${this._onSaveClick}">Save</vscode-button>
+            <vscode-button secondary @click="${this._onCancelClick}"
+              >Cancel</vscode-button
+            >
+          </vscode-form-group>
         </vscode-form-container>
       </div>
     `;

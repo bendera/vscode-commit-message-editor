@@ -9,6 +9,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-label';
 import '@bendera/vscode-webview-elements/dist/vscode-scrollable';
 import {VscodeScrollable} from '@bendera/vscode-webview-elements/dist/vscode-scrollable';
 import {VscodeIcon} from '@bendera/vscode-webview-elements/dist/vscode-icon';
+import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 
 interface InternalEnumTokenOption extends EnumTokenOption {
   markedForDeletion?: boolean;
@@ -68,6 +69,26 @@ export class TokenOptionsEdit extends LitElement {
     await this.updateComplete;
 
     this._scrollableElement.scrollTop = this._scrollableElement.scrollHeight;
+  }
+
+  private _onInputChange(ev: CustomEvent) {
+    const el = ev.currentTarget as VscodeInputbox;
+    const {index, name} = el.dataset;
+
+    this._options = this._options.map((o, i) => {
+      const {label, value, description, markedForDeletion} = o;
+
+      if (i === Number(index)) {
+        return {
+          label: name === 'label' ? ev.detail : label,
+          value: name === 'value' ? ev.detail : value,
+          description: name === 'description' ? ev.detail : description,
+          markedForDeletion,
+        };
+      }
+
+      return o;
+    });
   }
 
   static get styles(): CSSResult {
@@ -174,26 +195,48 @@ export class TokenOptionsEdit extends LitElement {
     `;
   }
 
-  private _renderFields(
-    label: string,
-    value: string | undefined,
-    description: string | undefined
-  ) {
+  private _renderFields({
+    label,
+    value,
+    description,
+    index,
+  }: {
+    label: string;
+    value: string;
+    description: string;
+    index: number;
+  }) {
     return html`
       <vscode-form-group variant="vertical">
-        <vscode-label>Label:</vscode-label>
-        <vscode-inputbox value="${label}"></vscode-inputbox>
-      </vscode-form-group>
-      <vscode-form-group variant="vertical">
-        <vscode-label>Value:</vscode-label>
-        <vscode-inputbox value="${ifDefined(value)}"></vscode-inputbox>
-      </vscode-form-group>
-      <vscode-form-group variant="vertical">
-        <vscode-label>Description:</vscode-label>
+        <vscode-label for="label-${index}">Label:</vscode-label>
         <vscode-inputbox
+          id="label-${index}"
+          value="${label}"
+          data-index="${index}"
+          data-name="label"
+          @vsc-input="${this._onInputChange}"
+        ></vscode-inputbox>
+      </vscode-form-group>
+      <vscode-form-group variant="vertical">
+        <vscode-label for="value-${index}">Value:</vscode-label>
+        <vscode-inputbox
+          id="value-${index}"
+          value="${ifDefined(value)}"
+          data-index="${index}"
+          data-name="value"
+          @vsc-input="${this._onInputChange}"
+        ></vscode-inputbox>
+      </vscode-form-group>
+      <vscode-form-group variant="vertical">
+        <vscode-label for="description-${index}">Description:</vscode-label>
+        <vscode-inputbox
+          id="description-${index}"
           value="${ifDefined(description)}"
           multiline
           lines="5"
+          data-index="${index}"
+          data-name="description"
+          @vsc-input="${this._onInputChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -213,7 +256,12 @@ export class TokenOptionsEdit extends LitElement {
                   ${!markedForDeletion
                     ? [
                         this._renderRemoveButton(index),
-                        this._renderFields(label, value, description),
+                        this._renderFields({
+                          label,
+                          value: value || '',
+                          description: description || '',
+                          index,
+                        }),
                       ]
                     : this._renderUndoButton(index)}
                 </div>
