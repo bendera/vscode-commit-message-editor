@@ -2,7 +2,6 @@ import {LitElement, html, TemplateResult, CSSResult, css} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
-import '@bendera/vscode-webview-elements/dist/vscode-collapsible';
 import store, {RootState} from '../store/store';
 import {getAPI} from '../utils/VSCodeAPIService';
 import './cme-token-item-edit/cme-token-item-edit';
