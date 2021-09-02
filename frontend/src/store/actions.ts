@@ -17,6 +17,7 @@ export const IMPORT_CONFIG = 'IMPORT_CONFIG';
 export const SHAREABLE_CONFIG_IMPORT_ERROR = 'SHAREABLE_CONFIG_IMPORT_ERROR';
 export const SHAREABLE_CONFIG_CHANGED = 'SHAREABLE_CONFIG_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_CHANGED = 'SHAREABLE_CONFIG_TOKEN_CHANGED';
+export const SHAREABLE_CONFIG_TOKEN_ADD = 'SHAREABLE_CONFIG_TOKEN_ADD';
 export const SHAREABLE_CONFIG_TOKEN_DELETE = 'SHAREABLE_CONFIG_TOKEN_DELETE';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
@@ -51,4 +52,7 @@ export const shareableConfigTokenChange = createAction<{
 }>(SHAREABLE_CONFIG_TOKEN_CHANGED);
 export const shareableConfigTokenDelete = createAction<{index: number}>(
   SHAREABLE_CONFIG_TOKEN_DELETE
+);
+export const shareableConfigTokenAdd = createAction<Token>(
+  SHAREABLE_CONFIG_TOKEN_ADD
 );

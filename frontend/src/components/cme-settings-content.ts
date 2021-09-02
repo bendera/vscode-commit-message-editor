@@ -8,6 +8,7 @@ import './cme-token-item-edit/cme-token-item-edit';
 import {
   shareableConfigTokenChange,
   shareableConfigTokenDelete,
+  shareableConfigTokenAdd,
 } from '../store/actions';
 
 const vscode = getAPI();
@@ -65,6 +66,16 @@ export class SettingsContent extends connect(store)(LitElement) {
     store.dispatch(shareableConfigTokenDelete({index}));
   }
 
+  private _onAddItemClick() {
+    store.dispatch(
+      shareableConfigTokenAdd({
+        name: 'untitled',
+        label: 'Untitled',
+        type: 'text',
+      })
+    );
+  }
+
   static get styles(): CSSResult {
     return css`
       .settings-content {
@@ -83,6 +94,18 @@ export class SettingsContent extends connect(store)(LitElement) {
   render(): TemplateResult {
     return html`
       <div class="settings-content">
+        <p>
+          <vscode-button
+            @click="${this._onImportButtonClick}"
+            icon="folder-opened"
+            >Open</vscode-button
+          >
+          <vscode-button icon="save">Save</vscode-button>
+          ${this._importError
+            ? html`<div class="error">${this._importErrorMessage}</div>`
+            : html`${nothing}`}
+        </p>
+
         <vscode-form-group variant="settings-group">
           <vscode-label for="staticTemplate">Static template</vscode-label>
           <vscode-inputbox
@@ -117,17 +140,8 @@ export class SettingsContent extends connect(store)(LitElement) {
               ></cme-token-item-edit>
             `
         )}
-        <p>
-          <vscode-button
-            @click="${this._onImportButtonClick}"
-            icon="folder-opened"
-            >Open</vscode-button
-          >
-          <vscode-button icon="save">Save</vscode-button>
-        </p>
-        ${this._importError
-          ? html`<div class="error">${this._importErrorMessage}</div>`
-          : html`${nothing}`}
+
+        <vscode-button @click="${this._onAddItemClick}">Add item</vscode-button>
       </div>
     `;
   }

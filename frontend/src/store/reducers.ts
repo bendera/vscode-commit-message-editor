@@ -11,6 +11,7 @@ import {
   SHAREABLE_CONFIG_IMPORT_ERROR,
   SHAREABLE_CONFIG_TOKEN_CHANGED,
   SHAREABLE_CONFIG_TOKEN_DELETE,
+  SHAREABLE_CONFIG_TOKEN_ADD,
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
 } from './actions';
@@ -120,5 +121,8 @@ export const rootReducer = createReducer(initialState, {
 
     state.importError = true;
     state.importErrorMessage = errorMessage;
+  },
+  [SHAREABLE_CONFIG_TOKEN_ADD]: (state: RootState, action) => {
+    state.shareableConfig.tokens.push(action.payload);
   },
 });
