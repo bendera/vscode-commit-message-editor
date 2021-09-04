@@ -246,7 +246,7 @@ export class TokenOptionsEdit extends LitElement {
     return html`
       <div class="modal-background">
         <div class="modal-window">
-          <div class="scrollable" id="scrollable">
+          <vscode-scrollable class="scrollable" id="scrollable">
             ${this._options.map(
               (
                 {label, value, description, markedForDeletion = false},
@@ -267,7 +267,7 @@ export class TokenOptionsEdit extends LitElement {
                 </div>
               `
             )}
-          </div>
+          </vscode-scrollable>
           <div class="modal-window-footer">
             <vscode-button class="add-option" @click="${this._addOption}"
               >Add option</vscode-button

@@ -33,6 +33,9 @@ export class SettingsPage extends connect(store)(LitElement) {
           shareableConfigImportError({errorMessage: payload as string})
         );
         break;
+      case 'loadCurrentConfig':
+        store.dispatch(shareableConfigChange(payload as ShareableConfig));
+        break;
       default:
     }
   }

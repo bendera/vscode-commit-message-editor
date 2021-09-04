@@ -2,6 +2,7 @@ import {LitElement, html, TemplateResult, CSSResult, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
+import '@bendera/vscode-webview-elements/dist/vscode-form-helper';
 import store, {RootState} from '../store/store';
 import {getAPI} from '../utils/VSCodeAPIService';
 import './cme-token-item-edit/cme-token-item-edit';
@@ -12,6 +13,12 @@ import {
 } from '../store/actions';
 
 const vscode = getAPI();
+
+enum ConfigurationTarget {
+  Global = 1,
+  Workspace = 2,
+  workspaceFolder = 3,
+}
 
 @customElement('cme-settings-content')
 export class SettingsContent extends connect(store)(LitElement) {
@@ -37,6 +44,9 @@ export class SettingsContent extends connect(store)(LitElement) {
   @state()
   private _importErrorMessage = '';
 
+  private _configurationTarget: ConfigurationTarget =
+    ConfigurationTarget.Global;
+
   stateChanged(state: RootState): void {
     const {importError, importErrorMessage} = state;
     const {staticTemplate, dynamicTemplate, tokens} = state.shareableConfig;
@@ -48,9 +58,28 @@ export class SettingsContent extends connect(store)(LitElement) {
     this._importErrorMessage = importErrorMessage;
   }
 
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    vscode.postMessage({
+      command: 'loadCurrentConfig',
+    });
+  }
+
   private _onImportButtonClick() {
     vscode.postMessage({
       command: 'importConfig',
+    });
+  }
+
+  private _onExportButtonClick() {
+    vscode.postMessage({
+      command: 'exportConfig',
+      payload: {
+        staticTemplate: this._staticTemplate,
+        dynamicTemplate: this._dynamicTemplate,
+        tokens: this._tokens,
+      },
     });
   }
 
@@ -76,17 +105,93 @@ export class SettingsContent extends connect(store)(LitElement) {
     );
   }
 
+  private _onConfigTargetSelectChange(ev: CustomEvent) {
+    this._configurationTarget = Number(ev.detail.value);
+  }
+
+  private _onSaveSettingsClick() {
+    vscode.postMessage({
+      command: 'saveToSettings',
+      payload: {
+        configurationTarget: this._configurationTarget,
+      },
+    });
+  }
+
   static get styles(): CSSResult {
     return css`
       .settings-content {
         margin: 0 auto;
-        width: 755px;
+        max-width: 727px;
+      }
+
+      .header-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+        margin-left: 14px;
+        margin-right: 14px;
+        position: relative;
+      }
+
+      .import-export {
+        display: flex;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        max-width: 727px;
+      }
+
+      .import-export vscode-button {
+        display: block;
+        margin-right: 4px;
+      }
+
+      .persist {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+        margin-left: auto;
+        margin-top: 5px;
+      }
+
+      .persist vscode-label {
+        margin-right: 4px;
+      }
+
+      .persist vscode-single-select {
+        margin-right: 4px;
+        width: 140px;
       }
 
       .error {
         background-color: var(--vscode-inputValidation-errorBackground);
         border: 1px solid var(--vscode-inputValidation-errorBorder);
+        box-sizing: border-box;
+        margin-top: 10px;
+        max-width: 699px;
         padding: 3px 6px;
+        width: 100%;
+      }
+
+      .template-inputbox {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+      }
+
+      .tokens {
+        padding: 18px 14px;
+        max-width: 727px;
+      }
+
+      .tokens-list {
+        margin-bottom: 10px;
+      }
+
+      cme-token-item-edit {
+        margin: 0 auto;
+        max-width: 727px;
       }
     `;
   }
@@ -94,54 +199,88 @@ export class SettingsContent extends connect(store)(LitElement) {
   render(): TemplateResult {
     return html`
       <div class="settings-content">
-        <p>
-          <vscode-button
-            @click="${this._onImportButtonClick}"
-            icon="folder-opened"
-            >Open</vscode-button
-          >
-          <vscode-button icon="save">Save</vscode-button>
+        <div class="header-toolbar">
+          <div class="import-export">
+            <vscode-button
+              @click="${this._onImportButtonClick}"
+              icon="folder-opened"
+              >Import</vscode-button
+            >
+            <vscode-button @click="${this._onExportButtonClick}" icon="save"
+              >Export</vscode-button
+            >
+          </div>
+          <div class="persist">
+            <vscode-label for="context">Save settings to:</vscode-label>
+            <vscode-single-select
+              id="context"
+              @vsc-change="${this._onConfigTargetSelectChange}"
+            >
+              <vscode-option value="${ConfigurationTarget.Global}"
+                >User</vscode-option
+              >
+              <vscode-option value="${ConfigurationTarget.Workspace}"
+                >Workspace</vscode-option
+              >
+              <vscode-option value="${ConfigurationTarget.workspaceFolder}"
+                >Workspace folder</vscode-option
+              >
+            </vscode-single-select>
+            <vscode-button @click="${this._onSaveSettingsClick}"
+              >Save</vscode-button
+            >
+          </div>
           ${this._importError
             ? html`<div class="error">${this._importErrorMessage}</div>`
             : html`${nothing}`}
-        </p>
+        </div>
 
         <vscode-form-group variant="settings-group">
           <vscode-label for="staticTemplate">Static template</vscode-label>
+          <vscode-form-helper>Template for the text view</vscode-form-helper>
           <vscode-inputbox
             id="staticTemplate"
             name="staticTemplate"
             lines="5"
             multiline
             value="${this._staticTemplate.join('\n')}"
+            class="template-inputbox"
           ></vscode-inputbox>
         </vscode-form-group>
 
         <vscode-form-group variant="settings-group">
           <vscode-label for="dynamicTemplate">Dynamic template</vscode-label>
+          <vscode-form-helper>Template for the form view</vscode-form-helper>
           <vscode-inputbox
             id="dynamicTemplate"
             name="dynamicTemplate"
             lines="5"
             multiline
             value="${this._dynamicTemplate.join('\n')}"
+            class="template-inputbox"
           ></vscode-inputbox>
         </vscode-form-group>
 
-        ${this._tokens.map(
-          (t, i) =>
-            html`
-              <cme-token-item-edit
-                data-index="${i}"
-                .token="${t}"
-                slot="body"
-                @save="${this._onTokenSave}"
-                @delete="${this._onTokenDelete}"
-              ></cme-token-item-edit>
-            `
-        )}
-
-        <vscode-button @click="${this._onAddItemClick}">Add item</vscode-button>
+        <div class="tokens">
+          <vscode-label>Tokens</vscode-label>
+          <div class="tokens-list">
+            ${this._tokens.map(
+              (t, i) =>
+                html`
+                  <cme-token-item-edit
+                    data-index="${i}"
+                    .token="${t}"
+                    slot="body"
+                    @save="${this._onTokenSave}"
+                    @delete="${this._onTokenDelete}"
+                  ></cme-token-item-edit>
+                `
+            )}
+          </div>
+          <vscode-button @click="${this._onAddItemClick}"
+            >Add item</vscode-button
+          >
+        </div>
       </div>
     `;
   }

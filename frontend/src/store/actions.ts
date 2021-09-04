@@ -19,6 +19,7 @@ export const SHAREABLE_CONFIG_CHANGED = 'SHAREABLE_CONFIG_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_CHANGED = 'SHAREABLE_CONFIG_TOKEN_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_ADD = 'SHAREABLE_CONFIG_TOKEN_ADD';
 export const SHAREABLE_CONFIG_TOKEN_DELETE = 'SHAREABLE_CONFIG_TOKEN_DELETE';
+export const LOAD_CURRENT_CONFIG = 'LOAD_CURRENT_CONFIG';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
@@ -56,3 +57,8 @@ export const shareableConfigTokenDelete = createAction<{index: number}>(
 export const shareableConfigTokenAdd = createAction<Token>(
   SHAREABLE_CONFIG_TOKEN_ADD
 );
+export const loadCurrentConfig = createAction<{
+  staticTemplate: string;
+  dynamicTemplate: string;
+  tokens: Token[];
+}>(LOAD_CURRENT_CONFIG);

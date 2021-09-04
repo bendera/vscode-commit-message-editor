@@ -215,6 +215,10 @@ export class TokenItemEdit extends LitElement {
 
   static get styles(): CSSResult {
     return css`
+      :host {
+        display: block;
+      }
+
       .wrapper.active {
         background-color: var(--vscode-settings-focusedRowBackground);
         outline: 1px solid var(--vscode-settings-focusedRowBorder);

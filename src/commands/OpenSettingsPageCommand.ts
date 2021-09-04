@@ -5,6 +5,7 @@ import Ajv from 'ajv';
 import SettingsTab from '../webviews/SettingsTab';
 
 const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
 class OpenSettingsPageCommand {
   private _currentPanel: vscode.WebviewPanel | undefined;
@@ -61,7 +62,7 @@ class OpenSettingsPageCommand {
       }
 
       return config;
-    } catch(e) {
+    } catch (e) {
       if (e instanceof Error) {
         return Promise.reject(e.message);
       }
@@ -86,12 +87,72 @@ class OpenSettingsPageCommand {
     }
   }
 
+  private async _exportConfig(payload: any) {
+    const fileInfo = await vscode.window.showSaveDialog({
+      filters: {
+        'JSON files': ['json'],
+      },
+    });
+    const { staticTemplate, dynamicTemplate, tokens } = payload;
+    const data = {
+      configVersion: '1',
+      staticTemplate,
+      dynamicTemplate,
+      tokens,
+    };
+    const content = JSON.stringify(data, null, 2);
+
+    if (fileInfo?.fsPath) {
+      await writeFile(fileInfo.fsPath, content, 'utf-8');
+    }
+  }
+
+  private _loadCurrentConfig() {
+    const rawConfig = vscode.workspace.getConfiguration(
+      'commit-message-editor'
+    );
+    const { staticTemplate, dynamicTemplate, tokens } = rawConfig;
+
+    this._currentPanel?.webview.postMessage({
+      command: 'loadCurrentConfig',
+      payload: {
+        staticTemplate,
+        dynamicTemplate,
+        tokens,
+      },
+    });
+  }
+
+  private _saveToSettings(payload) {
+    const { configurationTarget, configuration } = payload;
+    const { staticTemplate, dynamicTemplate, tokens } = configuration;
+
+    vscode.workspace
+      .getConfiguration('commit-message-editor')
+      .update('staticTemplate', staticTemplate, configurationTarget);
+    vscode.workspace
+      .getConfiguration('commit-message-editor')
+      .update('dynamicTemplate', dynamicTemplate, configurationTarget);
+    vscode.workspace
+      .getConfiguration('commit-message-editor')
+      .update('tokens', tokens, configurationTarget);
+  }
+
   private _webviewMessageListener(data: any) {
     const { command, payload } = data;
 
     switch (command) {
       case 'importConfig':
         this._importConfig();
+        break;
+      case 'exportConfig':
+        this._exportConfig(payload);
+        break;
+      case 'loadCurrentConfig':
+        this._loadCurrentConfig();
+        break;
+      case 'saveToSettings':
+        this._saveToSettings(payload);
         break;
     }
   }
@@ -116,7 +177,7 @@ class OpenSettingsPageCommand {
         'cmeSettingsPage',
         'Commit Message Editor Settings',
         columnToShowIn as vscode.ViewColumn,
-        { enableScripts: true }
+        { enableScripts: true, retainContextWhenHidden: true }
       );
 
       this._currentPanel.webview.html = SettingsTab({

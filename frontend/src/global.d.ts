@@ -17,7 +17,10 @@ declare global {
     | 'requestRecentCommits'
     | 'confirmAmend'
     | 'copyFromExtensionMessageBox'
-    | 'importConfig';
+    | 'importConfig'
+    | 'exportConfig'
+    | 'loadCurrentConfig'
+    | 'saveToSettings';
 
   interface PostMessageDO {
     command: PostMessageCommand;
@@ -31,7 +34,8 @@ declare global {
     | 'receiveConfig'
     | 'repositoryInfo'
     | 'receiveImportedConfig'
-    | 'importedConfigError';
+    | 'importedConfigError'
+    | 'loadCurrentConfig';
 
   interface ReceivedMessageDO {
     command: MessageEventCommand;

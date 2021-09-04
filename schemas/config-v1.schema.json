@@ -5,6 +5,9 @@
   "description": "Schema for VSCode Commit Message Editor extension shareable configuration",
   "type": "object",
   "properties": {
+    "configVersion": {
+      "type": "string"
+    },
     "staticTemplate": {
       "$id": "#/properties/staticTemplate",
       "type": "array",
@@ -140,5 +143,11 @@
         ]
       }
     }
-  }
+  },
+  "required": [
+    "configVersion",
+    "staticTemplate",
+    "dynamicTemplate",
+    "tokens"
+  ]
 }
