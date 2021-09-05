@@ -90,6 +90,8 @@ export class CodeEditor extends LitElement {
 
     const boundRect = measureEl.getBoundingClientRect();
 
+    measureEl.remove();
+
     return {
       w: boundRect.width,
       h: boundRect.height,
