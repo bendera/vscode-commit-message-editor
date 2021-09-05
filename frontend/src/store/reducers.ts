@@ -12,6 +12,8 @@ import {
   SHAREABLE_CONFIG_TOKEN_CHANGED,
   SHAREABLE_CONFIG_TOKEN_DELETE,
   SHAREABLE_CONFIG_TOKEN_ADD,
+  SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE,
+  SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE,
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
 } from './actions';
@@ -125,4 +127,10 @@ export const rootReducer = createReducer(initialState, {
   [SHAREABLE_CONFIG_TOKEN_ADD]: (state: RootState, action) => {
     state.shareableConfig.tokens.push(action.payload);
   },
+  [SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE]: (state: RootState, action) => {
+    state.shareableConfig.staticTemplate = action.payload.split('\n');
+  },
+  [SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE]: (state: RootState, action) => {
+    state.shareableConfig.dynamicTemplate = action.payload.split('\n');
+  }
 });

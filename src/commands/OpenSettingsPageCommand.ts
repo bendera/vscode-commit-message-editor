@@ -3,6 +3,7 @@ import * as util from 'util';
 import * as vscode from 'vscode';
 import Ajv from 'ajv';
 import SettingsTab from '../webviews/SettingsTab';
+import { ConfigurationTarget } from 'vscode';
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
@@ -123,7 +124,14 @@ class OpenSettingsPageCommand {
     });
   }
 
-  private _saveToSettings(payload) {
+  private _saveToSettings(payload: {
+    configurationTarget: ConfigurationTarget;
+    configuration: {
+      staticTemplate: string[];
+      dynamicTemplate: string[];
+      tokens: { [key: string]: any }[];
+    };
+  }) {
     const { configurationTarget, configuration } = payload;
     const { staticTemplate, dynamicTemplate, tokens } = configuration;
 

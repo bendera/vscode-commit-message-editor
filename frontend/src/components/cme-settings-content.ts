@@ -3,6 +3,7 @@ import {customElement, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-form-helper';
+import {debounce} from 'ts-debounce';
 import store, {RootState} from '../store/store';
 import {getAPI} from '../utils/VSCodeAPIService';
 import './cme-token-item-edit/cme-token-item-edit';
@@ -10,6 +11,8 @@ import {
   shareableConfigTokenChange,
   shareableConfigTokenDelete,
   shareableConfigTokenAdd,
+  staticTemplateChange,
+  dynamicTemplateChange,
 } from '../store/actions';
 
 const vscode = getAPI();
@@ -114,9 +117,29 @@ export class SettingsContent extends connect(store)(LitElement) {
       command: 'saveToSettings',
       payload: {
         configurationTarget: this._configurationTarget,
+        configuration: {
+          staticTemplate: this._staticTemplate,
+          dynamicTemplate: this._dynamicTemplate,
+          tokens: this._tokens,
+        },
       },
     });
   }
+
+  private _onStaticTplChange(ev: CustomEvent) {
+    store.dispatch(staticTemplateChange(ev.detail));
+  }
+
+  private _onDynamicTplChange(ev: CustomEvent) {
+    store.dispatch(dynamicTemplateChange(ev.detail));
+  }
+
+  private _onStaticTplChangeDebounced = debounce(this._onStaticTplChange, 400);
+
+  private _onDynamicTplChangeDebounced = debounce(
+    this._onDynamicTplChange,
+    400
+  );
 
   static get styles(): CSSResult {
     return css`
@@ -245,6 +268,7 @@ export class SettingsContent extends connect(store)(LitElement) {
             multiline
             value="${this._staticTemplate.join('\n')}"
             class="template-inputbox"
+            @vsc-input="${this._onStaticTplChangeDebounced}"
           ></vscode-inputbox>
         </vscode-form-group>
 
@@ -258,6 +282,7 @@ export class SettingsContent extends connect(store)(LitElement) {
             multiline
             value="${this._dynamicTemplate.join('\n')}"
             class="template-inputbox"
+            @vsc-input="${this._onDynamicTplChangeDebounced}"
           ></vscode-inputbox>
         </vscode-form-group>
 
