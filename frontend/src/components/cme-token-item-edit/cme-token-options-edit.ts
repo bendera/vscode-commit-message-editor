@@ -115,8 +115,16 @@ export class TokenOptionsEdit extends LitElement {
 
       .modal-window .scrollable {
         inset: 0 0 46px;
-        overflow: auto;
         position: absolute;
+      }
+
+      .empty {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
       }
 
       .fieldset {
@@ -242,31 +250,38 @@ export class TokenOptionsEdit extends LitElement {
     `;
   }
 
+  private _renderOptions() {
+    return this._options.map(
+      ({label, value, description, markedForDeletion = false}, index) => html`
+        <div class="fieldset">
+          ${!markedForDeletion
+            ? [
+                this._renderRemoveButton(index),
+                this._renderFields({
+                  label,
+                  value: value || '',
+                  description: description || '',
+                  index,
+                }),
+              ]
+            : this._renderUndoButton(index)}
+        </div>
+      `
+    );
+  }
+
   render(): TemplateResult {
     return html`
       <div class="modal-background">
         <div class="modal-window">
           <vscode-scrollable class="scrollable" id="scrollable">
-            ${this._options.map(
-              (
-                {label, value, description, markedForDeletion = false},
-                index
-              ) => html`
-                <div class="fieldset">
-                  ${!markedForDeletion
-                    ? [
-                        this._renderRemoveButton(index),
-                        this._renderFields({
-                          label,
-                          value: value || '',
-                          description: description || '',
-                          index,
-                        }),
-                      ]
-                    : this._renderUndoButton(index)}
-                </div>
-              `
-            )}
+            ${this._options.length > 0
+              ? this._renderOptions()
+              : html`
+                  <div class="empty">
+                    There is not any option configured yet.
+                  </div>
+                `}
           </vscode-scrollable>
           <div class="modal-window-footer">
             <vscode-button class="add-option" @click="${this._addOption}"
