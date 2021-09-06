@@ -135,15 +135,25 @@ class OpenSettingsPageCommand {
     const { configurationTarget, configuration } = payload;
     const { staticTemplate, dynamicTemplate, tokens } = configuration;
 
-    vscode.workspace
+    const staticTemplateUpdate = vscode.workspace
       .getConfiguration('commit-message-editor')
       .update('staticTemplate', staticTemplate, configurationTarget);
-    vscode.workspace
+    const dynamicTemplateUpdate = vscode.workspace
       .getConfiguration('commit-message-editor')
       .update('dynamicTemplate', dynamicTemplate, configurationTarget);
-    vscode.workspace
+    const tokensUpdate = vscode.workspace
       .getConfiguration('commit-message-editor')
       .update('tokens', tokens, configurationTarget);
+
+    Promise.all([staticTemplateUpdate, dynamicTemplateUpdate, tokensUpdate])
+      .then((val) => {
+        console.log('SUCCESS');
+        console.log(val);
+      })
+      .catch((e) => {
+        console.log('ERROR');
+        console.log(e);
+      });
   }
 
   private _webviewMessageListener(data: any) {
