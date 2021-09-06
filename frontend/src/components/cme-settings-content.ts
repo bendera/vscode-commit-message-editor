@@ -11,6 +11,7 @@ import {
   shareableConfigTokenChange,
   shareableConfigTokenDelete,
   shareableConfigTokenAdd,
+  shareableConfigImportErrorReset,
   staticTemplateChange,
   dynamicTemplateChange,
 } from '../store/actions';
@@ -67,6 +68,10 @@ export class SettingsContent extends connect(store)(LitElement) {
     vscode.postMessage({
       command: 'loadCurrentConfig',
     });
+  }
+
+  private _onErrorCloseClick() {
+    store.dispatch(shareableConfigImportErrorReset());
   }
 
   private _onImportButtonClick() {
@@ -197,13 +202,22 @@ export class SettingsContent extends connect(store)(LitElement) {
       }
 
       .error {
+        align-items: center;
         background-color: var(--vscode-inputValidation-errorBackground);
         border: 1px solid var(--vscode-inputValidation-errorBorder);
         box-sizing: border-box;
+        display: flex;
         margin-top: 10px;
         max-width: 699px;
+        min-height: 30px;
         padding: 3px 6px;
+        position: relative;
         width: 100%;
+      }
+
+      .error vscode-icon[name='x'] {
+        position: absolute;
+        right: 3px;
       }
 
       .template-inputbox {
@@ -264,7 +278,14 @@ export class SettingsContent extends connect(store)(LitElement) {
             >
           </div>
           ${this._importError
-            ? html`<div class="error">${this._importErrorMessage}</div>`
+            ? html`<div class="error">
+                ${this._importErrorMessage}
+                <vscode-icon
+                  name="x"
+                  action-icon
+                  @click="${this._onErrorCloseClick}"
+                ></vscode-icon>
+              </div>`
             : html`${nothing}`}
         </div>
 

@@ -24,6 +24,8 @@ export const SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE =
   'SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE';
 export const SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE =
   'SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE';
+export const SHAREABLE_CONFIG_IMPORT_ERROR_RESET =
+  'SHAREABLE_CONFIG_IMPORT_ERROR_RESET';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
@@ -71,4 +73,7 @@ export const staticTemplateChange = createAction<string>(
 );
 export const dynamicTemplateChange = createAction<string>(
   SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE
+);
+export const shareableConfigImportErrorReset = createAction(
+  SHAREABLE_CONFIG_IMPORT_ERROR_RESET
 );
