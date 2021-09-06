@@ -20,7 +20,8 @@ declare global {
     | 'importConfig'
     | 'exportConfig'
     | 'loadCurrentConfig'
-    | 'saveToSettings';
+    | 'saveToSettings'
+    | 'openConfigurationPage';
 
   interface PostMessageDO {
     command: PostMessageCommand;

@@ -1,4 +1,4 @@
-import {LitElement, html, TemplateResult} from 'lit';
+import {LitElement, html, css, TemplateResult, CSSResult} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import {getAPI} from '../utils/VSCodeAPIService';
@@ -39,6 +39,14 @@ export class EditorPage extends connect(store)(LitElement) {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     window.removeEventListener('message', this._handlePostMessagesBound);
+  }
+
+  static get styles(): CSSResult {
+    return css`
+      :host {
+        display: block;
+      }
+    `;
   }
 
   render(): TemplateResult {

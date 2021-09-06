@@ -143,9 +143,18 @@ export class SettingsContent extends connect(store)(LitElement) {
 
   static get styles(): CSSResult {
     return css`
+      h1 {
+        font-family: var(--vscode-font-family);
+        font-size: 24px;
+        font-weight: 600;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
       .settings-content {
         margin: 0 auto;
         max-width: 727px;
+        padding-top: 15px;
       }
 
       .header-toolbar {
@@ -222,6 +231,7 @@ export class SettingsContent extends connect(store)(LitElement) {
   render(): TemplateResult {
     return html`
       <div class="settings-content">
+        <h1>Portable configuration editor</h1>
         <div class="header-toolbar">
           <div class="import-export">
             <vscode-button

@@ -127,6 +127,11 @@ const createOpenEditorCommand = ({
             case 'confirmAmend':
               confirmAmend(payload);
               break;
+            case 'openConfigurationPage':
+              vscode.commands.executeCommand(
+                'commitMessageEditor.openSettingsPage'
+              );
+              break;
             default:
               break;
           }
