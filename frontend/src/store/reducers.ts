@@ -95,7 +95,7 @@ export const rootReducer = createReducer(initialState, {
   },
   [SHAREABLE_CONFIG_CHANGED]: (state: RootState, action) => {
     const {payload} = action;
-    const {staticTemplate, dynamicTemplate, tokens} = payload;
+    const {staticTemplate = '', dynamicTemplate = '', tokens = []} = payload;
 
     state.shareableConfig = {staticTemplate, dynamicTemplate, tokens};
     state.importError = false;
