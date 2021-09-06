@@ -2,7 +2,7 @@
   "name": "commit-message-editor",
   "displayName": "Commit Message Editor",
   "description": "Edit commit messages in a convenient way.",
-  "version": "0.18.4",
+  "version": "0.19.0-pre.14",
   "license": "MIT",
   "preview": false,
   "publisher": "adam-bender",
@@ -270,11 +270,13 @@
     }
   },
   "scripts": {
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./ && npm run compile:frontend",
+    "compile": "npm run compile:extension && npm run compile:frontend",
     "compile:frontend": "cd frontend && npm run build",
-    "compile:extension": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "compile:extension": "npm run esbuild-base -- --minify",
+    "watch": "npm run esbuild-base -- --sourcemap --watch",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js"
   },
@@ -286,7 +288,7 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.3.1",
     "@types/vscode": "^1.50.0",
-    "ajv": "^8.6.2",
+    "esbuild": "^0.12.25",
     "glob": "^7.1.7",
     "mocha": "^8.4.0",
     "tslint": "^6.1.2",
@@ -294,6 +296,7 @@
     "vscode-test": "^1.5.2"
   },
   "dependencies": {
+    "ajv": "^8.6.2",
     "vscode-codicons": "0.0.17"
   }
 }
