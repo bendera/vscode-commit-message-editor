@@ -8,15 +8,14 @@ import {
   REPLACE_STATE,
   REPOSITORY_INFO_RECEIVED,
   SHAREABLE_CONFIG_CHANGED,
-  SHAREABLE_CONFIG_IMPORT_ERROR,
   SHAREABLE_CONFIG_TOKEN_CHANGED,
   SHAREABLE_CONFIG_TOKEN_DELETE,
   SHAREABLE_CONFIG_TOKEN_ADD,
   SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE,
   SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE,
-  SHAREABLE_CONFIG_IMPORT_ERROR_RESET,
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
+  CHANGE_STATUS_MESSAGE,
 } from './actions';
 
 export const createInitialState = (): RootState => ({
@@ -46,6 +45,8 @@ export const createInitialState = (): RootState => ({
   },
   importError: false,
   importErrorMessage: '',
+  statusMessage: '',
+  statusMessageType: 'invisible',
   scmInputBoxValue: '',
   recentCommits: undefined,
   recentCommitsLoading: false,
@@ -119,12 +120,6 @@ export const rootReducer = createReducer(initialState, {
       (_t, i) => i !== index
     );
   },
-  [SHAREABLE_CONFIG_IMPORT_ERROR]: (state: RootState, action) => {
-    const {errorMessage} = action.payload;
-
-    state.importError = true;
-    state.importErrorMessage = errorMessage;
-  },
   [SHAREABLE_CONFIG_TOKEN_ADD]: (state: RootState, action) => {
     state.shareableConfig.tokens.push(action.payload);
   },
@@ -134,8 +129,9 @@ export const rootReducer = createReducer(initialState, {
   [SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE]: (state: RootState, action) => {
     state.shareableConfig.dynamicTemplate = action.payload.split('\n');
   },
-  [SHAREABLE_CONFIG_IMPORT_ERROR_RESET]: (state: RootState) => {
-    state.importError = false;
-    state.importErrorMessage = '';
-  },
+  [CHANGE_STATUS_MESSAGE]: (state: RootState, action) => {
+    const {statusMessage, statusMessageType} = action.payload;
+    state.statusMessage = statusMessage;
+    state.statusMessageType = statusMessageType;
+  }
 });

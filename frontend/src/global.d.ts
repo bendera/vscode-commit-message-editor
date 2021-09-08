@@ -35,7 +35,7 @@ declare global {
     | 'receiveConfig'
     | 'repositoryInfo'
     | 'receiveImportedConfig'
-    | 'importedConfigError'
+    | 'statusMessage'
     | 'loadCurrentConfig';
 
   interface ReceivedMessageDO {

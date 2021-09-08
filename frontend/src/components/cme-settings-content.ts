@@ -1,5 +1,6 @@
 import {LitElement, html, TemplateResult, CSSResult, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-form-helper';
@@ -11,9 +12,9 @@ import {
   shareableConfigTokenChange,
   shareableConfigTokenDelete,
   shareableConfigTokenAdd,
-  shareableConfigImportErrorReset,
   staticTemplateChange,
   dynamicTemplateChange,
+  changeStatusMessage,
 } from '../store/actions';
 
 const vscode = getAPI();
@@ -43,23 +44,23 @@ export class SettingsContent extends connect(store)(LitElement) {
   private _tokens: Token[] = [];
 
   @state()
-  private _importError = false;
+  private _statusMessage = '';
 
   @state()
-  private _importErrorMessage = '';
+  private _statusMessageType: 'error' | 'success' | 'invisible' = 'invisible';
 
   private _configurationTarget: ConfigurationTarget =
     ConfigurationTarget.Global;
 
   stateChanged(state: RootState): void {
-    const {importError, importErrorMessage} = state;
+    const {statusMessage, statusMessageType} = state;
     const {staticTemplate, dynamicTemplate, tokens} = state.shareableConfig;
 
     this._staticTemplate = staticTemplate;
     this._dynamicTemplate = dynamicTemplate;
     this._tokens = tokens;
-    this._importError = importError;
-    this._importErrorMessage = importErrorMessage;
+    this._statusMessage = statusMessage;
+    this._statusMessageType = statusMessageType;
   }
 
   connectedCallback(): void {
@@ -71,7 +72,12 @@ export class SettingsContent extends connect(store)(LitElement) {
   }
 
   private _onErrorCloseClick() {
-    store.dispatch(shareableConfigImportErrorReset());
+    store.dispatch(
+      changeStatusMessage({
+        statusMessage: '',
+        statusMessageType: 'invisible',
+      })
+    );
   }
 
   private _onImportButtonClick() {
@@ -277,9 +283,14 @@ export class SettingsContent extends connect(store)(LitElement) {
               >Save</vscode-button
             >
           </div>
-          ${this._importError
-            ? html`<div class="error">
-                ${this._importErrorMessage}
+          ${this._statusMessageType !== 'invisible'
+            ? html`<div
+                class="${classMap({
+                  status: true,
+                  [this._statusMessageType]: true,
+                })}"
+              >
+                ${this._statusMessage}
                 <vscode-icon
                   name="x"
                   action-icon

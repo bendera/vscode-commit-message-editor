@@ -14,7 +14,6 @@ export const REPOSITORY_INFO_RECEIVED = 'REPOSITORY_INFO_RECEIVED';
 export const UPDATE_TOKEN_VALUES = 'UPDATE_TOKEN_VALUES';
 
 export const IMPORT_CONFIG = 'IMPORT_CONFIG';
-export const SHAREABLE_CONFIG_IMPORT_ERROR = 'SHAREABLE_CONFIG_IMPORT_ERROR';
 export const SHAREABLE_CONFIG_CHANGED = 'SHAREABLE_CONFIG_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_CHANGED = 'SHAREABLE_CONFIG_TOKEN_CHANGED';
 export const SHAREABLE_CONFIG_TOKEN_ADD = 'SHAREABLE_CONFIG_TOKEN_ADD';
@@ -24,8 +23,7 @@ export const SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE =
   'SHAREABLE_CONFIG_STATIC_TEMPLATE_CHANGE';
 export const SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE =
   'SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE';
-export const SHAREABLE_CONFIG_IMPORT_ERROR_RESET =
-  'SHAREABLE_CONFIG_IMPORT_ERROR_RESET';
+export const CHANGE_STATUS_MESSAGE = 'CHANGE_STATUS_MESSAGE';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
@@ -47,9 +45,6 @@ export const updateTokenValues =
   createAction<{[key: string]: string}>(UPDATE_TOKEN_VALUES);
 
 export const importConfig = createAction(IMPORT_CONFIG);
-export const shareableConfigImportError = createAction<{errorMessage: string}>(
-  SHAREABLE_CONFIG_IMPORT_ERROR
-);
 export const shareableConfigChange = createAction<ShareableConfig>(
   SHAREABLE_CONFIG_CHANGED
 );
@@ -74,6 +69,7 @@ export const staticTemplateChange = createAction<string>(
 export const dynamicTemplateChange = createAction<string>(
   SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE
 );
-export const shareableConfigImportErrorReset = createAction(
-  SHAREABLE_CONFIG_IMPORT_ERROR_RESET
-);
+export const changeStatusMessage = createAction<{
+  statusMessage: string;
+  statusMessageType: 'error' | 'success' | 'invisible';
+}>(CHANGE_STATUS_MESSAGE);

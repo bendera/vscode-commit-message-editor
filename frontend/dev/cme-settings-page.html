@@ -163,8 +163,11 @@
 
         btImportedConfigError.addEventListener('click', () => {
           window.postMessage({
-            command: 'importedConfigError',
-            payload: 'Unexpected token ] in JSON at position 281',
+            command: 'statusMessage',
+            payload: {
+              statusMessage: 'Unexpected token ] in JSON at position 281',
+              statusMessageType: 'error',
+            },
           })
         });
 

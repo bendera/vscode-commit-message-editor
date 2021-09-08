@@ -21,6 +21,8 @@ store.subscribe(saveState);
 
 export default store;
 
+export type StatusMessageType = 'success' | 'error' | 'invisible';
+
 export interface RootState {
   persisted: boolean;
   config: ExtensionConfig;
@@ -34,4 +36,6 @@ export interface RootState {
   tokenValues: {[name: string]: string};
   numberOfRepositories: number;
   selectedRepositoryPath: string;
+  statusMessage: '';
+  statusMessageType: StatusMessageType;
 }

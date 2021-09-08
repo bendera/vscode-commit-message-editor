@@ -82,8 +82,11 @@ class OpenSettingsPageCommand {
       });
     } catch (e) {
       this._currentPanel?.webview.postMessage({
-        command: 'importedConfigError',
-        payload: e,
+        command: 'statusMessage',
+        payload: {
+          statusMessage: e,
+          statusMessageType: 'error',
+        },
       });
     }
   }
