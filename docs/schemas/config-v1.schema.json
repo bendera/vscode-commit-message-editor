@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://bendera.github.com/vscode-commit-message-editor/schemas/config-v1.schema.json",
+  "title": "Commit Message Editor configuration",
+  "description": "Schema for VSCode Commit Message Editor extension shareable configuration",
+  "type": "object",
+  "properties": {
+    "configVersion": {
+      "type": "string"
+    },
+    "staticTemplate": {
+      "$id": "#/properties/staticTemplate",
+      "type": "array",
+      "title": "Static template",
+      "description": "Commit message template for the text view. Every line is an item in the array.",
+      "default": [
+        "feat: Short description",
+        "",
+        "Message body",
+        "",
+        "Message footer"
+      ],
+      "items": {
+        "type": "string",
+        "$id": "#/properties/staticTemplate/line"
+      }
+    },
+    "dynamicTemplate": {
+      "$id": "#/properties/dynamicTemplate",
+      "type": "array",
+      "title": "Dynamic template",
+      "description": "Commit message template for the form view. Every line is an item in the array. Tokens are enclosed in curly brackets.",
+      "default": [
+        "{type}{scope}: {description}",
+        "",
+        "{body}",
+        "",
+        "{breaking_change}{footer}"
+      ],
+      "items": {
+        "type": "string",
+        "$id": "#/properties/dynamicTemplate/line"
+      }
+    },
+    "tokens": {
+      "$id": "#/properties/tokens",
+      "type": "array",
+      "title": "Tokens",
+      "description": "Define form widgets for the form view.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "$id": "#/properties/tokens/label",
+            "type": "string",
+            "title": "Token label",
+            "description": "The visible label of the token in the form view."
+          },
+          "name": {
+            "$id": "#/properties/tokens/name",
+            "type": "string",
+            "title": "Token name",
+            "description": "The template variable name in the dynamic template."
+          },
+          "type": {
+            "$id": "#/properties/tokens/type",
+            "type": "string",
+            "enum": [
+              "enum",
+              "text",
+              "boolean"
+            ],
+            "title": "Token type",
+            "description": "The token type determines what kind of form widget is displayed in the form. Enum: select dropdown, text: textfield or textarea, boolean: checkbox.",
+            "default": "text"
+          },
+          "description": {
+            "$id": "#/properties/tokens/description",
+            "type": "string",
+            "title": "Description",
+            "description": "Helper text for the token."
+          },
+          "prefix": {
+            "$id": "#/properties/tokens/prefix",
+            "type": "string",
+            "title": "Prefix",
+            "description": "A text that will be prepended to the value if the value is not empty."
+          },
+          "suffix": {
+            "$id": "#/properties/tokens/suffix",
+            "type": "string",
+            "title": "Suffix",
+            "description": "A text that will be appended to the value if the value is not empty."
+          },
+          "multiline": {
+            "type": "boolean"
+          },
+          "lines": {
+            "type": "number"
+          },
+          "maxLines": {
+            "type": "number"
+          },
+          "maxLength": {
+            "type": "number"
+          },
+          "multiple": {
+            "type": "boolean"
+          },
+          "separator": {
+            "type": "string"
+          },
+          "combobox": {
+            "type": "boolean"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "The visible representation of the option. If the value is not defined the label will be the value."
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The value of the option. If it's not defined the value will be the label."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Helper text for the option."
+                }
+              },
+              "required": [
+                "label"
+              ]
+            }
+          }
+        },
+        "required": [
+          "label",
+          "name"
+        ]
+      }
+    }
+  },
+  "required": [
+    "configVersion",
+    "staticTemplate",
+    "dynamicTemplate",
+    "tokens"
+  ]
+}
