@@ -21,6 +21,30 @@ class OpenSettingsPageCommand {
     this._activateWebviewMessageListener();
   }
 
+  private _showStatus(message: string, type: 'error' | 'success' = 'success') {
+    this._currentPanel?.webview.postMessage({
+      command: 'statusMessage',
+      payload: {
+        statusMessage: message,
+        statusMessageType: type,
+      },
+    });
+  }
+
+  private _showError(e: any) {
+    let msg = '';
+
+    if (e.toString) {
+      msg = e.toString();
+    } else if (typeof e === 'string') {
+      msg = e;
+    } else {
+      msg = 'unknown error'
+    }
+
+    this._showStatus(msg, 'error');
+  }
+
   private async _readJSON(fp: string) {
     const buffer = await readFile(fp);
     const data = buffer.toString('utf-8');
@@ -107,7 +131,12 @@ class OpenSettingsPageCommand {
     const content = JSON.stringify(data, null, 2);
 
     if (fileInfo?.fsPath) {
-      await writeFile(fileInfo.fsPath, content, 'utf-8');
+      try {
+        await writeFile(fileInfo.fsPath, content, 'utf-8');
+        this._showStatus(`File saved successfully to ${fileInfo.fsPath}`);
+      } catch (e) {
+        this._showError(e);
+      }
     }
   }
 
@@ -149,13 +178,12 @@ class OpenSettingsPageCommand {
       .update('tokens', tokens, configurationTarget);
 
     Promise.all([staticTemplateUpdate, dynamicTemplateUpdate, tokensUpdate])
-      .then((val) => {
-        console.log('SUCCESS');
-        console.log(val);
+      .then(() => {
+        this._showStatus('Save settings successfully');
       })
       .catch((e) => {
-        console.log('ERROR');
         console.log(e);
+        this._showError(e);
       });
   }
 

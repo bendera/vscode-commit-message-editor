@@ -207,10 +207,11 @@ export class SettingsContent extends connect(store)(LitElement) {
         width: 140px;
       }
 
-      .error {
+      .status {
         align-items: center;
-        background-color: var(--vscode-inputValidation-errorBackground);
-        border: 1px solid var(--vscode-inputValidation-errorBorder);
+        border-color: transparent;
+        border-style: solid;
+        border-width: 1px;
         box-sizing: border-box;
         display: flex;
         margin-top: 10px;
@@ -221,7 +222,17 @@ export class SettingsContent extends connect(store)(LitElement) {
         width: 100%;
       }
 
-      .error vscode-icon[name='x'] {
+      .status.error {
+        background-color: var(--vscode-inputValidation-errorBackground);
+        border-color: var(--vscode-inputValidation-errorBorder);
+      }
+
+      .status.success {
+        background-color: var(--vscode-inputValidation-infoBackground);
+        border-color: var(--vscode-inputValidation-infoBorder);
+      }
+
+      .status vscode-icon[name='x'] {
         position: absolute;
         right: 3px;
       }
