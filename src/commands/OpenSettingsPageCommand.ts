@@ -58,7 +58,7 @@ class OpenSettingsPageCommand {
 
   private async _readSchema() {
     return this._readJSON(
-      this._context.asAbsolutePath('schemas/config-v1.schema.json')
+      this._context.asAbsolutePath('docs/schemas/config-v1.schema.json')
     );
   }
 
@@ -182,7 +182,6 @@ class OpenSettingsPageCommand {
         this._showStatus('Save settings successfully');
       })
       .catch((e) => {
-        console.log(e);
         this._showError(e);
       });
   }
