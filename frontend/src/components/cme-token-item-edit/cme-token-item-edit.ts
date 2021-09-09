@@ -36,7 +36,7 @@ export class TokenItemEdit extends LitElement {
 
     this._label = label;
     this._name = name;
-    this._tokenType = type;
+    this._type = type;
     this._description = description || '';
     this._prefix = prefix || '';
     this._suffix = suffix || '';
@@ -54,7 +54,7 @@ export class TokenItemEdit extends LitElement {
     return {
       label: this._label,
       name: this._name,
-      type: this._tokenType,
+      type: this._type,
       description: this._description,
       prefix: this._prefix,
       suffix: this._suffix,
@@ -79,7 +79,7 @@ export class TokenItemEdit extends LitElement {
   private _name = this.token.name;
 
   @state()
-  private _tokenType: TokenType = this.token.type;
+  private _type: TokenType = this.token.type;
 
   @state()
   private _description = '';
@@ -128,7 +128,7 @@ export class TokenItemEdit extends LitElement {
   private _onTokenTypeChange(ev: CustomEvent) {
     const val = (ev.detail.value as string).trim();
 
-    this._tokenType = val as TokenType;
+    this._type = val as TokenType;
   }
 
   private _onDescriptionChange(ev: CustomEvent) {
@@ -329,7 +329,7 @@ export class TokenItemEdit extends LitElement {
 
     const multilineWidget = html`
       <vscode-form-group
-        class="${classMap({disabled: this._tokenType !== 'text'})}"
+        class="${classMap({disabled: this._type !== 'text'})}"
       >
         <vscode-label for="multiline">Multiline</vscode-label>
         <vscode-checkbox
@@ -382,7 +382,7 @@ export class TokenItemEdit extends LitElement {
     const linesWidget = html`
       <vscode-form-group
         class="${classMap({
-          disabled: this._tokenType !== 'text' || !this._multiline,
+          disabled: this._type !== 'text' || !this._multiline,
         })}"
       >
         <vscode-label for="lines">Lines</vscode-label>
@@ -400,7 +400,7 @@ export class TokenItemEdit extends LitElement {
     const maxLinesWidget = html`
       <vscode-form-group
         class="${classMap({
-          disabled: this._tokenType !== 'text' || !this._multiline,
+          disabled: this._type !== 'text' || !this._multiline,
         })}"
       >
         <vscode-label for="maxLines">MaxLines</vscode-label>
@@ -417,7 +417,7 @@ export class TokenItemEdit extends LitElement {
 
     const maxLengthWidget = html`
       <vscode-form-group
-        class="${classMap({disabled: this._tokenType !== 'text'})}"
+        class="${classMap({disabled: this._type !== 'text'})}"
       >
         <vscode-label for="maxLength">MaxLength</vscode-label>
         <vscode-inputbox
@@ -433,7 +433,7 @@ export class TokenItemEdit extends LitElement {
 
     const multipleWidget = html`
       <vscode-form-group
-        class="${classMap({disabled: this._tokenType !== 'enum'})}"
+        class="${classMap({disabled: this._type !== 'enum'})}"
       >
         <vscode-label for="multiple">Multiple</vscode-label>
         <vscode-checkbox
@@ -448,7 +448,7 @@ export class TokenItemEdit extends LitElement {
 
     const comboboxWidget = html`
       <vscode-form-group
-        class="${classMap({disabled: this._tokenType !== 'enum'})}"
+        class="${classMap({disabled: this._type !== 'enum'})}"
       >
         <vscode-label for="combobox">Combobox</vscode-label>
         <vscode-checkbox
@@ -464,7 +464,7 @@ export class TokenItemEdit extends LitElement {
     const separatorWidget = html`
       <vscode-form-group
         class="${classMap({
-          disabled: this._tokenType !== 'enum' || !this._multiple,
+          disabled: this._type !== 'enum' || !this._multiple,
         })}"
       >
         <vscode-label for="separator">Separator</vscode-label>
@@ -480,7 +480,7 @@ export class TokenItemEdit extends LitElement {
     const optionsWidget = html`
       <vscode-form-group
         class="${classMap({
-          disabled: this._tokenType !== 'enum',
+          disabled: this._type !== 'enum',
         })}"
       >
         <vscode-label>Options</vscode-label>
