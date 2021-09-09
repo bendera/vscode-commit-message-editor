@@ -39,7 +39,7 @@ class OpenSettingsPageCommand {
     } else if (typeof e === 'string') {
       msg = e;
     } else {
-      msg = 'unknown error'
+      msg = 'unknown error';
     }
 
     this._showStatus(msg, 'error');
