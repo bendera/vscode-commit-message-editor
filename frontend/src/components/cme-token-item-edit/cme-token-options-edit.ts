@@ -173,7 +173,7 @@ export class TokenOptionsEdit extends LitElement {
         right: 0;
       }
 
-      .modal-window-footer .ok {
+      .modal-window-footer .save {
         margin-right: 4px;
       }
 
@@ -197,7 +197,7 @@ export class TokenOptionsEdit extends LitElement {
 
   private _renderUndoButton(index: number) {
     return html`
-      <vscode-button data-index="${index}" @click="${this._undo}"
+      <vscode-button data-index="${index}" @click="${this._undo}" class="undo"
         >Undo</vscode-button
       >
     `;
@@ -287,8 +287,10 @@ export class TokenOptionsEdit extends LitElement {
             <vscode-button class="add-option" @click="${this._addOption}"
               >Add option</vscode-button
             >
-            <vscode-button class="ok" @click="${this._save}">OK</vscode-button>
-            <vscode-button secondary @click="${this._close}"
+            <vscode-button class="save" @click="${this._save}"
+              >Save</vscode-button
+            >
+            <vscode-button class="cancel" secondary @click="${this._close}"
               >Cancel</vscode-button
             >
           </div>
