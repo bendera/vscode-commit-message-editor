@@ -286,9 +286,6 @@ export class SettingsContent extends connect(store)(LitElement) {
               <vscode-option value="${ConfigurationTarget.Workspace}"
                 >Workspace</vscode-option
               >
-              <vscode-option value="${ConfigurationTarget.workspaceFolder}"
-                >Workspace folder</vscode-option
-              >
             </vscode-single-select>
             <vscode-button @click="${this._onSaveSettingsClick}"
               >Save</vscode-button
