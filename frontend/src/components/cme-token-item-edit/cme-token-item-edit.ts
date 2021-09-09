@@ -11,6 +11,10 @@ import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import './cme-token-options-edit';
 
+const isUndefined = (val: unknown): boolean => {
+  return val === null || val === void 0;
+};
+
 type TokenType = 'text' | 'enum' | 'boolean';
 
 @customElement('cme-token-item-edit')
@@ -34,85 +38,120 @@ export class TokenItemEdit extends LitElement {
       lines,
     } = val;
 
-    this._label = label;
-    this._name = name;
-    this._type = type;
-    this._description = description || '';
-    this._prefix = prefix || '';
-    this._suffix = suffix || '';
-    this._maxLength = maxLength || 99999;
-    this._maxLines = maxLines || 5;
-    this._multiline = multiline || false;
-    this._multiple = multiple || false;
-    this._separator = separator || ', ';
-    this._combobox = combobox || false;
-    this._options = options || [];
-    this._lines = lines || 2;
+    this._label = label ?? 'Untitled';
+    this._name = name ?? 'untitled';
+    this._type = type ?? 'text';
+    this._description = description ?? '';
+    this._prefix = prefix ?? '';
+    this._suffix = suffix ?? '';
+    this._maxLength = !isUndefined(maxLength) ? String(maxLength) : '';
+    this._maxLines = !isUndefined(maxLines) ? String(maxLines) : '';
+    this._multiline = multiline ?? false;
+    this._multiple = multiple ?? false;
+    this._separator = separator ?? '';
+    this._combobox = combobox ?? false;
+    this._options = options ?? [];
+    this._lines = !isUndefined(lines) ? String(lines) : '';
   }
 
   get token(): Token {
-    return {
-      label: this._label,
-      name: this._name,
-      type: this._type,
-      description: this._description,
-      prefix: this._prefix,
-      suffix: this._suffix,
-      maxLength: this._maxLength,
-      maxLines: this._maxLines,
-      multiline: this._multiline,
-      multiple: this._multiple,
-      separator: this._separator,
-      combobox: this._combobox,
-      options: this._options,
-      lines: this._lines,
+    const retval: Token = {
+      label: this._label ?? 'Untitled',
+      name: this._name ?? 'untitled',
+      type: this._type ?? 'text',
     };
+
+    if (this._description.length > 0) {
+      retval.description = this._description;
+    }
+
+    if (this._prefix.length > 0) {
+      retval.prefix = this._prefix;
+    }
+
+    if (this._suffix.length > 0) {
+      retval.suffix = this._suffix;
+    }
+
+    if (this._maxLength.length) {
+      retval.maxLength = parseInt(this._maxLength);
+    }
+
+    if (this._maxLines.length > 0) {
+      retval.maxLines = parseInt(this._maxLines);
+    }
+
+    if (this._multiline) {
+      retval.multiline = true;
+    }
+
+    if (this._lines.length > 0) {
+      retval.lines = parseInt(this._lines);
+    }
+
+    if (this._multiple) {
+      retval.multiple = true;
+    }
+
+    if (this._separator.length > 0) {
+      retval.separator = this._separator;
+    }
+
+    if (this._combobox) {
+      retval.combobox = true;
+    }
+
+    if (this._options.length > 0) {
+      retval.options = this._options;
+    }
+
+    return retval;
   }
 
   @property({type: Boolean})
   active = false;
 
   @state()
-  private _label = this.token.label;
+  private _label = '';
 
   @state()
-  private _name = this.token.name;
+  private _name = '';
 
   @state()
-  private _type: TokenType = this.token.type;
+  private _type: TokenType = 'text';
 
   @state()
   private _description = '';
 
   @state()
-  private _prefix = this.token.prefix || '';
+  private _prefix = '';
 
   @state()
-  private _suffix = this.token.suffix || '';
+  private _suffix = '';
 
   @state()
-  private _multiline = this.token.multiline || false;
+  private _multiline = false;
 
   @state()
-  private _lines = this.token.lines || 2;
+  private _lines = '';
 
   @state()
-  private _maxLines = this.token.maxLines || 5;
+  private _maxLines = '';
 
   @state()
-  private _maxLength = this.token.maxLength || 99999;
+  private _maxLength = '';
 
   @state()
-  private _multiple = this.token.multiple || false;
+  private _multiple = false;
 
   @state()
-  private _separator = this.token.separator || ', ';
+  private _separator = '';
 
   @state()
-  private _combobox = this.token.combobox || false;
+  private _combobox = false;
 
   @state()
-  private _options: EnumTokenOption[] = this.token.options || [];
+  private _options: EnumTokenOption[] = [];
 
   @state()
   private _isOptionsWindowVisible = false;
@@ -328,9 +367,7 @@ export class TokenItemEdit extends LitElement {
     `;
 
     const multilineWidget = html`
-      <vscode-form-group
-        class="${classMap({disabled: this._type !== 'text'})}"
-      >
+      <vscode-form-group class="${classMap({disabled: this._type !== 'text'})}">
         <vscode-label for="multiline">Multiline</vscode-label>
         <vscode-checkbox
           id="multiline"
@@ -416,9 +453,7 @@ export class TokenItemEdit extends LitElement {
     `;
 
     const maxLengthWidget = html`
-      <vscode-form-group
-        class="${classMap({disabled: this._type !== 'text'})}"
-      >
+      <vscode-form-group class="${classMap({disabled: this._type !== 'text'})}">
         <vscode-label for="maxLength">MaxLength</vscode-label>
         <vscode-inputbox
           value="${this._maxLength}"
@@ -432,9 +467,7 @@ export class TokenItemEdit extends LitElement {
     `;
 
     const multipleWidget = html`
-      <vscode-form-group
-        class="${classMap({disabled: this._type !== 'enum'})}"
-      >
+      <vscode-form-group class="${classMap({disabled: this._type !== 'enum'})}">
         <vscode-label for="multiple">Multiple</vscode-label>
         <vscode-checkbox
           id="multiple"
@@ -447,9 +480,7 @@ export class TokenItemEdit extends LitElement {
     `;
 
     const comboboxWidget = html`
-      <vscode-form-group
-        class="${classMap({disabled: this._type !== 'enum'})}"
-      >
+      <vscode-form-group class="${classMap({disabled: this._type !== 'enum'})}">
         <vscode-label for="combobox">Combobox</vscode-label>
         <vscode-checkbox
           id="combobox"
@@ -483,7 +514,9 @@ export class TokenItemEdit extends LitElement {
           disabled: this._type !== 'enum',
         })}"
       >
-        <vscode-label>Options</vscode-label>
+        <vscode-label>
+          Options ${this._options.length ? `(${this._options.length})` : ''}
+        </vscode-label>
         <vscode-icon
           class="edit-options-button"
           name="list-unordered"
