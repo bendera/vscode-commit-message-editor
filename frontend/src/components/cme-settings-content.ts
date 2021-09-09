@@ -262,7 +262,7 @@ export class SettingsContent extends connect(store)(LitElement) {
   render(): TemplateResult {
     return html`
       <div class="settings-content">
-        <h1>Portable configuration editor</h1>
+        <h1>Edit commit templates</h1>
         <div class="header-toolbar">
           <div class="import-export">
             <vscode-button

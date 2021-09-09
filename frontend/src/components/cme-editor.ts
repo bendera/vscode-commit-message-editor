@@ -87,7 +87,7 @@ export class Editor extends connect(store)(LitElement) {
     return html`<vscode-icon
       name="settings-gear"
       action-icon
-      title="Edit portable configuration"
+      title="Edit commit templates"
       @click="${this._onSettingsIconClick}"
     ></vscode-icon>`;
   }

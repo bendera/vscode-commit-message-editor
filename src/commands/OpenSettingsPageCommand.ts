@@ -228,7 +228,7 @@ class OpenSettingsPageCommand {
     } else {
       this._currentPanel = vscode.window.createWebviewPanel(
         'cmeSettingsPage',
-        'Commit Message Editor Settings',
+        'Edit commit templates',
         columnToShowIn as vscode.ViewColumn,
         { enableScripts: true, retainContextWhenHidden: true }
       );
