@@ -17,9 +17,9 @@ The factory settings follows the [Conventional Commits](https://www.conventional
 
 ### More screenshots
 
-- [Configuration editor](https://bendera.github.io/vscode-commit-message-editor/configuration-editor.png)
-- [Regular textarea](https://bendera.github.io/vscode-commit-message-editor/regular-text-editor.png)
-- [Monospace textarea](https://bendera.github.io/vscode-commit-message-editor/monospace-text-editor.png)
+- [Configuration editor](https://bendera.github.io/vscode-commit-message-editor/screenshots/configuration-editor.png)
+- [Regular textarea](https://bendera.github.io/vscode-commit-message-editor/screenshots/regular-text-editor.png)
+- [Monospace textarea](https://bendera.github.io/vscode-commit-message-editor/screenshots/monospace-text-editor.png)
 
 ## Requirements
 
