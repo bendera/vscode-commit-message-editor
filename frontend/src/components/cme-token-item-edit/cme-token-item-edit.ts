@@ -381,7 +381,9 @@ export class TokenItemEdit extends LitElement {
 
     const linesWidget = html`
       <vscode-form-group
-        class="${classMap({disabled: this._tokenType !== 'text'})}"
+        class="${classMap({
+          disabled: this._tokenType !== 'text' || !this._multiline,
+        })}"
       >
         <vscode-label for="lines">Lines</vscode-label>
         <vscode-inputbox
@@ -397,7 +399,9 @@ export class TokenItemEdit extends LitElement {
 
     const maxLinesWidget = html`
       <vscode-form-group
-        class="${classMap({disabled: this._tokenType !== 'text'})}"
+        class="${classMap({
+          disabled: this._tokenType !== 'text' || !this._multiline,
+        })}"
       >
         <vscode-label for="maxLines">MaxLines</vscode-label>
         <vscode-inputbox
