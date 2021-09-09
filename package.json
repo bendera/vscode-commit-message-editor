@@ -34,7 +34,7 @@
     "commands": [
       {
         "command": "commitMessageEditor.openEditor",
-        "title": "Open the commit message editor",
+        "title": "Open commit message editor",
         "category": "Git",
         "icon": "$(edit)"
       },
