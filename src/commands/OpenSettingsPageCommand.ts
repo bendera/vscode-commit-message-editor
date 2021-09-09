@@ -123,6 +123,11 @@ class OpenSettingsPageCommand {
     });
     const { staticTemplate, dynamicTemplate, tokens } = payload;
     const data = {
+      $schema:
+        'https://bendera.github.io/' +
+        'vscode-commit-message-editor/' +
+        'schemas/' +
+        'config-v1.schema.json',
       configVersion: '1',
       staticTemplate,
       dynamicTemplate,
