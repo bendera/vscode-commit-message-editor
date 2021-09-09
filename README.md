@@ -2,20 +2,24 @@
 
 Edit commit messages in a convenient way.
 
-## Features
+## Highlighs
 
-- Pick an earlier commit message from recent commits
-- Edit commit message in a form
-- Customizable message template for conventional commits
-- Customizable form fields
-- Amend the last commit message
-- Native look and feel (provided by [Vscode Webview Elements](https://github.com/bendera/vscode-webview-elements))
+- Commit messages can be editable in a customizable form. This helps you to use a standardized format.
+- Portable configuration to share settings with teammates.
+- A huge textarea on a dedicated tab.
+- Clean look, thanks to [Vscode Webview Elements](https://github.com/bendera/vscode-webview-elements)
 
 ![Preview](preview1.gif)
 
 The factory settings follows the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
 ![Preview](preview2.gif)
+
+### More screenshots
+
+- [Configuration editor](https://bendera.github.io/vscode-commit-message-editor/configuration-editor.png)
+- [Regular textarea](https://bendera.github.io/vscode-commit-message-editor/regular-text-editor.png)
+- [Monospace textarea](https://bendera.github.io/vscode-commit-message-editor/monospace-text-editor.png)
 
 ## Requirements
 
@@ -42,11 +46,42 @@ This extension contributes the following settings:
 
 ## Customizing the commit message form
 
-The dynamic template contains template variables (tokens), which are between curly braces. Every token is displayed as a form widget in the form view. The easiest way to customizing tokens is to edit the default configuration. Find the tokens option under the Commit Message Editor settings and copy the setting to your user configuration.
+The easiest way to customizing the commit message form is to use the 
+Configuration Editor. To open the configuration editor, choose the 
+`Commit Message Editor: Open Settings Page` command from the Command Palette, or
+click on the gear icon in the top right corner of the Commit Message Editor tab.
+Here, you can export the current configuration or import another one. The loaded 
+configuration can be saved to the user or the workspace settings.
 
-![Tokens](settings-screenshot.png)
+A JSON schema is created for the portable configuration file format. This means, 
+you can use the [VSCode toolset](https://code.visualstudio.com/docs/languages/json) 
+to edit the configuration file manually. Just create a new JSON file with this 
+content and start to edit:
 
-### Available settings
+```json
+{
+  "$schema": "https://bendera.github.io/vscode-commit-message-editor/schemas/config-v1.schema.json"
+}
+```
+
+### Structure of the portable configuration file
+
+#### configVersion
+
+Currently: `"1"`. It might change in the future.
+
+#### staticTemplate
+
+Template for the text view, an array of strings. Every item in the array is a single line.
+
+#### dynamicTemplate
+
+Template for the form view, an array of strings. Every item in the array is a single line.
+Form fields (see the next section) can be referenced in the the template with the `{token_name}` format.
+
+#### tokens
+
+An array of token objects. It defines the form fields. The table below shows the structure of a token object:
 
 | Name                       | Type    | Description                                                                                                                                                            | Valid for |
 | -------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
