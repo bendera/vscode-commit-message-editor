@@ -2,6 +2,13 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.19.0] - 2021-09-10
+
+## Added
+
+- Shareable configuration
+- Added maxLength property to the text tokens
+
 ## [0.18.4] - 2021-08-14
 
 - Fix [#40](https://github.com/bendera/vscode-commit-message-editor/issues/40)
