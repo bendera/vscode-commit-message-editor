@@ -9,7 +9,6 @@
       "type": "string"
     },
     "staticTemplate": {
-      "$id": "#/properties/staticTemplate",
       "type": "array",
       "title": "Static template",
       "description": "Commit message template for the text view. Every line is an item in the array.",
@@ -21,12 +20,10 @@
         "Message footer"
       ],
       "items": {
-        "type": "string",
-        "$id": "#/properties/staticTemplate/line"
+        "type": "string"
       }
     },
     "dynamicTemplate": {
-      "$id": "#/properties/dynamicTemplate",
       "type": "array",
       "title": "Dynamic template",
       "description": "Commit message template for the form view. Every line is an item in the array. Tokens are enclosed in curly brackets.",
@@ -38,12 +35,10 @@
         "{breaking_change}{footer}"
       ],
       "items": {
-        "type": "string",
-        "$id": "#/properties/dynamicTemplate/line"
+        "type": "string"
       }
     },
     "tokens": {
-      "$id": "#/properties/tokens",
       "type": "array",
       "title": "Tokens",
       "description": "Define form widgets for the form view.",
@@ -51,19 +46,16 @@
         "type": "object",
         "properties": {
           "label": {
-            "$id": "#/properties/tokens/label",
             "type": "string",
             "title": "Token label",
             "description": "The visible label of the token in the form view."
           },
           "name": {
-            "$id": "#/properties/tokens/name",
             "type": "string",
             "title": "Token name",
             "description": "The template variable name in the dynamic template."
           },
           "type": {
-            "$id": "#/properties/tokens/type",
             "type": "string",
             "enum": [
               "enum",
@@ -75,43 +67,54 @@
             "default": "text"
           },
           "description": {
-            "$id": "#/properties/tokens/description",
             "type": "string",
             "title": "Description",
             "description": "Helper text for the token."
           },
           "prefix": {
-            "$id": "#/properties/tokens/prefix",
             "type": "string",
             "title": "Prefix",
             "description": "A text that will be prepended to the value if the value is not empty."
           },
           "suffix": {
-            "$id": "#/properties/tokens/suffix",
             "type": "string",
             "title": "Suffix",
             "description": "A text that will be appended to the value if the value is not empty."
           },
           "multiline": {
-            "type": "boolean"
+            "type": "boolean",
+            "title": "Multiline",
+            "description": "Multiline text input"
           },
           "lines": {
-            "type": "number"
+            "type": "number",
+            "title": "Lines",
+            "description": "Multiline text input initial height in lines"
           },
           "maxLines": {
-            "type": "number"
+            "type": "number",
+            "title": "Max Lines",
+            "description": "Multiline text input maximum height in lines"
           },
           "maxLength": {
-            "type": "number"
+            "type": "number",
+            "title": "Max Length",
+            "description": "Maximum length of the value"
           },
           "multiple": {
-            "type": "boolean"
+            "type": "boolean",
+            "title": "Multiple",
+            "description": "Multiple enum options"
           },
           "separator": {
-            "type": "string"
+            "type": "string",
+            "title": "Separator",
+            "description": "Separator text when multiple options were selected"
           },
           "combobox": {
-            "type": "boolean"
+            "type": "boolean",
+            "title": "Combobox",
+            "description": "Filterable enum options selector"
           },
           "options": {
             "type": "array",
