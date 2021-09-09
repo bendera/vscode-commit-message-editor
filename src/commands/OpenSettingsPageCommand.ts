@@ -184,7 +184,7 @@ class OpenSettingsPageCommand {
 
     Promise.all([staticTemplateUpdate, dynamicTemplateUpdate, tokensUpdate])
       .then(() => {
-        this._showStatus('Save settings successfully');
+        this._showStatus('Settings saved');
       })
       .catch((e) => {
         this._showError(e);
