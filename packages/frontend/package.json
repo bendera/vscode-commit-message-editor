@@ -30,6 +30,7 @@
     "@bendera/vscode-webview-elements": "^0.7.0-pre.5",
     "@reduxjs/toolkit": "^1.6.1",
     "@types/vscode": "^1.59.0",
+    "commit-message-editor-schemas": "^1.0.0",
     "lit": "^2.0.0-rc.3",
     "pwa-helpers": "^0.9.1",
     "ts-debounce": "^3.0.0",
