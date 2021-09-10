@@ -1,6 +1,6 @@
 {
-  "name": "lit-element-starter-ts",
-  "version": "0.0.0",
+  "name": "commit-message-editor-frontend",
+  "version": "0.19.0",
   "description": "A simple web component",
   "main": "my-element.js",
   "module": "my-element.js",
