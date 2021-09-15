@@ -1,440 +1,388 @@
-[
-  {
-    "__comment": "These are simplified Chinese description. You can delete the `description` line, and replace `description_en` to `description`, and delete this comment line.",
-    "label": "Type",
-    "name": "type",
-    "type": "enum",
-    "options": [
-      {
-        "label": "👷build",
-        "code": ":construction_worker:",
-        "description_en": "Add or update CI build system",
-        "description": ":construction_worker:新增或更新 CI 构建系统"
-      },
-      {
-        "label": "📝docs",
-        "code": ":memo:",
-        "description_en": "Add or update documentation",
-        "description": ":memo:添加或更新文件"
-      },
-      {
-        "label": "✨feat",
-        "code": ":sparkles:",
-        "description_en": "Introduce new features",
-        "description": ":sparkles:引入新特性"
-      },
-      {
-        "label": "🐛fix",
-        "code": ":bug:",
-        "description_en": "Fix a bug",
-        "description": ":bug:修复 BUG"
-      },
-      {
-        "label": "⚡️perf",
-        "code": ":zap:",
-        "description_en": "Improve performance",
-        "description": ":zap:提高性能"
-      },
-      {
-        "label": "♻️refactor",
-        "code": ":recycle:",
-        "description_en": "Refactor code",
-        "description": ":recycle:重构代码"
-      },
-      {
-        "label": "💄style",
-        "code": ":lipstick:",
-        "description_en": "Add or update the UI and style files",
-        "description": ":lipstick:新增或更新 UI 样式文件"
-      },
-      {
-        "label": "✅test",
-        "code": ":white_check_mark:",
-        "description_en": "Add, update, or pass tests",
-        "description": ":white_check_mark:添加、更新或通过测试"
-      },
-      {
-        "label": "🔩chore",
-        "code": ":white_check_mark:",
-        "description_en": "updating grunt tasks etc; no production code change",
-        "description": ":nut_and_bolt:其他琐事，如构建过程或辅助工具的变动，生产环境代码没有更改"
-      },
-      {
-        "label": "💥fix",
-        "code": ":boom:",
-        "description_en": "Introduce breaking changes",
-        "description": ":boom:引入重大改变"
-      },
-      {
-        "label": "🎨pref",
-        "code": ":art:",
-        "description_en": "Improve structure / format of the code",
-        "description": ":art:改进项目结构/代码格式"
-      },
-      {
-        "label": "🔥chore",
-        "code": ":fire:",
-        "description_en": "Remove code or files",
-        "description": ":fire:删除代码或文件"
-      },
-      {
-        "label": "🚑hotfix",
-        "code": ":ambulance:",
-        "description_en": "Critical hotfix",
-        "description": ":ambulance:紧急热修复"
-      },
-      {
-        "label": "🚀deploy",
-        "code": ":rocket:",
-        "description_en": "Deploy stuff",
-        "description": ":rocket:部署项目"
-      },
-      {
-        "label": "🎉init",
-        "code": ":tada:",
-        "description_en": "Begin a project",
-        "description": ":tada:初次提交"
-      },
-      {
-        "label": "🔒️fix",
-        "code": ":lock:",
-        "description_en": "Fix security issues",
-        "description": ":lock:修复安全问题"
-      },
-      {
-        "label": "🔖chore",
-        "code": ":bookmark:",
-        "description_en": "Release / Version tags",
-        "description": ":bookmark:Release / Version 标签"
-      },
-      {
-        "label": "🚨fix",
-        "code": ":rotating_light:",
-        "description_en": "Fix compiler / linter warnings",
-        "description": ":rotating_light:修复编译器 / 链接器警告"
-      },
-      {
-        "label": "🚧wip",
-        "code": ":construction:",
-        "description_en": "Work in progress",
-        "description": ":construction:进行中的工作"
-      },
-      {
-        "label": "💚fix",
-        "code": ":green_heart:",
-        "description_en": "Fix CI Build",
-        "description": ":green_heart:修复 CI 构建"
-      },
-      {
-        "label": "⬇️pref",
-        "code": ":arrow_down:",
-        "description_en": "Downgrade dependencies",
-        "description": ":arrow_down:降级依赖版本"
-      },
-      {
-        "label": "⬆️pref",
-        "code": ":arrow_up:",
-        "description_en": "Upgrade dependencies",
-        "description": ":arrow_up:升级依赖版本"
-      },
-      {
-        "label": "📌pref",
-        "code": ":pushpin:",
-        "description_en": "Pin dependencies to specific versions",
-        "description": ":pushpin:将依赖设定为指定版本"
-      },
-      {
-        "label": "📈pref",
-        "code": ":chart_with_upwards_trend:",
-        "description_en": "Add or update analytics or track code",
-        "description": ":chart_with_upwards_trend:新增或更新分析或跟踪代码"
-      },
-      {
-        "label": "➕pref",
-        "code": ":heavy_plus_sign:",
-        "description_en": "Add a dependency",
-        "description": ":heavy_plus_sign:添加依赖"
-      },
-      {
-        "label": "➖pref",
-        "code": ":heavy_minus_sign:",
-        "description_en": "Remove a dependency",
-        "description": ":heavy_minus_sign:移除依赖"
-      },
-      {
-        "label": "🔧refactor",
-        "code": ":wrench:",
-        "description_en": "Add or update configuration files",
-        "description": ":wrench:新增或更新配置文件"
-      },
-      {
-        "label": "🔨refactor",
-        "code": ":hammer:",
-        "description_en": "Add or update development scripts",
-        "description": ":hammer:新增或更新开发脚本"
-      },
-      {
-        "label": "🌐chore",
-        "code": ":globe_with_meridians:",
-        "description_en": "Internationalization and localization",
-        "description": ":globe_with_meridians:国际化和本地化 i18n"
-      },
-      {
-        "label": "✏️fix",
-        "code": ":pencil2:",
-        "description_en": "Fix typos",
-        "description": ":pencil2:修复拼写错误"
-      },
-      {
-        "label": "💩pref",
-        "code": ":poop:",
-        "description_en": "Write bad code that needs to be improved",
-        "description": ":poop:写不好的代码，需要改进"
-      },
-      {
-        "label": "⏪chore",
-        "code": ":rewind:",
-        "description_en": "Revert changes",
-        "description": ":rewind:还原修改"
-      },
-      {
-        "label": "🔀chore",
-        "code": ":twisted_rightwards_arrows:",
-        "description_en": "Merge branches",
-        "description": ":twisted_rightwards_arrows:合并分支"
-      },
-      {
-        "label": "📦chore",
-        "code": ":package:",
-        "description_en": "Add or update compiled files or packages",
-        "description": ":package:新增或更新已编译的文件或包"
-      },
-      {
-        "label": "👽️refactor",
-        "code": ":alien:",
-        "description_en": "Update code due to external API changes",
-        "description": ":alien:由于外部API变化而更新代码"
-      },
-      {
-        "label": "🚚chore",
-        "code": ":truck:",
-        "description_en": "Move or rename resources (e.g.: files, paths, routes)",
-        "description": ":truck:移动或重命名资源"
-      },
-      {
-        "label": "📄chore",
-        "code": ":page_facing_up:",
-        "description_en": "Add or update license",
-        "description": ":page_facing_up:新增或更新 License"
-      },
-      {
-        "label": "🍱chore",
-        "code": ":bento:",
-        "description_en": "Add or update assets",
-        "description": ":bento:新增或更新资源"
-      },
-      {
-        "label": "♿️pref",
-        "code": ":wheelchair:",
-        "description_en": "Improve accessibility",
-        "description": ":wheelchair:改善无障碍环境"
-      },
-      {
-        "label": "💡chore",
-        "code": ":bulb:",
-        "description_en": "Add or update comments in source code",
-        "description": ":bulb:在源代码中添加或更新注释"
-      },
-      {
-        "label": "🍻chore",
-        "code": ":beers:",
-        "description_en": "Write code drunkenly",
-        "description": ":beers:醉醺醺的写代码"
-      },
-      {
-        "label": "💬chore",
-        "code": ":speech_balloon:",
-        "description_en": "Add or update text and literals",
-        "description": ":speech_balloon:新增或更新文本和文字"
-      },
-      {
-        "label": "🗃perf",
-        "code": ":card_file_box:",
-        "description_en": "Perform database related changes",
-        "description": ":card_file_box:执行与数据库相关的更改"
-      },
-      {
-        "label": "🔊chore",
-        "code": ":loud_sound:",
-        "description_en": "Add or update logs",
-        "description": ":loud_sound:新增或更新日志"
-      },
-      {
-        "label": "🔇chore",
-        "code": ":mute:",
-        "description_en": "Remove logs",
-        "description": ":mute:删除日志"
-      },
-      {
-        "label": "👥chore",
-        "code": ":busts_in_silhouette:",
-        "description_en": "Add or update contributor(s)",
-        "description": ":busts_in_silhouette:新增或更新贡献者"
-      },
-      {
-        "label": "🚸pref",
-        "code": ":children_crossing:",
-        "description_en": "Improve user experience / usability",
-        "description": ":children_crossing:提高用户体验 / 可用性"
-      },
-      {
-        "label": "📱chore",
-        "code": ":iphone:",
-        "description_en": "Work on responsive design",
-        "description": ":iphone:响应式设计的工作"
-      },
-      {
-        "label": "🤡test",
-        "code": ":clown_face:",
-        "description_en": "Mock things",
-        "description": ":clown_face:进行 mock 测试"
-      },
-      {
-        "label": "🥚chore",
-        "code": ":egg:",
-        "description_en": "Add or update an easter egg",
-        "description": ":egg:新增或更新一个彩蛋"
-      },
-      {
-        "label": "🙈chore",
-        "code": ":see_no_evil:",
-        "description_en": "Add or update a .gitignore file",
-        "description": ":see_no_evil:新增或更新 .gitignore 文件"
-      },
-      {
-        "label": "📸chore",
-        "code": ":camera_flash:",
-        "description_en": "Add or update snapshots",
-        "description": ":camera_flash:新增或更新快照"
-      },
-      {
-        "label": "⚗️feat",
-        "code": ":alembic:",
-        "description_en": "Perform experiments",
-        "description": ":alembic:试验新功能"
-      },
-      {
-        "label": "🔍pref",
-        "code": ":mag:",
-        "description_en": "Improve SEO",
-        "description": ":mag:改善 SEO"
-      },
-      {
-        "label": "🏷️chore",
-        "code": ":label:",
-        "description_en": "Add or update types",
-        "description": ":label:新增或更新类型"
-      },
-      {
-        "label": "🌱chore",
-        "code": ":seedling:",
-        "description_en": "Add or update seed files",
-        "description": ":seedling:新增或更新 SEED 文件"
-      },
-      {
-        "label": "🚩chore",
-        "code": ":triangular_flag_on_post:",
-        "description_en": "Add, update, or remove feature flags",
-        "description": ":triangular_flag_on_post:添加、更新或删除特性标志"
-      },
-      {
-        "label": "🥅chore",
-        "code": ":goal_net:",
-        "description_en": "Catch errors",
-        "description": ":goal_net:捕获异常"
-      },
-      {
-        "label": "💫chore",
-        "code": ":dizzy:",
-        "description_en": "Add or update animations and transitions",
-        "description": ":dizzy:新增或更新动画和过场"
-      },
-      {
-        "label": "🗑chore",
-        "code": ":wastebasket:",
-        "description_en": "Deprecate code that needs to be cleaned up",
-        "description": ":wastebasket:需要清理的废弃代码"
-      },
-      {
-        "label": "🛂chore",
-        "code": ":passport_control:",
-        "description_en": "Work on code related to authorization, roles and permissions",
-        "description": ":passport_control:编写与授权、角色和权限有关的代码"
-      },
-      {
-        "label": "🩹fix",
-        "code": ":adhesive_bandage:",
-        "description_en": "Simple fix for a non-critical issue",
-        "description": ":adhesive_bandage:简单修复非关键性问题"
-      },
-      {
-        "label": "🧐chore",
-        "code": ":monocle_face:",
-        "description_en": "Data exploration / inspection",
-        "description": ":monocle_face:数据探索 / 数据巡检"
-      },
-      {
-        "label": "⚰️chore",
-        "code": ":coffin:",
-        "description_en": "Remove dead code",
-        "description": ":coffin:删除无效代码"
-      },
-      {
-        "label": "🧪test",
-        "code": ":test_tube:",
-        "description_en": "Add a failing test",
-        "description": ":test_tube:添加一个失败的测试"
-      }
+{
+  "$schema": "https://bendera.github.io/vscode-commit-message-editor/schemas/config-v1.schema.json",
+  "configVersion": "1",
+  "staticTemplate": [
+    "feat: Short description",
+    "",
+    "Message body",
+    "",
+    "Message footer"
+  ],
+  "dynamicTemplate": [
+    "{type}{scope}: {description}",
+    "",
+    "{body}",
+    "",
+    "{breaking_change}{footer}"
+  ],
+  "tokens": [
+    {
+      "label": "Type",
+      "name": "type",
+      "type": "enum",
+      "combobox": true,
+      "options": [
+        {
+          "label": "🩹 adhesive-bandage",
+          "value": "🩹",
+          "description": "简单修复非关键性问题"
+        },
+        {
+          "label": "⚗ alembic",
+          "value": "⚗",
+          "description": "试验新功能"
+        },
+        {
+          "label": "👽 alien",
+          "value": "👽",
+          "description": "由于外部API变化而更新代码"
+        },
+        {
+          "label": "🚑 ambulance",
+          "value": "🚑",
+          "description": "紧急热修复"
+        },
+        {
+          "label": "💫 animation",
+          "value": "💫",
+          "description": "新增或更新动画和过场"
+        },
+        {
+          "label": "⬇️ arrow-down",
+          "value": "⬇️",
+          "description": "降级依赖版本"
+        },
+        {
+          "label": "⬆️ arrow-up",
+          "value": "⬆️",
+          "description": "升级依赖版本"
+        },
+        {
+          "label": "🎨 art",
+          "value": "🎨",
+          "description": "改进项目结构/代码格式"
+        },
+        {
+          "label": "🍻 beers",
+          "value": "🍻",
+          "description": "醉醺醺的写代码"
+        },
+        {
+          "label": "🍱 bento",
+          "value": "🍱",
+          "description": "新增或更新资源"
+        },
+        {
+          "label": "🔖 bookmark",
+          "value": "🔖",
+          "description": "标签"
+        },
+        {
+          "label": "💥 boom",
+          "value": "💥",
+          "description": "引入重大改变"
+        },
+        {
+          "label": "🐛 bug",
+          "value": "🐛",
+          "description": "修复 BUG"
+        },
+        {
+          "label": "🏗 building-construction",
+          "value": "🏗",
+          "description": "进行架构更改"
+        },
+        {
+          "label": "💡 bulb",
+          "value": "💡",
+          "description": "在源代码中添加或更新注释"
+        },
+        {
+          "label": "👥 busts-in-silhouette",
+          "value": "👥",
+          "description": "新增或更新贡献者"
+        },
+        {
+          "label": "📸 camera-flash",
+          "value": "📸",
+          "description": "新增或更新快照"
+        },
+        {
+          "label": "🗃 card-file-box",
+          "value": "🗃",
+          "description": "执行与数据库相关的更改"
+        },
+        {
+          "label": "📈 chart-with-upwards-trend",
+          "value": "📈",
+          "description": "新增或更新分析或跟踪代码"
+        },
+        {
+          "label": "🚸 children-crossing",
+          "value": "🚸",
+          "description": "提高用户体验 / 可用性"
+        },
+        {
+          "label": "🤡 clown-face",
+          "value": "🤡",
+          "description": "进行 mock 测试"
+        },
+        {
+          "label": "⚰️ coffin",
+          "value": "⚰️",
+          "description": "删除无效代码"
+        },
+        {
+          "label": "🚧 construction",
+          "value": "🚧",
+          "description": "进行中的工作"
+        },
+        {
+          "label": "👷 construction-worker",
+          "value": "👷",
+          "description": "新增或更新 CI 构建系统"
+        },
+        {
+          "label": "🥚 egg",
+          "value": "🥚",
+          "description": "新增或更新一个彩蛋"
+        },
+        {
+          "label": "🔥 fire",
+          "value": "🔥",
+          "description": "删除代码或文件"
+        },
+        {
+          "label": "🌐 globe-with-meridians",
+          "value": "🌐",
+          "description": "国际化和本地化"
+        },
+        {
+          "label": "🥅 goal-net",
+          "value": "🥅",
+          "description": "捕获异常"
+        },
+        {
+          "label": "💚 green-heart",
+          "value": "💚",
+          "description": "修复 CI 构建"
+        },
+        {
+          "label": "🔨 hammer",
+          "value": "🔨",
+          "description": "新增或更新开发脚本"
+        },
+        {
+          "label": "➖ heavy-minus-sign",
+          "value": "➖",
+          "description": "移除依赖"
+        },
+        {
+          "label": "➕ heavy-plus-sign",
+          "value": "➕",
+          "description": "添加依赖"
+        },
+        {
+          "label": "📱 iphone",
+          "value": "📱",
+          "description": "响应式设计的工作"
+        },
+        {
+          "label": "🏷️ label",
+          "value": "🏷️",
+          "description": "新增或更新类型"
+        },
+        {
+          "label": "💄 lipstick",
+          "value": "💄",
+          "description": "新增或更新 UI 样式文件"
+        },
+        {
+          "label": "🔒 lock",
+          "value": "🔒",
+          "description": "修复安全问题"
+        },
+        {
+          "label": "🔊 loud-sound",
+          "value": "🔊",
+          "description": "新增或更新日志"
+        },
+        {
+          "label": "🔍 mag",
+          "value": "🔍",
+          "description": "改善 SEO"
+        },
+        {
+          "label": "📝 memo",
+          "value": "📝",
+          "description": "添加或更新文件"
+        },
+        {
+          "label": "🧐 monocle-face",
+          "value": "🧐",
+          "description": "数据探索 / 数据巡检"
+        },
+        {
+          "label": "🔇 mute",
+          "value": "🔇",
+          "description": "删除日志"
+        },
+        {
+          "label": "📦 package",
+          "value": "📦",
+          "description": "新增或更新已编译的文件或包"
+        },
+        {
+          "label": "📄 page-facing-up",
+          "value": "📄",
+          "description": "新增或更新 License"
+        },
+        {
+          "label": "🛂 passport-control",
+          "value": "🛂",
+          "description": "编写与授权、角色和权限有关的代码"
+        },
+        {
+          "label": "✏️ pencil2",
+          "value": "✏️",
+          "description": "修复拼写错误"
+        },
+        {
+          "label": "💩 poop",
+          "value": "💩",
+          "description": "写不好的代码，需要改进"
+        },
+        {
+          "label": "📌 pushpin",
+          "value": "📌",
+          "description": "将依赖设定为指定版本"
+        },
+        {
+          "label": "♻️ recycle",
+          "value": "♻️",
+          "description": "重构代码"
+        },
+        {
+          "label": "⏪ rewind",
+          "value": "⏪",
+          "description": "还原修改"
+        },
+        {
+          "label": "🚀 rocket",
+          "value": "🚀",
+          "description": "部署项目"
+        },
+        {
+          "label": "🚨 rotating-light",
+          "value": "🚨",
+          "description": "修复编译器 / 链接器警告"
+        },
+        {
+          "label": "🙈 see-no-evil",
+          "value": "🙈",
+          "description": "新增或更新 .gitignore 文件"
+        },
+        {
+          "label": "🌱 seedling",
+          "value": "🌱",
+          "description": "新增或更新 SEED 文件"
+        },
+        {
+          "label": "✨ sparkles",
+          "value": "✨",
+          "description": "引入新特性"
+        },
+        {
+          "label": "💬 speech-balloon",
+          "value": "💬",
+          "description": "新增或更新文本和文字"
+        },
+        {
+          "label": "🎉 tada",
+          "value": "🎉",
+          "description": "初次提交"
+        },
+        {
+          "label": "🚩 triangular-flag-on-post",
+          "value": "🚩",
+          "description": "添加、更新或删除特性标志"
+        },
+        {
+          "label": "🚚 truck",
+          "value": "🚚",
+          "description": "移动或重命名资源"
+        },
+        {
+          "label": "🔀 twisted-rightwards-arrows",
+          "value": "🔀",
+          "description": "合并分支"
+        },
+        {
+          "label": "🗑 wastebasket",
+          "value": "🗑",
+          "description": "需要清理的废弃代码"
+        },
+        {
+          "label": "♿️ wheelchair",
+          "value": "♿️",
+          "description": "改善无障碍环境"
+        },
+        {
+          "label": "✅ white-check-mark",
+          "value": "✅",
+          "description": "添加、更新或通过测试"
+        },
+        {
+          "label": "🔧 wrench",
+          "value": "🔧",
+          "description": "新增或更新配置文件"
+        },
+        {
+          "label": "⚡️ zap",
+          "value": "⚡️",
+          "description": "提高性能"
+        }
       ],
-    "description": "Type of changes"
-  },
-  {
-    "label": "Scope",
-    "name": "scope",
-    "description": "A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., \"feat(parser): add ability to parse arrays\".",
-    "type": "text",
-    "multiline": false,
-    "prefix": "(",
-    "suffix": ")"
-  },
-  {
-    "label": "Short description",
-    "name": "description",
-    "description": "Short description in the subject line.",
-    "type": "text",
-    "multiline": false
-  },
-  {
-    "label": "Body",
-    "name": "body",
-    "description": "Optional body",
-    "type": "text",
-    "multiline": true,
-    "lines": 5,
-    "maxLines": 10
-  },
-  {
-    "label": "Breaking change",
-    "name": "breaking_change",
-    "type": "boolean",
-    "value": "BREAKING CHANGE: ",
-    "default": false
-  },
-  {
-    "label": "Footer",
-    "name": "footer",
-    "description": "Optional footer",
-    "type": "text",
-    "multiline": true
-  }
-]
+      "description": "Type of changes"
+    },
+    {
+      "label": "Scope",
+      "name": "scope",
+      "description": "A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., \"feat(parser): add ability to parse arrays\".",
+      "type": "text",
+      "multiline": false,
+      "prefix": "(",
+      "suffix": ")"
+    },
+    {
+      "label": "Short description",
+      "name": "description",
+      "description": "Short description in the subject line.",
+      "type": "text",
+      "multiline": false
+    },
+    {
+      "label": "Body",
+      "name": "body",
+      "description": "Optional body",
+      "type": "text",
+      "multiline": true,
+      "lines": 5,
+      "maxLines": 10
+    },
+    {
+      "label": "Breaking change",
+      "name": "breaking_change",
+      "type": "boolean",
+      "value": "BREAKING CHANGE: ",
+      "default": false
+    },
+    {
+      "label": "Footer",
+      "name": "footer",
+      "description": "Optional footer",
+      "type": "text",
+      "multiline": true
+    }
+  ]
+}
