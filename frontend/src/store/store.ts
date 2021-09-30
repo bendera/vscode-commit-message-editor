@@ -1,5 +1,4 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {getAPI} from '../utils/VSCodeAPIService';
 import {postMessageDispatcher} from './middlewares/postMessageDispatcher';
 import {rootReducer} from './reducers';
 
@@ -10,21 +9,11 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-const saveState = () => {
-  const vscode = getAPI();
-  const data = {...store.getState()};
-  data.persisted = true;
-  vscode.setState(data);
-};
-
-store.subscribe(saveState);
-
 export default store;
 
 export type StatusMessageType = 'success' | 'error' | 'invisible';
 
 export interface RootState {
-  persisted: boolean;
   config: ExtensionConfig;
   shareableConfig: ShareableConfig;
   importError: boolean;

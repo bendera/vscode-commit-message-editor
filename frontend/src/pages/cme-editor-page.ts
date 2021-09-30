@@ -2,7 +2,7 @@ import {LitElement, html, css, TemplateResult, CSSResult} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import {getAPI} from '../utils/VSCodeAPIService';
-import store, {RootState} from '../store/store';
+import store from '../store/store';
 import '../components/cme-editor';
 import {
   closeTab,
@@ -10,7 +10,6 @@ import {
   receiveConfig,
   receiveRepositoryInfo,
   recentCommitsReceived,
-  replaceState,
 } from '../store/actions';
 
 const vscode = getAPI();
@@ -20,15 +19,9 @@ export class EditorPage extends connect(store)(LitElement) {
   constructor() {
     super();
 
-    const initialState = vscode.getState();
-
-    if (initialState) {
-      store.dispatch(replaceState(initialState as RootState));
-    } else {
-      vscode.postMessage({
-        command: 'requestConfig',
-      });
-    }
+    vscode.postMessage({
+      command: 'requestConfig',
+    });
   }
 
   connectedCallback(): void {

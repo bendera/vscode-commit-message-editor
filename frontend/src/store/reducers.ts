@@ -5,7 +5,6 @@ import {
   RECEIVE_CONFIG,
   RECENT_COMMITS_RECEIVED,
   RECENT_COMMITS_REQUEST,
-  REPLACE_STATE,
   REPOSITORY_INFO_RECEIVED,
   SHAREABLE_CONFIG_CHANGED,
   SHAREABLE_CONFIG_TOKEN_CHANGED,
@@ -19,7 +18,6 @@ import {
 } from './actions';
 
 export const createInitialState = (): RootState => ({
-  persisted: false,
   config: {
     confirmAmend: false,
     dynamicTemplate: [],
@@ -84,11 +82,6 @@ export const rootReducer = createReducer(initialState, {
   },
   [TEXTAREA_VALUE_CHANGED]: (state: RootState, action) => {
     state.textareaValue = action.payload;
-  },
-  [REPLACE_STATE]: (state: {[key: string]: unknown}, action) => {
-    Object.keys(state).forEach((key) => {
-      state[key] = action.payload[key];
-    });
   },
   [UPDATE_TOKEN_VALUES]: (state: RootState, action) => {
     const {payload} = action;
