@@ -9,17 +9,8 @@ import '@bendera/vscode-webview-elements/dist/vscode-multi-select';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import noop from '../../utils/noop';
-import {TokenValueDTO} from './types';
 
 class FormBuilder {
-  set tokenValues(val: TokenValueDTO) {
-    this._tokenValues = val;
-  }
-
-  get tokenValues(): TokenValueDTO {
-    return this._tokenValues;
-  }
-
   set tokens(val: Token[]) {
     this._tokens = val;
   }
@@ -51,8 +42,6 @@ class FormBuilder {
 
   private _tokens: Token[] = [];
 
-  private _tokenValues: TokenValueDTO = {};
-
   private _handleFormItemChange: () => void = noop;
 
   private _renderFormItem(
@@ -77,19 +66,14 @@ class FormBuilder {
   private _renderEnumTypeWidget(token: Token) {
     const {description, label, name, multiple, combobox} = token;
     const selectComboboxMode = combobox || false;
-    const selectValue = this._tokenValues[name];
 
     const options = token.options?.map((op) => {
       const {label, value, description} = op;
-      const normalizedValue = value === undefined ? label : value;
-
-      const selected = selectValue?.includes(normalizedValue);
 
       return html`
         <vscode-option
           value="${ifDefined(value)}"
           description="${ifDefined(description)}"
-          ?selected="${selected}"
           >${label}</vscode-option
         >
       `;
@@ -98,10 +82,8 @@ class FormBuilder {
     const select = multiple
       ? html`
           <vscode-multi-select
-            data-name="${name}"
             name="${name}"
             @vsc-change="${this._handleFormItemChange}"
-            .value="${Array.isArray(selectValue) ? selectValue : []}"
             .combobox="${selectComboboxMode}"
             class="vscode-select"
             >${options}</vscode-multi-select
@@ -112,7 +94,6 @@ class FormBuilder {
             data-name="${name}"
             name="${name}"
             @vsc-change="${this._handleFormItemChange}"
-            .value="${Array.isArray(selectValue) ? '' : selectValue}"
             .combobox="${selectComboboxMode}"
             class="vscode-select"
             >${options}</vscode-single-select
@@ -125,17 +106,12 @@ class FormBuilder {
   private _renderTextTypeWidget(token: Token) {
     const {description, label, multiline, name, lines, maxLines, maxLength} =
       token;
-    const normalizedValue =
-      typeof this._tokenValues[name] === 'string'
-        ? this._tokenValues[name]
-        : '';
     const inputbox = html`
       <vscode-inputbox
         data-name="${name}"
         name="${name}"
         ?multiline="${multiline}"
         @vsc-change="${this._handleFormItemChange}"
-        value="${normalizedValue as string}"
         lines="${ifDefined(lines)}"
         maxLines="${ifDefined(maxLines)}"
         maxLength="${ifDefined(maxLength)}"
@@ -147,19 +123,14 @@ class FormBuilder {
   }
 
   private _renderBooleanTypeWidget(token: Token) {
-    const {description, label, name, value} = token;
-    const checked =
-      this._tokenValues[name] && this._tokenValues[name] !== '' ? true : false;
-    const normalizedValue = typeof value === 'string' ? value : '';
+    const {description, label, name} = token;
 
     const checkbox = html`
       <vscode-checkbox
         data-name="${name}"
         name="${name}"
-        value="${normalizedValue}"
         label="${label}"
         @vsc-change="${this._handleFormItemChange}"
-        ?checked="${checked}"
       ></vscode-checkbox>
     `;
 

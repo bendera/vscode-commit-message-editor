@@ -165,7 +165,6 @@ export class FormView extends connect(store)(LitElement) {
 
     formBuilder.formItemChangeHandler = this._handleFormItemChange;
     formBuilder.tokens = this._tokens;
-    formBuilder.tokenValues = this._tokenValues;
 
     const formElements = formBuilder.build();
 
