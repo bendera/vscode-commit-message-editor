@@ -265,7 +265,7 @@ export class CodeEditor extends LitElement {
         display: block;
         font-family: var(--vscode-editor-font-family);
         font-size: var(--vscode-editor-font-size);
-        font-weight: var(--vscode-font-weight);
+        font-weight: var(--vscode-editor-font-weight);
         height: 200px;
         line-height: 1.3;
         min-width: 100%;
