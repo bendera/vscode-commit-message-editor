@@ -9,6 +9,10 @@ import {
   updateTokenValues,
 } from '../../../store/actions';
 import sinon, {SinonSpy} from 'sinon';
+import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-single-select';
+import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-multi-select';
+import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
+import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 
 const createConfig = (): ExtensionConfig => ({
   confirmAmend: true,
@@ -282,28 +286,7 @@ describe('cme-form-view', () => {
     expect(calls[0].firstArg).to.deep.equal(closeTab());
   });
 
-  it('token values should be updated when connectedCallback is called', async () => {
-    const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
-
-    await el.updateComplete;
-    await nextFrame();
-
-    const calls = storeSpy.getCalls();
-
-    expect(calls[0].firstArg).to.deep.equal(
-      updateTokenValues({
-        body: 'body test',
-        breaking_change: 'BREAKING CHANGE: ',
-        description: 'short description test',
-        footer: 'footer test',
-        gitmoji: '⚡️',
-        scope: '',
-        type: 'build',
-      })
-    );
-  });
-
-  it('idk', async () => {
+  it('UPDATE_TOKEN_VALUES should be dispatched with proper payload when a form item changed', async () => {
     const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
 
     await el.updateComplete;
@@ -313,38 +296,75 @@ describe('cme-form-view', () => {
 
     const slType = el.shadowRoot?.querySelector(
       'vscode-single-select[name="type"]'
-    );
+    ) as VscodeSingleSelect;
+    slType!.value = 'chore';
+    slType?.dispatchEvent(new CustomEvent('vsc-change'));
+
     const slScope = el.shadowRoot?.querySelector(
       'vscode-multi-select[name="scope"]'
-    );
-    const tfScope = el.shadowRoot?.querySelector(
+    ) as VscodeMultiSelect;
+    slScope!.value = ['lorem', 'ipsum'];
+    slScope?.dispatchEvent(new CustomEvent('vsc-change'));
+
+    const tfDescription = el.shadowRoot?.querySelector(
       'vscode-inputbox[name="description"]'
-    );
+    ) as VscodeInputbox;
+    tfDescription!.value = 'test description';
+    tfDescription?.dispatchEvent(new CustomEvent('vsc-change'));
+
     const cbBreakingChange = el.shadowRoot?.querySelector(
       'vscode-checkbox[name="breaking_change"]'
-    );
-
-    slType?.dispatchEvent(new CustomEvent('vsc-change'));
-    slScope?.dispatchEvent(new CustomEvent('vsc-change'));
-    tfScope?.dispatchEvent(new CustomEvent('vsc-change'));
+    ) as VscodeCheckbox;
+    cbBreakingChange.value = 'BREAKING CHANGE';
+    cbBreakingChange.checked = true;
     cbBreakingChange?.dispatchEvent(new CustomEvent('vsc-change'));
-
-    const expectedAction = updateTokenValues({
-      body: 'body test',
-      breaking_change: 'BREAKING CHANGE: ',
-      description: 'short description test',
-      footer: 'footer test',
-      gitmoji: '⚡️',
-      scope: '',
-      type: 'build',
-    });
 
     const calls = storeSpy.getCalls();
 
-    expect(calls[0].firstArg).to.deep.equal(expectedAction);
-    expect(calls[1].firstArg).to.deep.equal(expectedAction);
-    expect(calls[2].firstArg).to.deep.equal(expectedAction);
-    expect(calls[3].firstArg).to.deep.equal(expectedAction);
+    expect(calls[0].firstArg).to.deep.equal(
+      updateTokenValues({
+        body: '',
+        breaking_change: '',
+        description: '',
+        footer: '',
+        gitmoji: '',
+        scope: '',
+        type: 'chore',
+      })
+    );
+    expect(calls[1].firstArg).to.deep.equal(
+      updateTokenValues({
+        body: '',
+        breaking_change: '',
+        description: '',
+        footer: '',
+        gitmoji: '',
+        scope: 'lorem|ipsum',
+        type: 'chore',
+      })
+    );
+    expect(calls[2].firstArg).to.deep.equal(
+      updateTokenValues({
+        body: '',
+        breaking_change: '',
+        description: 'test description',
+        footer: '',
+        gitmoji: '',
+        scope: 'lorem|ipsum',
+        type: 'chore',
+      })
+    );
+    expect(calls[3].firstArg).to.deep.equal(
+      updateTokenValues({
+        body: '',
+        breaking_change: 'BREAKING CHANGE',
+        description: 'test description',
+        footer: '',
+        gitmoji: '',
+        scope: 'lorem|ipsum',
+        type: 'chore',
+      })
+    );
     expect(calls[4]).to.be.undefined;
   });
 });

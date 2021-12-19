@@ -123,13 +123,14 @@ class FormBuilder {
   }
 
   private _renderBooleanTypeWidget(token: Token) {
-    const {description, label, name} = token;
+    const {description, label, name, value} = token;
 
     const checkbox = html`
       <vscode-checkbox
         data-name="${name}"
         name="${name}"
         label="${label}"
+        value="${ifDefined(value)}"
         @vsc-change="${this._handleFormItemChange}"
       ></vscode-checkbox>
     `;

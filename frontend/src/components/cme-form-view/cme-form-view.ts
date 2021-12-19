@@ -82,7 +82,11 @@ export class FormView extends connect(store)(LitElement) {
           payload[name] = String(rawValue);
           break;
         case 'boolean':
-          payload[name] = rawValue[0];
+          if (Array.isArray(rawValue) && rawValue[0]) {
+            payload[name] = rawValue[0];
+          } else {
+            payload[name] = '';
+          }
           break;
         default:
       }
