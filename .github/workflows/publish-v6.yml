@@ -1,4 +1,4 @@
-name: Publish to Marketplace v5
+name: Publish to Marketplace v6
 
 on:
   push:
