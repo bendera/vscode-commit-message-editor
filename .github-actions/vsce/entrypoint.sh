@@ -2,4 +2,4 @@
 
 set -e
 
-sh -c "vsce $*"
+sh -c "npx vsce $*"
