@@ -2,4 +2,4 @@
 
 set -e
 
-sh -c "yes | npx vsce $*"
+sh -c "yes | npx vsce@1 $*"
