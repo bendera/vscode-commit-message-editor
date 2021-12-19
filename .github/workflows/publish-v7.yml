@@ -1,9 +1,10 @@
-name: Publish to Marketplace v6
+name: Publish to Marketplace v7
 
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
