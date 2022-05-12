@@ -23,322 +23,322 @@
       "combobox": true,
       "options": [
         {
-          "label": "🩹 adhesive-bandage",
+          "label": "🩹(adhesive-bandage) 简单修复非关键性问题",
           "value": "🩹",
           "description": "简单修复非关键性问题"
         },
         {
-          "label": "⚗ alembic",
+          "label": "⚗(alembic) 试验新功能",
           "value": "⚗",
           "description": "试验新功能"
         },
         {
-          "label": "👽 alien",
+          "label": "👽(alien) 由于外部API变化而更新代码",
           "value": "👽",
           "description": "由于外部API变化而更新代码"
         },
         {
-          "label": "🚑 ambulance",
+          "label": "🚑(ambulance) 紧急热修复",
           "value": "🚑",
           "description": "紧急热修复"
         },
         {
-          "label": "💫 animation",
+          "label": "💫(animation) 新增或更新动画和过场",
           "value": "💫",
           "description": "新增或更新动画和过场"
         },
         {
-          "label": "⬇️ arrow-down",
+          "label": "⬇️(arrow-down) 降级依赖版本",
           "value": "⬇️",
           "description": "降级依赖版本"
         },
         {
-          "label": "⬆️ arrow-up",
+          "label": "⬆️(arrow-up) 升级依赖版本",
           "value": "⬆️",
           "description": "升级依赖版本"
         },
         {
-          "label": "🎨 art",
+          "label": "🎨(art) 改进项目结构/代码格式",
           "value": "🎨",
           "description": "改进项目结构/代码格式"
         },
         {
-          "label": "🍻 beers",
+          "label": "🍻(beers) 醉醺醺的写代码",
           "value": "🍻",
           "description": "醉醺醺的写代码"
         },
         {
-          "label": "🍱 bento",
+          "label": "🍱(bento) 新增或更新资源",
           "value": "🍱",
           "description": "新增或更新资源"
         },
         {
-          "label": "🔖 bookmark",
+          "label": "🔖(bookmark) 标签",
           "value": "🔖",
           "description": "标签"
         },
         {
-          "label": "💥 boom",
+          "label": "💥(boom) 引入重大改变",
           "value": "💥",
           "description": "引入重大改变"
         },
         {
-          "label": "🐛 bug",
+          "label": "🐛(bug) 修复 BUG",
           "value": "🐛",
           "description": "修复 BUG"
         },
         {
-          "label": "🏗 building-construction",
+          "label": "🏗(building-construction) 进行架构更改",
           "value": "🏗",
           "description": "进行架构更改"
         },
         {
-          "label": "💡 bulb",
+          "label": "💡(bulb) 在源代码中添加或更新注释",
           "value": "💡",
           "description": "在源代码中添加或更新注释"
         },
         {
-          "label": "👥 busts-in-silhouette",
+          "label": "👥(busts-in-silhouette) 新增或更新贡献者",
           "value": "👥",
           "description": "新增或更新贡献者"
         },
         {
-          "label": "📸 camera-flash",
+          "label": "📸(camera-flash) 新增或更新快照",
           "value": "📸",
           "description": "新增或更新快照"
         },
         {
-          "label": "🗃 card-file-box",
+          "label": "🗃(card-file-box) 执行与数据库相关的更改",
           "value": "🗃",
           "description": "执行与数据库相关的更改"
         },
         {
-          "label": "📈 chart-with-upwards-trend",
+          "label": "📈(chart-with-upwards-trend) 新增或更新分析或跟踪代码",
           "value": "📈",
           "description": "新增或更新分析或跟踪代码"
         },
         {
-          "label": "🚸 children-crossing",
+          "label": "🚸(children-crossing) 提高用户体验 / 可用性",
           "value": "🚸",
           "description": "提高用户体验 / 可用性"
         },
         {
-          "label": "🤡 clown-face",
+          "label": "🤡(clown-face) 进行 mock 测试",
           "value": "🤡",
           "description": "进行 mock 测试"
         },
         {
-          "label": "⚰️ coffin",
+          "label": "⚰️(coffin) 删除无效代码",
           "value": "⚰️",
           "description": "删除无效代码"
         },
         {
-          "label": "🚧 construction",
+          "label": "🚧(construction) 进行中的工作",
           "value": "🚧",
           "description": "进行中的工作"
         },
         {
-          "label": "👷 construction-worker",
+          "label": "👷(construction-worker) 新增或更新 CI 构建系统",
           "value": "👷",
           "description": "新增或更新 CI 构建系统"
         },
         {
-          "label": "🥚 egg",
+          "label": "🥚(egg) 新增或更新一个彩蛋",
           "value": "🥚",
           "description": "新增或更新一个彩蛋"
         },
         {
-          "label": "🔥 fire",
+          "label": "🔥(fire) 删除代码或文件",
           "value": "🔥",
           "description": "删除代码或文件"
         },
         {
-          "label": "🌐 globe-with-meridians",
+          "label": "🌐(globe-with-meridians) 国际化和本地化",
           "value": "🌐",
           "description": "国际化和本地化"
         },
         {
-          "label": "🥅 goal-net",
+          "label": "🥅(goal-net) 捕获异常",
           "value": "🥅",
           "description": "捕获异常"
         },
         {
-          "label": "💚 green-heart",
+          "label": "💚(green-heart) 修复 CI 构建",
           "value": "💚",
           "description": "修复 CI 构建"
         },
         {
-          "label": "🔨 hammer",
+          "label": "🔨(hammer) 新增或更新开发脚本",
           "value": "🔨",
           "description": "新增或更新开发脚本"
         },
         {
-          "label": "➖ heavy-minus-sign",
+          "label": "➖(heavy-minus-sign) 移除依赖",
           "value": "➖",
           "description": "移除依赖"
         },
         {
-          "label": "➕ heavy-plus-sign",
+          "label": "➕(heavy-plus-sign) 添加依赖",
           "value": "➕",
           "description": "添加依赖"
         },
         {
-          "label": "📱 iphone",
+          "label": "📱(iphone) 响应式设计的工作",
           "value": "📱",
           "description": "响应式设计的工作"
         },
         {
-          "label": "🏷️ label",
+          "label": "🏷️(label) 新增或更新类型",
           "value": "🏷️",
           "description": "新增或更新类型"
         },
         {
-          "label": "💄 lipstick",
+          "label": "💄(lipstick) 新增或更新 UI 样式文件",
           "value": "💄",
           "description": "新增或更新 UI 样式文件"
         },
         {
-          "label": "🔒 lock",
+          "label": "🔒(lock) 修复安全问题",
           "value": "🔒",
           "description": "修复安全问题"
         },
         {
-          "label": "🔊 loud-sound",
+          "label": "🔊(loud-sound) 新增或更新日志",
           "value": "🔊",
           "description": "新增或更新日志"
         },
         {
-          "label": "🔍 mag",
+          "label": "🔍(mag) 改善 SEO",
           "value": "🔍",
           "description": "改善 SEO"
         },
         {
-          "label": "📝 memo",
+          "label": "📝(memo) 添加或更新文件",
           "value": "📝",
           "description": "添加或更新文件"
         },
         {
-          "label": "🧐 monocle-face",
+          "label": "🧐(monocle-face) 数据探索 / 数据巡检",
           "value": "🧐",
           "description": "数据探索 / 数据巡检"
         },
         {
-          "label": "🔇 mute",
+          "label": "🔇(mute) 删除日志",
           "value": "🔇",
           "description": "删除日志"
         },
         {
-          "label": "📦 package",
+          "label": "📦(package) 新增或更新已编译的文件或包",
           "value": "📦",
           "description": "新增或更新已编译的文件或包"
         },
         {
-          "label": "📄 page-facing-up",
+          "label": "📄(page-facing-up) 新增或更新 License",
           "value": "📄",
           "description": "新增或更新 License"
         },
         {
-          "label": "🛂 passport-control",
+          "label": "🛂(passport-control) 编写与授权、角色和权限有关的代码",
           "value": "🛂",
           "description": "编写与授权、角色和权限有关的代码"
         },
         {
-          "label": "✏️ pencil2",
+          "label": "✏️(pencil2) 修复拼写错误",
           "value": "✏️",
           "description": "修复拼写错误"
         },
         {
-          "label": "💩 poop",
+          "label": "💩(poop) 写不好的代码，需要改进",
           "value": "💩",
           "description": "写不好的代码，需要改进"
         },
         {
-          "label": "📌 pushpin",
+          "label": "📌(pushpin) 将依赖设定为指定版本",
           "value": "📌",
           "description": "将依赖设定为指定版本"
         },
         {
-          "label": "♻️ recycle",
+          "label": "♻️(recycle) 重构代码",
           "value": "♻️",
           "description": "重构代码"
         },
         {
-          "label": "⏪ rewind",
+          "label": "⏪(rewind) 还原修改",
           "value": "⏪",
           "description": "还原修改"
         },
         {
-          "label": "🚀 rocket",
+          "label": "🚀(rocket) 部署项目",
           "value": "🚀",
           "description": "部署项目"
         },
         {
-          "label": "🚨 rotating-light",
+          "label": "🚨(rotating-light) 修复编译器 / 链接器警告",
           "value": "🚨",
           "description": "修复编译器 / 链接器警告"
         },
         {
-          "label": "🙈 see-no-evil",
+          "label": "🙈(see-no-evil) 新增或更新 .gitignore 文件",
           "value": "🙈",
           "description": "新增或更新 .gitignore 文件"
         },
         {
-          "label": "🌱 seedling",
+          "label": "🌱(seedling) 新增或更新 SEED 文件",
           "value": "🌱",
           "description": "新增或更新 SEED 文件"
         },
         {
-          "label": "✨ sparkles",
+          "label": "✨(sparkles) 引入新特性",
           "value": "✨",
           "description": "引入新特性"
         },
         {
-          "label": "💬 speech-balloon",
+          "label": "💬(speech-balloon) 新增或更新文本和文字",
           "value": "💬",
           "description": "新增或更新文本和文字"
         },
         {
-          "label": "🎉 tada",
+          "label": "🎉(tada) 初次提交",
           "value": "🎉",
           "description": "初次提交"
         },
         {
-          "label": "🚩 triangular-flag-on-post",
+          "label": "🚩(triangular-flag-on-post) 添加、更新或删除特性标志",
           "value": "🚩",
           "description": "添加、更新或删除特性标志"
         },
         {
-          "label": "🚚 truck",
+          "label": "🚚(truck) 移动或重命名资源",
           "value": "🚚",
           "description": "移动或重命名资源"
         },
         {
-          "label": "🔀 twisted-rightwards-arrows",
+          "label": "🔀(twisted-rightwards-arrows) 合并分支",
           "value": "🔀",
           "description": "合并分支"
         },
         {
-          "label": "🗑 wastebasket",
+          "label": "🗑(wastebasket) 需要清理的废弃代码",
           "value": "🗑",
           "description": "需要清理的废弃代码"
         },
         {
-          "label": "♿️ wheelchair",
+          "label": "♿️(wheelchair) 改善无障碍环境",
           "value": "♿️",
           "description": "改善无障碍环境"
         },
         {
-          "label": "✅ white-check-mark",
+          "label": "✅(white-check-mark) 添加、更新或通过测试",
           "value": "✅",
           "description": "添加、更新或通过测试"
         },
         {
-          "label": "🔧 wrench",
+          "label": "🔧(wrench) 新增或更新配置文件",
           "value": "🔧",
           "description": "新增或更新配置文件"
         },
         {
-          "label": "⚡️ zap",
+          "label": "⚡️(zap) 提高性能",
           "value": "⚡️",
           "description": "提高性能"
         }

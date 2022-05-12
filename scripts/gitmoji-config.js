@@ -3,7 +3,7 @@
  * Usage `node gitmoji-config.js > example.json`
  */
 
-const gitmojis = require('./gitmojis.json').gitmojis;
+const gitmojis = require('./gitmojis_searchable.json').gitmojis;
 
 const config = {
   label: 'Gitmoji',
@@ -27,7 +27,7 @@ gitmojis.sort((a, b) => {
 
 gitmojis.forEach((emoji) => {
   const token = {
-    label: `${emoji.emoji} ${emoji.name}`,
+    label: `${emoji.emoji}(${emoji.name}) ${emoji.description}`,
     value: emoji.emoji,
     description: emoji.description,
   };
