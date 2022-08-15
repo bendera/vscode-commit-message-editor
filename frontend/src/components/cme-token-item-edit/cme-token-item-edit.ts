@@ -398,6 +398,7 @@ export class TokenItemEdit extends LitElement {
         <vscode-inputbox
           value="${this._prefix}"
           id="prefix"
+          multiline
           name="prefix"
           @vsc-input="${this._onPrefixChange}"
         ></vscode-inputbox>
@@ -410,6 +411,7 @@ export class TokenItemEdit extends LitElement {
         <vscode-inputbox
           value="${this._suffix}"
           id="suffix"
+          multiline
           name="suffix"
           @vsc-input="${this._onSuffixChange}"
         ></vscode-inputbox>
@@ -502,6 +504,7 @@ export class TokenItemEdit extends LitElement {
         <vscode-inputbox
           value="${this._separator}"
           id="separator"
+          multiline
           name="separator"
           @vsc-input="${this._onSeparatorChange}"
         ></vscode-inputbox>
