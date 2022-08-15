@@ -7,7 +7,7 @@
   "preview": false,
   "publisher": "adam-bender",
   "engines": {
-    "vscode": "^1.50.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
@@ -284,19 +284,19 @@
     "vscode.git"
   ],
   "devDependencies": {
-    "@types/glob": "^7.1.3",
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^15.3.1",
-    "@types/vscode": "^1.50.0",
-    "esbuild": "^0.12.25",
-    "glob": "^7.1.7",
-    "mocha": "^8.4.0",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.7.5",
+    "@types/vscode": "^1.70.0",
+    "esbuild": "^0.15.3",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
     "tslint": "^6.1.2",
-    "typescript": "^4.2.4",
+    "typescript": "^4.7.4",
     "vscode-test": "^1.5.2"
   },
   "dependencies": {
-    "ajv": "^8.6.2",
+    "ajv": "^8.11.0",
     "vscode-codicons": "0.0.17"
   }
 }
