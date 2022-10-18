@@ -1,35 +1,147 @@
+// type SubjectMode = 'truncate' | 'truncate-ellipses';
+
+export enum SubjectMode {
+  TRUNCATE,
+  TRUNCATE_ELLIPSES,
+  TRUNCATE_ELLIPSIS_BEFORE,
+  TRUNCATE_ELLIPSIS_AFTER,
+}
+
+const SPACE = ' ';
+const TAB = '\t';
+
 interface CommitMessageFormatterOptions {
+  blankLineAfterSubject?: boolean;
+  subjectMode?: SubjectMode;
   subjectLength?: number;
   lineLength?: number;
 }
 
 class CommitMessageFormatter {
+  // private _blankLineAfterSubject: boolean;
+  private _subjectMode: SubjectMode;
   private _subjectLength: number;
   private _lineLength: number;
 
   constructor({
+    // blankLineAfterSubject = false,
+    subjectMode = SubjectMode.TRUNCATE,
     subjectLength = 50,
     lineLength = 72,
   }: CommitMessageFormatterOptions) {
+    // this._blankLineAfterSubject = blankLineAfterSubject;
+    this._subjectMode = subjectMode;
     this._subjectLength = subjectLength;
     this._lineLength = lineLength;
   }
 
-  format(message: string): string {
-    let pos = 0;
-    let nextBreakPoint = this._subjectLength;
-    const lines: string[] = [];
+  formatSubject(rawText: string): {formatted: string; rest: string} {
+    const nextNlPos = rawText.indexOf('\n');
+    const rawLine = rawText.substring(0, nextNlPos);
 
-    while (pos < message.length) {
-      lines.push(message.substring(pos, nextBreakPoint));
-      pos = nextBreakPoint;
-      nextBreakPoint = Math.min(
-        nextBreakPoint + this._lineLength,
-        message.length
-      );
+    if (rawLine.length <= this._subjectLength) {
+      return {
+        formatted: rawLine,
+        rest: rawText.substring(nextNlPos),
+      };
     }
 
-    return lines.join('\n');
+    if (this._subjectMode === SubjectMode.TRUNCATE) {
+      return {
+        formatted: rawLine.substring(0, this._subjectLength),
+        rest: rawText.substring(rawLine.length),
+      };
+    }
+
+    if (this._subjectMode === SubjectMode.TRUNCATE_ELLIPSIS_BEFORE) {
+      return {
+        formatted: rawText.substring(0, this._subjectLength - 3) + '...',
+        rest: rawText.substring(this._subjectLength - 3),
+      };
+    }
+
+    if (this._subjectMode === SubjectMode.TRUNCATE_ELLIPSIS_AFTER) {
+      return {
+        formatted: rawText.substring(0, this._subjectLength),
+        rest: '...' + rawText.substring(this._subjectLength),
+      };
+    }
+
+    if (this._subjectMode === SubjectMode.TRUNCATE_ELLIPSES) {
+      return {
+        formatted: rawText.substring(0, this._subjectLength - 3) + '...',
+        rest: '...' + rawText.substring(this._subjectLength - 3),
+      };
+    }
+
+    return {
+      formatted: '',
+      rest: '',
+    };
+  }
+
+  formatNextLine(rawText: string): {formatted: string; rest: string} {
+    let nextNlPos = rawText.indexOf('\n');
+
+    if (nextNlPos === -1) {
+      nextNlPos = rawText.length;
+    }
+
+    const rawLine = rawText.substring(0, nextNlPos + 1);
+
+    if (rawLine.length < this._lineLength) {
+      return {
+        formatted: rawLine,
+        rest: rawText.substring(nextNlPos + 1),
+      };
+    }
+
+    let formattedLine = '';
+    let indentation = 0;
+    const matches = /^[\W0-9]+/gm.exec(rawLine);
+
+    if (matches) {
+      indentation = matches[0].length;
+      formattedLine = matches[0];
+    }
+
+    const remainingLine = rawLine.substring(indentation);
+    const availableLength = this._lineLength - indentation;
+    const words = remainingLine.split(' ');
+    let charCount = 0;
+
+    words.forEach((word, i) => {
+      const pad = i === 0 ? '' : ' ';
+
+      if (charCount + pad.length + word.length <= availableLength) {
+        formattedLine += pad + word;
+        charCount += pad.length + word.length;
+      } else {
+        formattedLine += '\n';
+        formattedLine += ''.padStart(indentation, ' ');
+        formattedLine += word;
+        charCount = indentation + word.length;
+      }
+    });
+
+    return {
+      formatted: formattedLine,
+      rest: rawText.substring(nextNlPos + 1),
+    };
+  }
+
+  format(message: string): string {
+    const subject = this.formatSubject(message);
+    let {formatted, rest} = subject;
+
+    while (rest.length > this._lineLength) {
+      const next = this.formatNextLine(rest);
+
+      formatted += next.formatted;
+      rest = next.rest;
+    }
+
+    return formatted + rest;
   }
 }
 

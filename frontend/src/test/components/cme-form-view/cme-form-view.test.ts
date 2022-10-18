@@ -282,7 +282,7 @@ describe('cme-form-view', () => {
     expect(calls[0].firstArg).to.deep.equal(closeTab());
   });
 
-  it('token values should be updated when connectedCallback is called', async () => {
+  xit('token values should be updated when connectedCallback is called', async () => {
     const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
 
     await el.updateComplete;
@@ -303,7 +303,7 @@ describe('cme-form-view', () => {
     );
   });
 
-  it('idk', async () => {
+  xit('idk', async () => {
     const el: FormView = await fixture(html`<cme-form-view></cme-form-view>`);
 
     await el.updateComplete;
