@@ -19,21 +19,23 @@ import {
 
 export const createInitialState = (): RootState => ({
   config: {
-    confirmAmend: false,
-    dynamicTemplate: [],
-    staticTemplate: [],
-    tokens: [],
-    view: {
-      defaultView: 'form',
-      fullWidth: false,
-      saveAndClose: false,
-      showRecentCommits: false,
-      visibleViews: 'both',
-      visibleLines: 10,
-      rulers: [],
-      useMonospaceEditor: false,
-      tabSize: 4,
-      useTabs: false,
+    'commit-message-editor': {
+      confirmAmend: false,
+      dynamicTemplate: [],
+      staticTemplate: [],
+      tokens: [],
+      view: {
+        defaultView: 'form',
+        fullWidth: false,
+        saveAndClose: false,
+        showRecentCommits: false,
+        visibleViews: 'both',
+        visibleLines: 10,
+        rulers: [],
+        useMonospaceEditor: false,
+        tabSize: 4,
+        useTabs: false,
+      },
     },
   },
   shareableConfig: {
@@ -126,5 +128,5 @@ export const rootReducer = createReducer(initialState, {
     const {statusMessage, statusMessageType} = action.payload;
     state.statusMessage = statusMessage;
     state.statusMessageType = statusMessageType;
-  }
+  },
 });

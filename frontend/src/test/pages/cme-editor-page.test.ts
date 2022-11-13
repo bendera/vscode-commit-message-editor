@@ -72,12 +72,12 @@ describe('cme-editor-page', () => {
 
       const receivedConfig = store.getState().config;
 
-      expect(receivedConfig.dynamicTemplate.join('')).to.be.equal(
-        'test dynamic template'
-      );
-      expect(receivedConfig.staticTemplate.join('')).to.be.equal(
-        'test static template'
-      );
+      expect(
+        receivedConfig['commit-message-editor'].dynamicTemplate.join('')
+      ).to.be.equal('test dynamic template');
+      expect(
+        receivedConfig['commit-message-editor'].staticTemplate.join('')
+      ).to.be.equal('test static template');
     });
 
     it('should dispatch a "CLOSE_TAB" action when an "amendPerformed" command is received and the "saveAndClose" config flag is true', async () => {
@@ -85,21 +85,23 @@ describe('cme-editor-page', () => {
         {
           command: 'receiveConfig',
           payload: {
-            confirmAmend: false,
-            dynamicTemplate: [],
-            staticTemplate: [],
-            tokens: [],
-            view: {
-              defaultView: 'form',
-              saveAndClose: true,
-              showRecentCommits: false,
-              visibleViews: 'both',
-              visibleLines: 10,
-              fullWidth: false,
-              rulers: [],
-              useMonospaceEditor: false,
-              tabSize: 4,
-              useTabs: false,
+            'commit-message-editor': {
+              confirmAmend: false,
+              dynamicTemplate: [],
+              staticTemplate: [],
+              tokens: [],
+              view: {
+                defaultView: 'form',
+                saveAndClose: true,
+                showRecentCommits: false,
+                visibleViews: 'both',
+                visibleLines: 10,
+                fullWidth: false,
+                rulers: [],
+                useMonospaceEditor: false,
+                tabSize: 4,
+                useTabs: false,
+              },
             },
           } as ExtensionConfig,
         },
@@ -117,7 +119,9 @@ describe('cme-editor-page', () => {
 
       await aTimeout(0);
 
-      const actions = (store.dispatch as SinonSpy).args.map((params) => params[0]);
+      const actions = (store.dispatch as SinonSpy).args.map(
+        (params) => params[0]
+      );
       const closeTabActions = (actions as Action[]).filter(
         (action) => action.type === 'CLOSE_TAB'
       );
@@ -132,21 +136,23 @@ describe('cme-editor-page', () => {
         {
           command: 'receiveConfig',
           payload: {
-            confirmAmend: false,
-            dynamicTemplate: [],
-            staticTemplate: [],
-            tokens: [],
-            view: {
-              defaultView: 'form',
-              saveAndClose: false,
-              showRecentCommits: false,
-              visibleViews: 'both',
-              visibleLines: 10,
-              fullWidth: false,
-              rulers: [],
-              useMonospaceEditor: false,
-              tabSize: 4,
-              useTabs: false,
+            'commit-message-editor': {
+              confirmAmend: false,
+              dynamicTemplate: [],
+              staticTemplate: [],
+              tokens: [],
+              view: {
+                defaultView: 'form',
+                saveAndClose: false,
+                showRecentCommits: false,
+                visibleViews: 'both',
+                visibleLines: 10,
+                fullWidth: false,
+                rulers: [],
+                useMonospaceEditor: false,
+                tabSize: 4,
+                useTabs: false,
+              },
             },
           } as ExtensionConfig,
         },

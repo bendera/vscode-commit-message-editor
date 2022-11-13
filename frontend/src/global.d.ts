@@ -80,26 +80,32 @@ declare global {
   type VisibleViewsConfig = 'text' | 'form' | 'both';
 
   interface ExtensionConfig {
-    confirmAmend: boolean;
-    dynamicTemplate: string[];
-    staticTemplate: string[];
-    tokens: Token[];
-    view: {
-      defaultView: DefaultViewConfig;
-      visibleViews: VisibleViewsConfig;
-      showRecentCommits: boolean;
-      saveAndClose: boolean;
-      fullWidth: boolean;
-      useMonospaceEditor: boolean;
-      tabSize: number;
-      useTabs: boolean;
-      rulers: number[];
-      visibleLines: number;
+    'commit-message-editor': {
+      confirmAmend: boolean;
+      dynamicTemplate: string[];
+      staticTemplate: string[];
+      tokens: Token[];
+      view: {
+        defaultView: DefaultViewConfig;
+        visibleViews: VisibleViewsConfig;
+        showRecentCommits: boolean;
+        saveAndClose: boolean;
+        fullWidth: boolean;
+        useMonospaceEditor: boolean;
+        tabSize: number;
+        useTabs: boolean;
+        rulers: number[];
+        visibleLines: number;
+      };
+    };
+    git: {
+      inputValidationLength: number;
+      inputValidationSubjectLength: number;
     };
   }
 
   type ShareableConfig = Pick<
-    ExtensionConfig,
+    ExtensionConfig['commit-message-editor'],
     'dynamicTemplate' | 'staticTemplate' | 'tokens'
   >;
 

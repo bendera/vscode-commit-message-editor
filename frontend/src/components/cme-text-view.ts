@@ -112,10 +112,10 @@ export class TextView extends connect(store)(LitElement) {
       useTabs,
       rulers,
       visibleLines,
-    } = config.view;
+    } = config['commit-message-editor'].view;
 
     this._saveAndClose = saveAndClose;
-    this._staticTemplate = config.staticTemplate.join('\n');
+    this._staticTemplate = config['commit-message-editor'].staticTemplate.join('\n');
     this._showRecentCommits = showRecentCommits;
     this._useMonospaceEditor = useMonospaceEditor;
     this._tabSize = tabSize;
@@ -124,7 +124,7 @@ export class TextView extends connect(store)(LitElement) {
     this._visibleLines = visibleLines;
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;
-    this._visibleLines = config.view.visibleLines;
+    this._visibleLines = config['commit-message-editor'].view.visibleLines;
 
     if (state.recentCommits !== undefined && this._showRecentCommits) {
       this._commits = state.recentCommits;

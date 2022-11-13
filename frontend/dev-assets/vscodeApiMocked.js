@@ -98,162 +98,168 @@ const commits = [
 ];
 
 const config = {
-  confirmAmend: true,
-  dynamicTemplate: [
-    '{type}{scope}{gitmoji}: {description}',
-    '',
-    '{body}',
-    '',
-    '{breaking_change}{footer}',
-  ],
-  staticTemplate: [
-    'feat: Short description',
-    '',
-    'Message body',
-    '',
-    'Message footer',
-  ],
-  tokens: [
-    {
-      label: 'Type',
-      name: 'type',
-      type: 'enum',
-      options: [
-        {label: '---', value: ''},
-        {
-          label: 'build',
-          description:
-            'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
-        },
-        {
-          label: 'chore',
-          description: 'Updating grunt tasks etc; no production code change',
-        },
-        {
-          label: 'ci',
-          description:
-            'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
-        },
-        {label: 'docs', description: 'Documentation only changes'},
-        {label: 'feat', description: 'A new feature'},
-        {label: 'fix', description: 'A bug fix'},
-        {
-          label: 'perf',
-          description: 'A code change that improves performance',
-        },
-        {
-          label: 'refactor',
-          description:
-            'A code change that neither fixes a bug nor adds a feature',
-        },
-        {label: 'revert'},
-        {
-          label: 'style',
-          description:
-            'Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
-        },
-        {
-          label: 'test',
-          description: 'Adding missing tests or correcting existing tests',
-        },
-      ],
-      description: 'Type of changes',
+  'commit-message-editor': {
+    confirmAmend: true,
+    dynamicTemplate: [
+      '{type}{scope}{gitmoji}: {description}',
+      '',
+      '{body}',
+      '',
+      '{breaking_change}{footer}',
+    ],
+    staticTemplate: [
+      'feat: Short description',
+      '',
+      'Message body',
+      '',
+      'Message footer',
+    ],
+    tokens: [
+      {
+        label: 'Type',
+        name: 'type',
+        type: 'enum',
+        options: [
+          {label: '---', value: ''},
+          {
+            label: 'build',
+            description:
+              'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
+          },
+          {
+            label: 'chore',
+            description: 'Updating grunt tasks etc; no production code change',
+          },
+          {
+            label: 'ci',
+            description:
+              'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
+          },
+          {label: 'docs', description: 'Documentation only changes'},
+          {label: 'feat', description: 'A new feature'},
+          {label: 'fix', description: 'A bug fix'},
+          {
+            label: 'perf',
+            description: 'A code change that improves performance',
+          },
+          {
+            label: 'refactor',
+            description:
+              'A code change that neither fixes a bug nor adds a feature',
+          },
+          {label: 'revert'},
+          {
+            label: 'style',
+            description:
+              'Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
+          },
+          {
+            label: 'test',
+            description: 'Adding missing tests or correcting existing tests',
+          },
+        ],
+        description: 'Type of changes',
+      },
+      {
+        label: 'Scope',
+        name: 'scope',
+        description:
+          'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., "feat(parser): add ability to parse arrays".',
+        type: 'enum',
+        options: [
+          {
+            label: 'Lorem',
+            value: 'lorem',
+            description: 'Example scope',
+          },
+          {
+            label: 'Ipsum',
+            value: 'ipsum',
+            description: 'Another example scope',
+          },
+          {
+            label: 'Dolor',
+            value: 'dolor',
+          },
+          {
+            label: 'Sit',
+            value: 'sit',
+          },
+        ],
+        multiple: true,
+        separator: '|',
+        prefix: '(',
+        suffix: ')',
+      },
+      {
+        label: 'Gitmoji',
+        name: 'gitmoji',
+        description: 'Gitmoji example',
+        type: 'enum',
+        options: [
+          {
+            label: '⚡️ zap',
+            value: '⚡️',
+          },
+          {
+            label: '🔥 fire',
+            value: '🔥',
+          },
+          {
+            label: '💚 green_heart',
+            value: '💚',
+          },
+        ],
+        combobox: true,
+        filter: 'fuzzy',
+      },
+      {
+        label: 'Short description',
+        name: 'description',
+        description: 'Short description in the subject line.',
+        type: 'text',
+        multiline: false,
+        maxLength: 72,
+      },
+      {
+        label: 'Body',
+        name: 'body',
+        description: 'Optional body',
+        type: 'text',
+        multiline: true,
+      },
+      {
+        label: 'Breaking change',
+        name: 'breaking_change',
+        type: 'boolean',
+        value: 'BREAKING CHANGE: ',
+        default: false,
+      },
+      {
+        label: 'Footer',
+        name: 'footer',
+        description: 'Optional footer',
+        type: 'text',
+        multiline: true,
+      },
+    ],
+    view: {
+      defaultView: 'text',
+      visibleViews: 'form',
+      fullWidth: false,
+      useMonospaceEditor: true,
+      tabSize: 2,
+      useTabs: true,
+      rulers: [50, 72],
+      visibleLines: 10,
+      showRecentCommits: true,
+      saveAndClose: true,
     },
-    {
-      label: 'Scope',
-      name: 'scope',
-      description:
-        'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., "feat(parser): add ability to parse arrays".',
-      type: 'enum',
-      options: [
-        {
-          label: 'Lorem',
-          value: 'lorem',
-          description: 'Example scope',
-        },
-        {
-          label: 'Ipsum',
-          value: 'ipsum',
-          description: 'Another example scope',
-        },
-        {
-          label: 'Dolor',
-          value: 'dolor'
-        },
-        {
-          label: 'Sit',
-          value: 'sit'
-        },
-      ],
-      multiple: true,
-      separator: '|',
-      prefix: '(',
-      suffix: ')',
-    },
-    {
-      label: 'Gitmoji',
-      name: 'gitmoji',
-      description: 'Gitmoji example',
-      type: 'enum',
-      options: [
-        {
-          label: '⚡️ zap',
-          value: '⚡️',
-        },
-        {
-          label: '🔥 fire',
-          value: '🔥',
-        },
-        {
-          label: '💚 green_heart',
-          value: '💚',
-        },
-      ],
-      combobox: true,
-      filter: 'fuzzy',
-    },
-    {
-      label: 'Short description',
-      name: 'description',
-      description: 'Short description in the subject line.',
-      type: 'text',
-      multiline: false,
-      maxLength: 72,
-    },
-    {
-      label: 'Body',
-      name: 'body',
-      description: 'Optional body',
-      type: 'text',
-      multiline: true,
-    },
-    {
-      label: 'Breaking change',
-      name: 'breaking_change',
-      type: 'boolean',
-      value: 'BREAKING CHANGE: ',
-      default: false,
-    },
-    {
-      label: 'Footer',
-      name: 'footer',
-      description: 'Optional footer',
-      type: 'text',
-      multiline: true,
-    },
-  ],
-  view: {
-    defaultView: 'text',
-    visibleViews: 'form',
-    fullWidth: false,
-    useMonospaceEditor: true,
-    tabSize: 2,
-    useTabs: true,
-    rulers: [50, 72],
-    visibleLines: 10,
-    showRecentCommits: true,
-    saveAndClose: true,
   },
+  git: {
+    inputValidationLength: 72,
+    inputValidationSubjectLength: 50,
+  }
 };
 
 const submitFromHostToWebview = (data) => {

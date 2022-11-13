@@ -23,20 +23,22 @@ const createOpenEditorCommand = ({
       const populateCommitList = () => {
         git
           .getRecentCommitMessages(10)
-          .then(commits => {
+          .then((commits) => {
             const message = createPostMessage('recentCommitMessages', commits);
 
             if (currentPanel) {
               currentPanel.webview.postMessage(message);
             }
           })
-          .catch(er => {
+          .catch((er) => {
             vscode.window.showErrorMessage('Something went wrong', er);
           });
       };
 
       const confirmAmend = async (payload: string) => {
-        const confirmAmend = vscode.workspace.getConfiguration('commit-message-editor').get('confirmAmend');
+        const confirmAmend = vscode.workspace
+          .getConfiguration('commit-message-editor')
+          .get('confirmAmend');
 
         if (!confirmAmend) {
           performAmend(payload);
@@ -58,7 +60,9 @@ const createOpenEditorCommand = ({
         }
 
         if (selected === labelAlways) {
-          vscode.workspace.getConfiguration('commit-message-editor').update('confirmAmend', false, vscode.ConfigurationTarget.Global);
+          vscode.workspace
+            .getConfiguration('commit-message-editor')
+            .update('confirmAmend', false, vscode.ConfigurationTarget.Global);
         }
       };
 
@@ -106,7 +110,7 @@ const createOpenEditorCommand = ({
       });
 
       currentPanel.webview.onDidReceiveMessage(
-        data => {
+        (data) => {
           const { command, payload } = data;
 
           switch (command) {
@@ -117,8 +121,24 @@ const createOpenEditorCommand = ({
               (<vscode.WebviewPanel>currentPanel).dispose();
               break;
             case 'requestConfig':
+              const gitConfig = vscode.workspace.getConfiguration('git');
+              const inputValidationLength = gitConfig.get(
+                'inputValidationLength'
+              );
+              const inputValidationSubjectLength = gitConfig.get(
+                'inputValidationSubjectLength'
+              );
+
               (<vscode.WebviewPanel>currentPanel).webview.postMessage(
-                createPostMessage('receiveConfig', vscode.workspace.getConfiguration('commit-message-editor'))
+                createPostMessage('receiveConfig', {
+                  'commit-message-editor': vscode.workspace.getConfiguration(
+                    'commit-message-editor'
+                  ),
+                  git: {
+                    inputValidationLength,
+                    inputValidationSubjectLength,
+                  }
+                })
               );
               break;
             case 'requestRecentCommits':
@@ -153,7 +173,9 @@ const createOpenEditorCommand = ({
         populateCommitList();
       });
 
-      currentPanel.webview.postMessage(createPostMessage('copyFromSCMInputBox', git.getSCMInputBoxMessage()));
+      currentPanel.webview.postMessage(
+        createPostMessage('copyFromSCMInputBox', git.getSCMInputBoxMessage())
+      );
       currentPanel.webview.postMessage(createRepositoryInfoPostMessage());
     }
   );

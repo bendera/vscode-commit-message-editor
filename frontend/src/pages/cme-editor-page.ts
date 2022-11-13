@@ -49,7 +49,7 @@ export class EditorPage extends connect(store)(LitElement) {
   private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
     const {command, payload} = ev.data;
     const state = store.getState();
-    const {saveAndClose} = state.config.view;
+    const {saveAndClose} = state.config['commit-message-editor'].view;
 
     switch (command) {
       case 'amendPerformed':

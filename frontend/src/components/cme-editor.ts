@@ -24,7 +24,8 @@ export class Editor extends connect(store)(LitElement) {
   private _fullWidth = false;
 
   stateChanged(state: RootState): void {
-    const {defaultView, visibleViews, fullWidth} = state.config.view;
+    const {defaultView, visibleViews, fullWidth} =
+      state.config['commit-message-editor'].view;
 
     this._selectedIndex = defaultView === 'text' ? 0 : 1;
     this._visibleViews = visibleViews;

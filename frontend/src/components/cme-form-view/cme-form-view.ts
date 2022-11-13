@@ -56,7 +56,7 @@ export class FormView extends connect(store)(LitElement) {
 
   stateChanged(state: RootState): void {
     const {config, tokenValues} = state;
-    const {view, tokens, dynamicTemplate} = config;
+    const {view, tokens, dynamicTemplate} = config['commit-message-editor'];
 
     this._saveAndClose = view.saveAndClose;
     this._tokens = tokens;
