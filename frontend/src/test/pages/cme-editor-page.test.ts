@@ -103,6 +103,10 @@ describe('cme-editor-page', () => {
                 useTabs: false,
               },
             },
+            git: {
+              inputValidationLength: 72,
+              inputValidationSubjectLength: 50,
+            }
           } as ExtensionConfig,
         },
         window.origin
@@ -154,6 +158,10 @@ describe('cme-editor-page', () => {
                 useTabs: false,
               },
             },
+            git: {
+              inputValidationLength: 72,
+              inputValidationSubjectLength: 50,
+            }
           } as ExtensionConfig,
         },
         window.origin

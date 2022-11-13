@@ -37,6 +37,10 @@ export const createInitialState = (): RootState => ({
         useTabs: false,
       },
     },
+    git: {
+      inputValidationLength: 72,
+      inputValidationSubjectLength: 50,
+    }
   },
   shareableConfig: {
     dynamicTemplate: [],

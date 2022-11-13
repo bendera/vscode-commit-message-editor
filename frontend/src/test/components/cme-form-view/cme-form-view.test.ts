@@ -131,6 +131,10 @@ const createConfig = (): ExtensionConfig => ({
       saveAndClose: true,
     },
   },
+  git: {
+    inputValidationLength: 72,
+    inputValidationSubjectLength: 50,
+  },
 });
 
 describe('cme-form-view', () => {
