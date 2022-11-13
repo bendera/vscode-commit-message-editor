@@ -7,9 +7,6 @@ export enum SubjectMode {
   TRUNCATE_ELLIPSIS_AFTER,
 }
 
-const SPACE = ' ';
-const TAB = '\t';
-
 interface CommitMessageFormatterOptions {
   blankLineAfterSubject?: boolean;
   subjectMode?: SubjectMode;
@@ -97,16 +94,19 @@ class CommitMessageFormatter {
     }
 
     let formattedLine = '';
-    let indentation = 0;
+    let indentationLength = 0;
+    let padText = '';
     const matches = /^[\W0-9]+/gm.exec(rawLine);
 
     if (matches) {
-      indentation = matches[0].length;
+      // replace any bullet-type character with space
+      padText = matches[0].replaceAll(/\S/g, ' ');
+      indentationLength = matches[0].length;
       formattedLine = matches[0];
     }
 
-    const remainingLine = rawLine.substring(indentation);
-    const availableLength = this._lineLength - indentation;
+    const remainingLine = rawLine.substring(indentationLength);
+    const availableLength = this._lineLength - indentationLength;
     const words = remainingLine.split(' ');
     let charCount = 0;
 
@@ -118,9 +118,9 @@ class CommitMessageFormatter {
         charCount += pad.length + word.length;
       } else {
         formattedLine += '\n';
-        formattedLine += ''.padStart(indentation, ' ');
+        formattedLine += padText;
         formattedLine += word;
-        charCount = indentation + word.length;
+        charCount = indentationLength + word.length;
       }
     });
 

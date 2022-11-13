@@ -55,4 +55,29 @@ describe('CommitMessageFormatter', () => {
 
     expect(formatter.format(rawText)).to.eq(expected);
   });
+
+  it('tab indentation', () => {
+    const rawText = [
+      'Lorem ipsum',
+      '',
+      '\t*\tPhasellus urna ante, scelerisque sit amet malesuada id, vulputate dictum massa. Vivamus pharetra turpis justo, a consectetur arcu lobortis nec.',
+      '\t*\tVivamus pulvinar diam vitae purus aliquet, ut varius nisl cursus.'
+    ].join('\n');
+
+    const expected = [
+      'Lorem ipsum',
+      '',
+      '\t*\tPhasellus urna ante, scelerisque sit amet malesuada id, vulputate dictum',
+      '\t \tmassa. Vivamus pharetra turpis justo, a consectetur arcu lobortis nec.',
+      '\t*\tVivamus pulvinar diam vitae purus aliquet, ut varius nisl cursus.'
+    ].join('\n');
+
+    const formatter = new CommitMessageFormatter({
+      subjectLength: 20,
+      lineLength: 80,
+      subjectMode: SubjectMode.TRUNCATE,
+    });
+
+    expect(formatter.format(rawText)).to.eq(expected);
+  });
 });
