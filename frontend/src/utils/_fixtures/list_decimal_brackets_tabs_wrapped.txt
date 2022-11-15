@@ -1,9 +1,0 @@
-Lorem ipsum
-
-	1.)	Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis. Cras
-			consequat sed tellus ut pharetra. Nam malesuada odio at ligula
-			imperdiet, sed porta mi rutrum.
-
-	2.)	Nunc iaculis aliquet dui, a porttitor ex condimentum pulvinar. Nam
-			posuere, nisl vitae luctus finibus, neque sapien vestibulum
-			leo, a hendrerit lorem purus eu ipsum.
