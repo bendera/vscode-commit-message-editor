@@ -295,6 +295,7 @@ export class CodeEditor extends LitElement {
         pointer-events: none;
         position: absolute;
         top: 0;
+        user-select: none;
         width: calc(100% - 4px);
         z-index: 1;
       }
