@@ -245,10 +245,10 @@ const config = {
     ],
     view: {
       defaultView: 'text',
-      visibleViews: 'form',
+      visibleViews: 'both',
       fullWidth: false,
       useMonospaceEditor: true,
-      tabSize: 2,
+      tabSize: 4,
       useTabs: true,
       rulers: [50, 72],
       visibleLines: 10,

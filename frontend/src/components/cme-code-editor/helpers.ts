@@ -87,11 +87,8 @@ export const insertTab = (
   useTab = true,
   tabSize = 2
 ): void => {
-  const {
-    selectionStart,
-    textBeforeSelection,
-    textAfterSelection,
-  } = getSelectionInfo(el);
+  const {selectionStart, textBeforeSelection, textAfterSelection} =
+    getSelectionInfo(el);
   const tab = useTab ? '\t' : ''.padEnd(tabSize, ' ');
 
   el.value = textBeforeSelection + tab + textAfterSelection;

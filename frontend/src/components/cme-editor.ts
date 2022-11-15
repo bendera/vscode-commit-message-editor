@@ -68,6 +68,10 @@ export class Editor extends connect(store)(LitElement) {
       .wrapper.form vscode-icon[name='settings-gear'] {
         top: 12px;
       }
+
+      vscode-tab-panel {
+        overflow: visible;
+      }
     `;
   }
 
@@ -91,6 +95,7 @@ export class Editor extends connect(store)(LitElement) {
       name="settings-gear"
       action-icon
       title="Edit commit templates"
+      slot="addons"
       @click="${this._onSettingsIconClick}"
     ></vscode-icon>`;
   }
@@ -107,11 +112,11 @@ export class Editor extends connect(store)(LitElement) {
           both: true,
         })}"
       >
-        ${this._renderPortableSettingsButton()}
         <vscode-tabs
           selectedIndex="${this._selectedIndex}"
           @vsc-select="${this._handleTabChange}"
         >
+          ${this._renderPortableSettingsButton()}
           <vscode-tab-header>Edit as text</vscode-tab-header>
           <vscode-tab-panel>${textView}</vscode-tab-panel>
           <vscode-tab-header>Edit as form</vscode-tab-header>

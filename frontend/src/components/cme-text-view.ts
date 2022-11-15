@@ -18,6 +18,7 @@ import './cme-code-editor/cme-code-editor';
 import './cme-recent-commits';
 import './cme-repo-info';
 import {triggerInputboxRerender} from './helpers';
+import CommitMessageFormatter from '../utils/CommitMessageFormatter';
 
 @customElement('cme-text-view')
 export class TextView extends connect(store)(LitElement) {
@@ -61,11 +62,22 @@ export class TextView extends connect(store)(LitElement) {
 
   private _staticTemplate = '';
   private _amendCbChecked = false;
+  private _formatter = new CommitMessageFormatter({
+    tabSize: 4,
+    indentWithTabs: true,
+  });
 
   private _handleLoadTemplateButtonClick(ev: MouseEvent) {
     ev.stopPropagation();
     ev.preventDefault();
     store.dispatch(textareaValueChanged(this._staticTemplate));
+  }
+
+  private _handleWrapLinesButtonClick(ev: MouseEvent) {
+    ev.stopPropagation();
+    ev.preventDefault();
+
+    this._inputBoxValue = this._formatter.format(this._inputBoxValue);
   }
 
   private _handleInputBoxChange(ev: CustomEvent) {
@@ -110,17 +122,18 @@ export class TextView extends connect(store)(LitElement) {
       useMonospaceEditor,
       tabSize,
       useTabs,
-      rulers,
       visibleLines,
     } = config['commit-message-editor'].view;
+    const {inputValidationLength, inputValidationSubjectLength} = config.git;
 
     this._saveAndClose = saveAndClose;
-    this._staticTemplate = config['commit-message-editor'].staticTemplate.join('\n');
+    this._staticTemplate =
+      config['commit-message-editor'].staticTemplate.join('\n');
     this._showRecentCommits = showRecentCommits;
     this._useMonospaceEditor = useMonospaceEditor;
     this._tabSize = tabSize;
     this._useTabs = useTabs;
-    this._rulers = rulers;
+    this._rulers = [inputValidationLength, inputValidationSubjectLength];
     this._visibleLines = visibleLines;
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;
@@ -129,6 +142,9 @@ export class TextView extends connect(store)(LitElement) {
     if (state.recentCommits !== undefined && this._showRecentCommits) {
       this._commits = state.recentCommits;
     }
+
+    this._formatter.subjectLength = inputValidationSubjectLength;
+    this._formatter.lineLength = inputValidationLength;
 
     if (
       state.recentCommits === undefined &&
@@ -169,6 +185,10 @@ export class TextView extends connect(store)(LitElement) {
         display: inline-flex;
         outline-color: var(--vscode-focusBorder);
         text-decoration: none;
+      }
+
+      .editor-toolbar a:not(:first-child) {
+        margin-left: 20px;
       }
 
       .editor-toolbar a:hover,
@@ -247,6 +267,9 @@ export class TextView extends connect(store)(LitElement) {
             @click="${this._handleLoadTemplateButtonClick}"
           >
             <vscode-icon name="file"></vscode-icon>Load template
+          </a>
+          <a href="#" @click=${this._handleWrapLinesButtonClick}>
+            <vscode-icon name="list-selection"></vscode-icon>Wrap long lines
           </a>
         </p>
       </div>

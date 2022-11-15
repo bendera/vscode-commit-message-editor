@@ -20,5 +20,5 @@ export default {
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>`,
-  testsFinishTimeout: 1000,
+  testsFinishTimeout: 5000,
 };
