@@ -118,7 +118,7 @@ export class CodeEditor extends LitElement {
       caretPos: el.selectionEnd,
     });
     this._linefeedPositions = getNewlinePosList(el.value);
-    this._longestLineStrLength = getLongestLineLength(el);
+    this._longestLineStrLength = getLongestLineLength(el, this.tabSize);
   }
 
   private _handleChange(ev: InputEvent) {
@@ -202,7 +202,7 @@ export class CodeEditor extends LitElement {
     }
 
     this._linefeedPositions = getNewlinePosList(el.value);
-    this._longestLineStrLength = getLongestLineLength(el);
+    this._longestLineStrLength = getLongestLineLength(el, this.tabSize);
   }
 
   private _handleKeyUp(ev: KeyboardEvent) {

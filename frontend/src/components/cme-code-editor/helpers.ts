@@ -1,4 +1,5 @@
 import binarySearch from '../../utils/binarySearch';
+import calculateNumberOfTextColumns from '../../utils/calculateNumberOfTextColumns';
 
 export const getNewlinePosList = (text: string): number[] => {
   const res = [];
@@ -66,10 +67,15 @@ const getSelectionInfo = (
   };
 };
 
-export const getLongestLineLength = (el: HTMLTextAreaElement): number => {
+export const getLongestLineLength = (
+  el: HTMLTextAreaElement,
+  tabSize: number
+): number => {
   return el.value.split('\n').reduce((acc, curr) => {
-    if (curr.length > acc) {
-      return curr.length;
+    const lineWidth = calculateNumberOfTextColumns(curr, tabSize);
+
+    if (lineWidth > acc) {
+      return lineWidth;
     }
 
     return acc;
