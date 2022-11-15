@@ -23,7 +23,6 @@ export class CodeEditor extends LitElement {
   @property()
   set value(val: string) {
     this._value = val;
-    this._history.clear();
     this._history.add({type: 'initializing', value: val, caretPos: val.length});
     this._linefeedPositions = getNewlinePosList(val);
   }
