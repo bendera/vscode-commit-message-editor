@@ -98,15 +98,28 @@ export class CodeEditor extends LitElement {
     };
   }
 
-  private _handleWrapperClick() {
+  private _handleWrapperClick(ev: MouseEvent) {
     const textareaEl = this.shadowRoot?.querySelector(
       '#inputElement'
     ) as HTMLTextAreaElement;
+    const clickedOnTextarea =
+      ev.composedPath().findIndex((e) => {
+        if (!('matches' in e)) {
+          return false;
+        }
+
+        return (e as Element).matches('textarea#inputElement');
+      }) !== -1;
 
     if (textareaEl) {
       textareaEl.focus();
 
       this._linefeedPositions = getNewlinePosList(textareaEl.value);
+
+      if (!clickedOnTextarea) {
+        textareaEl.selectionStart = textareaEl.selectionEnd =
+          textareaEl.value.length;
+      }
     }
   }
 
