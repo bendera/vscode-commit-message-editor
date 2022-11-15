@@ -62,10 +62,7 @@ export class TextView extends connect(store)(LitElement) {
 
   private _staticTemplate = '';
   private _amendCbChecked = false;
-  private _formatter = new CommitMessageFormatter({
-    tabSize: 4,
-    indentWithTabs: true,
-  });
+  private _formatter = new CommitMessageFormatter({});
 
   private _handleLoadTemplateButtonClick(ev: MouseEvent) {
     ev.stopPropagation();
@@ -78,6 +75,7 @@ export class TextView extends connect(store)(LitElement) {
     ev.preventDefault();
 
     this._inputBoxValue = this._formatter.format(this._inputBoxValue);
+    store.dispatch(textareaValueChanged(this._inputBoxValue));
   }
 
   private _handleInputBoxChange(ev: CustomEvent) {
@@ -143,6 +141,10 @@ export class TextView extends connect(store)(LitElement) {
       this._commits = state.recentCommits;
     }
 
+    this._formatter.subjectLength = inputValidationSubjectLength;
+    this._formatter.lineLength = inputValidationLength;
+    this._formatter.tabSize = tabSize;
+    this._formatter.indentWithTabs = useTabs;
     this._formatter.subjectLength = inputValidationSubjectLength;
     this._formatter.lineLength = inputValidationLength;
 

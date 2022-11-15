@@ -64,6 +64,9 @@ export class CodeEditor extends LitElement {
   @query('.wrapper')
   private _wrapperEl!: HTMLDivElement;
 
+  @query('#inputElement')
+  private _inputEl!: HTMLTextAreaElement;
+
   private _history: CodeEditorHistory = new CodeEditorHistory(HISTORY_LENGTH);
   private _lineHeight = 0;
   private _longestLineStrLength = 0;
@@ -95,6 +98,12 @@ export class CodeEditor extends LitElement {
       w: boundRect.width,
       h: boundRect.height,
     };
+  }
+
+  private _dispatchChangeEvent() {
+    this.dispatchEvent(
+      new CustomEvent('vsc-change', {detail: this._inputEl.value})
+    );
   }
 
   private _handleWrapperClick(ev: MouseEvent) {
@@ -131,16 +140,15 @@ export class CodeEditor extends LitElement {
     });
     this._linefeedPositions = getNewlinePosList(el.value);
     this._longestLineStrLength = getLongestLineLength(el, this.tabSize);
+    this._value = el.value;
+
+    if (ev.inputType === 'insertFromPaste') {
+      this._dispatchChangeEvent();
+    }
   }
 
-  private _handleChange(ev: InputEvent) {
-    const ta = ev
-      .composedPath()
-      .find((e) => (e as Element).nodeName.toUpperCase() === 'TEXTAREA');
-
-    this.dispatchEvent(
-      new CustomEvent('vsc-change', {detail: (ta as HTMLTextAreaElement).value})
-    );
+  private _handleChange() {
+    this._dispatchChangeEvent();
   }
 
   private _scrollCaretToVisibleArea(ta: HTMLTextAreaElement) {
@@ -197,6 +205,7 @@ export class CodeEditor extends LitElement {
 
         el.value = value;
         el.selectionStart = el.selectionEnd = caretPos;
+        this._dispatchChangeEvent();
       }
     }
 
@@ -210,6 +219,7 @@ export class CodeEditor extends LitElement {
 
         el.value = value;
         el.selectionStart = el.selectionEnd = caretPos;
+        this._dispatchChangeEvent();
       }
     }
 
