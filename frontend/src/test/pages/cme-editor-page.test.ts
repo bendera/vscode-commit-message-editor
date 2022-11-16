@@ -3,6 +3,7 @@ import sinon, {SinonSandbox, SinonSpy} from 'sinon';
 import store from '../../store/store';
 import {EditorPage} from '../../pages/cme-editor-page';
 import {Action} from '@reduxjs/toolkit';
+import {SubjectFormattingMode} from '../../utils/CommitMessageFormatter';
 
 describe('cme-editor-page', () => {
   const setState = sinon.fake();
@@ -53,17 +54,35 @@ describe('cme-editor-page', () => {
         {
           command: 'receiveConfig',
           payload: {
-            confirmAmend: false,
-            dynamicTemplate: ['test dynamic template'],
-            staticTemplate: ['test static template'],
-            tokens: [],
-            view: {
-              defaultView: 'form',
-              saveAndClose: false,
-              showRecentCommits: false,
-              visibleViews: 'both',
+            'commit-message-editor': {
+              confirmAmend: false,
+              dynamicTemplate: ['test dynamic template'],
+              staticTemplate: ['test static template'],
+              tokens: [],
+              view: {
+                defaultView: 'form',
+                saveAndClose: false,
+                showRecentCommits: false,
+                visibleViews: 'both',
+                visibleLines: 10,
+                fullWidth: false,
+                rulers: [],
+                useMonospaceEditor: false,
+                tabSize: 4,
+                useTabs: false,
+              },
+              formatting: {
+                blankLineAfterSubject: true,
+                subjectFormattingMode: SubjectFormattingMode.SPLIT,
+                tabSize: 4,
+                useTabs: false,
+              },
             },
-          },
+            git: {
+              inputValidationLength: 72,
+              inputValidationSubjectLength: 50,
+            },
+          } as ExtensionConfig,
         },
         window.origin
       );
@@ -102,11 +121,17 @@ describe('cme-editor-page', () => {
                 tabSize: 4,
                 useTabs: false,
               },
+              formatting: {
+                blankLineAfterSubject: true,
+                subjectFormattingMode: SubjectFormattingMode.SPLIT,
+                tabSize: 4,
+                useTabs: false,
+              },
             },
             git: {
               inputValidationLength: 72,
               inputValidationSubjectLength: 50,
-            }
+            },
           } as ExtensionConfig,
         },
         window.origin
@@ -132,7 +157,7 @@ describe('cme-editor-page', () => {
 
       expect(closeTabActions).to.deep.equal([
         {type: 'CLOSE_TAB', payload: undefined},
-      ]);
+      ]); //
     });
 
     it('should not dispatch a "CLOSE_TAB" action when an "amendPerformed" command is received and the "saveAndClose" config flag is false', async () => {
@@ -157,11 +182,17 @@ describe('cme-editor-page', () => {
                 tabSize: 4,
                 useTabs: false,
               },
+              formatting: {
+                blankLineAfterSubject: true,
+                subjectFormattingMode: SubjectFormattingMode.SPLIT,
+                tabSize: 4,
+                useTabs: false,
+              },
             },
             git: {
               inputValidationLength: 72,
               inputValidationSubjectLength: 50,
-            }
+            },
           } as ExtensionConfig,
         },
         window.origin

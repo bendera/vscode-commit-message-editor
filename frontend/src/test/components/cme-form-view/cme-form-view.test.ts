@@ -9,6 +9,7 @@ import {
   updateTokenValues,
 } from '../../../store/actions';
 import sinon, {SinonSpy} from 'sinon';
+import { SubjectFormattingMode } from '../../../utils/CommitMessageFormatter';
 
 const createConfig = (): ExtensionConfig => ({
   'commit-message-editor': {
@@ -123,13 +124,16 @@ const createConfig = (): ExtensionConfig => ({
       visibleViews: 'form',
       fullWidth: false,
       useMonospaceEditor: true,
-      tabSize: 2,
-      useTabs: true,
-      rulers: [50, 72],
       visibleLines: 10,
       showRecentCommits: true,
       saveAndClose: true,
     },
+    formatting: {
+      blankLineAfterSubject: true,
+      subjectFormattingMode: SubjectFormattingMode.SPLIT,
+      tabSize: 4,
+      useTabs: false,
+    }
   },
   git: {
     inputValidationLength: 72,

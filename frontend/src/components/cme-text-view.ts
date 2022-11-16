@@ -114,14 +114,9 @@ export class TextView extends connect(store)(LitElement) {
 
   stateChanged(state: RootState): void {
     const {config} = state;
-    const {
-      saveAndClose,
-      showRecentCommits,
-      useMonospaceEditor,
-      tabSize,
-      useTabs,
-      visibleLines,
-    } = config['commit-message-editor'].view;
+    const {saveAndClose, showRecentCommits, useMonospaceEditor, visibleLines} =
+      config['commit-message-editor'].view;
+    const {tabSize, useTabs} = config['commit-message-editor'].formatting;
     const {inputValidationLength, inputValidationSubjectLength} = config.git;
 
     this._saveAndClose = saveAndClose;

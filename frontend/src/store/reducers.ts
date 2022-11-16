@@ -16,6 +16,7 @@ import {
   UPDATE_TOKEN_VALUES,
   CHANGE_STATUS_MESSAGE,
 } from './actions';
+import { SubjectFormattingMode } from '../utils/CommitMessageFormatter';
 
 export const createInitialState = (): RootState => ({
   config: {
@@ -31,11 +32,14 @@ export const createInitialState = (): RootState => ({
         showRecentCommits: false,
         visibleViews: 'both',
         visibleLines: 10,
-        rulers: [],
         useMonospaceEditor: false,
+      },
+      formatting: {
+        blankLineAfterSubject: true,
+        subjectFormattingMode: SubjectFormattingMode.SPLIT,
         tabSize: 4,
         useTabs: false,
-      },
+      }
     },
     git: {
       inputValidationLength: 72,

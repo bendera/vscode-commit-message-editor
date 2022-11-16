@@ -248,13 +248,16 @@ const config = {
       visibleViews: 'both',
       fullWidth: false,
       useMonospaceEditor: true,
-      tabSize: 4,
-      useTabs: true,
-      rulers: [50, 72],
       visibleLines: 10,
       showRecentCommits: true,
       saveAndClose: true,
     },
+    formatting: {
+      tabSize: 4,
+      useTabs: false,
+      subjectFormattingMode: 'truncate',
+      blankLineAfterSubject: true,
+    }
   },
   git: {
     inputValidationLength: 72,

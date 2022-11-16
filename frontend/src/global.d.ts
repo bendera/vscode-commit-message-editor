@@ -1,4 +1,5 @@
 import {RootState} from './store/store';
+import { SubjectFormattingMode } from './utils/CommitMessageFormatter';
 
 declare global {
   interface Commit {
@@ -92,10 +93,13 @@ declare global {
         saveAndClose: boolean;
         fullWidth: boolean;
         useMonospaceEditor: boolean;
+        visibleLines: number;
+      };
+      formatting: {
         tabSize: number;
         useTabs: boolean;
-        rulers: number[];
-        visibleLines: number;
+        subjectFormattingMode: SubjectFormattingMode;
+        blankLineAfterSubject: boolean;
       };
     };
     git: {
