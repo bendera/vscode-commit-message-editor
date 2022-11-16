@@ -1,80 +1,83 @@
 import {expect} from '@esm-bundle/chai';
-import CommitMessageFormatter, {
-  SubjectMode,
-} from '../../utils/CommitMessageFormatter';
-import { shortSubjectRaw } from './_fixtures';
+import CommitMessageFormatter from '../../utils/CommitMessageFormatter'; // SubjectFormattingMode,
+import {
+  indentWithTabsRaw,
+  indentWithTabsWrapped,
+  listAlphaBraketTabsRaw,
+  listAlphaBraketTabsWrapped,
+  listAlphaTabsRaw,
+  listAlphaTabsWrapped,
+  listAsteriskTabsRaw,
+  listAsteriskTabsWrapped,
+  listDashTabsRaw,
+  listDashTabsWrapped,
+  listDecimalTabsRaw,
+  listDecimalTabsWrapped,
+  shortSubjectRaw,
+} from './_fixtures';
 
 describe('CommitMessageFormatter', () => {
   it('subject should be untouched when actual subject lenght is less than maximum subject length', () => {
-    const formatter = new CommitMessageFormatter({
-      subjectLength: 20,
-      lineLength: 100,
-    });
+    const formatter = new CommitMessageFormatter({});
 
     expect(formatter.format(shortSubjectRaw)).to.eq(shortSubjectRaw);
   });
 
-  it('truncate mode', () => {
-    const rawText = 'Lorem ipsum\ndolor sit amet, consectetur adipiscing elit.';
-
+  it('indented with tabs', () => {
     const formatter = new CommitMessageFormatter({
-      subjectLength: 5,
-      lineLength: 100,
-      subjectMode: SubjectMode.TRUNCATE,
+      tabSize: 4,
+      indentWithTabs: true,
     });
 
-    expect(formatter.format(rawText)).to.eq(
-      'Lorem\ndolor sit amet, consectetur adipiscing elit.'
+    expect(formatter.format(indentWithTabsRaw)).to.eq(indentWithTabsWrapped);
+  });
+
+  it('ordered decimal list, indented with tabs', () => {
+    const formatter = new CommitMessageFormatter({
+      tabSize: 4,
+      indentWithTabs: true,
+    });
+
+    expect(formatter.format(listDecimalTabsRaw)).to.eq(listDecimalTabsWrapped);
+  });
+
+  it('ordered list with ascii letters, indented with tabs', () => {
+    const formatter = new CommitMessageFormatter({
+      tabSize: 4,
+      indentWithTabs: true,
+    });
+
+    expect(formatter.format(listAlphaTabsRaw)).to.eq(listAlphaTabsWrapped);
+  });
+
+  it('ordered list with bracket after period, indented with tabs', () => {
+    const formatter = new CommitMessageFormatter({
+      tabSize: 4,
+      indentWithTabs: true,
+    });
+
+    expect(formatter.format(listAlphaBraketTabsRaw)).to.eq(
+      listAlphaBraketTabsWrapped
     );
   });
 
-  it('lists', () => {
-    const rawText = [
-      'Lorem ipsum',
-      '',
-      ' * Phasellus urna ante, scelerisque sit amet malesuada id, vulputate dictum massa. Vivamus pharetra turpis justo, a consectetur arcu lobortis nec.',
-      ' * Vivamus pulvinar diam vitae purus aliquet, ut varius nisl cursus.'
-    ].join('\n');
-
-    const expected = [
-      'Lorem ipsum',
-      '',
-      ' * Phasellus urna ante, scelerisque sit amet malesuada id, vulputate dictum',
-      '   massa. Vivamus pharetra turpis justo, a consectetur arcu lobortis nec.',
-      ' * Vivamus pulvinar diam vitae purus aliquet, ut varius nisl cursus.'
-    ].join('\n');
-
+  it('unordered list with asterisk, indented with tabs', () => {
     const formatter = new CommitMessageFormatter({
-      subjectLength: 20,
-      lineLength: 80,
-      subjectMode: SubjectMode.TRUNCATE,
+      tabSize: 4,
+      indentWithTabs: true,
     });
 
-    expect(formatter.format(rawText)).to.eq(expected);
+    expect(formatter.format(listAsteriskTabsRaw)).to.eq(
+      listAsteriskTabsWrapped
+    );
   });
 
-  it('tab indentation', () => {
-    const rawText = [
-      'Lorem ipsum',
-      '',
-      '\t*\tPhasellus urna ante, scelerisque sit amet malesuada id, vulputate dictum massa. Vivamus pharetra turpis justo, a consectetur arcu lobortis nec.',
-      '\t*\tVivamus pulvinar diam vitae purus aliquet, ut varius nisl cursus.'
-    ].join('\n');
-
-    const expected = [
-      'Lorem ipsum',
-      '',
-      '\t*\tPhasellus urna ante, scelerisque sit amet malesuada id, vulputate dictum',
-      '\t \tmassa. Vivamus pharetra turpis justo, a consectetur arcu lobortis nec.',
-      '\t*\tVivamus pulvinar diam vitae purus aliquet, ut varius nisl cursus.'
-    ].join('\n');
-
+  it('unordered list with dash, indented with tabs', () => {
     const formatter = new CommitMessageFormatter({
-      subjectLength: 20,
-      lineLength: 80,
-      subjectMode: SubjectMode.TRUNCATE,
+      tabSize: 4,
+      indentWithTabs: true,
     });
 
-    expect(formatter.format(rawText)).to.eq(expected);
+    expect(formatter.format(listDashTabsRaw)).to.eq(listDashTabsWrapped);
   });
 });

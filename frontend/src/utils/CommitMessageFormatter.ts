@@ -1,6 +1,6 @@
 import calculateNumberOfTextColumns from './calculateNumberOfTextColumns';
 
-export enum SubjectMode {
+export enum SubjectFormattingMode {
   /**
    * Subject will be cut at the maximum length, rest will be added to the body.
    */
@@ -18,7 +18,7 @@ export enum SubjectMode {
 
 interface CommitMessageFormatterOptions {
   // blankLineAfterSubject?: boolean;
-  subjectMode?: SubjectMode;
+  subjectMode?: SubjectFormattingMode;
   subjectLength?: number;
   lineLength?: number;
   tabSize?: number;
@@ -27,7 +27,7 @@ interface CommitMessageFormatterOptions {
 
 class CommitMessageFormatter {
   // private _blankLineAfterSubject: boolean;
-  private _subjectMode: SubjectMode;
+  private _subjectMode: SubjectFormattingMode;
   private _subjectLength: number;
   private _lineLength: number;
   private _tabSize: number;
@@ -35,7 +35,7 @@ class CommitMessageFormatter {
 
   constructor({
     // blankLineAfterSubject = false,
-    subjectMode = SubjectMode.TRUNCATE,
+    subjectMode = SubjectFormattingMode.TRUNCATE,
     subjectLength = 50,
     lineLength = 72,
     tabSize = 2,
@@ -49,11 +49,11 @@ class CommitMessageFormatter {
     this._indentWithTabs = indentWithTabs;
   }
 
-  set subjectMode(val: SubjectMode) {
+  set subjectMode(val: SubjectFormattingMode) {
     this._subjectMode = val;
   }
 
-  get subjectMode(): SubjectMode {
+  get subjectMode(): SubjectFormattingMode {
     return this._subjectMode;
   }
 
@@ -113,7 +113,7 @@ class CommitMessageFormatter {
       };
     }
 
-    if (this._subjectMode === SubjectMode.TRUNCATE) {
+    if (this._subjectMode === SubjectFormattingMode.TRUNCATE) {
       let formatted = rawLine.substring(0, this._subjectLength).trimEnd();
       const rest = rawText.substring(this._subjectLength).trimStart();
 
@@ -125,7 +125,7 @@ class CommitMessageFormatter {
       };
     }
 
-    if (this._subjectMode === SubjectMode.TRUNCATE_ELLIPSES) {
+    if (this._subjectMode === SubjectFormattingMode.TRUNCATE_ELLIPSES) {
       return {
         formatted: rawText.substring(0, this._subjectLength - 3) + '...',
         rest: '...' + rawText.substring(this._subjectLength - 3),
