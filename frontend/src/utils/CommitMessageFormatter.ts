@@ -23,7 +23,6 @@ interface CommitMessageFormatterOptions {
   lineLength?: number;
   tabSize?: number;
   indentWithTabs?: boolean;
-  reflowParagraphs?: boolean;
 }
 
 class CommitMessageFormatter {
@@ -33,7 +32,6 @@ class CommitMessageFormatter {
   private _lineLength: number;
   private _tabSize: number;
   private _indentWithTabs: boolean;
-  private _reflowParagraphs: boolean;
 
   constructor({
     // blankLineAfterSubject = false,
@@ -42,7 +40,6 @@ class CommitMessageFormatter {
     lineLength = 72,
     tabSize = 2,
     indentWithTabs = false,
-    reflowParagraphs = true,
   }: CommitMessageFormatterOptions) {
     // this._blankLineAfterSubject = blankLineAfterSubject;
     this._subjectMode = subjectMode;
@@ -50,7 +47,6 @@ class CommitMessageFormatter {
     this._lineLength = lineLength;
     this._tabSize = tabSize;
     this._indentWithTabs = indentWithTabs;
-    this._reflowParagraphs = reflowParagraphs;
   }
 
   set subjectMode(val: SubjectFormattingMode) {
@@ -257,7 +253,6 @@ class CommitMessageFormatter {
 
     lines.forEach((l) => {
       const {isListItem, isEmpty} = this._analyzeLine(l);
-      console.log('empty', isEmpty)
 
       if (isListItem || isEmpty) {
         joinedLines.push(currentJoinedLine);
