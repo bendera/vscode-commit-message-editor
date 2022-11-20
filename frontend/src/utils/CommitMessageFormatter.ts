@@ -264,7 +264,8 @@ class CommitMessageFormatter {
         currentJoinedLine = l;
       } else {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
-        currentJoinedLine += prependedSpace + l.trimLeft().trimRight();
+        currentJoinedLine +=
+          prependedSpace + l.replaceAll(/^[\t ]+|[\t ]$/g, '');
       }
     });
 
