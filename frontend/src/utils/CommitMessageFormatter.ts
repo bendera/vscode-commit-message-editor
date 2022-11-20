@@ -23,6 +23,7 @@ interface CommitMessageFormatterOptions {
   lineLength?: number;
   tabSize?: number;
   indentWithTabs?: boolean;
+  reflowParagraphs?: boolean;
 }
 
 class CommitMessageFormatter {
@@ -32,6 +33,7 @@ class CommitMessageFormatter {
   private _lineLength: number;
   private _tabSize: number;
   private _indentWithTabs: boolean;
+  private _reflowParagraphs: boolean;
 
   constructor({
     // blankLineAfterSubject = false,
@@ -40,6 +42,7 @@ class CommitMessageFormatter {
     lineLength = 72,
     tabSize = 2,
     indentWithTabs = false,
+    reflowParagraphs = true,
   }: CommitMessageFormatterOptions) {
     // this._blankLineAfterSubject = blankLineAfterSubject;
     this._subjectMode = subjectMode;
@@ -47,6 +50,7 @@ class CommitMessageFormatter {
     this._lineLength = lineLength;
     this._tabSize = tabSize;
     this._indentWithTabs = indentWithTabs;
+    this._reflowParagraphs = reflowParagraphs;
   }
 
   set subjectMode(val: SubjectFormattingMode) {
@@ -138,46 +142,66 @@ class CommitMessageFormatter {
     };
   }
 
-  private _getIndentationData(rawLine: string) {
-    // match with list item prefixes and indentation
-    //
-    // 1. list item
-    // 1.) list item
-    // i. list item
-    // i.) list item
-    // * list item
-    // - list item
-    //   indented text
-    const matches =
-      /^[\t ]+(.?[0-9a-zA-Z]\.{1}\)*[\t ]+)|^[\t| ]+([*-]{1})[\t| ]+|^[\t ]+/g.exec(
-        rawLine
-      );
-
+  private _analyzeLine(line: string) {
+    let isListItem = false;
+    let isIndented = false;
+    let isEmpty = false;
+    let listItemPrefix = '';
+    let indentationWidth = 0;
+    let indentationText = '';
     let leadingText = '';
-    let leadingTextCols = 0;
-    let padText = '';
-    let padTextCols = 0;
 
-    if (matches) {
-      leadingText = matches[0];
-      leadingTextCols = calculateNumberOfTextColumns(matches[0], this._tabSize);
-      const indentationLevel = Math.ceil(leadingTextCols / this._tabSize);
-      const additionalColumns =
-        indentationLevel * this._tabSize - leadingTextCols;
-      padTextCols = leadingTextCols + additionalColumns;
+    const reOrderedList = /^[\t ]*(.?[0-9a-zA-Z]\.{1}\)*[\t ]+)/g;
+    const reUnorderedList = /^[\t ]*([*-]{1}[\t ]+)/g;
+    const reIndentation = /^[\t ]+/g;
 
-      if (this._indentWithTabs) {
-        padText = ''.padStart(padTextCols / this._tabSize, '\t');
-      } else {
-        padText = ''.padStart(padTextCols, ' ');
-      }
+    const orderedListMatches = reOrderedList.exec(line);
+    const unorderedListMatches = reUnorderedList.exec(line);
+    const indentationMatches = reIndentation.exec(line);
+
+    if (line === '') {
+      isEmpty = true;
+    }
+
+    if (indentationMatches) {
+      isIndented = true;
+    }
+
+    if (orderedListMatches) {
+      isListItem = true;
+      leadingText = orderedListMatches[0];
+      listItemPrefix = orderedListMatches[1];
+    }
+
+    if (unorderedListMatches) {
+      isListItem = true;
+      leadingText = unorderedListMatches[0];
+      listItemPrefix = unorderedListMatches[1];
+    }
+
+    if (indentationMatches && !isListItem) {
+      leadingText = indentationMatches[0];
+    }
+
+    indentationWidth = calculateNumberOfTextColumns(leadingText, this._tabSize);
+
+    if (!this._indentWithTabs) {
+      indentationText = ''.padStart(indentationWidth, ' ');
+    } else {
+      indentationText = ''.padStart(
+        Math.ceil(indentationWidth / this._tabSize),
+        '\t'
+      );
     }
 
     return {
+      isListItem,
+      isIndented,
+      isEmpty,
+      listItemPrefix,
+      indentationWidth,
+      indentationText,
       leadingText,
-      leadingTextCols,
-      padText,
-      padTextCols,
     };
   }
 
@@ -197,12 +221,12 @@ class CommitMessageFormatter {
       };
     }
 
-    const {padText, leadingText, padTextCols} =
-      this._getIndentationData(rawLine);
-    const indentationLength = padTextCols;
+    const {indentationText, indentationWidth, leadingText} =
+      this._analyzeLine(rawLine);
+
     let formattedLine = leadingText;
-    const remainingLine = rawLine.substring(leadingText.length);
-    const availableLength = this._lineLength - indentationLength;
+    const remainingLine = rawLine.substring(indentationWidth);
+    const availableLength = this._lineLength - indentationWidth;
     const words = remainingLine.split(' ');
     let charCount = 0;
 
@@ -214,9 +238,9 @@ class CommitMessageFormatter {
         charCount += pad.length + word.length;
       } else {
         formattedLine += '\n';
-        formattedLine += padText;
+        formattedLine += indentationText;
         formattedLine += word;
-        charCount = indentationLength + word.length;
+        charCount = indentationWidth + word.length;
       }
     });
 
@@ -226,6 +250,29 @@ class CommitMessageFormatter {
     };
   }
 
+  private _reflow(message: string) {
+    const lines = message.split('\n');
+    const joinedLines: string[] = [];
+    let currentJoinedLine = '';
+
+    lines.forEach((l) => {
+      const {isListItem, isEmpty} = this._analyzeLine(l);
+      console.log('empty', isEmpty)
+
+      if (isListItem || isEmpty) {
+        joinedLines.push(currentJoinedLine);
+        currentJoinedLine = l;
+      } else {
+        const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
+        currentJoinedLine += prependedSpace + l.trimLeft().trimRight();
+      }
+    });
+
+    joinedLines.push(currentJoinedLine);
+
+    return joinedLines.join('\n');
+  }
+
   format(message: string): string {
     if (message.length <= this._subjectLength) {
       return message;
@@ -233,6 +280,8 @@ class CommitMessageFormatter {
 
     const subject = this.formatSubject(message);
     let {formatted, rest} = subject;
+
+    rest = this._reflow(rest);
 
     while (rest.length > this._lineLength) {
       const next = this.formatNextLine(rest);
