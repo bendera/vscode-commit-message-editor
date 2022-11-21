@@ -111,12 +111,10 @@ class CommitMessageFormatter {
       const rawLineLength = rawLine.length;
       let formatted = rawLine;
 
-      formatted += '\n';
-
       if (this._blankLineAfterSubject) {
-        if (rawText.length > nextNlPos + 1 && rawText[nextNlPos + 1] !== '\n') {
-          formatted += '\n';
-        }
+        formatted += '\n\n';
+      } else {
+        formatted += '\n';
       }
 
       return {
@@ -280,8 +278,6 @@ class CommitMessageFormatter {
         currentJoinedLine = '';
       } else {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
-        /* currentJoinedLine +=
-          prependedSpace + l.replaceAll(/^[\t ]+|[\t ]$/g, ''); */
         currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
       }
     });
