@@ -116,7 +116,8 @@ export class TextView extends connect(store)(LitElement) {
     const {config} = state;
     const {saveAndClose, showRecentCommits, useMonospaceEditor, visibleLines} =
       config['commit-message-editor'].view;
-    const {tabSize, useTabs} = config['commit-message-editor'].formatting;
+    const {tabSize, useTabs, blankLineAfterSubject} =
+      config['commit-message-editor'].formatting;
     const {inputValidationLength, inputValidationSubjectLength} = config.git;
 
     this._saveAndClose = saveAndClose;
@@ -137,6 +138,7 @@ export class TextView extends connect(store)(LitElement) {
     }
 
     this._formatter.subjectLength = inputValidationSubjectLength;
+    this._formatter.blankLineAfterSubject = blankLineAfterSubject;
     this._formatter.lineLength = inputValidationLength;
     this._formatter.tabSize = tabSize;
     this._formatter.indentWithTabs = useTabs;

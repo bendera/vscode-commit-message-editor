@@ -17,7 +17,7 @@ export enum SubjectFormattingMode {
 }
 
 interface CommitMessageFormatterOptions {
-  // blankLineAfterSubject?: boolean;
+  blankLineAfterSubject?: boolean;
   subjectMode?: SubjectFormattingMode;
   subjectLength?: number;
   lineLength?: number;
@@ -26,7 +26,7 @@ interface CommitMessageFormatterOptions {
 }
 
 class CommitMessageFormatter {
-  // private _blankLineAfterSubject: boolean;
+  private _blankLineAfterSubject: boolean;
   private _subjectMode: SubjectFormattingMode;
   private _subjectLength: number;
   private _lineLength: number;
@@ -34,14 +34,14 @@ class CommitMessageFormatter {
   private _indentWithTabs: boolean;
 
   constructor({
-    // blankLineAfterSubject = false,
+    blankLineAfterSubject = false,
     subjectMode = SubjectFormattingMode.TRUNCATE,
     subjectLength = 50,
     lineLength = 72,
     tabSize = 2,
     indentWithTabs = false,
   }: CommitMessageFormatterOptions) {
-    // this._blankLineAfterSubject = blankLineAfterSubject;
+    this._blankLineAfterSubject = blankLineAfterSubject;
     this._subjectMode = subjectMode;
     this._subjectLength = subjectLength;
     this._lineLength = lineLength;
@@ -63,6 +63,14 @@ class CommitMessageFormatter {
 
   get subjectLength(): number {
     return this._subjectLength;
+  }
+
+  set blankLineAfterSubject(val: boolean) {
+    this._blankLineAfterSubject = val;
+  }
+
+  get blankLineAfterSubject(): boolean {
+    return this._blankLineAfterSubject;
   }
 
   set lineLength(val: number) {
@@ -105,9 +113,15 @@ class CommitMessageFormatter {
 
       formatted += '\n';
 
+      if (this._blankLineAfterSubject) {
+        if (rawText.length > nextNlPos + 1 && rawText[nextNlPos + 1] !== '\n') {
+          formatted += '\n';
+        }
+      }
+
       return {
         formatted,
-        rest: rawText.substring(rawLineLength).trimStart(),
+        rest: rawText.substring(rawLineLength).replaceAll(/^[\n]+/g, ''),
       };
     }
 
@@ -116,6 +130,12 @@ class CommitMessageFormatter {
       const rest = rawText.substring(this._subjectLength).trimStart();
 
       formatted += '\n';
+
+      if (this._blankLineAfterSubject) {
+        if (rawText.length > nextNlPos + 1 && rawText[nextNlPos + 1] !== '\n') {
+          formatted += '\n';
+        }
+      }
 
       return {
         formatted,
@@ -219,7 +239,7 @@ class CommitMessageFormatter {
       this._analyzeLine(rawLine);
 
     let formattedLine = leadingText;
-    const remainingLine = rawLine.substring(indentationWidth);
+    const remainingLine = rawLine.substring(leadingText.length);
     const availableLength = this._lineLength - indentationWidth;
     const words = remainingLine.split(' ');
     let charCount = 0;
@@ -234,7 +254,7 @@ class CommitMessageFormatter {
         formattedLine += '\n';
         formattedLine += indentationText;
         formattedLine += word;
-        charCount = indentationWidth + word.length;
+        charCount = leadingText.length + word.length;
       }
     });
 
@@ -260,8 +280,9 @@ class CommitMessageFormatter {
         currentJoinedLine = '';
       } else {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
-        currentJoinedLine +=
-          prependedSpace + l.replaceAll(/^[\t ]+|[\t ]$/g, '');
+        /* currentJoinedLine +=
+          prependedSpace + l.replaceAll(/^[\t ]+|[\t ]$/g, ''); */
+        currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
       }
     });
 

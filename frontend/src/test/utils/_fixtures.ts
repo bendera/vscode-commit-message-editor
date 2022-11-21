@@ -34,8 +34,8 @@ export const indentWithTabsWrapped = trim`
 Lorem ipsum
 
 		Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis.
-		Cras consequat sed tellus ut pharetra. Nam malesuada
-		odio at ligula imperdiet, sed porta mi rutrum.
+		Cras consequat sed tellus ut pharetra. Nam malesuada odio at
+		ligula imperdiet, sed porta mi rutrum.
 `;
 
 export const indentWithSpacesRaw = trim`
@@ -54,8 +54,8 @@ export const listDecimalTabsWrapped = trim`
 Lorem ipsum
 
 	1.	Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis.
-		Cras consequat sed tellus ut pharetra. Nam malesuada
-		odio at ligula imperdiet, sed porta mi rutrum.
+		Cras consequat sed tellus ut pharetra. Nam malesuada odio at
+		ligula imperdiet, sed porta mi rutrum.
 `;
 
 export const listAlphaTabsRaw = trim`
@@ -68,8 +68,8 @@ export const listAlphaTabsWrapped = trim`
 Lorem ipsum
 
 	a.	Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis.
-		Cras consequat sed tellus ut pharetra. Nam malesuada
-		odio at ligula imperdiet, sed porta mi rutrum.
+		Cras consequat sed tellus ut pharetra. Nam malesuada odio at
+		ligula imperdiet, sed porta mi rutrum.
 `;
 
 export const listAlphaBraketTabsRaw = trim`
@@ -82,8 +82,8 @@ export const listAlphaBraketTabsWrapped = trim`
 Lorem ipsum
 
 	a.)	Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis.
-		Cras consequat sed tellus ut pharetra. Nam malesuada
-		odio at ligula imperdiet, sed porta mi rutrum.
+		Cras consequat sed tellus ut pharetra. Nam malesuada odio
+		at ligula imperdiet, sed porta mi rutrum.
 `;
 
 export const listAsteriskTabsRaw = trim`
@@ -96,8 +96,8 @@ export const listAsteriskTabsWrapped = trim`
 Lorem ipsum
 
 	*	Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis.
-		Cras consequat sed tellus ut pharetra. Nam malesuada
-		odio at ligula imperdiet, sed porta mi rutrum.
+		Cras consequat sed tellus ut pharetra. Nam malesuada odio at
+		ligula imperdiet, sed porta mi rutrum.
 `;
 
 export const listDashTabsRaw = trim`
@@ -110,8 +110,8 @@ export const listDashTabsWrapped = trim`
 Lorem ipsum
 
 	-	Nullam et lacus aliquet, imperdiet dui vitae, tempor turpis.
-		Cras consequat sed tellus ut pharetra. Nam malesuada
-		odio at ligula imperdiet, sed porta mi rutrum.
+		Cras consequat sed tellus ut pharetra. Nam malesuada odio at
+		ligula imperdiet, sed porta mi rutrum.
 `;
 
 export const todo = trim`
