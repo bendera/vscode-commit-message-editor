@@ -103,13 +103,11 @@ class CommitMessageFormatter {
       const rawLineLength = rawLine.length;
       let formatted = rawLine;
 
-      if (nextNlPos === -1) {
-        formatted = rawLine + '\n';
-      }
+      formatted += '\n';
 
       return {
         formatted,
-        rest: rawText.substring(rawLineLength),
+        rest: rawText.substring(rawLineLength).trimStart(),
       };
     }
 
@@ -252,11 +250,14 @@ class CommitMessageFormatter {
     let currentJoinedLine = '';
 
     lines.forEach((l) => {
-      const {isListItem, isEmpty} = this._analyzeLine(l);
+      const {isListItem, isEmpty, isIndented} = this._analyzeLine(l);
 
-      if (isListItem || isEmpty) {
+      if (isListItem || isIndented) {
         joinedLines.push(currentJoinedLine);
         currentJoinedLine = l;
+      } else if (isEmpty) {
+        joinedLines.push(currentJoinedLine);
+        currentJoinedLine = '';
       } else {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
         currentJoinedLine +=
