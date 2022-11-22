@@ -127,12 +127,10 @@ class CommitMessageFormatter {
       let formatted = rawLine.substring(0, this._subjectLength).trimEnd();
       const rest = rawText.substring(this._subjectLength).trimStart();
 
-      formatted += '\n';
-
       if (this._blankLineAfterSubject) {
-        if (rawText.length > nextNlPos + 1 && rawText[nextNlPos + 1] !== '\n') {
-          formatted += '\n';
-        }
+        formatted += '\n\n';
+      } else {
+        formatted += '\n';
       }
 
       return {
@@ -142,8 +140,16 @@ class CommitMessageFormatter {
     }
 
     if (this._subjectMode === SubjectFormattingMode.TRUNCATE_ELLIPSES) {
+      let formatted = rawText.substring(0, this._subjectLength - 3) + '...';
+
+      if (this._blankLineAfterSubject) {
+        formatted += '\n\n';
+      } else {
+        formatted += '\n';
+      }
+
       return {
-        formatted: rawText.substring(0, this._subjectLength - 3) + '...',
+        formatted: formatted,
         rest: '...' + rawText.substring(this._subjectLength - 3),
       };
     }
