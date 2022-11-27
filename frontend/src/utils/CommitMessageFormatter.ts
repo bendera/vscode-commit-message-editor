@@ -109,29 +109,16 @@ class CommitMessageFormatter {
 
     if (rawLine.length <= this._subjectLength) {
       const rawLineLength = rawLine.length;
-      let formatted = rawLine;
-
-      if (this._blankLineAfterSubject) {
-        formatted += '\n\n';
-      } else {
-        formatted += '\n';
-      }
 
       return {
-        formatted,
-        rest: rawText.substring(rawLineLength).replaceAll(/^[\n]+/g, ''),
+        formatted: rawLine,
+        rest: rawText.substring(rawLineLength),
       };
     }
 
     if (this._subjectMode === SubjectFormattingMode.TRUNCATE) {
-      let formatted = rawLine.substring(0, this._subjectLength).trimEnd();
-      const rest = rawText.substring(this._subjectLength).trimStart();
-
-      if (this._blankLineAfterSubject) {
-        formatted += '\n\n';
-      } else {
-        formatted += '\n';
-      }
+      const formatted = rawLine.substring(0, this._subjectLength);
+      const rest = rawText.substring(this._subjectLength);
 
       return {
         formatted,
@@ -140,16 +127,10 @@ class CommitMessageFormatter {
     }
 
     if (this._subjectMode === SubjectFormattingMode.TRUNCATE_ELLIPSES) {
-      let formatted = rawText.substring(0, this._subjectLength - 3) + '...';
-
-      if (this._blankLineAfterSubject) {
-        formatted += '\n\n';
-      } else {
-        formatted += '\n';
-      }
+      const formatted = rawText.substring(0, this._subjectLength - 3) + '...';
 
       return {
-        formatted: formatted,
+        formatted,
         rest: '...' + rawText.substring(this._subjectLength - 3),
       };
     }
@@ -277,10 +258,14 @@ class CommitMessageFormatter {
       const {isListItem, isEmpty, isIndented} = this._analyzeLine(l);
 
       if (isListItem || isIndented) {
-        joinedLines.push(currentJoinedLine);
+        if (currentJoinedLine !== '') {
+          joinedLines.push(currentJoinedLine);
+        }
         currentJoinedLine = l;
       } else if (isEmpty) {
-        joinedLines.push(currentJoinedLine);
+        if (currentJoinedLine !== '') {
+          joinedLines.push(currentJoinedLine);
+        }
         joinedLines.push('');
         currentJoinedLine = '';
       } else {
@@ -302,7 +287,19 @@ class CommitMessageFormatter {
     }
 
     const subject = this.formatSubject(message);
+
     let {formatted, rest} = subject;
+
+    // Removes the whitespaces that accidentally prepended the body with:
+    rest = rest.replace(/^([ ]+)/gm, '');
+
+    const nlMatches = /^[\n]+/gm.exec(rest);
+    const nlsAtTheBeginning = nlMatches ? nlMatches[0].length : 0;
+    const minRequiredNls = this._blankLineAfterSubject ? 2 : 1;
+
+    if (nlsAtTheBeginning < minRequiredNls) {
+      rest = ''.padStart(minRequiredNls - nlsAtTheBeginning, '\n') + rest;
+    }
 
     rest = this._reflow(rest);
 
