@@ -273,7 +273,7 @@ class CommitMessageFormatter {
     const joinedLines: string[] = [];
     let currentJoinedLine = '';
 
-    lines.forEach((l) => {
+    lines.forEach((l, i) => {
       const {isListItem, isEmpty, isIndented} = this._analyzeLine(l);
 
       if (isListItem || isIndented) {
@@ -281,14 +281,17 @@ class CommitMessageFormatter {
         currentJoinedLine = l;
       } else if (isEmpty) {
         joinedLines.push(currentJoinedLine);
+        joinedLines.push('');
         currentJoinedLine = '';
       } else {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
         currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
       }
-    });
 
-    joinedLines.push(currentJoinedLine);
+      if (i === lines.length - 1 && !isEmpty) {
+        joinedLines.push(currentJoinedLine);
+      }
+    });
 
     return joinedLines.join('\n');
   }
