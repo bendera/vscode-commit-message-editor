@@ -250,25 +250,48 @@ class CommitMessageFormatter {
   }
 
   private _reflow(message: string) {
+    console.log(message);
     const lines = message.split('\n');
     const joinedLines: string[] = [];
     let currentJoinedLine = '';
+    let prevLineType: 'none' | 'listitem' | 'indented' | 'empty' = 'none';
 
     lines.forEach((l, i) => {
       const {isListItem, isEmpty, isIndented} = this._analyzeLine(l);
 
-      if (isListItem || isIndented) {
+      if (isListItem) {
+        console.log('listitem');
         if (currentJoinedLine !== '') {
           joinedLines.push(currentJoinedLine);
         }
         currentJoinedLine = l;
+        prevLineType = 'listitem';
+        // TODO: elsif: indented && !listItem
+      } else if (isIndented) {
+        console.log('indented');
+
+        /* if (currentJoinedLine !== '') {
+          joinedLines.push(currentJoinedLine);
+        }
+ */
+        if (prevLineType === 'listitem' || prevLineType === 'indented') {
+          const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
+          currentJoinedLine += prependedSpace + l.trimLeft();
+        } else {
+          joinedLines.push(currentJoinedLine);
+          currentJoinedLine = l;
+        }
+        prevLineType = 'indented';
       } else if (isEmpty) {
+        console.log('is empty');
         if (currentJoinedLine !== '') {
           joinedLines.push(currentJoinedLine);
         }
         joinedLines.push('');
         currentJoinedLine = '';
+        prevLineType = 'empty';
       } else {
+        console.log('else');
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
         currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
       }
@@ -291,7 +314,7 @@ class CommitMessageFormatter {
     let {formatted, rest} = subject;
 
     // Removes the whitespaces that accidentally prepended the body with:
-    rest = rest.replace(/^([ ]+)/gm, '');
+    rest = rest.replace(/^([ ]+)/g, '');
 
     const nlMatches = /^[\n]+/gm.exec(rest);
     const nlsAtTheBeginning = nlMatches ? nlMatches[0].length : 0;

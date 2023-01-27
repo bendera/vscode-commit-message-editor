@@ -2,7 +2,7 @@
   "name": "commit-message-editor",
   "displayName": "Commit Message Editor",
   "description": "Edit commit messages in a convenient way.",
-  "version": "0.19.1",
+  "version": "0.20.0-pre.1",
   "license": "MIT",
   "preview": false,
   "publisher": "adam-bender",
@@ -76,6 +76,28 @@
         "commit-message-editor.confirmAmend": {
           "type": "boolean",
           "description": "Confirm amend commit",
+          "default": true
+        },
+        "commit-message-editor.formatting.tabSize": {
+          "type": "number",
+          "description": "Tab size in the monospace editor",
+          "default": 4
+        },
+        "commit-message-editor.formatting.useTabs": {
+          "type": "boolean",
+          "description": "Use tabs for indentation in the monospace editor",
+          "default": false
+        },
+        "commit-message-editor.formatting.subjectFormattingMode": {
+          "type": "string",
+          "enum": ["truncate", "truncate-ellipses", "split"],
+          "enumDescriptions": ["", "", "not implemented yet"],
+          "description": "Use tabs for indentation in the monospace editor",
+          "default": "truncate"
+        },
+        "commit-message-editor.formatting.blankLineAfterSubject": {
+          "type": "boolean",
+          "description": "Blank line after subject",
           "default": true
         },
         "commit-message-editor.dynamicTemplate": {
@@ -231,16 +253,6 @@
         "commit-message-editor.view.useMonospaceEditor": {
           "type": "boolean",
           "description": "Use monospace font in the text view",
-          "default": false
-        },
-        "commit-message-editor.view.tabSize": {
-          "type": "number",
-          "description": "Tab size in the monospace editor",
-          "default": 4
-        },
-        "commit-message-editor.view.useTabs": {
-          "type": "boolean",
-          "description": "Use tabs for indentation in the monospace editor",
           "default": false
         },
         "commit-message-editor.view.rulers": {

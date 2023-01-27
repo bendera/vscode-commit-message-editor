@@ -254,7 +254,7 @@ const config = {
     },
     formatting: {
       tabSize: 4,
-      useTabs: true,
+      useTabs: false,
       subjectFormattingMode: 'truncate',
       blankLineAfterSubject: true,
     }
