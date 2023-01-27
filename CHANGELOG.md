@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## Unreleased
+
+### Added
+
+- Allow adding newlines to the prefix, suffix and the separator
+
 ## [0.19.2] - 2021-12-19
 
 - Fix [#47](https://github.com/bendera/vscode-commit-message-editor/issues/47)
