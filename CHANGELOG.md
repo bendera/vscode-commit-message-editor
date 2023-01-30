@@ -2,11 +2,16 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
-## Unreleased
+## [0.20.0] - 2023-01-30
 
 ### Added
 
 - Allow adding newlines to the prefix, suffix and the separator
+
+### Changed
+
+- Where the more than two empty lines followed each other, the "redundant" lines
+  were removed automatically. It is an unsolicited feature, so it was deleted.
 
 ## [0.19.2] - 2021-12-19
 
