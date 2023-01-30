@@ -2,4 +2,4 @@
 
 set -e
 
-sh -c "npx vsce $*"
+sh -c "npx @vscode/vsce $*"
