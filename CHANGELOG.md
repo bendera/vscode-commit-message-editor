@@ -10,7 +10,7 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 ### Changed
 
-- Where the more than two empty lines followed each other, the "redundant" lines
+- Where more than two empty lines followed each other, the "redundant" lines
   were removed automatically. It is an unsolicited feature, so it was deleted.
 
 ## [0.19.2] - 2021-12-19
