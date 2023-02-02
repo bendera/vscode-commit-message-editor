@@ -20,6 +20,9 @@ class TemplateCompiler {
       compiled = compiled.replace(new RegExp(`{${name}}`, 'g'), value);
     });
 
+    compiled = compiled.replace(/\n{3,}/g, '\n');
+    compiled = compiled.replace(/\n+$/g, '');
+
     return compiled;
   }
 }
