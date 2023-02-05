@@ -2,6 +2,14 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## Unreleased
+
+### Added
+
+- Added `Reduce Empty Lines` option. In previous versions, the unnecessary empty lines were removed
+  automatically in the compiled message of the form view. However in many cases, this is an unwanted
+  feature, so from this version the removal of empty lines is optional. It is allowed by default.
+
 ## [0.20.0] - 2023-01-30
 
 ### Added
