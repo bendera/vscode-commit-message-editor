@@ -121,6 +121,7 @@ const createConfig = (): ExtensionConfig => ({
       multiline: true,
     },
   ],
+  reduceEmptyLines: true,
   view: {
     defaultView: 'text',
     visibleViews: 'form',

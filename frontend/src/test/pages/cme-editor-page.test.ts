@@ -89,6 +89,7 @@ describe('cme-editor-page', () => {
             dynamicTemplate: [],
             staticTemplate: [],
             tokens: [],
+            reduceEmptyLines: true,
             view: {
               defaultView: 'form',
               saveAndClose: true,
@@ -136,6 +137,7 @@ describe('cme-editor-page', () => {
             dynamicTemplate: [],
             staticTemplate: [],
             tokens: [],
+            reduceEmptyLines: true,
             view: {
               defaultView: 'form',
               saveAndClose: false,

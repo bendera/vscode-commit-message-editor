@@ -43,6 +43,7 @@ export class FormView extends connect(store)(LitElement) {
   private _tokenValues: {[name: string]: string | string[]} = {};
 
   private _dynamicTemplate: string[] = [];
+  private _reduceEmptyLines = true;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -56,12 +57,13 @@ export class FormView extends connect(store)(LitElement) {
 
   stateChanged(state: RootState): void {
     const {config, tokenValues} = state;
-    const {view, tokens, dynamicTemplate} = config;
+    const {view, tokens, dynamicTemplate, reduceEmptyLines} = config;
 
     this._saveAndClose = view.saveAndClose;
     this._tokens = tokens;
     this._tokenValues = tokenValues;
     this._dynamicTemplate = dynamicTemplate;
+    this._reduceEmptyLines = reduceEmptyLines;
   }
 
   private _updateTokenValues() {
@@ -105,6 +107,7 @@ export class FormView extends connect(store)(LitElement) {
       this._tokens,
       this._tokenValues
     );
+    compiler.reduceEmptyLines = this._reduceEmptyLines;
     const compiled = compiler.compile();
 
     if (this._amendCbChecked) {

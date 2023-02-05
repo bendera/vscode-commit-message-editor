@@ -23,6 +23,7 @@ export const createInitialState = (): RootState => ({
     dynamicTemplate: [],
     staticTemplate: [],
     tokens: [],
+    reduceEmptyLines: true,
     view: {
       defaultView: 'form',
       fullWidth: false,

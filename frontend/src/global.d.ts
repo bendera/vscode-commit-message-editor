@@ -84,6 +84,7 @@ declare global {
     dynamicTemplate: string[];
     staticTemplate: string[];
     tokens: Token[];
+    reduceEmptyLines: boolean;
     view: {
       defaultView: DefaultViewConfig;
       visibleViews: VisibleViewsConfig;

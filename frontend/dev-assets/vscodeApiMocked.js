@@ -242,6 +242,7 @@ const config = {
       multiline: true,
     },
   ],
+  reduceEmptyLines: true,
   view: {
     defaultView: 'text',
     visibleViews: 'form',

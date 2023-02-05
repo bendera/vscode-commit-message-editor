@@ -206,6 +206,11 @@
             }
           ]
         },
+        "commit-message-editor.reduceEmptyLines": {
+          "type": "boolean",
+          "default": true,
+          "description": "If more than two empty lines follow each other, only the first two lines will be kept. The last line also will be removed if it is empty."
+        },
         "commit-message-editor.view.defaultView": {
           "type": "string",
           "default": "text",
