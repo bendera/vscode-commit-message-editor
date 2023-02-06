@@ -38,7 +38,7 @@ export default {
       preventAssignment: true,
     }),
     resolve(),
-    minifyHTML(),
+    minifyHTML.default(),
     terser({
       ecma: 2017,
       module: true,
