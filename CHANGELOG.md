@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## Unreleased
+
+### Fixed
+
+- Tabs view was broken on the editor page.
+
 ## [0.21.0] - 2023-02-06
 
 ### Added
