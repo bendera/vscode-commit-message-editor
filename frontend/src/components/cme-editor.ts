@@ -3,6 +3,8 @@ import {customElement, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-tabs';
+import '@bendera/vscode-webview-elements/dist/vscode-tab-header';
+import '@bendera/vscode-webview-elements/dist/vscode-tab-panel';
 import './cme-text-view';
 import './cme-form-view/cme-form-view';
 import store, {RootState} from '../store/store';
@@ -109,10 +111,10 @@ export class Editor extends connect(store)(LitElement) {
           selectedIndex="${this._selectedIndex}"
           @vsc-select="${this._handleTabChange}"
         >
-          <header slot="header">Edit as text</header>
-          <section>${textView}</section>
-          <header slot="header">Edit as form</header>
-          <section>${formView}</section>
+          <vscode-tab-header slot="header">Edit as text</vscode-tab-header>
+          <vscode-tab-panel>${textView}</vscode-tab-panel>
+          <vscode-tab-header slot="header">Edit as form</vscode-tab-header>
+          <vscode-tab-panel>${formView}</vscode-tab-panel>
         </vscode-tabs>
       </div>
     `;

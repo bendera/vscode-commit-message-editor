@@ -245,7 +245,7 @@ const config = {
   reduceEmptyLines: true,
   view: {
     defaultView: 'text',
-    visibleViews: 'form',
+    visibleViews: 'both',
     fullWidth: false,
     useMonospaceEditor: true,
     tabSize: 2,
