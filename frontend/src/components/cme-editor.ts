@@ -67,6 +67,10 @@ export class Editor extends connect(store)(LitElement) {
       .wrapper.form vscode-icon[name='settings-gear'] {
         top: 12px;
       }
+
+      vscode-tab-panel {
+        overflow: visible;
+      }
     `;
   }
 
