@@ -46,16 +46,16 @@ This extension contributes the following settings:
 
 ## Customizing the commit message form
 
-The easiest way to customizing the commit message form is to use the 
-Configuration Editor. To open the configuration editor, choose the 
+The easiest way to customizing the commit message form is to use the
+Configuration Editor. To open the configuration editor, choose the
 `Commit Message Editor: Open Settings Page` command from the Command Palette, or
 click on the gear icon in the top right corner of the Commit Message Editor tab.
-Here, you can export the current configuration or import another one. The loaded 
+Here, you can export the current configuration or import another one. The loaded
 configuration can be saved to the user or the workspace settings.
 
-A JSON schema is created for the portable configuration file format. This means, 
-you can use the [VSCode toolset](https://code.visualstudio.com/docs/languages/json) 
-to edit the configuration file manually. Just create a new JSON file with this 
+A JSON schema is created for the portable configuration file format. This means,
+you can use the [VSCode toolset](https://code.visualstudio.com/docs/languages/json)
+to edit the configuration file manually. Just create a new JSON file with this
 content and start to edit:
 
 ```json
@@ -87,6 +87,7 @@ An array of token objects. It defines the form fields. The table below shows the
 | -------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | label                      | string  | The label of the form item.                                                                                                                                            | all       |
 | name                       | string  | The token name in the template.                                                                                                                                        | all       |
+| value                      | string  | The value of the boolean token when it is true                                                                                                                         | boolean   |
 | type                       | enum    | The type of the token. Valid values are:<br> **text**: displayed as a text input<br>**boolean**: displayed as a checkbox<br>**enum**: displayed as a dropdown selector | all       |
 | description                | string  | A longer text under the form item                                                                                                                                      | all       |
 | prefix                     | string  | Text before the value. It will only be applied if the value is not empty                                                                                               | all       |
