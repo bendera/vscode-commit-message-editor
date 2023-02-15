@@ -27,7 +27,7 @@
   "author": "The Polymer Authors",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@bendera/vscode-webview-elements": "^0.7.0",
+    "@bendera/vscode-webview-elements": "^0.8.1",
     "@reduxjs/toolkit": "^1.9.2",
     "@types/vscode": "^1.75.0",
     "lit": "^2.6.1",
