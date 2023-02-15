@@ -83,6 +83,7 @@ describe('cme-token-item-edit', () => {
 
     const iName = el.shadowRoot?.querySelector('#name');
     const iLabel = el.shadowRoot?.querySelector('#label');
+    const iValue = el.shadowRoot?.querySelector('#value');
     const iType = el.shadowRoot?.querySelector('#type');
     const iDescription = el.shadowRoot?.querySelector('#description');
     const iPrefix = el.shadowRoot?.querySelector('#prefix');
@@ -90,6 +91,7 @@ describe('cme-token-item-edit', () => {
 
     iName?.dispatchEvent(new CustomEvent('vsc-input', {detail: 'Name test'}));
     iLabel?.dispatchEvent(new CustomEvent('vsc-input', {detail: 'Label test'}));
+    iValue?.dispatchEvent(new CustomEvent('vsc-input', {detail: 'Value test'}));
     iType?.dispatchEvent(
       new CustomEvent('vsc-change', {
         detail: {
@@ -111,6 +113,7 @@ describe('cme-token-item-edit', () => {
     expect(el.token).to.deep.eq({
       description: 'Description test',
       label: 'Label test',
+      value: 'Value test',
       name: 'Name test',
       prefix: 'Prefix test',
       suffix: 'Suffix test',

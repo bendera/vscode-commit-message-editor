@@ -36,6 +36,7 @@ export class TokenItemEdit extends LitElement {
       combobox,
       options,
       lines,
+      value
     } = val;
 
     this._label = label ?? 'Untitled';
@@ -52,6 +53,7 @@ export class TokenItemEdit extends LitElement {
     this._combobox = combobox ?? false;
     this._options = options ?? [];
     this._lines = !isUndefined(lines) ? String(lines) : '';
+    this._value = value ?? '';
   }
 
   get token(): Token {
@@ -60,6 +62,10 @@ export class TokenItemEdit extends LitElement {
       name: this._name ?? 'untitled',
       type: this._type ?? 'text',
     };
+
+    if (this._value.length > 0) {
+      retval.value = this._value;
+    }
 
     if (this._description.length > 0) {
       retval.description = this._description;
@@ -154,10 +160,17 @@ export class TokenItemEdit extends LitElement {
   private _options: EnumTokenOption[] = [];
 
   @state()
+  private _value = '';
+
+  @state()
   private _isOptionsWindowVisible = false;
 
   private _onNameChange(ev: CustomEvent) {
     this._name = ev.detail;
+  }
+
+  private _onValueChange(ev: CustomEvent) {
+    this._value = ev.detail;
   }
 
   private _onLabelChange(ev: CustomEvent) {
@@ -341,6 +354,18 @@ export class TokenItemEdit extends LitElement {
           id="name"
           name="name"
           @vsc-input="${this._onNameChange}"
+        ></vscode-inputbox>
+      </vscode-form-group>
+    `;
+
+    const valueWidget = html`
+      <vscode-form-group class="${classMap({disabled: this._type !== 'boolean'})}">
+        <vscode-label for="value">Value</vscode-label>
+        <vscode-inputbox
+          value="${this._value}"
+          id="value"
+          name="value"
+          @vsc-input="${this._onValueChange}"
         ></vscode-inputbox>
       </vscode-form-group>
     `;
@@ -558,7 +583,7 @@ export class TokenItemEdit extends LitElement {
     const activeView = html`
       <div>
         <vscode-form-container id="form" responsive>
-          ${nameWidget} ${labelWidget} ${typeWidget} ${descriptionWidget}
+          ${nameWidget} ${labelWidget} ${valueWidget} ${typeWidget} ${descriptionWidget}
           ${prefixWidget} ${suffixWidget} ${multilineWidget} ${linesWidget}
           ${maxLinesWidget} ${maxLengthWidget} ${multipleWidget}
           ${separatorWidget} ${comboboxWidget} ${optionsWidget}
