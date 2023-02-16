@@ -50,10 +50,12 @@ export class CodeEditor extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    const charDimensions = this._measureCharacter();
+    this.updateComplete.then(() => {
+      const charDimensions = this._measureCharacter();
 
-    this._lineHeight = charDimensions.h;
-    this._charWidth = charDimensions.w;
+      this._lineHeight = charDimensions.h;
+      this._charWidth = charDimensions.w;
+    });
   }
 
   @state()
@@ -65,8 +67,10 @@ export class CodeEditor extends LitElement {
   @query('.wrapper')
   private _wrapperEl!: HTMLDivElement;
 
-  private _history: CodeEditorHistory = new CodeEditorHistory(HISTORY_LENGTH);
+  @state()
   private _lineHeight = 0;
+
+  private _history: CodeEditorHistory = new CodeEditorHistory(HISTORY_LENGTH);
   private _longestLineStrLength = 0;
   private _charWidth = 0;
 

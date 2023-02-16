@@ -27,6 +27,12 @@ export class TextView extends connect(store)(LitElement) {
     );
 
     triggerInputboxRerender(inputs as NodeListOf<VscodeInputbox>);
+
+    const monospaceEditor = this.shadowRoot?.querySelector('cme-code-editor');
+
+    if (monospaceEditor) {
+      monospaceEditor.connectedCallback();
+    }
   }
 
   @state()
