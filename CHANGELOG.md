@@ -2,6 +2,13 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## Unreleased
+
+### Fixed
+
+- The default view option was ignored when the form view was set as default. (Fix [#81](https://github.com/bendera/vscode-commit-message-editor/issues/81))
+- The monospace editor was collapsed if the form view was the default view.
+
 ## [0.22.0] - 2023-02-16
 
 ### Fixed
