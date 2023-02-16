@@ -112,7 +112,7 @@ export class Editor extends connect(store)(LitElement) {
       >
         ${this._renderPortableSettingsButton()}
         <vscode-tabs
-          selectedIndex="${this._selectedIndex}"
+          .selectedIndex="${this._selectedIndex}"
           @vsc-select="${this._handleTabChange}"
         >
           <vscode-tab-header slot="header">Edit as text</vscode-tab-header>

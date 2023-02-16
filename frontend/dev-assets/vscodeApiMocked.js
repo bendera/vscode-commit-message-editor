@@ -244,7 +244,7 @@ const config = {
   ],
   reduceEmptyLines: true,
   view: {
-    defaultView: 'text',
+    defaultView: 'form',
     visibleViews: 'both',
     fullWidth: false,
     useMonospaceEditor: true,
