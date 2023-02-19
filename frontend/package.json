@@ -7,9 +7,9 @@
   "type": "module",
   "scripts": {
     "build": "npm run build:bundle",
-    "build:ts": "npm run clean && tsc",
+    "build:ts": "wireit",
     "build:watch": "npm run clean && tsc --watch",
-    "build:bundle": "npm run build:ts && rollup -c",
+    "build:bundle": "wireit",
     "clean": "rimraf dist",
     "lint:eslint": "eslint src/**/*.ts",
     "format": "prettier src/* --write",
@@ -18,6 +18,29 @@
     "test": "npm run build:ts && wtr --coverage",
     "test:watch": "wtr --watch",
     "checksize": "npm run build:bundle && cat dist/bundled.js | gzip -9 | wc -c"
+  },
+  "wireit": {
+    "build:ts": {
+      "command": "tsc",
+      "files": [
+        "src/**/*.ts"
+      ],
+      "output": [
+        "dist/**/*",
+        "!dist/_bundled/**/*"
+      ]
+    },
+    "build:bundle": {
+      "command": "rollup -c",
+      "files": [
+        "dist/pages/cme-editor-page.js",
+        "dist/pages/cme-settings-page.js"
+      ],
+      "output": ["dist/_bundled/**/*"],
+      "dependencies": [
+        "build:ts"
+      ]
+    }
   },
   "keywords": [
     "web-components",
@@ -70,6 +93,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "wireit": "^0.9.5"
   }
 }

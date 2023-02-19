@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "option": "watch",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "group": "build",
+      "label": "tsc: watch - tsconfig.json",
+      "dependsOn": [
+        "npm: build - frontend"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "path": "frontend",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build - frontend",
+      "detail": "npm run build:bundle"
+    },
+    {
+      "label": "Terminate All Tasks",
+      "command": "echo ${input:terminate}",
+      "type": "shell",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "terminate",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
+    }
+  ]
+}

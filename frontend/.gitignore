@@ -3,6 +3,7 @@
 /test/
 /dist/
 /coverage/
+.wireit/
 
 debug.log
 stats.html
