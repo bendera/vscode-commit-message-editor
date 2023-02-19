@@ -106,18 +106,32 @@ class FormBuilder {
   private _renderTextTypeWidget(token: Token) {
     const {description, label, multiline, name, lines, maxLines, maxLength} =
       token;
-    const inputbox = html`
-      <vscode-inputbox
-        data-name="${name}"
-        name="${name}"
-        ?multiline="${multiline}"
-        @vsc-change="${this._handleFormItemChange}"
-        lines="${ifDefined(lines)}"
-        maxLines="${ifDefined(maxLines)}"
-        maxLength="${ifDefined(maxLength)}"
-        style="width: 100%;"
-      ></vscode-inputbox>
-    `;
+    let inputbox: TemplateResult;
+
+    if (multiline) {
+      inputbox = html`
+        <cme-code-editor
+          data-name="${name}"
+          name="${name}"
+          @vsc-change="${this._handleFormItemChange}"
+          lines="${ifDefined(lines)}"
+          .rulers=${[80]}
+        ></cme-code-editor>
+      `;
+    } else {
+      inputbox = html`
+        <vscode-inputbox
+          data-name="${name}"
+          name="${name}"
+          ?multiline="${multiline}"
+          @vsc-change="${this._handleFormItemChange}"
+          lines="${ifDefined(lines)}"
+          maxLines="${ifDefined(maxLines)}"
+          maxLength="${ifDefined(maxLength)}"
+          style="width: 100%;"
+        ></vscode-inputbox>
+      `;
+    }
 
     return this._renderFormItem(inputbox, label, description);
   }

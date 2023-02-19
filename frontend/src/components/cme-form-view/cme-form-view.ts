@@ -1,5 +1,5 @@
 import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
-import {customElement, state, query} from 'lit/decorators.js';
+import {customElement, state, query, queryAll} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-form-container';
@@ -16,6 +16,7 @@ import {triggerInputboxRerender} from '../helpers';
 import '../cme-repo-info';
 import FormBuilder from './FormBuilder';
 import TemplateCompiler from './TemplateCompiler';
+import { CodeEditor } from '../cme-code-editor/cme-code-editor';
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -29,6 +30,9 @@ export class FormView extends connect(store)(LitElement) {
 
   @query('#form-container')
   private _formContainer!: VscodeFormContainer;
+
+  @queryAll('cme-code-editor')
+  private _codeEditors!: NodeListOf<CodeEditor>;
 
   @state()
   private _saveAndClose = false;
@@ -69,6 +73,14 @@ export class FormView extends connect(store)(LitElement) {
   private _updateTokenValues() {
     const formData = this._formContainer.data;
     const payload: {[key: string]: string} = {};
+
+    if (this._codeEditors.length > 0) {
+      this._codeEditors.forEach((e) => {
+        if (e.dataset.name) {
+          formData[e.dataset.name] = e.value;
+        }
+      });
+    }
 
     this._tokens.forEach((t) => {
       const {name, type, separator = ''} = t;
