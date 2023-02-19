@@ -1,28 +1,42 @@
 import * as vscode from 'vscode';
 import GitService from './utils/GitService';
-import createOpenEditorCommand from './commands/createOpenEditorCommand';
-import createCopyFromSCMInputBoxCommand from './commands/createCopyFromSCMInputBoxCommand';
-import createLoadTemplateCommand from './commands/createLoadTemplateCommand';
-import OpenSettingsPageCommand from './commands/OpenSettingsPageCommand';
+import EditorController from './commands/EditorController';
+import SettingsPageController from './commands/SettingsPageController';
+import CopyFromScmInputBoxCommand from './commands/CopyFromScmInputBoxCommand';
+import { Command } from './constants';
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   const git = new GitService();
-  let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
-  const openSettingsPageCommand = new OpenSettingsPageCommand({ context });
+  const editorController = new EditorController(context, git);
+  const settingsPageController = new SettingsPageController(context);
 
-  context.subscriptions.push(
-    createOpenEditorCommand({ context, currentPanel, git })
+  const copyFromScmInputBoxCommand = new CopyFromScmInputBoxCommand(
+    git,
+    editorController
   );
-  context.subscriptions.push(
-    createCopyFromSCMInputBoxCommand({ currentPanel, git })
-  );
-  context.subscriptions.push(createLoadTemplateCommand({ currentPanel }));
+
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'commitMessageEditor.openSettingsPage',
-      openSettingsPageCommand.run,
-      openSettingsPageCommand
+      Command.OpenEditor,
+      editorController.openInTheMainView,
+      editorController
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      Command.OpenSettings,
+      settingsPageController.run,
+      settingsPageController
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      Command.CopyFromScmInputBox,
+      copyFromScmInputBoxCommand.run,
+      copyFromScmInputBoxCommand
     )
   );
 }

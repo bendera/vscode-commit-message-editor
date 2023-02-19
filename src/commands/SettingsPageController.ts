@@ -8,13 +8,10 @@ import { ConfigurationTarget } from 'vscode';
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
-class OpenSettingsPageCommand {
+export default class SettingsPageController {
   private _currentPanel: vscode.WebviewPanel | undefined;
-  private _context: vscode.ExtensionContext;
 
-  constructor({ context }: { context: vscode.ExtensionContext }) {
-    this._context = context;
-  }
+  constructor(private _context: vscode.ExtensionContext) {}
 
   run() {
     this._openPanel();
@@ -248,5 +245,3 @@ class OpenSettingsPageCommand {
     }
   }
 }
-
-export default OpenSettingsPageCommand;

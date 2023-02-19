@@ -29,9 +29,9 @@ class GitService {
     return this.api?.repositories[0];
   }
 
-  public onRepositoryDidChange = (handler: (e: void) => any) => {
+  public onRepositoryDidChange(handler: (e: void) => any, thisArgs?: any) {
     this.api?.repositories.forEach((repo) => {
-      repo.ui.onDidChange(handler);
+      repo.ui.onDidChange(handler, thisArgs);
     });
   };
 
