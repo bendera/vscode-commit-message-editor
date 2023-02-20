@@ -1,5 +1,6 @@
 import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {styleMap} from 'lit/directives/style-map.js';
 import {CodeEditorHistory} from './CommandHistory';
 import {
@@ -46,6 +47,9 @@ export class CodeEditor extends LitElement {
 
   @property({type: Boolean})
   useTabs = false;
+
+  @property({type: Number})
+  maxLength: number | undefined = undefined;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -295,7 +299,7 @@ export class CodeEditor extends LitElement {
         left: 0;
         margin-left: 4px;
         min-height: 100%;
-        overflow: hidden;
+        overflow: visible;
         pointer-events: none;
         position: absolute;
         top: 0;
@@ -358,6 +362,7 @@ export class CodeEditor extends LitElement {
           id="inputElement"
           class="textarea"
           spellcheck="false"
+          maxlength="${ifDefined(this.maxLength)}"
           @keydown="${this._handleKeyDown}"
           @keyup="${this._handleKeyUp}"
           @input="${this._handleInput}"

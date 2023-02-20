@@ -30,13 +30,15 @@ export class TokenItemEdit extends LitElement {
       suffix,
       maxLength,
       maxLines,
+      maxLineLength,
       multiline,
+      monospace,
       multiple,
       separator,
       combobox,
       options,
       lines,
-      value
+      value,
     } = val;
 
     this._label = label ?? 'Untitled';
@@ -139,6 +141,9 @@ export class TokenItemEdit extends LitElement {
   private _multiline = false;
 
   @state()
+  private _monospace = false;
+
+  @state()
   private _lines = '';
 
   @state()
@@ -146,6 +151,9 @@ export class TokenItemEdit extends LitElement {
 
   @state()
   private _maxLength = '';
+
+  @state()
+  private maxLineLength = '';
 
   @state()
   private _multiple = false;
@@ -197,6 +205,10 @@ export class TokenItemEdit extends LitElement {
 
   private _onMultilineChange(ev: CustomEvent) {
     this._multiline = ev.detail.checked;
+  }
+
+  private _onMonospaceChange(ev: CustomEvent) {
+    this._monospace = ev.detail.checked;
   }
 
   private _onLinesChange(ev: CustomEvent) {
@@ -359,7 +371,9 @@ export class TokenItemEdit extends LitElement {
     `;
 
     const valueWidget = html`
-      <vscode-form-group class="${classMap({disabled: this._type !== 'boolean'})}">
+      <vscode-form-group
+        class="${classMap({disabled: this._type !== 'boolean'})}"
+      >
         <vscode-label for="value">Value</vscode-label>
         <vscode-inputbox
           value="${this._value}"
@@ -400,6 +414,19 @@ export class TokenItemEdit extends LitElement {
           value="multiline"
           ?checked="${this._multiline}"
           @vsc-change="${this._onMultilineChange}"
+        ></vscode-checkbox>
+      </vscode-form-group>
+    `;
+
+    const monospaceWidget = html`
+      <vscode-form-group class="${classMap({disabled: this._type !== 'text' || !this._multiline})}">
+        <vscode-label for="monospace">Monospace</vscode-label>
+        <vscode-checkbox
+          id="monospace"
+          name="flags"
+          value="monospace"
+          ?checked="${this._monospace}"
+          @vsc-change="${this._onMonospaceChange}"
         ></vscode-checkbox>
       </vscode-form-group>
     `;
@@ -583,10 +610,11 @@ export class TokenItemEdit extends LitElement {
     const activeView = html`
       <div>
         <vscode-form-container id="form" responsive>
-          ${nameWidget} ${labelWidget} ${valueWidget} ${typeWidget} ${descriptionWidget}
-          ${prefixWidget} ${suffixWidget} ${multilineWidget} ${linesWidget}
-          ${maxLinesWidget} ${maxLengthWidget} ${multipleWidget}
-          ${separatorWidget} ${comboboxWidget} ${optionsWidget}
+          ${nameWidget} ${labelWidget} ${valueWidget} ${typeWidget}
+          ${descriptionWidget} ${prefixWidget} ${suffixWidget}
+          ${multilineWidget} ${monospaceWidget} ${linesWidget} ${maxLinesWidget} ${maxLengthWidget}
+          ${multipleWidget} ${separatorWidget} ${comboboxWidget}
+          ${optionsWidget}
           ${this._isOptionsWindowVisible ? optionsWindow : nothing}
           <vscode-form-group>
             <vscode-button @click="${this._onSaveClick}">Save</vscode-button>

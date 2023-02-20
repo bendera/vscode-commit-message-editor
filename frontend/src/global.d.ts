@@ -65,11 +65,13 @@ declare global {
     options?: EnumTokenOption[];
     description?: string;
     multiline?: boolean;
+    monospace?: boolean;
     combobox?: boolean;
     filter?: string;
     lines?: number;
     maxLines?: number;
     maxLength?: number;
+    maxLineLength?: number;
     multiple?: boolean;
     separator?: string;
     prefix?: string;

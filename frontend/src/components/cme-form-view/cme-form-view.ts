@@ -163,6 +163,10 @@ export class FormView extends connect(store)(LitElement) {
         display: block;
       }
 
+      cme-code-editor {
+        margin-top: 9px;
+      }
+
       .buttons {
         align-items: center;
         display: flex;
