@@ -36,7 +36,9 @@
         "dist/pages/cme-editor-page.js",
         "dist/pages/cme-settings-page.js"
       ],
-      "output": ["dist/_bundled/**/*"],
+      "output": [
+        "dist/_bundled/**/*"
+      ],
       "dependencies": [
         "build:ts"
       ]
@@ -50,7 +52,7 @@
   "author": "The Polymer Authors",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@bendera/vscode-webview-elements": "^0.9.0",
+    "@bendera/vscode-webview-elements": "^0.10.0",
     "@reduxjs/toolkit": "^1.9.2",
     "@types/vscode": "^1.75.0",
     "lit": "^2.6.1",
