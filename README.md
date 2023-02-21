@@ -21,29 +21,6 @@ The factory settings follows the [Conventional Commits](https://www.conventional
 - [Regular textarea](https://bendera.github.io/vscode-commit-message-editor/screenshots/regular-text-editor.png)
 - [Monospace textarea](https://bendera.github.io/vscode-commit-message-editor/screenshots/monospace-text-editor.png)
 
-## Requirements
-
-Built-in Git extension
-
-## Extension Settings
-
-This extension contributes the following settings:
-
-- `commit-message-editor.confirmAmend`: Show confirm dialog before amend the commit message
-- `commit-message-editor.staticTemplate`: Template for the text view
-- `commit-message-editor.dynamicTemplate`: Template for the form view
-- `commit-message-editor.tokens`: Editable inputs in the form view
-- `commit-message-editor.view.defaultView`: Default view of the editor (textarea or form)
-- `commit-message-editor.view.fullWidth`: The editor fills the whole available space
-- `commit-message-editor.view.showRecentCommits`: Show recent commits in the main view
-- `commit-message-editor.view.saveAndClose`: Close commit message editor tab after saving
-- `commit-message-editor.view.visibleViews`: Which tab(s) should be visible: text, form or both
-- `commit-message-editor.view.visibleLines`: Visible lines in the text view
-- `commit-message-editor.view.useMonospaceEditor`: Use monospace font in the text view
-- `commit-message-editor.view.tabSize`: Tab size in the monospace editor
-- `commit-message-editor.view.useTabs`: Use tabs for indentation in the monospace editor
-- `commit-message-editor.view.rulers`: Render vertical rulers after a certain number of monospace characters in the monospace editor. Use multiple values for multiple rulers. No rulers are drawn if array is empty.
-
 ## Customizing the commit message form
 
 The easiest way to customizing the commit message form is to use the
@@ -110,5 +87,3 @@ An array of token objects. It defines the form fields. The table below shows the
 - [Gitmojis - With Simplifed Chinese descriptions](example-configs/gitmojis_zh-CN.json)
 
 You can customize the Gitmoji config with the `scripts/gitmoji-config.js` script
-
-**Happy coding!**
