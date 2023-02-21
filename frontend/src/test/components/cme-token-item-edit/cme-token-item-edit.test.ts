@@ -31,6 +31,8 @@ describe('cme-token-item-edit', () => {
     const iLines = el.shadowRoot?.querySelector('#lines');
     const iMaxLines = el.shadowRoot?.querySelector('#maxLines');
     const iMaxLength = el.shadowRoot?.querySelector('#maxLength');
+    const iMaxLineLength = el.shadowRoot?.querySelector('#maxLineLength');
+    const cMonoSpace = el.shadowRoot?.querySelector('#monospace');
 
     iName?.dispatchEvent(new CustomEvent('vsc-input', {detail: 'Name test'}));
     iLabel?.dispatchEvent(new CustomEvent('vsc-input', {detail: 'Label test'}));
@@ -57,6 +59,10 @@ describe('cme-token-item-edit', () => {
     iLines?.dispatchEvent(new CustomEvent('vsc-input', {detail: '5'}));
     iMaxLines?.dispatchEvent(new CustomEvent('vsc-input', {detail: '10'}));
     iMaxLength?.dispatchEvent(new CustomEvent('vsc-input', {detail: '100'}));
+    iMaxLineLength?.dispatchEvent(new CustomEvent('vsc-input', {detail: '72'}));
+    cMonoSpace?.dispatchEvent(
+      new CustomEvent('vsc-change', {detail: {checked: true}})
+    );
 
     expect(el.token).to.deep.eq({
       description: 'Description test',
@@ -64,6 +70,8 @@ describe('cme-token-item-edit', () => {
       lines: 5,
       maxLength: 100,
       maxLines: 10,
+      maxLineLength: 72,
+      monospace: true,
       multiline: true,
       name: 'Name test',
       prefix: 'Prefix test',
