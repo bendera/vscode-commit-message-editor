@@ -15,7 +15,8 @@
     "format": "prettier src/* --write",
     "serve": "wds --watch",
     "start": "concurrently \"npm run build:watch\" \"npm run serve\" --names \"tsc,server\"",
-    "test": "npm run build:ts && wtr --coverage",
+    "test": "wireit",
+    "test:coverage": "wireit",
     "test:watch": "wtr --watch",
     "checksize": "npm run build:bundle && cat dist/bundled.js | gzip -9 | wc -c"
   },
@@ -39,6 +40,26 @@
       "output": [
         "dist/_bundled/**/*"
       ],
+      "dependencies": [
+        "build:ts"
+      ]
+    },
+    "test": {
+      "command": "wtr",
+      "files": [
+        "dist/test/**/*.js"
+      ],
+      "output": [],
+      "dependencies": [
+        "build:ts"
+      ]
+    },
+    "test:coverage": {
+      "command": "wtr --coverage",
+      "files": [
+        "dist/test/**/*.js"
+      ],
+      "output": [],
       "dependencies": [
         "build:ts"
       ]
