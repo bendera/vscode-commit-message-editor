@@ -364,7 +364,7 @@ export class TokenItemEdit extends LitElement {
   render(): TemplateResult {
     const labelWidget = html`
       <vscode-form-group>
-        <vscode-label for="label">Label</vscode-label>
+        <vscode-label for="label" required>Label</vscode-label>
         <vscode-inputbox
           value="${this._label}"
           id="label"
@@ -376,7 +376,7 @@ export class TokenItemEdit extends LitElement {
 
     const nameWidget = html`
       <vscode-form-group>
-        <vscode-label for="name">Name</vscode-label>
+        <vscode-label for="name" required>Name</vscode-label>
         <vscode-inputbox
           value="${this._name}"
           id="name"
@@ -402,7 +402,7 @@ export class TokenItemEdit extends LitElement {
 
     const typeWidget = html`
       <vscode-form-group variant="horizontal">
-        <vscode-label for="type">Type:</vscode-label>
+        <vscode-label for="type">Type</vscode-label>
         <vscode-single-select
           id="type"
           name="type"
@@ -453,7 +453,7 @@ export class TokenItemEdit extends LitElement {
 
     const descriptionWidget = html`
       <vscode-form-group>
-        <vscode-label for="description">Description:</vscode-label>
+        <vscode-label for="description">Description</vscode-label>
         <vscode-inputbox
           id="description"
           value="${this._description}"
