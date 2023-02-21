@@ -49,8 +49,12 @@ export class TokenItemEdit extends LitElement {
     this._suffix = suffix ?? '';
     this._maxLength = !isUndefined(maxLength) ? String(maxLength) : '';
     this._maxLines = !isUndefined(maxLines) ? String(maxLines) : '';
+    this._maxLineLength = !isUndefined(maxLineLength)
+      ? String(maxLineLength)
+      : '';
     this._multiline = multiline ?? false;
     this._multiple = multiple ?? false;
+    this._monospace = monospace ?? false;
     this._separator = separator ?? '';
     this._combobox = combobox ?? false;
     this._options = options ?? [];
@@ -89,8 +93,16 @@ export class TokenItemEdit extends LitElement {
       retval.maxLines = parseInt(this._maxLines);
     }
 
+    if (this._maxLineLength.length > 0) {
+      retval.maxLineLength = parseInt(this._maxLineLength);
+    }
+
     if (this._multiline) {
       retval.multiline = true;
+    }
+
+    if (this._monospace) {
+      retval.monospace = true;
     }
 
     if (this._lines.length > 0) {
@@ -153,7 +165,7 @@ export class TokenItemEdit extends LitElement {
   private _maxLength = '';
 
   @state()
-  private maxLineLength = '';
+  private _maxLineLength = '';
 
   @state()
   private _multiple = false;
@@ -221,6 +233,10 @@ export class TokenItemEdit extends LitElement {
 
   private _onMaxLengthChange(ev: CustomEvent) {
     this._maxLength = ev.detail;
+  }
+
+  private _onMaxLineLengthChange(ev: CustomEvent) {
+    this._maxLineLength = ev.detail;
   }
 
   private _onMultipleChange(ev: CustomEvent) {
@@ -419,7 +435,11 @@ export class TokenItemEdit extends LitElement {
     `;
 
     const monospaceWidget = html`
-      <vscode-form-group class="${classMap({disabled: this._type !== 'text' || !this._multiline})}">
+      <vscode-form-group
+        class="${classMap({
+          disabled: this._type !== 'text' || !this._multiline,
+        })}"
+      >
         <vscode-label for="monospace">Monospace</vscode-label>
         <vscode-checkbox
           id="monospace"
@@ -520,6 +540,25 @@ export class TokenItemEdit extends LitElement {
       </vscode-form-group>
     `;
 
+    const maxLineLengthWidget = html`
+      <vscode-form-group
+        class="${classMap({
+          disabled:
+            this._type !== 'text' || !this._monospace || !this._multiline,
+        })}"
+      >
+        <vscode-label for="maxLineLength">MaxLineLength</vscode-label>
+        <vscode-inputbox
+          value="${this._maxLineLength}"
+          id="maxLineLength"
+          name="maxLineLength"
+          type="number"
+          min="1"
+          @vsc-input="${this._onMaxLineLengthChange}"
+        ></vscode-inputbox>
+      </vscode-form-group>
+    `;
+
     const multipleWidget = html`
       <vscode-form-group class="${classMap({disabled: this._type !== 'enum'})}">
         <vscode-label for="multiple">Multiple</vscode-label>
@@ -612,9 +651,9 @@ export class TokenItemEdit extends LitElement {
         <vscode-form-container id="form" responsive>
           ${nameWidget} ${labelWidget} ${valueWidget} ${typeWidget}
           ${descriptionWidget} ${prefixWidget} ${suffixWidget}
-          ${multilineWidget} ${monospaceWidget} ${linesWidget} ${maxLinesWidget} ${maxLengthWidget}
-          ${multipleWidget} ${separatorWidget} ${comboboxWidget}
-          ${optionsWidget}
+          ${multilineWidget} ${monospaceWidget} ${linesWidget} ${maxLinesWidget}
+          ${maxLengthWidget} ${maxLineLengthWidget} ${multipleWidget} ${separatorWidget}
+          ${comboboxWidget} ${optionsWidget}
           ${this._isOptionsWindowVisible ? optionsWindow : nothing}
           <vscode-form-group>
             <vscode-button @click="${this._onSaveClick}">Save</vscode-button>

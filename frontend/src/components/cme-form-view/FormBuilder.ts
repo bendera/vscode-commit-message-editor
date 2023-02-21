@@ -104,18 +104,27 @@ class FormBuilder {
   }
 
   private _renderTextTypeWidget(token: Token) {
-    const {description, label, multiline, name, lines, maxLines, maxLength} =
-      token;
+    const {
+      description,
+      label,
+      multiline,
+      monospace,
+      name,
+      lines,
+      maxLines,
+      maxLength,
+      maxLineLength,
+    } = token;
     let inputbox: TemplateResult;
 
-    if (multiline) {
+    if (multiline && monospace) {
       inputbox = html`
         <cme-code-editor
           data-name="${name}"
           name="${name}"
           @vsc-change="${this._handleFormItemChange}"
           lines="${ifDefined(lines)}"
-          .rulers=${[80]}
+          .rulers=${maxLineLength ? [maxLineLength] : []}
         ></cme-code-editor>
       `;
     } else {

@@ -87,9 +87,8 @@ export default class EditorController {
         this._primaryEditorPanel?.dispose();
         break;
       case 'requestConfig':
-        this._ui?.sendConfig(
-          vscode.workspace.getConfiguration('commit-message-editor')
-        );
+        const cfg = vscode.workspace.getConfiguration('commit-message-editor');
+        this._ui?.sendConfig(cfg);
         break;
       case 'requestRecentCommits':
         this._populateCommitList();

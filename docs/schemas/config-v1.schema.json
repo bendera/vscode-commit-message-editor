@@ -101,10 +101,20 @@
             "title": "Max Length",
             "description": "Maximum length of the value"
           },
+          "maxLineLength": {
+            "type": "number",
+            "title": "Max Line Length",
+            "description": "A ruler will be drawed at the column when the monospace editor is configured"
+          },
           "multiple": {
             "type": "boolean",
             "title": "Multiple",
             "description": "Multiple enum options"
+          },
+          "monospace": {
+            "type": "boolean",
+            "title": "Monospace",
+            "description": "Use monospace editor. Monospace editor is a minimalistic text area that uses monospace fonts and can draw a ruler at a specific column."
           },
           "separator": {
             "type": "string",

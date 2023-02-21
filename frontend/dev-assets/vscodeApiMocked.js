@@ -226,6 +226,8 @@ const config = {
       description: 'Optional body',
       type: 'text',
       multiline: true,
+      monospace: true,
+      maxLineLength: 72,
     },
     {
       label: 'Breaking change',
