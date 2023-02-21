@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## Unreleased
+
+### Added
+
+- Add ability to use the monospace editor in the form view.
+
 ## [0.22.1] - 2023-02-16
 
 ### Fixed
