@@ -7,6 +7,7 @@ All notable changes to the "commit-message-editor" extension will be documented 
 ### Added
 
 - Add ability to use the monospace editor in the form view.
+- Add ability to open the editor in a specific editor group.
 
 ## [0.22.1] - 2023-02-16
 

@@ -5,6 +5,7 @@ import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-tabs';
 import '@bendera/vscode-webview-elements/dist/vscode-tab-header';
 import '@bendera/vscode-webview-elements/dist/vscode-tab-panel';
+import '@bendera/vscode-webview-elements/dist/vscode-scrollable';
 import './cme-text-view';
 import './cme-form-view/cme-form-view';
 import store, {RootState} from '../store/store';
@@ -116,9 +117,15 @@ export class Editor extends connect(store)(LitElement) {
           @vsc-select="${this._handleTabChange}"
         >
           <vscode-tab-header slot="header">Edit as text</vscode-tab-header>
-          <vscode-tab-panel>${textView}</vscode-tab-panel>
+          <vscode-tab-panel
+            ><vscode-scrollable
+              >${textView}</vscode-scrollable
+            ></vscode-tab-panel
+          >
           <vscode-tab-header slot="header">Edit as form</vscode-tab-header>
-          <vscode-tab-panel>${formView}</vscode-tab-panel>
+          <vscode-tab-panel>
+            <vscode-scrollable>${formView}</vscode-scrollable></vscode-tab-panel
+          >
         </vscode-tabs>
       </div>
     `;

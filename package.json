@@ -211,6 +211,37 @@
           "default": true,
           "description": "If more than two empty lines follow each other, only the first two lines will be kept. The last line also will be removed if it is empty."
         },
+        "commit-message-editor.view.columnToShowIn": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Beside",
+            "One",
+            "Two",
+            "Three",
+            "Four",
+            "Five",
+            "Six",
+            "Seven",
+            "Eight",
+            "Nine"
+          ],
+          "enumDescriptions": [
+            "Open in the active column",
+            "Open next to the active column",
+            "Open in the first column",
+            "Open in the second column",
+            "Open in the third column",
+            "Open in the fourth column",
+            "Open in the fifth column",
+            "Open in the sixth column",
+            "Open in the seventh column",
+            "Open in the eighth column",
+            "Open in the ninth column"
+          ],
+          "description": "In which column the editor should open",
+          "default": "Active"
+        },
         "commit-message-editor.view.defaultView": {
           "type": "string",
           "default": "text",
