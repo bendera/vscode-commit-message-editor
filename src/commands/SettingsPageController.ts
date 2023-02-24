@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as util from 'util';
 import * as vscode from 'vscode';
 import Ajv from 'ajv';
+import { editorGroupNameMap, ViewColumnKey, ViewType } from '../definitions';
 import SettingsTab from '../webviews/SettingsTab';
 import { ConfigurationTarget } from 'vscode';
 
@@ -216,17 +217,15 @@ export default class SettingsPageController {
   }
 
   private _openPanel() {
-    const columnToShowIn = vscode.window.activeTextEditor
-      ? vscode.window.activeTextEditor.viewColumn
-      : vscode.ViewColumn.One;
+    const config = vscode.workspace.getConfiguration('commit-message-editor');
 
     if (this._currentPanel) {
-      this._currentPanel.reveal(columnToShowIn);
+      this._currentPanel.reveal();
     } else {
       this._currentPanel = vscode.window.createWebviewPanel(
         'cmeSettingsPage',
         'Edit commit templates',
-        columnToShowIn as vscode.ViewColumn,
+        editorGroupNameMap[config.view.columnToShowIn as ViewColumnKey],
         { enableScripts: true, retainContextWhenHidden: true }
       );
 

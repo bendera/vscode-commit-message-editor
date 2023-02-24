@@ -3,7 +3,7 @@ import GitService from './utils/GitService';
 import EditorController from './commands/EditorController';
 import SettingsPageController from './commands/SettingsPageController';
 import CopyFromScmInputBoxCommand from './commands/CopyFromScmInputBoxCommand';
-import { Command } from './constants';
+import { Command } from './definitions';
 
 export async function activate(context: vscode.ExtensionContext) {
   const git = new GitService();

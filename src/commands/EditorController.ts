@@ -1,37 +1,8 @@
 import * as vscode from 'vscode';
-import { ViewType } from '../constants';
+import { editorGroupNameMap, ViewColumnKey, ViewType } from '../definitions';
 import GitService from '../utils/GitService';
 import EditorView from '../webviews/EditorView';
 import UiApi from '../utils/UiApi';
-
-type ViewColumnKey =
-  | 'Active'
-  | 'Beside'
-  | 'One'
-  | 'Two'
-  | 'Three'
-  | 'Four'
-  | 'Five'
-  | 'Six'
-  | 'Seven'
-  | 'Eight'
-  | 'Nine';
-
-type ViewColumnMap = Record<ViewColumnKey, number>;
-
-const editorGroupMap: ViewColumnMap = {
-  Active: vscode.ViewColumn.Active,
-  Beside: vscode.ViewColumn.Beside,
-  One: vscode.ViewColumn.One,
-  Two: vscode.ViewColumn.Two,
-  Three: vscode.ViewColumn.Three,
-  Four: vscode.ViewColumn.Four,
-  Five: vscode.ViewColumn.Five,
-  Six: vscode.ViewColumn.Six,
-  Seven: vscode.ViewColumn.Seven,
-  Eight: vscode.ViewColumn.Eight,
-  Nine: vscode.ViewColumn.Nine,
-};
 
 export default class EditorController {
   private _primaryEditorPanel: vscode.WebviewPanel | undefined;
@@ -51,7 +22,7 @@ export default class EditorController {
       this._primaryEditorPanel = vscode.window.createWebviewPanel(
         ViewType.PrimaryEditor,
         'Commit Message Editor',
-        editorGroupMap[config.view.columnToShowIn as ViewColumnKey],
+        editorGroupNameMap[config.view.columnToShowIn as ViewColumnKey],
         {
           enableScripts: true,
           retainContextWhenHidden: true,
