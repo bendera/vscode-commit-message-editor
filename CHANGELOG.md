@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.23.1] - 2023-03-20
+
+### Fixed
+
+- Fix CSS overlay issue: focus border of the buttons in editor was clipped.
+
 ## [0.23.0] - 2023-03-06
 
 ### Added

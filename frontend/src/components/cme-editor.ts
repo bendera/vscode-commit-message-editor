@@ -117,15 +117,9 @@ export class Editor extends connect(store)(LitElement) {
           @vsc-select="${this._handleTabChange}"
         >
           <vscode-tab-header slot="header">Edit as text</vscode-tab-header>
-          <vscode-tab-panel
-            ><vscode-scrollable
-              >${textView}</vscode-scrollable
-            ></vscode-tab-panel
-          >
+          <vscode-tab-panel>${textView}</vscode-tab-panel>
           <vscode-tab-header slot="header">Edit as form</vscode-tab-header>
-          <vscode-tab-panel>
-            <vscode-scrollable>${formView}</vscode-scrollable></vscode-tab-panel
-          >
+          <vscode-tab-panel> ${formView}</vscode-tab-panel>
         </vscode-tabs>
       </div>
     `;
