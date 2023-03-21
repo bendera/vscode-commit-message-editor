@@ -228,8 +228,9 @@ export class CodeEditor extends LitElement {
       }
 
       .wrapper {
-        background-color: var(--vscode-editorWidget-background);
-        border: 1px solid var(--vscode-editorWidget-background);
+        background-color: var(--vscode-editor-background);
+        border: 1px solid var(--vscode-scm-providerBorder);
+        border-radius: 2px;
         box-sizing: border-box;
         overflow-y: auto;
         padding: 4px;
