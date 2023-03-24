@@ -1,15 +1,13 @@
-import LoginPage from '../pageobjects/login.page'
-import SecurePage from '../pageobjects/secure.page'
+import { browser } from '@wdio/globals';
 
-describe('My Login application', () => {
-    it('should login with valid credentials', async () => {
-        await LoginPage.open()
+describe('My VS Code Extension', () => {
+  it('should be able to load VS Code', async () => {
+    const workbench = await browser.getWorkbench();
 
-        await LoginPage.login('tomsmith', 'SuperSecretPassword!')
-        await expect(SecurePage.flashAlert).toBeExisting()
-        await expect(SecurePage.flashAlert).toHaveTextContaining(
-            'You logged into a secure area!')
-    })
-})
+    await browser.pause(10000);
 
-
+    expect(await workbench.getTitleBar().getTitle()).toBe(
+      '[Extension Development Host] Visual Studio Code'
+    );
+  });
+});
