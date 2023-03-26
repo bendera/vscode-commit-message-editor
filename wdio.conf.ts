@@ -71,8 +71,10 @@ export const config: Options.Testrunner = {
       'wdio:vscodeOptions': {
         // point to the root directory of your project
         extensionPath: path.join(__dirname, '.'),
+        workspacePath: path.join(__dirname, '.'),
       },
       acceptInsecureCerts: true,
+      // logLevel: 'debug',
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -86,7 +88,7 @@ export const config: Options.Testrunner = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'info',
+  logLevel: 'error',
   //
   // Set specific log levels per logger
   // loggers:

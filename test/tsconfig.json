@@ -3,9 +3,13 @@
     "moduleResolution": "node",
     "types": [
       "node",
+      "webdriverio/async",
       "@wdio/globals/types",
       "@wdio/mocha-framework",
-      "expect-webdriverio"
+      "expect-webdriverio",
+      "wdio-devtools-service",
+      "wdio-vscode-service",
+      "@types/mocha"
     ],
     "target": "ES2018"
   }
