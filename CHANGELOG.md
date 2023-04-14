@@ -1,6 +1,12 @@
 # Change Log
 
-All notable changes to the "commit-message-editor" extension will be documented in this file.
+All notable changes to the "commit-message-editor" extension will be documented in this file. (Fix [#68](https://github.com/bendera/vscode-commit-message-editor/issues/68))
+
+### Unreleased
+
+### Fixed
+
+- In multi-root workspaces wrong repository names were shown in the selected repository block.
 
 ## [0.23.1] - 2023-03-20
 

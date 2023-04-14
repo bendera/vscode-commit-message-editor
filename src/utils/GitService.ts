@@ -1,10 +1,21 @@
 import * as vscode from 'vscode';
 import { GitExtension, API, Repository, APIState } from '../@types/git';
 
+export type RepositoryChangeCallback = (repositoryInfo: {
+  numberOfRepositories: number;
+  selectedRepositoryPath: string;
+}) => void;
+
+export interface RepositoryInfo {
+  numberOfRepositories: number;
+  selectedRepositoryPath: string;
+}
+
 class GitService {
   private isGitAvailable: boolean = false;
   private gitExtension: vscode.Extension<GitExtension> | undefined;
   private api: API | undefined;
+  private disposables: vscode.Disposable[] = [];
 
   constructor() {
     this.gitExtension = vscode.extensions.getExtension('vscode.git');
@@ -29,11 +40,23 @@ class GitService {
     return this.api?.repositories[0];
   }
 
-  public onRepositoryDidChange(handler: (e: void) => any, thisArgs?: any) {
+  public onRepositoryDidChange(handler: RepositoryChangeCallback) {
+    this.disposables.forEach((d) => d.dispose());
+    this.disposables = [];
+
     this.api?.repositories.forEach((repo) => {
-      repo.ui.onDidChange(handler, thisArgs);
+      this.disposables.push(
+        repo.ui.onDidChange(() => {
+          if (repo.ui.selected) {
+            handler({
+              numberOfRepositories: this.getNumberOfRepositories(),
+              selectedRepositoryPath: repo.rootUri.path,
+            });
+          }
+        }, this)
+      );
     });
-  };
+  }
 
   public getNumberOfRepositories() {
     return this.api?.repositories.length || 0;
