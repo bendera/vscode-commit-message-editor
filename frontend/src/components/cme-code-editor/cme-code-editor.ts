@@ -227,9 +227,42 @@ export class CodeEditor extends LitElement {
         display: block;
       }
 
+      :host-context([data-vscode-theme-kind='vscode-dark']) {
+        --background: var(
+          --vscode-walkThrough-embeddedEditorBackground,
+          rgba(0, 0, 0, 0.4)
+        );
+        --border: transparent;
+      }
+
+      :host-context([data-vscode-theme-kind='vscode-light']) {
+        --background: var(
+          --vscode-walkThrough-embeddedEditorBackground,
+          #f4f4f4
+        );
+        --border: transparent;
+      }
+
+      :host-context([data-vscode-theme-kind='vscode-high-contrast']) {
+        --background: var(
+          --vscode-walkThrough-embeddedEditorBackground,
+          #000000
+        );
+        --border: var(--vscode-contrastBorder, #6fc3df);
+      }
+
+      :host-context([data-vscode-theme-kind='vscode-high-contrast-light']) {
+        --background: var(
+          --vscode-walkThrough-embeddedEditorBackground,
+          #ffffff
+        );
+        --border: var(--vscode-contrastBorder, #6fc3df);
+      }
+
       .wrapper {
-        background-color: var(--vscode-editorWidget-background);
-        border: 1px solid var(--vscode-editorWidget-background);
+        background-color: var(--background);
+        border: 1px solid var(--border);
+        border-radius: 2px;
         box-sizing: border-box;
         overflow-y: auto;
         padding: 4px;
