@@ -8,6 +8,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 - In multi-root workspaces wrong repository names were shown in the selected repository block.
 
+### Changed
+
+- Monospace editor styles are improved. 
+
 ## [0.23.1] - 2023-03-20
 
 ### Fixed
