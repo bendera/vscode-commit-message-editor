@@ -16,7 +16,7 @@ import {triggerInputboxRerender} from '../helpers';
 import '../cme-repo-info';
 import FormBuilder from './FormBuilder';
 import TemplateCompiler from './TemplateCompiler';
-import { CodeEditor } from '../cme-code-editor/cme-code-editor';
+import {CodeEditor} from '../cme-code-editor/cme-code-editor';
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -26,6 +26,13 @@ export class FormView extends connect(store)(LitElement) {
     );
 
     triggerInputboxRerender(inputs as NodeListOf<VscodeInputbox>);
+
+    const monospaceEditors =
+      this.shadowRoot?.querySelectorAll('cme-code-editor');
+
+    if (monospaceEditors?.length) {
+      monospaceEditors.forEach((m) => m.connectedCallback());
+    }
   }
 
   @query('#form-container')
