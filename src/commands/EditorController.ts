@@ -1,12 +1,13 @@
 import * as vscode from 'vscode';
 import { editorGroupNameMap, ViewColumnKey, ViewType } from '../definitions';
-import GitService from '../utils/GitService';
+import GitService, { RepositoryInfo } from '../utils/GitService';
 import EditorView from '../webviews/EditorView';
 import UiApi from '../utils/UiApi';
 
 export default class EditorController {
   private _primaryEditorPanel: vscode.WebviewPanel | undefined;
   private _ui: UiApi | undefined;
+  private _selectedRepository: string | undefined;
 
   constructor(
     private _context: vscode.ExtensionContext,
@@ -51,18 +52,20 @@ export default class EditorController {
     this._ui.sendRepositoryInfo(this._getRepositoryInfo());
 
     this._initReceivedMessageListener();
-    this._git.onRepositoryDidChange(this._handleRepositoryDidChange, this);
+    this._git.onRepositoryDidChange(this._handleRepositoryDidChangeBound);
   }
 
   get primaryEditorPanel(): vscode.WebviewPanel | undefined {
     return this._primaryEditorPanel;
   }
 
-  private _handleRepositoryDidChange() {
-    console.log('repository did change');
-    this._ui?.sendRepositoryInfo(this._getRepositoryInfo());
+  private _handleRepositoryDidChange(repositoryInfo: RepositoryInfo) {
+    this._ui?.sendRepositoryInfo(repositoryInfo);
     this._populateCommitList();
   }
+
+  private _handleRepositoryDidChangeBound =
+    this._handleRepositoryDidChange.bind(this);
 
   private _getRepositoryInfo() {
     return {
