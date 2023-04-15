@@ -59,9 +59,15 @@ export default class EditorController {
     return this._primaryEditorPanel;
   }
 
-  private _handleRepositoryDidChange(repositoryInfo: RepositoryInfo) {
+  private async _handleRepositoryDidChange(repositoryInfo: RepositoryInfo) {
     this._ui?.sendRepositoryInfo(repositoryInfo);
-    this._populateCommitList();
+
+    const { selectedRepositoryPath } = repositoryInfo;
+    const commits = await this._git.getRecentCommitMessagesByPath(
+      selectedRepositoryPath
+    );
+
+    this._ui?.sendRecentCommits(commits);
   }
 
   private _handleRepositoryDidChangeBound =
