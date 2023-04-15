@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Uri, Event, Disposable, ProviderResult, Command } from 'vscode';
+import { Uri, Event, Disposable, ProviderResult, Command, CancellationToken } from 'vscode';
 export { ProviderResult } from 'vscode';
 
 export interface Git {
@@ -139,7 +139,13 @@ export interface CommitOptions {
 	requireUserConfig?: boolean;
 	useEditor?: boolean;
 	verbose?: boolean;
-	postCommitCommand?: string;
+	/**
+	 * string    - execute the specified command after the commit operation
+	 * undefined - execute the command specified in git.postCommitCommand
+	 *             after the commit operation
+	 * null      - do not execute any command after the commit operation
+	 */
+	postCommitCommand?: string | null;
 }
 
 export interface FetchOptions {
@@ -150,11 +156,15 @@ export interface FetchOptions {
 	depth?: number;
 }
 
-export interface BranchQuery {
-	readonly remote?: boolean;
-	readonly pattern?: string;
-	readonly count?: number;
+export interface RefQuery {
 	readonly contains?: string;
+	readonly count?: number;
+	readonly pattern?: string;
+	readonly sort?: 'alphabetically' | 'committerdate';
+}
+
+export interface BranchQuery extends RefQuery {
+	readonly remote?: boolean;
 }
 
 export interface Repository {
@@ -198,8 +208,10 @@ export interface Repository {
 	createBranch(name: string, checkout: boolean, ref?: string): Promise<void>;
 	deleteBranch(name: string, force?: boolean): Promise<void>;
 	getBranch(name: string): Promise<Branch>;
-	getBranches(query: BranchQuery): Promise<Ref[]>;
+	getBranches(query: BranchQuery, cancellationToken?: CancellationToken): Promise<Ref[]>;
 	setBranchUpstream(name: string, upstream: string): Promise<void>;
+
+	getRefs(query: RefQuery, cancellationToken?: CancellationToken): Promise<Ref[]>;
 
 	getMergeBase(ref1: string, ref2: string): Promise<string>;
 
@@ -262,6 +274,16 @@ export interface PushErrorHandler {
 	handlePushError(repository: Repository, remote: Remote, refspec: string, error: Error & { gitErrorCode: GitErrorCodes }): Promise<boolean>;
 }
 
+export interface BranchProtection {
+	readonly remote: string;
+	readonly branches: string[];
+}
+
+export interface BranchProtectionProvider {
+	onDidChangeBranchProtection: Event<Uri>;
+	provideBranchProtection(): BranchProtection[];
+}
+
 export type APIState = 'uninitialized' | 'initialized';
 
 export interface PublishEvent {
@@ -288,6 +310,7 @@ export interface API {
 	registerCredentialsProvider(provider: CredentialsProvider): Disposable;
 	registerPostCommitCommandsProvider(provider: PostCommitCommandsProvider): Disposable;
 	registerPushErrorHandler(handler: PushErrorHandler): Disposable;
+	registerBranchProtectionProvider(root: Uri, provider: BranchProtectionProvider): Disposable;
 }
 
 export interface GitExtension {
@@ -344,5 +367,8 @@ export const enum GitErrorCodes {
 	PatchDoesNotApply = 'PatchDoesNotApply',
 	NoPathFound = 'NoPathFound',
 	UnknownPath = 'UnknownPath',
-	EmptyCommitMessage = 'EmptyCommitMessage'
+	EmptyCommitMessage = 'EmptyCommitMessage',
+	BranchFastForwardRejected = 'BranchFastForwardRejected',
+	BranchNotYetBorn = 'BranchNotYetBorn',
+	TagConflict = 'TagConflict'
 }

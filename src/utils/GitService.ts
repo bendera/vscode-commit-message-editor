@@ -40,6 +40,16 @@ class GitService {
     return this.api?.repositories[0];
   }
 
+  private getRepositoryByPath(path: string): Repository | undefined {
+    const repository = this.api?.repositories.find(
+      (r: Repository) => r.rootUri.path === path
+    );
+
+    if (repository) {
+      return repository;
+    }
+  }
+
   public onRepositoryDidChange(handler: RepositoryChangeCallback) {
     this.disposables.forEach((d) => d.dispose());
     this.disposables = [];
@@ -90,25 +100,43 @@ class GitService {
     }
   }
 
-  public async getRecentCommitMessages(limit: number = 32) {
-    const repo = this.getSelectedRepository();
+  public async getRepositoryRecentCommitMessages(
+    repository: Repository,
+    limit: number = 32
+  ) {
     let log;
 
-    if (!repo) {
-      return Promise.resolve([]);
-    }
-
     try {
-      log = await repo.log({ maxEntries: limit });
+      log = await repository.log({ maxEntries: limit });
     } catch (er) {
-      Promise.reject(er);
+      throw er;
     }
 
     if (!log) {
-      return Promise.resolve([]);
+      return [];
     }
 
-    return Promise.resolve(log);
+    return log;
+  }
+
+  public async getRecentCommitMessages(limit: number = 32) {
+    const repo = this.getSelectedRepository();
+
+    if (!repo) {
+      return [];
+    }
+
+    return this.getRepositoryRecentCommitMessages(repo, limit);
+  }
+
+  public async getRecentCommitMessagesByPath(path: string, limit = 32) {
+    const repo = this.getRepositoryByPath(path);
+
+    if (!repo) {
+      return [];
+    }
+
+    return this.getRepositoryRecentCommitMessages(repo, limit);
   }
 }
 
