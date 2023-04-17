@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { Repository } from '../@types/git';
 import { editorGroupNameMap, ViewColumnKey, ViewType } from '../definitions';
 import GitService, { RepositoryInfo } from '../utils/GitService';
 import EditorView from '../webviews/EditorView';
@@ -14,7 +15,7 @@ export default class EditorController {
     private _git: GitService
   ) {}
 
-  openInTheMainView() {
+  async openInTheMainView(repo: Repository) {
     const config = vscode.workspace.getConfiguration('commit-message-editor');
 
     if (this._primaryEditorPanel) {
@@ -49,7 +50,19 @@ export default class EditorController {
 
     this._ui = new UiApi(this._primaryEditorPanel.webview);
     this._ui.sendSCMInputBoxValue(this._git.getSCMInputBoxMessage());
-    this._ui.sendRepositoryInfo(this._getRepositoryInfo());
+
+    if (repo && repo.rootUri) {
+      const repoPath = repo.rootUri.path;
+      const commits = await this._git.getRecentCommitMessagesByPath(repoPath);
+
+      this._ui.sendRepositoryInfo({
+        numberOfRepositories: this._git.getNumberOfRepositories(),
+        selectedRepositoryPath: repoPath,
+      });
+      this._ui.sendRecentCommits(commits);
+    } else {
+      this._ui.sendRepositoryInfo(this._getRepositoryInfo());
+    }
 
     this._initReceivedMessageListener();
     this._git.onRepositoryDidChange(this._handleRepositoryDidChangeBound);
