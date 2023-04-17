@@ -2,7 +2,13 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
-### [0.24.0] - 2023-04-16
+## Unreleased
+
+### Fixed
+
+- Show the correct repository on the new tab if it was opened from the scm view by clicking on the pencil icon.
+
+## [0.24.0] - 2023-04-16
 
 ### Fixed
 
