@@ -72,6 +72,14 @@ class GitService {
     return this.api?.repositories.length || 0;
   }
 
+  public getAvailableRepositoryPaths(): string[] {
+    if (!this.api?.repositories) {
+      return [];
+    }
+
+    return this.api?.repositories.map((r) => r.rootUri.path);
+  }
+
   public getSelectedRepositoryPath() {
     const repo = this.getSelectedRepository();
 

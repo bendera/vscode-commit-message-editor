@@ -16,7 +16,7 @@ import {
 } from '../store/actions';
 import './cme-code-editor/cme-code-editor';
 import './cme-recent-commits';
-import './cme-repo-info';
+import './cme-repo-selector';
 import {triggerInputboxRerender} from './helpers';
 
 @customElement('cme-text-view')
@@ -257,7 +257,7 @@ export class TextView extends connect(store)(LitElement) {
         </p>
       </div>
       ${this._useMonospaceEditor ? monospaceEditor : inputbox}
-      <cme-repo-info></cme-repo-info>
+      <cme-repo-selector></cme-repo-selector>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button
