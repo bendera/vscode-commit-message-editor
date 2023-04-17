@@ -13,7 +13,7 @@ import {
   updateTokenValues,
 } from '../../store/actions';
 import {triggerInputboxRerender} from '../helpers';
-import '../cme-repo-info';
+import '../cme-repo-selector';
 import FormBuilder from './FormBuilder';
 import TemplateCompiler from './TemplateCompiler';
 import {CodeEditor} from '../cme-code-editor/cme-code-editor';
@@ -204,7 +204,7 @@ export class FormView extends connect(store)(LitElement) {
           ${formElements}
         </vscode-form-container>
       </div>
-      <cme-repo-info></cme-repo-info>
+      <cme-repo-selector></cme-repo-selector>
       <div class="buttons">
         <vscode-button
           id="success-button-form"

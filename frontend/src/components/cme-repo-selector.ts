@@ -3,10 +3,12 @@ import {customElement, state} from 'lit/decorators.js';
 import {nothing} from 'lit';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
+import '@bendera/vscode-webview-elements/dist/vscode-single-select';
+import '@bendera/vscode-webview-elements/dist/vscode-option';
 import store, {RootState} from '../store/store';
 
-@customElement('cme-repo-info')
-export class RepoInfo extends connect(store)(LitElement) {
+@customElement('cme-repo-selector')
+export class RepoSelector extends connect(store)(LitElement) {
   @state()
   private _numberOfRepositories = 1;
 
@@ -43,12 +45,16 @@ export class RepoInfo extends connect(store)(LitElement) {
     return html`<div class="repo-info" title="${this._selectedRepositoryPath}">
       <vscode-icon name="repo"></vscode-icon>&nbsp;
       <b>Selected repository:</b>&nbsp; ${name}
+      <vscode-single-select>
+        <vscode-option>C:\\fakepath</vscode-option>
+        <vscode-option>C:\\another</vscode-option>
+      </vscode-single-select>
     </div>`;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cme-repo-info': RepoInfo;
+    'cme-repo-selector': RepoSelector;
   }
 }
