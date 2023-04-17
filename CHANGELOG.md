@@ -2,7 +2,7 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
-## Unreleased
+## [0.24.1] - 2023-04-17
 
 ### Fixed
 
