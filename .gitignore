@@ -3,6 +3,10 @@ node_modules
 .vscode-test/
 *.vsix
 .wdio-vscode-service
+*.map
+test/**/*.js
+wdio.conf.js
+wdio.conf.js.map
 
 .vscode/
 !.vscode/extensions.json
