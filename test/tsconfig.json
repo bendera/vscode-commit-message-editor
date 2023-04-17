@@ -4,12 +4,9 @@
     "types": [
       "node",
       "webdriverio/async",
-      "@wdio/globals/types",
       "@wdio/mocha-framework",
       "expect-webdriverio",
-      "wdio-devtools-service",
-      "wdio-vscode-service",
-      "@types/mocha"
+      "wdio-vscode-service"
     ],
     "target": "ES2018"
   }
