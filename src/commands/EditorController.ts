@@ -58,6 +58,7 @@ export default class EditorController {
       this._ui.sendRepositoryInfo({
         numberOfRepositories: this._git.getNumberOfRepositories(),
         selectedRepositoryPath: repoPath,
+        availableRepositories: this._git.getAvailableRepositoryPaths(),
       });
       this._ui.sendRecentCommits(commits);
     } else {
@@ -90,6 +91,7 @@ export default class EditorController {
     return {
       numberOfRepositories: this._git.getNumberOfRepositories(),
       selectedRepositoryPath: this._git.getSelectedRepositoryPath(),
+      availableRepositories: this._git.getAvailableRepositoryPaths(),
     };
   }
 

@@ -4,11 +4,13 @@ import { GitExtension, API, Repository, APIState } from '../@types/git';
 export type RepositoryChangeCallback = (repositoryInfo: {
   numberOfRepositories: number;
   selectedRepositoryPath: string;
+  availableRepositories: string[];
 }) => void;
 
 export interface RepositoryInfo {
   numberOfRepositories: number;
   selectedRepositoryPath: string;
+  availableRepositories: string[];
 }
 
 class GitService {
@@ -61,6 +63,7 @@ class GitService {
             handler({
               numberOfRepositories: this.getNumberOfRepositories(),
               selectedRepositoryPath: repo.rootUri.path,
+              availableRepositories: this.getAvailableRepositoryPaths(),
             });
           }
         }, this)

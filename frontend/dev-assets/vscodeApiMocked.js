@@ -285,7 +285,12 @@ const repositoryInfo = () => {
     command: 'repositoryInfo',
     payload: {
       numberOfRepositories: 5,
-      selectedRepositoryPath: 'C:/fakepath',
+      selectedRepositoryPath: '/c:/workspace/vscode',
+      availableRepositories: [
+        '/c:/fakepath',
+        '/c:/workspace/vscode',
+        '/c:/workspace/vscode-webview-elements'
+      ]
     },
   });
 };

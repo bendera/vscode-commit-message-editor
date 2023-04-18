@@ -25,7 +25,7 @@ declare global {
 
   interface PostMessageDO {
     command: PostMessageCommand;
-    payload?: any;
+    payload?: unknown;
   }
 
   type MessageEventCommand =
@@ -109,6 +109,7 @@ declare global {
   interface RepositoryInfo {
     numberOfRepositories: number;
     selectedRepositoryPath: string;
+    availableRepositories: string[];
   }
 
   function acquireVsCodeApi(): VSCodeAPI;
