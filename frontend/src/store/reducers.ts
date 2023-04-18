@@ -53,6 +53,7 @@ export const createInitialState = (): RootState => ({
   tokenValues: {},
   numberOfRepositories: 0,
   selectedRepositoryPath: '',
+  availableRepositories: [],
 });
 
 const initialState = createInitialState();
@@ -69,10 +70,15 @@ export const rootReducer = createReducer(initialState, {
     state.recentCommitsLoading = false;
   },
   [REPOSITORY_INFO_RECEIVED]: (state: RootState, action) => {
-    const {numberOfRepositories, selectedRepositoryPath} = action.payload;
+    const {
+      numberOfRepositories,
+      selectedRepositoryPath,
+      availableRepositories,
+    } = action.payload;
 
     state.numberOfRepositories = numberOfRepositories;
     state.selectedRepositoryPath = selectedRepositoryPath;
+    state.availableRepositories = availableRepositories;
   },
   [COPY_FROM_SCM_INPUTBOX]: (state: RootState, action) => {
     const {payload} = action;
@@ -127,5 +133,5 @@ export const rootReducer = createReducer(initialState, {
     const {statusMessage, statusMessageType} = action.payload;
     state.statusMessage = statusMessage;
     state.statusMessageType = statusMessageType;
-  }
+  },
 });

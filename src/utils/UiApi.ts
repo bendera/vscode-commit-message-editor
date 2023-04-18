@@ -14,6 +14,7 @@ export default class UiApi {
   sendRepositoryInfo(info: {
     numberOfRepositories: number;
     selectedRepositoryPath: string | undefined;
+    availableRepositories: string[];
   }) {
     this._webView.postMessage(createPostMessage('repositoryInfo', info));
   }

@@ -15,11 +15,24 @@ export class RepoSelector extends connect(store)(LitElement) {
   @state()
   private _selectedRepositoryPath = '';
 
+  @state()
+  private _availableRepositories: string[] = [];
+
   stateChanged(state: RootState): void {
-    const {numberOfRepositories, selectedRepositoryPath} = state;
+    const {
+      numberOfRepositories,
+      selectedRepositoryPath,
+      availableRepositories,
+    } = state;
 
     this._numberOfRepositories = numberOfRepositories;
     this._selectedRepositoryPath = selectedRepositoryPath;
+    this._availableRepositories = availableRepositories;
+  }
+
+  private _getNameFromPath(fp: string) {
+    const fpParts = fp.split('/');
+    return fpParts[fpParts.length - 1];
   }
 
   static get styles(): CSSResult {
@@ -39,15 +52,19 @@ export class RepoSelector extends connect(store)(LitElement) {
       return html`${nothing}`;
     }
 
-    const fpParts = this._selectedRepositoryPath.split('/');
-    const name = fpParts[fpParts.length - 1];
-
-    return html`<div class="repo-info" title="${this._selectedRepositoryPath}">
+    return html`<div class="repo-info">
       <vscode-icon name="repo"></vscode-icon>&nbsp;
-      <b>Selected repository:</b>&nbsp; ${name}
+      <b>Selected repository:</b>&nbsp;
       <vscode-single-select>
-        <vscode-option>C:\\fakepath</vscode-option>
-        <vscode-option>C:\\another</vscode-option>
+        ${this._availableRepositories.map(
+          (r) =>
+            html`<vscode-option
+              description=${r}
+              value=${r}
+              ?selected=${this._selectedRepositoryPath === r}
+              >${this._getNameFromPath(r)}</vscode-option
+            >`
+        )}
       </vscode-single-select>
     </div>`;
   }

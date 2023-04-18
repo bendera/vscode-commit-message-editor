@@ -25,6 +25,7 @@ export interface RootState {
   tokenValues: {[name: string]: string};
   numberOfRepositories: number;
   selectedRepositoryPath: string;
+  availableRepositories: string[];
   statusMessage: '';
   statusMessageType: StatusMessageType;
 }
