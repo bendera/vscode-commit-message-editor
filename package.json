@@ -324,6 +324,7 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
     "@types/vscode": "^1.70.0",
+    "@vscode/vsce": "^2.19.0",
     "esbuild": "^0.17.5",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
