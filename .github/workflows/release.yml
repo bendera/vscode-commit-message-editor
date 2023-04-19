@@ -43,10 +43,31 @@ jobs:
     steps:
       - name: Clone Repository
         uses: actions/checkout@v3
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "release-bot"
+          git config --global user.email "szoftverhiba+release-bot@gmail.com"
+
+      - name: Get Current Version Number
+        run: |
+          CURRENT_VERSION=$(npm pkg get version | cut -d'"' -f 2)
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+
       - name: Setup Node version
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
       - name: Install dependencies
         run: npm ci && cd frontend && npm ci
+
+      - name: Set version in CHANGELOG
+        run: node scripts/update-changelog.mjs
+
+      - name: Publish to Visual Studio Marketplace (Edge)
+        run: echo "Publish to Marketplace"
+        if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
 
