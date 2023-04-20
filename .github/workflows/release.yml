@@ -43,6 +43,8 @@ jobs:
     steps:
       - name: Clone Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Git
         run: |
@@ -65,10 +67,48 @@ jobs:
       - name: Install dependencies
         run: npm ci && cd frontend && npm ci
 
-      - name: Set version in CHANGELOG
-        run: node scripts/update-changelog.mjs
+      - name: Bump version (Edge)
+        run: |
+          RELEASE_VERSION=$(npx semver -i prerelease --preid=edge $CURRENT_VERSION)
+          npm version $RELEASE_VERSION --git-tag-version=false
+        if: ${{ github.event.inputs.releaseChannel == 'edge' }}
 
-      - name: Publish to Visual Studio Marketplace (Edge)
-        run: echo "Publish to Marketplace"
+      - name: Bump version (Stable)
+        run: |
+          RELEASE_VERSION=$(npx semver $CURRENT_VERSION -i github.event.inputs.releaseType)
+          npm version $RELEASE_VERSION --git-tag-version=false
+        if: ${{ github.event.inputs.releaseChannel == 'stable' }}
+
+      - name: Update Changelog (Stable)
+        run: node scripts/update-changelog.mjs
+        if: ${{ github.event.inputs.releaseChannel == 'stable' }}
+
+      - name: Tagging
+        run: |
+          git add .
+          git commit -m "$RELEASE_VERSION"
+          git tag -a $RELEASE_VERSION -m "$RELEASE_VERSION"
+
+      - name: Update edge version (Edge)
+        run: node scripts/update-edge-version.js
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
 
+      - name: Build package (Edge)
+        run: npx vsce package --pre-release
+        if: ${{ github.event.inputs.releaseChannel == 'edge' }}
+
+      - name: Build package (Stable)
+        run: npx vsce package
+        if: ${{ github.event.inputs.releaseChannel == 'edge' }}
+
+      - name: Publish to Visual Studio Marketplace (Edge)
+        run: vsce publish --pat $VSCE_TOKEN --pre-release
+        if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
+
+      - name: Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: './commit-message-editor-*'
+          prerelease: true
+          draft: true
+        if: ${{ github.event.inputs.releaseChannel == 'edge' }}

@@ -1,3 +1,6 @@
+/**
+ * Replace the `## [Unreleased]` header to the version number and the release date.
+ */
 import fs from 'fs';
 import util from 'util';
 import path, { dirname } from 'path';
