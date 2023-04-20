@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Change the cancel button style to secondary.
+
 ## [0.24.1] - 2023-04-17
 
 ### Fixed
