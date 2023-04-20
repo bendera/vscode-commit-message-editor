@@ -105,7 +105,7 @@ jobs:
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
 
       - name: Publish to Visual Studio Marketplace (Edge)
-        run: npx vsce publish --pat $VSCE_TOKEN --pre-release
+        run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }} --pre-release
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
 
       - name: Github Release
