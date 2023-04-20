@@ -108,10 +108,18 @@ jobs:
         run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }} --pre-release
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
 
+      - name: Push tag
+        run: git push origin master --tags
+
+      - run: |
+          export GIT_TAG=$(git describe --tags --abbrev=0)
+          echo "GIT_TAG=$GIT_TAG" >> $GITHUB_ENV
+
       - name: Github Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: './commit-message-editor-*'
           prerelease: true
           draft: true
+          tag: ${{ github.env.GIT_TAG }}
         if: ${{ github.event.inputs.releaseChannel == 'edge' }}
