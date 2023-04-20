@@ -109,7 +109,9 @@ jobs:
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
 
       - name: Push tag
-        run: git push origin master --tags
+        run: |
+          git push
+          git push origin --tags
 
       - run: |
           export GIT_TAG=$(git describe --tags --abbrev=0)
