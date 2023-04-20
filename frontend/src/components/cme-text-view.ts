@@ -262,7 +262,7 @@ export class TextView extends connect(store)(LitElement) {
         <vscode-button @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button
         >
-        <vscode-button @click="${this._handleCancelButtonClick}"
+        <vscode-button @click="${this._handleCancelButtonClick}" secondary
           >Cancel</vscode-button
         >
         <vscode-checkbox

@@ -214,6 +214,7 @@ export class FormView extends connect(store)(LitElement) {
         <vscode-button
           id="cancel-button-form"
           @click="${this._handleCancelButtonClick}"
+          secondary
           >Cancel</vscode-button
         >
         <vscode-checkbox
