@@ -121,13 +121,13 @@ jobs:
         run: npx vsce publish --packagePath "./commit-message-editor-$RELEASE_VERSION.vsix" --pat ${{ secrets.VSCE_TOKEN }}
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'stable' }}
 
-      - name: Publish to Open VSX Registry (Edge)
-        uses: HaaLeo/publish-vscode-extension@v1
-        if: ${{ github.event.inputs.publishOpenVSX == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
-        with:
-          preRelease: true
-          pat: ${{ secrets.OPEN_VSX_TOKEN }}
-          extensionFile: ./commit-message-editor-${{ env.RELEASE_VERSION }}.vsix
+      # - name: Publish to Open VSX Registry (Edge)
+      #   uses: HaaLeo/publish-vscode-extension@v1
+      #   if: ${{ github.event.inputs.publishOpenVSX == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
+      #   with:
+      #     preRelease: true
+      #     pat: ${{ secrets.OPEN_VSX_TOKEN }}
+      #     extensionFile: ./commit-message-editor-${{ env.RELEASE_VERSION }}.vsix
 
       - name: Publish to Open VSX Registry (Stable)
         uses: HaaLeo/publish-vscode-extension@v1
