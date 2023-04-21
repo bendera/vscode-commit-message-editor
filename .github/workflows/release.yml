@@ -117,11 +117,12 @@ jobs:
           export GIT_TAG=$(git describe --tags --abbrev=0)
           echo "GIT_TAG=$GIT_TAG" >> $GITHUB_ENV
 
-      - name: Github Release
+      - name: Github Release (Edge)
         uses: ncipollo/release-action@v1
         with:
           artifacts: './commit-message-editor-*'
           prerelease: true
           draft: true
           tag: ${{ env.GIT_TAG }}
+          generateReleaseNotes: true
         if: ${{ github.event.inputs.releaseChannel == 'edge' }}
