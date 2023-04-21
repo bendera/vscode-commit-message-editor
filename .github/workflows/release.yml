@@ -123,5 +123,5 @@ jobs:
           artifacts: './commit-message-editor-*'
           prerelease: true
           draft: true
-          tag: ${{ github.env.GIT_TAG }}
+          tag: ${{ env.GIT_TAG }}
         if: ${{ github.event.inputs.releaseChannel == 'edge' }}
