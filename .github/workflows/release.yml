@@ -46,10 +46,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Git
-        run: |
-          git config --global user.name "release-bot"
-          git config --global user.email "szoftverhiba+release-bot@gmail.com"
+      # - name: Setup Git
+      #   run: |
+      #     git config --global user.name "release-bot"
+      #     git config --global user.email "szoftverhiba+release-bot@gmail.com"
 
       - name: Get Current Version Number
         run: |
