@@ -92,6 +92,15 @@ jobs:
           git commit -m "$RELEASE_VERSION"
           git tag -a v$RELEASE_VERSION -m "$RELEASE_VERSION"
 
+      - name: Push tag
+        run: |
+          git push
+          git push origin --tags
+
+      - run: |
+          export GIT_TAG=$(git describe --tags --abbrev=0)
+          echo "GIT_TAG=$GIT_TAG" >> $GITHUB_ENV
+
       - name: Update edge version (Edge)
         run: node scripts/update-edge-version.js
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
@@ -107,15 +116,6 @@ jobs:
       - name: Publish to Visual Studio Marketplace (Edge)
         run: npx vsce publish --packagePath "./commit-message-editor-$RELEASE_VERSION.vsix" --pat ${{ secrets.VSCE_TOKEN }} --pre-release
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
-
-      - name: Push tag
-        run: |
-          git push
-          git push origin --tags
-
-      - run: |
-          export GIT_TAG=$(git describe --tags --abbrev=0)
-          echo "GIT_TAG=$GIT_TAG" >> $GITHUB_ENV
 
       - name: Github Release (Edge)
         uses: ncipollo/release-action@v1
