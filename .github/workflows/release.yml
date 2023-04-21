@@ -117,11 +117,23 @@ jobs:
         run: npx vsce publish --packagePath "./commit-message-editor-$RELEASE_VERSION.vsix" --pat ${{ secrets.VSCE_TOKEN }} --pre-release
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
 
+      - name: Publish to Visual Studio Marketplace (Stable)
+        run: npx vsce publish --packagePath "./commit-message-editor-$RELEASE_VERSION.vsix" --pat ${{ secrets.VSCE_TOKEN }}
+        if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'stable' }}
+
       - name: Publish to Open VSX Registry (Edge)
         uses: HaaLeo/publish-vscode-extension@v1
         if: ${{ github.event.inputs.publishOpenVSX == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
         with:
           preRelease: true
+          pat: ${{ secrets.OPEN_VSX_TOKEN }}
+          extensionFile: ./commit-message-editor-${{ env.RELEASE_VERSION }}.vsix
+
+      - name: Publish to Open VSX Registry (Stable)
+        uses: HaaLeo/publish-vscode-extension@v1
+        if: ${{ github.event.inputs.publishOpenVSX == 'yes' && github.event.inputs.releaseChannel == 'stable' }}
+        with:
+          preRelease: false
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
           extensionFile: ./commit-message-editor-${{ env.RELEASE_VERSION }}.vsix
 
@@ -131,6 +143,16 @@ jobs:
         with:
           artifacts: './commit-message-editor-*'
           prerelease: true
+          draft: true
+          tag: ${{ env.GIT_TAG }}
+          generateReleaseNotes: true
+
+      - name: Github Release (Stable)
+        uses: ncipollo/release-action@v1
+        if: ${{ github.event.inputs.releaseChannel == 'stable' }}
+        with:
+          artifacts: './commit-message-editor-*'
+          prerelease: false
           draft: true
           tag: ${{ env.GIT_TAG }}
           generateReleaseNotes: true
