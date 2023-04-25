@@ -1,5 +1,5 @@
 import {LitElement, html, css, CSSResult, nothing, TemplateResult} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers';
 import '@bendera/vscode-webview-elements/dist/vscode-button';
 import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
@@ -17,6 +17,7 @@ import {
 import './cme-code-editor/cme-code-editor';
 import './cme-recent-commits';
 import './cme-repo-selector';
+import {RepoSelector} from './cme-repo-selector';
 import {triggerInputboxRerender} from './helpers';
 
 @customElement('cme-text-view')
@@ -65,6 +66,9 @@ export class TextView extends connect(store)(LitElement) {
   @state()
   private _visibleLines = 10;
 
+  @query('#text-view-repo-selector')
+  private _repoSelector!: RepoSelector;
+
   private _staticTemplate = '';
   private _amendCbChecked = false;
 
@@ -80,13 +84,19 @@ export class TextView extends connect(store)(LitElement) {
   }
 
   private _handleSuccessButtonClick() {
+    const {selectedRepositoryPath} = this._repoSelector;
+    const successAction = copyToSCMInputBox({
+      commitMessage: this._inputBoxValue,
+      selectedRepositoryPath,
+    });
+
     if (this._amendCbChecked) {
       store.dispatch(confirmAmend(this._inputBoxValue));
     } else if (this._saveAndClose) {
-      store.dispatch(copyToSCMInputBox(this._inputBoxValue));
+      store.dispatch(successAction);
       store.dispatch(closeTab());
     } else {
-      store.dispatch(copyToSCMInputBox(this._inputBoxValue));
+      store.dispatch(successAction);
     }
   }
 
@@ -257,7 +267,7 @@ export class TextView extends connect(store)(LitElement) {
         </p>
       </div>
       ${this._useMonospaceEditor ? monospaceEditor : inputbox}
-      <cme-repo-selector></cme-repo-selector>
+      <cme-repo-selector id="text-view-repo-selector"></cme-repo-selector>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button

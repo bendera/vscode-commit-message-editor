@@ -103,8 +103,16 @@ class GitService {
     return '';
   }
 
-  public setSCMInputBoxMessage(message: string): void {
-    const repo = this.getSelectedRepository();
+  public setSCMInputBoxMessage(message: string, repositoryPath = ''): void {
+    let repo: Repository | undefined;
+
+    if (repositoryPath !== '') {
+      repo = this.getRepositoryByPath(repositoryPath);
+    }
+
+    if (!repo) {
+      repo = this.getSelectedRepository();
+    }
 
     if (repo) {
       repo.inputBox.value = message;

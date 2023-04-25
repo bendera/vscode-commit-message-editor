@@ -190,7 +190,12 @@ describe('cme-form-view', () => {
     message += '\n';
     message += 'BREAKING CHANGE: footer test';
 
-    expect(calls[0].firstArg).to.deep.equal(copyToSCMInputBox(message));
+    expect(calls[0].firstArg).to.deep.equal(
+      copyToSCMInputBox({
+        commitMessage: message,
+        selectedRepositoryPath: '',
+      })
+    );
     expect(calls[1].firstArg).to.deep.equal(closeTab());
   });
 
@@ -228,7 +233,9 @@ describe('cme-form-view', () => {
     message += '\n';
     message += 'BREAKING CHANGE: footer test';
 
-    expect(calls[0].firstArg).to.deep.equal(copyToSCMInputBox(message));
+    expect(calls[0].firstArg).to.deep.equal(
+      copyToSCMInputBox({commitMessage: message, selectedRepositoryPath: ''})
+    );
     expect(calls[1]).to.be.undefined;
   });
 

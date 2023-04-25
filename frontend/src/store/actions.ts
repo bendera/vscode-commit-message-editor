@@ -34,12 +34,16 @@ export const textareaValueChanged = createAction<string>(
   TEXTAREA_VALUE_CHANGED
 );
 export const confirmAmend = createAction<string>(CONFIRM_AMEND);
-export const copyToSCMInputBox = createAction<string>(COPY_TO_SCM_INPUT_BOX);
+export const copyToSCMInputBox = createAction<{
+  commitMessage: string;
+  selectedRepositoryPath: string;
+}>(COPY_TO_SCM_INPUT_BOX);
 export const receiveRepositoryInfo = createAction<RepositoryInfo>(
   REPOSITORY_INFO_RECEIVED
 );
-export const updateTokenValues =
-  createAction<{[key: string]: string}>(UPDATE_TOKEN_VALUES);
+export const updateTokenValues = createAction<{[key: string]: string}>(
+  UPDATE_TOKEN_VALUES
+);
 
 export const importConfig = createAction(IMPORT_CONFIG);
 export const shareableConfigChange = createAction<ShareableConfig>(
