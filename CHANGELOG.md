@@ -7,6 +7,7 @@ All notable changes to the "commit-message-editor" extension will be documented 
 ### Added
 
 - Change the cancel button style to secondary.
+- Add the ability to change the repository from the tab in multi-root workspaces.
 
 ## [0.24.1] - 2023-04-17
 
