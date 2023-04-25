@@ -27,6 +27,7 @@ export const postMessageDispatcher: Middleware = (_) => (next) => (action) => {
       break;
     case COPY_TO_SCM_INPUT_BOX:
       vscode.postMessage({
+        // TODO: rename
         command: 'copyFromExtensionMessageBox',
         payload,
       });

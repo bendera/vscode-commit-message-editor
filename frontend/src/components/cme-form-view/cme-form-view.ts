@@ -17,6 +17,7 @@ import '../cme-repo-selector';
 import FormBuilder from './FormBuilder';
 import TemplateCompiler from './TemplateCompiler';
 import {CodeEditor} from '../cme-code-editor/cme-code-editor';
+import { RepoSelector } from '../cme-repo-selector';
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -52,6 +53,9 @@ export class FormView extends connect(store)(LitElement) {
 
   @state()
   private _tokenValues: {[name: string]: string | string[]} = {};
+
+  @query('#form-view-repo-selector')
+  private _repoSelector!: RepoSelector;
 
   private _dynamicTemplate: string[] = [];
   private _reduceEmptyLines = true;
@@ -129,13 +133,25 @@ export class FormView extends connect(store)(LitElement) {
     compiler.reduceEmptyLines = this._reduceEmptyLines;
     const compiled = compiler.compile();
 
+    const {selectedRepositoryPath} = this._repoSelector;
+
     if (this._amendCbChecked) {
       store.dispatch(confirmAmend(compiled));
     } else if (this._saveAndClose) {
-      store.dispatch(copyToSCMInputBox(compiled));
+      store.dispatch(
+        copyToSCMInputBox({
+          commitMessage: compiled,
+          selectedRepositoryPath,
+        })
+      );
       store.dispatch(closeTab());
     } else {
-      store.dispatch(copyToSCMInputBox(compiled));
+      store.dispatch(
+        copyToSCMInputBox({
+          commitMessage: compiled,
+          selectedRepositoryPath,
+        })
+      );
     }
   }
 
@@ -204,7 +220,7 @@ export class FormView extends connect(store)(LitElement) {
           ${formElements}
         </vscode-form-container>
       </div>
-      <cme-repo-selector></cme-repo-selector>
+      <cme-repo-selector id="form-view-repo-selector"></cme-repo-selector>
       <div class="buttons">
         <vscode-button
           id="success-button-form"
