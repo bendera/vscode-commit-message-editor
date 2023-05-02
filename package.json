@@ -17,7 +17,7 @@
     "vcs",
     "semantic",
     "conventional",
-    "commits"
+    "commit"
   ],
   "icon": "icon.png",
   "repository": {
