@@ -54,10 +54,13 @@ export class FormView extends connect(store)(LitElement) {
   @state()
   private _tokenValues: {[name: string]: string | string[]} = {};
 
+  @state()
+  private _dynamicTemplate: string[] = [];
+
   @query('#form-view-repo-selector')
   private _repoSelector!: RepoSelector;
 
-  private _dynamicTemplate: string[] = [];
+
   private _reduceEmptyLines = true;
 
   connectedCallback(): void {
