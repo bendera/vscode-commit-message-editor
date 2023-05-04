@@ -138,8 +138,17 @@ class GitService {
     return log;
   }
 
-  public async getRecentCommitMessages(limit: number = 32) {
-    const repo = this.getSelectedRepository();
+  public async getRecentCommitMessages(
+    limit: number = 32,
+    repositoryPath: string
+  ) {
+    let repo: Repository | undefined;
+
+    if (repositoryPath === '') {
+      repo = this.getSelectedRepository();
+    } else {
+      repo = this.getRepositoryByPath(repositoryPath);
+    }
 
     if (!repo) {
       return [];

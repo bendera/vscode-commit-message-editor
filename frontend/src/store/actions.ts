@@ -24,7 +24,9 @@ export const SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE =
 export const CHANGE_STATUS_MESSAGE = 'CHANGE_STATUS_MESSAGE';
 
 export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
-export const recentCommitsRequest = createAction(RECENT_COMMITS_REQUEST);
+export const recentCommitsRequest = createAction<string | undefined>(
+  RECENT_COMMITS_REQUEST
+);
 export const recentCommitsReceived = createAction<Commit[]>(
   RECENT_COMMITS_RECEIVED
 );
