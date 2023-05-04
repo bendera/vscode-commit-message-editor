@@ -127,8 +127,8 @@ class GitService {
 
     try {
       log = await repository.log({ maxEntries: limit });
-    } catch (er) {
-      throw er;
+    } catch {
+      return [];
     }
 
     if (!log) {
