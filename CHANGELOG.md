@@ -4,6 +4,10 @@ All notable changes to the "commit-message-editor" extension will be documented 
 
 ## [Unreleased]
 
+### Fixed
+
+- The form view didn't show if the repository didn't contain any commits. ([#94](https://github.com/bendera/vscode-commit-message-editor/issues/94))
+
 ### Added
 
 - Change the cancel button style to secondary.
