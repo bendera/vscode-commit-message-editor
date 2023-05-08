@@ -4,6 +4,7 @@ import { editorGroupNameMap, ViewColumnKey, ViewType } from '../definitions';
 import GitService, { RepositoryInfo } from '../utils/GitService';
 import EditorView from '../webviews/EditorView';
 import UiApi from '../utils/UiApi';
+import Logger from '../utils/Logger';
 
 export default class EditorController {
   private _primaryEditorPanel: vscode.WebviewPanel | undefined;
@@ -12,10 +13,12 @@ export default class EditorController {
 
   constructor(
     private _context: vscode.ExtensionContext,
-    private _git: GitService
+    private _git: GitService,
+    private _logger: Logger
   ) {}
 
   async openInTheMainView(repo: Repository) {
+    this._logger.log('Opened in the main view');
     const config = vscode.workspace.getConfiguration('commit-message-editor');
 
     if (this._primaryEditorPanel) {
@@ -54,15 +57,22 @@ export default class EditorController {
     if (repo && repo.rootUri) {
       const repoPath = repo.rootUri.path;
       const commits = await this._git.getRecentCommitMessagesByPath(repoPath);
-
-      this._ui.sendRepositoryInfo({
+      const repositoryInfo = {
         numberOfRepositories: this._git.getNumberOfRepositories(),
         selectedRepositoryPath: repoPath,
         availableRepositories: this._git.getAvailableRepositoryPaths(),
-      });
+      };
+
+      this._ui.sendRepositoryInfo(repositoryInfo);
+      this._logger.logObject(
+        repositoryInfo,
+        'Suggested repository:'
+      );
       this._ui.sendRecentCommits(commits);
     } else {
-      this._ui.sendRepositoryInfo(this._getRepositoryInfo());
+      const repositoryInfo = this._getRepositoryInfo();
+      this._ui.sendRepositoryInfo(repositoryInfo);
+      this._logger.logObject(repositoryInfo, 'Default repository:');
     }
 
     this._initReceivedMessageListener();
@@ -74,6 +84,7 @@ export default class EditorController {
   }
 
   private async _handleRepositoryDidChange(repositoryInfo: RepositoryInfo) {
+    this._logger.logObject(repositoryInfo, 'Repository did change:');
     this._ui?.sendRepositoryInfo(repositoryInfo);
 
     const { selectedRepositoryPath } = repositoryInfo;
