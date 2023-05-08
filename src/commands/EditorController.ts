@@ -53,6 +53,7 @@ export default class EditorController {
 
     this._ui = new UiApi(this._primaryEditorPanel.webview);
     this._ui.sendSCMInputBoxValue(this._git.getSCMInputBoxMessage());
+    this._ui.sendConfig(config);
 
     if (repo && repo.rootUri) {
       const repoPath = repo.rootUri.path;
