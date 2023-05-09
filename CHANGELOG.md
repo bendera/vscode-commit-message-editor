@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [0.24.3] - 2023-05-09
+
+### Fixed
+
+- Snycronize repository selector instances.
+
 ## [0.24.2] - 2023-05-08
 
 ### Fixed

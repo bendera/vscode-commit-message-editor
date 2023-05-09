@@ -131,7 +131,7 @@ export default class EditorController {
         this._ui?.sendConfig(cfg);
         break;
       case 'requestRecentCommits':
-        this._populateCommitList();
+        this._populateCommitList(payload as string);
         break;
       case 'confirmAmend':
         this._confirmAmend(payload);
@@ -144,9 +144,9 @@ export default class EditorController {
     }
   }
 
-  private _populateCommitList() {
+  private _populateCommitList(path = '') {
     this._git
-      .getRecentCommitMessages(10)
+      .getRecentCommitMessages(10, path)
       .then((commits) => {
         this._ui?.sendRecentCommits(commits);
       })
