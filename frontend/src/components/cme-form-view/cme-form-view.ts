@@ -11,13 +11,14 @@ import {
   closeTab,
   copyToSCMInputBox,
   updateTokenValues,
+  recentCommitsRequest,
 } from '../../store/actions';
 import {triggerInputboxRerender} from '../helpers';
 import '../cme-repo-selector';
 import FormBuilder from './FormBuilder';
 import TemplateCompiler from './TemplateCompiler';
 import {CodeEditor} from '../cme-code-editor/cme-code-editor';
-import { RepoSelector } from '../cme-repo-selector';
+import {RepoSelector} from '../cme-repo-selector';
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -127,6 +128,10 @@ export class FormView extends connect(store)(LitElement) {
     this._updateTokenValues();
   }
 
+  private _handleRepositoryChange(ev: CustomEvent<string>) {
+    store.dispatch(recentCommitsRequest(ev.detail));
+  }
+
   private _handleSuccessButtonClick() {
     const compiler = new TemplateCompiler(
       this._dynamicTemplate,
@@ -223,7 +228,10 @@ export class FormView extends connect(store)(LitElement) {
           ${formElements}
         </vscode-form-container>
       </div>
-      <cme-repo-selector id="form-view-repo-selector"></cme-repo-selector>
+      <cme-repo-selector
+        id="form-view-repo-selector"
+        @cme-change=${this._handleRepositoryChange}
+      ></cme-repo-selector>
       <div class="buttons">
         <vscode-button
           id="success-button-form"

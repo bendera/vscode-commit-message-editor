@@ -118,6 +118,10 @@ export class TextView extends connect(store)(LitElement) {
     store.dispatch(textareaValueChanged(ev.detail));
   }
 
+  private _handleRepositoryChange(ev: CustomEvent<string>) {
+    store.dispatch(recentCommitsRequest(ev.detail));
+  }
+
   stateChanged(state: RootState): void {
     const {config} = state;
     const {
@@ -267,7 +271,10 @@ export class TextView extends connect(store)(LitElement) {
         </p>
       </div>
       ${this._useMonospaceEditor ? monospaceEditor : inputbox}
-      <cme-repo-selector id="text-view-repo-selector"></cme-repo-selector>
+      <cme-repo-selector
+        id="text-view-repo-selector"
+        @cme-change=${this._handleRepositoryChange}
+      ></cme-repo-selector>
       <div class="buttons">
         <vscode-button @click="${this._handleSuccessButtonClick}"
           >${this._saveAndClose ? 'Save and close' : 'Save'}</vscode-button

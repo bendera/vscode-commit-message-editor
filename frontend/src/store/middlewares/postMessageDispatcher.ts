@@ -18,6 +18,7 @@ export const postMessageDispatcher: Middleware = (_) => (next) => (action) => {
     case RECENT_COMMITS_REQUEST:
       vscode.postMessage({
         command: 'requestRecentCommits',
+        payload: payload ? payload : '',
       });
       break;
     case CLOSE_TAB:

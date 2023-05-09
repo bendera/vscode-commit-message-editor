@@ -15,6 +15,7 @@ import {
   TEXTAREA_VALUE_CHANGED,
   UPDATE_TOKEN_VALUES,
   CHANGE_STATUS_MESSAGE,
+  CHANGE_SELECTED_REPOSITORY,
 } from './actions';
 
 export const createInitialState = (): RootState => ({
@@ -93,6 +94,9 @@ export const rootReducer = createReducer(initialState, {
   [UPDATE_TOKEN_VALUES]: (state: RootState, action) => {
     const {payload} = action;
     state.tokenValues = payload;
+  },
+  [CHANGE_SELECTED_REPOSITORY]: (state: RootState, action) => {
+    state.selectedRepositoryPath = action.payload as string;
   },
   [SHAREABLE_CONFIG_CHANGED]: (state: RootState, action) => {
     const {payload} = action;

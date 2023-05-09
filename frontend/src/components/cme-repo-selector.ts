@@ -6,6 +6,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import store, {RootState} from '../store/store';
+import {changeSelectedRepository} from '../store/actions';
 
 @customElement('cme-repo-selector')
 export class RepoSelector extends connect(store)(LitElement) {
@@ -43,13 +44,14 @@ export class RepoSelector extends connect(store)(LitElement) {
   private _handleChange(
     ev: CustomEvent<{selectedIndex: number; value: string}>
   ) {
-    this._selectedRepositoryPath = ev.detail.value;
-
+    const path = ev.detail.value;
     const changeEvent = new CustomEvent('cme-change', {
-      detail: ev.detail.value,
+      detail: path,
     });
 
+    this._selectedRepositoryPath = path;
     this.dispatchEvent(changeEvent);
+    store.dispatch(changeSelectedRepository(path));
   }
 
   static get styles(): CSSResult {
@@ -72,13 +74,13 @@ export class RepoSelector extends connect(store)(LitElement) {
     return html`<div class="repo-info">
       <vscode-icon name="repo"></vscode-icon>&nbsp;
       <b>Selected repository:</b>&nbsp;
-      <vscode-single-select @vsc-change=${this._handleChange}>
+      <vscode-single-select
+        @vsc-change=${this._handleChange}
+        .value=${this._selectedRepositoryPath}
+      >
         ${this._availableRepositories.map(
           (r) =>
-            html`<vscode-option
-              description=${r}
-              value=${r}
-              ?selected=${this._selectedRepositoryPath === r}
+            html`<vscode-option description=${r} value=${r}
               >${this._getNameFromPath(r)}</vscode-option
             >`
         )}
