@@ -41,6 +41,31 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Clone Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "release-bot"
+          git config --global user.email "szoftverhiba+release-bot@gmail.com"
+
+      - name: Get Current Version Number
+        run: |
+          CURRENT_VERSION=$(npm pkg get version | cut -d'"' -f 2)
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+          echo $CURRENT_VERSION
+
+      - name: Setup Node version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+
       - name: Release version
         run: |
           RELEASE_VERSION=$(npx semver $CURRENT_VERSION -i github.event.inputs.releaseType)
