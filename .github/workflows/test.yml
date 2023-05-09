@@ -1,4 +1,4 @@
-name: Release
+name: Test
 
 on:
   workflow_dispatch:
@@ -42,8 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Input parameters
-        run: |
-          echo "releaseType: ${{ github.event.inputs.releaseType }}"
+        run: echo "${{ toJSON(github.event.inputs) }}"
       - name: Clone Repository
         uses: actions/checkout@v3
         with:
