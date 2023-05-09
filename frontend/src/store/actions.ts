@@ -10,6 +10,7 @@ export const CONFIRM_AMEND = 'CONFIRM_AMEND';
 export const COPY_TO_SCM_INPUT_BOX = 'COPY_TO_SCM_INPUT_BOX';
 export const REPOSITORY_INFO_RECEIVED = 'REPOSITORY_INFO_RECEIVED';
 export const UPDATE_TOKEN_VALUES = 'UPDATE_TOKEN_VALUES';
+export const CHANGE_SELECTED_REPOSITORY = 'CHANGE_SELECTED_REPOSITORY';
 
 export const IMPORT_CONFIG = 'IMPORT_CONFIG';
 export const SHAREABLE_CONFIG_CHANGED = 'SHAREABLE_CONFIG_CHANGED';
@@ -45,6 +46,9 @@ export const receiveRepositoryInfo = createAction<RepositoryInfo>(
 );
 export const updateTokenValues = createAction<{[key: string]: string}>(
   UPDATE_TOKEN_VALUES
+);
+export const changeSelectedRepository = createAction<string>(
+  CHANGE_SELECTED_REPOSITORY
 );
 
 export const importConfig = createAction(IMPORT_CONFIG);
