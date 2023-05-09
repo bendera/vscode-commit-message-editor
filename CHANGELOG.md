@@ -2,6 +2,12 @@
 
 All notable changes to the "commit-message-editor" extension will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- Deploy script had to be fixed. This version is identical to the 0.24.3.
+
 ## [0.24.3] - 2023-05-09
 
 ### Fixed
