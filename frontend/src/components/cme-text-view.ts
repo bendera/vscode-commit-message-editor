@@ -6,6 +6,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
+import CommitMessageFormatter from '@bendera/commit-message-formatter';
 import store, {RootState} from '../store/store';
 import {
   closeTab,
@@ -76,6 +77,16 @@ export class TextView extends connect(store)(LitElement) {
     ev.stopPropagation();
     ev.preventDefault();
     store.dispatch(textareaValueChanged(this._staticTemplate));
+  }
+
+  private _handleWrapButtonClick(ev: MouseEvent) {
+    console.log('wrap');
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+
+    const formatter = new CommitMessageFormatter();
+
+    store.dispatch(textareaValueChanged(formatter.format(this._inputBoxValue)));
   }
 
   private _handleInputBoxChange(ev: CustomEvent) {
@@ -187,6 +198,7 @@ export class TextView extends connect(store)(LitElement) {
         align-items: center;
         color: var(--vscode-textLink-foreground);
         display: inline-flex;
+        margin-right: 5px;
         outline-color: var(--vscode-focusBorder);
         text-decoration: none;
       }
@@ -267,6 +279,13 @@ export class TextView extends connect(store)(LitElement) {
             @click="${this._handleLoadTemplateButtonClick}"
           >
             <vscode-icon name="file"></vscode-icon>Load template
+          </a>
+          <a
+            href="#"
+            title="Wrap lines"
+            @click="${this._handleWrapButtonClick}"
+          >
+            <vscode-icon name="list-flat"></vscode-icon>Wrap
           </a>
         </p>
       </div>
