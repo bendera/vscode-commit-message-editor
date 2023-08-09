@@ -31,7 +31,7 @@ const SettingsTab = ({ extensionPath, webview }: SettingsTabProps) => {
         content="default-src 'none'; img-src ${cspSource}; script-src ${cspSource} nonce-${nonce}; style-src 'unsafe-inline' ${cspSource}; style-src-elem 'unsafe-inline' ${cspSource}; font-src ${cspSource}"
       />
       <title>Commit message editor</title>
-      <link rel="stylesheet" href="${assetUri('assets/codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
+      <link rel="stylesheet" href="${assetUri('assets/codicons/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
       <style>body { padding: 0 10px; }</style>
     </head>
     <body>

@@ -2,7 +2,7 @@
   "name": "commit-message-editor",
   "displayName": "Commit Message Editor",
   "description": "Edit commit messages in a convenient way.",
-  "version": "0.25.0",
+  "version": "0.26.0-pre.0",
   "license": "MIT",
   "preview": false,
   "publisher": "adam-bender",

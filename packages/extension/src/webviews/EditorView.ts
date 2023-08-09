@@ -19,7 +19,7 @@ export default class EditorView {
     const { cspSource } = this._webview;
     const nonce = getNonce();
     const codiconUri = this._uri.resolve(
-      'assets/codicons/dist/codicon.css'
+      'assets/codicons/codicon.css'
     );
     const editorAppUri = this._uri.resolve(
       'assets/frontend/dist/_bundled/cme-editor-page.js'

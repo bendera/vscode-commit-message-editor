@@ -3,7 +3,7 @@
   "tasks": [
     {
       "type": "typescript",
-      "tsconfig": "tsconfig.json",
+      "tsconfig": "packages/extension/tsconfig.json",
       "option": "watch",
       "problemMatcher": [
         "$tsc-watch"
@@ -17,7 +17,7 @@
     {
       "type": "npm",
       "script": "build",
-      "path": "frontend",
+      "path": "packages/frontend",
       "group": "build",
       "problemMatcher": [],
       "label": "npm: build - frontend",
