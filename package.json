@@ -1,0 +1,14 @@
+{
+  "name": "vscode-commit-message-editor",
+  "workspaces": [
+    "packages/extension",
+    "packages/frontend"
+  ],
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "wireit": "^0.10.0"
+  },
+  "dependencies": {
+    "@vscode/codicons": "^0.0.33"
+  }
+}

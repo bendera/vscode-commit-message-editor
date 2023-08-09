@@ -31,12 +31,12 @@ const SettingsTab = ({ extensionPath, webview }: SettingsTabProps) => {
         content="default-src 'none'; img-src ${cspSource}; script-src ${cspSource} nonce-${nonce}; style-src 'unsafe-inline' ${cspSource}; style-src-elem 'unsafe-inline' ${cspSource}; font-src ${cspSource}"
       />
       <title>Commit message editor</title>
-      <link rel="stylesheet" href="${assetUri('node_modules/vscode-codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
+      <link rel="stylesheet" href="${assetUri('assets/codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
       <style>body { padding: 0 10px; }</style>
     </head>
     <body>
       <cme-settings-page></cme-esettings-page>
-      <script src="${assetUri('frontend/dist/_bundled/cme-settings-page.js')}" nonce="${nonce}" type="module"></script>
+      <script src="${assetUri('assets/frontend/dist/_bundled/cme-settings-page.js')}" nonce="${nonce}" type="module"></script>
     </body>
     </html>
   `;

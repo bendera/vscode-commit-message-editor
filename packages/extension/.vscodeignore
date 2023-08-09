@@ -1,9 +1,6 @@
 **/*
-!node_modules/vscode-codicons/dist/codicon.css
-!node_modules/vscode-codicons/dist/codicon.ttf
-!frontend/dist/_bundled/
+!assets/
 !out/extension.js
-!docs/schemas/config-v1.schema.json
 !icon.png
 !LICENSE
 !CHANGELOG.md

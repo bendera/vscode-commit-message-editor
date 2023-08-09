@@ -309,13 +309,58 @@
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "vscode:prepublish": "npm run compile",
-    "compile": "npm run compile:extension && npm run compile:frontend",
-    "compile:frontend": "cd frontend && npm run build",
-    "compile:extension": "npm run esbuild-base -- --minify",
+    "compile": "wireit",
+    "compile:frontend": "wireit",
+    "compile:extension": "wireit",
     "watch": "npm run esbuild-base -- --sourcemap --watch",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js",
-    "wdio": "wdio run ./wdio.conf.ts"
+    "wdio": "wdio run ./wdio.conf.ts",
+    "copy:codicons": "wireit"
+  },
+  "wireit": {
+    "copy:codicons": {
+      "command": "copyfiles -E -f \"../../node_modules/@vscode/codicons/dist/codicon.css\" \"../../node_modules/@vscode/codicons/dist/codicon.ttf\" assets/codicons",
+      "files": [
+        "../../node_modules/@vscode/codicons/dist/codicon.css",
+        "../../node_modules/@vscode/codicons/dist/codicon.ttf"
+      ],
+      "output": [
+        "assets/codicons/**/*"
+      ]
+    },
+    "copy:schema": {
+      "command": "copyfiles -E -f ../../docs/schemas/config-v1.schema.json assets",
+      "files": [
+        "../../docs/schemas/config-v1.schema.json"
+      ],
+      "output": [
+        "assets/config-v1.schema.json"
+      ]
+    },
+    "compile:frontend": {
+      "command": "copyfiles \"../frontend/dist/_bundled/*\" assets/frontend",
+      "dependencies": [
+        "copy:codicons",
+        "copy:schema",
+        "../frontend:build"
+      ]
+    },
+    "compile:extension": {
+      "command": "npm run esbuild-base -- --minify",
+      "files": [
+        "src/**/*"
+      ],
+      "output": [
+        "out/**/*"
+      ]
+    },
+    "compile": {
+      "dependencies": [
+        "compile:frontend",
+        "compile:extension"
+      ]
+    }
   },
   "extensionDependencies": [
     "vscode.git"

@@ -56,7 +56,7 @@ export default class SettingsPageController {
 
   private async _readSchema() {
     return this._readJSON(
-      this._context.asAbsolutePath('docs/schemas/config-v1.schema.json')
+      this._context.asAbsolutePath('assets/config-v1.schema.json')
     );
   }
 

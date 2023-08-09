@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Frontend",
       "url": "http://localhost:8000/dev/",
-      "webRoot": "${workspaceFolder}/frontend",
+      "webRoot": "${workspaceFolder}/packages/frontend",
     },
     {
       "name": "Extension",
@@ -17,13 +17,13 @@
       "request": "launch",
       "runtimeExecutable": "${execPath}",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--extensionDevelopmentPath=${workspaceFolder}/packages/extension",
         "--disable-extensions",
         // "--enable-proposed-api",
       ],
       "sourceMaps": true,
       "outFiles": [
-        "${workspaceFolder}/out/**/*.js"
+        "${workspaceFolder}/packages/extension/out/**/*.js"
       ],
       "preLaunchTask": "tsc: watch - tsconfig.json",
       "postDebugTask": "Terminate All Tasks"

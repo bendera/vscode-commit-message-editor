@@ -32,12 +32,12 @@ const EditorTab = ({ extensionPath, platform, webview }: EditorTabProps) => {
         content="default-src 'none'; img-src ${cspSource}; script-src ${cspSource} nonce-${nonce}; style-src 'unsafe-inline' ${cspSource}; style-src-elem 'unsafe-inline' ${cspSource}; font-src ${cspSource}"
       />
       <title>Commit message editor</title>
-      <link rel="stylesheet" href="${assetUri('node_modules/vscode-codicons/dist/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
+      <link rel="stylesheet" href="${assetUri('assets/codicon/codicon.css')}" nonce="${nonce}" id="vscode-codicon-stylesheet">
       <style>body { padding: 0 10px; }</style>
     </head>
     <body class="${platform}">
       <cme-editor-page></cme-editor-page>
-      <script src="${assetUri('frontend/dist/_bundled/cme-editor-page.js')}" nonce="${nonce}" type="module"></script>
+      <script src="${assetUri('assets/frontend/dist/_bundled/cme-editor-page.js')}" nonce="${nonce}" type="module"></script>
     </body>
     </html>
   `;
