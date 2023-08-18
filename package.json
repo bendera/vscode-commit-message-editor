@@ -301,6 +301,39 @@
           "type": "boolean",
           "description": "Close commit message editor tab after saving",
           "default": false
+        },
+        "commit-message-editor.formatting.collapseEmptyLines": {
+          "type": "boolean",
+          "default": true
+        },
+        "commit-message-editor.formatting.protectedPatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "#",
+            "Signed-off-by:",
+            "Co-authored-by:"
+          ],
+          "description": "Keep the line untouched, which begins with one of these patterns."
+        },
+        "commit-message-editor.formatting.subjectMode": {
+          "type": "string",
+          "enum": [
+            "truncate",
+            "truncate-ellipses",
+            "split",
+            "split-ellipses"
+          ],
+          "markdownEnumDescriptions": [
+            "Truncate the subject at the limit, moving the rest to the message body. Example:\n\n`Lorem Ip`\n\n`sum`",
+            "Truncate the subject at the limit, moving the rest to the message body. Add a three-dots suffix to the subject, and a three-dots prefix to the body. Example:\n\n`Lorem Ip...`\n\n`...sum`",
+            "Split the subject at the last space character before the limit, moving the rest to the message body. Example:\n\n`Lorem`\n\n`Ipsum`",
+            "Split the subject at the last space character before the limit, moving the rest to the message body. Add a three-dots suffix to the subject, and a three-dots prefix to the body. Example:\n\n`Lorem...`\n\n`...Ipsum`"
+          ],
+          "default": "truncate",
+          "markdownDescription": "How to handle the subject line if it is longer than the allowed length. Subject length can be set in `#git.inputValidationSubjectLength#`."
         }
       }
     }
