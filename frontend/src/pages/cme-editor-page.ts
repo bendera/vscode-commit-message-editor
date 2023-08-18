@@ -11,6 +11,12 @@ import {
   receiveRepositoryInfo,
   recentCommitsReceived,
 } from '../store/actions';
+import {
+  Commit,
+  ExtensionConfig,
+  ReceivedMessageDO,
+  RepositoryInfo,
+} from '../definitions';
 
 const vscode = getAPI();
 

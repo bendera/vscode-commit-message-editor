@@ -9,6 +9,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-multi-select';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import noop from '../../utils/noop';
+import {Token} from '../../definitions';
 
 class FormBuilder {
   set tokens(val: Token[]) {

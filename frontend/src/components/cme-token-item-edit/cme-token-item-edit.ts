@@ -10,6 +10,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-label';
 import '@bendera/vscode-webview-elements/dist/vscode-option';
 import '@bendera/vscode-webview-elements/dist/vscode-single-select';
 import './cme-token-options-edit';
+import {EnumTokenOption, Token} from '../../definitions';
 
 const isUndefined = (val: unknown): boolean => {
   return val === null || val === void 0;
@@ -652,8 +653,8 @@ export class TokenItemEdit extends LitElement {
           ${nameWidget} ${labelWidget} ${valueWidget} ${typeWidget}
           ${descriptionWidget} ${prefixWidget} ${suffixWidget}
           ${multilineWidget} ${monospaceWidget} ${linesWidget} ${maxLinesWidget}
-          ${maxLengthWidget} ${maxLineLengthWidget} ${multipleWidget} ${separatorWidget}
-          ${comboboxWidget} ${optionsWidget}
+          ${maxLengthWidget} ${maxLineLengthWidget} ${multipleWidget}
+          ${separatorWidget} ${comboboxWidget} ${optionsWidget}
           ${this._isOptionsWindowVisible ? optionsWindow : nothing}
           <vscode-form-group>
             <vscode-button @click="${this._onSaveClick}">Save</vscode-button>

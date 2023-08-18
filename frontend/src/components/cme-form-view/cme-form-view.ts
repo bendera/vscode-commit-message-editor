@@ -19,6 +19,7 @@ import FormBuilder from './FormBuilder';
 import TemplateCompiler from './TemplateCompiler';
 import {CodeEditor} from '../cme-code-editor/cme-code-editor';
 import {RepoSelector} from '../cme-repo-selector';
+import {Token} from '../../definitions';
 
 @customElement('cme-form-view')
 export class FormView extends connect(store)(LitElement) {
@@ -60,7 +61,6 @@ export class FormView extends connect(store)(LitElement) {
 
   @query('#form-view-repo-selector')
   private _repoSelector!: RepoSelector;
-
 
   private _reduceEmptyLines = true;
 

@@ -1,4 +1,11 @@
 import {createAction} from '@reduxjs/toolkit';
+import {
+  Commit,
+  ExtensionConfig,
+  RepositoryInfo,
+  ShareableConfig,
+  Token,
+} from '../definitions';
 
 export const RECEIVE_CONFIG = 'RECEIVE_CONFIG';
 export const RECENT_COMMITS_REQUEST = 'RECENT_COMMITS_REQUEST';

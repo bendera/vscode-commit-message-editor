@@ -5,6 +5,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-button';
 import store, {StatusMessageType} from '../store/store';
 import '../components/cme-settings-content';
 import {changeStatusMessage, shareableConfigChange} from '../store/actions';
+import {ReceivedMessageDO, ShareableConfig} from '../definitions';
 
 @customElement('cme-settings-page')
 export class SettingsPage extends connect(store)(LitElement) {

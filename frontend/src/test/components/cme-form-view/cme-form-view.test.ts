@@ -13,6 +13,7 @@ import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-s
 import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-multi-select';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
+import {ExtensionConfig} from '../../../definitions';
 
 const createConfig = (): ExtensionConfig => ({
   confirmAmend: true,

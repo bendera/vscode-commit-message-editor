@@ -1,4 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
+import {Commit, ExtensionConfig, ShareableConfig} from '../definitions';
 import {postMessageDispatcher} from './middlewares/postMessageDispatcher';
 import {rootReducer} from './reducers';
 

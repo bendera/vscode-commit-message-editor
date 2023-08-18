@@ -2,6 +2,7 @@ import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import '@bendera/vscode-webview-elements/dist/vscode-tree';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
+import {Commit} from '../definitions';
 
 const transformCommitList = (commits: Commit[], maxItems: number) => {
   if (!Array.isArray(commits)) {

@@ -12,6 +12,7 @@ import store, {RootState} from '../store/store';
 import {getAPI} from '../utils/VSCodeAPIService';
 import {TextView} from './cme-text-view';
 import {FormView} from './cme-form-view/cme-form-view';
+import { VisibleViewsConfig } from '../definitions';
 
 const vscode = getAPI();
 

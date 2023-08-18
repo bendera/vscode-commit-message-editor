@@ -1,6 +1,7 @@
 import {expect} from '@open-wc/testing';
 import TemplateCompiler from '../../../components/cme-form-view/TemplateCompiler';
 import {TokenValueDTO} from '../../../components/cme-form-view/types';
+import { Token } from '../../../definitions';
 
 const createTemplate = () => [
   '{type}{scope}: {description}',

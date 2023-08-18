@@ -16,6 +16,7 @@ import {
   dynamicTemplateChange,
   changeStatusMessage,
 } from '../store/actions';
+import {ShareableConfig, Token} from '../definitions';
 
 const vscode = getAPI();
 

@@ -10,6 +10,7 @@ import '@bendera/vscode-webview-elements/dist/vscode-scrollable';
 import {VscodeScrollable} from '@bendera/vscode-webview-elements/dist/vscode-scrollable';
 import {VscodeIcon} from '@bendera/vscode-webview-elements/dist/vscode-icon';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
+import {EnumTokenOption} from '../../definitions';
 
 interface InternalEnumTokenOption extends EnumTokenOption {
   markedForDeletion?: boolean;

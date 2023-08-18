@@ -3,6 +3,7 @@ import sinon, {SinonSandbox, SinonSpy} from 'sinon';
 import store from '../../store/store';
 import {EditorPage} from '../../pages/cme-editor-page';
 import {Action} from '@reduxjs/toolkit';
+import { Commit, ExtensionConfig } from '../../definitions';
 
 describe('cme-editor-page', () => {
   const setState = sinon.fake();

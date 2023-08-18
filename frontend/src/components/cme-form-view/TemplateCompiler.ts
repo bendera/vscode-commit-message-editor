@@ -1,3 +1,4 @@
+import {Token} from '../../definitions';
 import {TokenValueDTO} from './types';
 
 class TemplateCompiler {

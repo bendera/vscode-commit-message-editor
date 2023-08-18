@@ -20,6 +20,7 @@ import './cme-recent-commits';
 import './cme-repo-selector';
 import {RepoSelector} from './cme-repo-selector';
 import {triggerInputboxRerender} from './helpers';
+import {Commit} from '../definitions';
 
 @customElement('cme-text-view')
 export class TextView extends connect(store)(LitElement) {
