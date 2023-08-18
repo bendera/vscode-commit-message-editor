@@ -13,9 +13,9 @@ import {VscodeSingleSelect} from '@bendera/vscode-webview-elements/dist/vscode-s
 import {VscodeMultiSelect} from '@bendera/vscode-webview-elements/dist/vscode-multi-select';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import {VscodeCheckbox} from '@bendera/vscode-webview-elements/dist/vscode-checkbox';
-import {ExtensionConfig} from '../../../definitions';
+import {ExtensionConfiguration} from '../../../shared';
 
-const createConfig = (): ExtensionConfig => ({
+const createConfig = (): ExtensionConfiguration => ({
   confirmAmend: true,
   dynamicTemplate: [
     '{type}{scope}{gitmoji}: {description}',
@@ -123,6 +123,8 @@ const createConfig = (): ExtensionConfig => ({
     },
   ],
   reduceEmptyLines: true,
+  inputValidationLength: 72,
+  inputValidationSubjectLength: 50,
   view: {
     defaultView: 'text',
     visibleViews: 'form',
@@ -130,7 +132,6 @@ const createConfig = (): ExtensionConfig => ({
     useMonospaceEditor: true,
     tabSize: 2,
     useTabs: true,
-    rulers: [50, 72],
     visibleLines: 10,
     showRecentCommits: true,
     saveAndClose: true,

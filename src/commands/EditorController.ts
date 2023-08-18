@@ -5,6 +5,15 @@ import GitService, { RepositoryInfo } from '../utils/GitService';
 import EditorView from '../webviews/EditorView';
 import UiApi from '../utils/UiApi';
 import Logger from '../utils/Logger';
+import {
+  CLOSE_TAB,
+  CONFIRM_AMEND,
+  COPY_FROM_EXTENSION_MESSAGE_BOX,
+  ExtensionPostMessage,
+  OPEN_CONFIGURATION_PAGE,
+  REQUEST_CONFIG,
+  REQUEST_RECENT_COMMITS,
+} from '../../frontend/src/shared';
 
 export default class EditorController {
   private _primaryEditorPanel: vscode.WebviewPanel | undefined;
@@ -65,10 +74,7 @@ export default class EditorController {
       };
 
       this._ui.sendRepositoryInfo(repositoryInfo);
-      this._logger.logObject(
-        repositoryInfo,
-        'Suggested repository:'
-      );
+      this._logger.logObject(repositoryInfo, 'Suggested repository:');
       this._ui.sendRecentCommits(commits);
     } else {
       const repositoryInfo = this._getRepositoryInfo();
@@ -114,29 +120,27 @@ export default class EditorController {
     );
   }
 
-  private _handleReceivedMessages(data: any) {
-    const { command, payload } = data;
-
-    switch (command) {
+  private _handleReceivedMessages(message: ExtensionPostMessage) {
+    switch (message.command) {
       // TODO: rename
-      case 'copyFromExtensionMessageBox':
-        const { commitMessage, selectedRepositoryPath } = payload;
+      case COPY_FROM_EXTENSION_MESSAGE_BOX:
+        const { commitMessage, selectedRepositoryPath } = message.payload;
         this._git.setSCMInputBoxMessage(commitMessage, selectedRepositoryPath);
         break;
-      case 'closeTab':
+      case CLOSE_TAB:
         this._primaryEditorPanel?.dispose();
         break;
-      case 'requestConfig':
+      case REQUEST_CONFIG:
         const cfg = vscode.workspace.getConfiguration('commit-message-editor');
         this._ui?.sendConfig(cfg);
         break;
-      case 'requestRecentCommits':
-        this._populateCommitList(payload as string);
+      case REQUEST_RECENT_COMMITS:
+        this._populateCommitList(message.payload);
         break;
-      case 'confirmAmend':
-        this._confirmAmend(payload);
+      case CONFIRM_AMEND:
+        this._confirmAmend(message.payload);
         break;
-      case 'openConfigurationPage':
+      case OPEN_CONFIGURATION_PAGE:
         vscode.commands.executeCommand('commitMessageEditor.openSettingsPage');
         break;
       default:

@@ -1,11 +1,11 @@
 import {createAction} from '@reduxjs/toolkit';
 import {
   Commit,
-  ExtensionConfig,
   RepositoryInfo,
   ShareableConfig,
   Token,
 } from '../definitions';
+import { ExtensionConfiguration } from '../shared';
 
 export const RECEIVE_CONFIG = 'RECEIVE_CONFIG';
 export const RECENT_COMMITS_REQUEST = 'RECENT_COMMITS_REQUEST';
@@ -31,7 +31,7 @@ export const SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE =
   'SHAREABLE_CONFIG_DYNAMIC_TEMPLATE_CHANGE';
 export const CHANGE_STATUS_MESSAGE = 'CHANGE_STATUS_MESSAGE';
 
-export const receiveConfig = createAction<ExtensionConfig>(RECEIVE_CONFIG);
+export const receiveConfig = createAction<ExtensionConfiguration>(RECEIVE_CONFIG);
 export const recentCommitsRequest = createAction<string | undefined>(
   RECENT_COMMITS_REQUEST
 );

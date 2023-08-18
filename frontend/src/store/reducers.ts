@@ -25,6 +25,8 @@ export const createInitialState = (): RootState => ({
     staticTemplate: [],
     tokens: [],
     reduceEmptyLines: true,
+    inputValidationLength: 72,
+    inputValidationSubjectLength: 50,
     view: {
       defaultView: 'form',
       fullWidth: false,
@@ -32,7 +34,6 @@ export const createInitialState = (): RootState => ({
       showRecentCommits: false,
       visibleViews: 'both',
       visibleLines: 10,
-      rulers: [],
       useMonospaceEditor: false,
       tabSize: 4,
       useTabs: false,

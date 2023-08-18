@@ -178,11 +178,11 @@ const config = {
         },
         {
           label: 'Dolor',
-          value: 'dolor'
+          value: 'dolor',
         },
         {
           label: 'Sit',
-          value: 'sit'
+          value: 'sit',
         },
       ],
       multiple: true,
@@ -257,6 +257,8 @@ const config = {
     showRecentCommits: true,
     saveAndClose: true,
   },
+  inputValidationLength: 50,
+  inputValidationSubjectLength: 72,
 };
 
 const submitFromHostToWebview = (data) => {
@@ -289,8 +291,8 @@ const repositoryInfo = () => {
       availableRepositories: [
         '/c:/fakepath',
         '/c:/workspace/vscode',
-        '/c:/workspace/vscode-webview-elements'
-      ]
+        '/c:/workspace/vscode-webview-elements',
+      ],
     },
   });
 };

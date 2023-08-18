@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {Commit, ExtensionConfig, ShareableConfig} from '../definitions';
+import {Commit, ShareableConfig} from '../definitions';
+import {ExtensionConfiguration} from '../shared';
 import {postMessageDispatcher} from './middlewares/postMessageDispatcher';
 import {rootReducer} from './reducers';
 
@@ -15,7 +16,7 @@ export default store;
 export type StatusMessageType = 'success' | 'error' | 'invisible';
 
 export interface RootState {
-  config: ExtensionConfig;
+  config: ExtensionConfiguration;
   shareableConfig: ShareableConfig;
   importError: boolean;
   importErrorMessage: string;

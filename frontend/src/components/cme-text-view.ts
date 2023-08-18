@@ -6,7 +6,9 @@ import '@bendera/vscode-webview-elements/dist/vscode-checkbox';
 import '@bendera/vscode-webview-elements/dist/vscode-icon';
 import '@bendera/vscode-webview-elements/dist/vscode-inputbox';
 import {VscodeInputbox} from '@bendera/vscode-webview-elements/dist/vscode-inputbox';
-import CommitMessageFormatter from '@bendera/commit-message-formatter';
+import CommitMessageFormatter, {
+  CommitMessageFormatterOptions,
+} from '@bendera/commit-message-formatter';
 import store, {RootState} from '../store/store';
 import {
   closeTab,
@@ -73,6 +75,8 @@ export class TextView extends connect(store)(LitElement) {
 
   private _staticTemplate = '';
   private _amendCbChecked = false;
+  private _inputValidationLength = 72;
+  private _inputValidationSubjectLength = 50;
 
   private _handleLoadTemplateButtonClick(ev: MouseEvent) {
     ev.stopPropagation();
@@ -81,11 +85,17 @@ export class TextView extends connect(store)(LitElement) {
   }
 
   private _handleWrapButtonClick(ev: MouseEvent) {
-    console.log('wrap');
     ev.stopImmediatePropagation();
     ev.preventDefault();
 
-    const formatter = new CommitMessageFormatter();
+    const options: CommitMessageFormatterOptions = {
+      indentWithTabs: this._useTabs,
+      lineLength: this._inputValidationSubjectLength,
+      subjectLength: this._inputValidationLength,
+      tabSize: this._tabSize,
+    };
+
+    const formatter = new CommitMessageFormatter(options);
 
     store.dispatch(textareaValueChanged(formatter.format(this._inputBoxValue)));
   }
@@ -142,7 +152,6 @@ export class TextView extends connect(store)(LitElement) {
       useMonospaceEditor,
       tabSize,
       useTabs,
-      rulers,
       visibleLines,
     } = config.view;
 
@@ -152,7 +161,12 @@ export class TextView extends connect(store)(LitElement) {
     this._useMonospaceEditor = useMonospaceEditor;
     this._tabSize = tabSize;
     this._useTabs = useTabs;
-    this._rulers = rulers;
+    this._inputValidationLength = config.inputValidationLength;
+    this._inputValidationSubjectLength = config.inputValidationSubjectLength;
+    this._rulers = [
+      this._inputValidationSubjectLength,
+      this._inputValidationLength,
+    ];
     this._visibleLines = visibleLines;
     this._isCommitsLoading = state.recentCommitsLoading;
     this._inputBoxValue = state.textareaValue;

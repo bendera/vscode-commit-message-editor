@@ -12,11 +12,13 @@ import {
   recentCommitsReceived,
 } from '../store/actions';
 import {
-  Commit,
-  ExtensionConfig,
-  ReceivedMessageDO,
-  RepositoryInfo,
-} from '../definitions';
+  AMEND_PERFORMED,
+  COPY_FROM_SCM_INPUTBOX,
+  FrontendPostMessage,
+  RECEIVE_CONFIG,
+  RECENT_COMMIT_MESSAGES,
+  REPOSITORY_INFO,
+} from '../shared';
 
 const vscode = getAPI();
 
@@ -52,29 +54,29 @@ export class EditorPage extends connect(store)(LitElement) {
     return html` <cme-editor></cme-editor> `;
   }
 
-  private _handlePostMessages(ev: MessageEvent<ReceivedMessageDO>) {
-    const {command, payload} = ev.data;
+  private _handlePostMessages(ev: MessageEvent<FrontendPostMessage>) {
     const state = store.getState();
     const {saveAndClose} = state.config.view;
 
-    switch (command) {
-      case 'amendPerformed':
+    switch (ev.data.command) {
+      case AMEND_PERFORMED:
         if (saveAndClose) {
           store.dispatch(closeTab());
         }
         break;
-      case 'receiveConfig':
-        store.dispatch(receiveConfig(payload as ExtensionConfig));
+      case RECEIVE_CONFIG:
+        store.dispatch(receiveConfig(ev.data.payload));
         break;
-      case 'repositoryInfo':
-        store.dispatch(receiveRepositoryInfo(payload as RepositoryInfo));
+      case REPOSITORY_INFO:
+        store.dispatch(receiveRepositoryInfo(ev.data.payload));
         break;
-      case 'recentCommitMessages':
-        store.dispatch(recentCommitsReceived(payload as Commit[]));
+      case RECENT_COMMIT_MESSAGES:
+        store.dispatch(recentCommitsReceived(ev.data.payload));
         break;
-      case 'copyFromSCMInputBox':
-        store.dispatch(copyFromSCMInputBox(payload as string));
+      case COPY_FROM_SCM_INPUTBOX:
+        store.dispatch(copyFromSCMInputBox(ev.data.payload));
         break;
+      default:
     }
   }
 
