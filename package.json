@@ -330,7 +330,7 @@
     "@wdio/local-runner": "^8.6.7",
     "@wdio/mocha-framework": "^8.6.6",
     "@wdio/spec-reporter": "^8.6.6",
-    "chromedriver": "^111.0.0",
+    "chromedriver": "^119.0.1",
     "esbuild": "^0.17.5",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
