@@ -1,0 +1,115 @@
+{
+  "$schema": "https://bendera.github.io/vscode-commit-message-editor/schemas/config-v1.schema.json",
+  "configVersion": "1",
+  "staticTemplate": [
+    "feat: Short description",
+    "",
+    "Message body",
+    "",
+    "Message footer"
+  ],
+  "dynamicTemplate": [
+    "{type}{scope}: {description}",
+    "",
+    "{body}",
+    "",
+    "{breaking_change}{footer}"
+  ],
+  "tokens": [
+    {
+      "label": "Type",
+      "name": "type",
+      "type": "enum",
+      "options": [
+        {
+          "label": "---",
+          "value": ""
+        },
+        {
+          "label": "build",
+          "description": "影响构建系统或外部依赖的更改（例如范围：gulp、broccoli、npm）"
+        },
+        {
+          "label": "chore",
+          "description": "更新构建任务等；不影响生产代码的更改"
+        },
+        {
+          "label": "ci",
+          "description": "持续集成配置文件和脚本的更改（例如范围：Travis、Circle、BrowserStack、SauceLabs）"
+        },
+        {
+          "label": "docs",
+          "description": "仅文档相关的更改"
+        },
+        {
+          "label": "feat",
+          "description": "新增功能"
+        },
+        {
+          "label": "fix",
+          "description": "修复 bug"
+        },
+        {
+          "label": "perf",
+          "description": "提升性能的代码更改"
+        },
+        {
+          "label": "refactor",
+          "description": "既不是修复 bug，也不是添加功能的代码重构"
+        },
+        {
+          "label": "revert",
+          "description": "回滚之前的提交"
+        },
+        {
+          "label": "style",
+          "description": "不影响代码含义的更改（如空格、格式化、缺失的分号等）"
+        },
+        {
+          "label": "test",
+          "description": "添加缺失的测试或修正现有测试"
+        }
+      ],
+      "description": "变更类型"
+    },
+    {
+      "label": "Scope",
+      "name": "scope",
+      "description": "可以为提交的类型提供范围，以提供额外的上下文信息，并包含在括号内，例如，“feat（解析器）：添加解析数组的能力”。",
+      "type": "text",
+      "multiline": false,
+      "prefix": "(",
+      "suffix": ")"
+    },
+    {
+      "label": "Short description",
+      "name": "description",
+      "description": "简短描述",
+      "type": "text",
+      "multiline": false
+    },
+    {
+      "label": "Body",
+      "name": "body",
+      "description": "详情描述",
+      "type": "text",
+      "multiline": true,
+      "lines": 5,
+      "maxLines": 10
+    },
+    {
+      "label": "Breaking change",
+      "name": "breaking_change",
+      "type": "boolean",
+      "value": "BREAKING CHANGE: ",
+      "default": false
+    },
+    {
+      "label": "Footer",
+      "name": "footer",
+      "description": "备注",
+      "type": "text",
+      "multiline": true
+    }
+  ]
+}
