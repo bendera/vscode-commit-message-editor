@@ -85,6 +85,7 @@ An array of token objects. It defines the form fields. The table below shows the
 ### Sample configs
 
 - [Default](example-configs/default.json)
+- [Default - With Simplifed Chinese descriptions](example-configs/default_zh-CN.json)
 - [Gitmojis](example-configs/gitmojis.json)
 - [Gitmojis - With Simplifed Chinese descriptions](example-configs/gitmojis_zh-CN.json)
 
