@@ -345,6 +345,7 @@ export class SettingsContent extends connect(store)(LitElement) {
                   <cme-token-item-edit
                     data-index="${i}"
                     .token="${t}"
+                    .tokens="${this._tokens}"
                     slot="body"
                     @save="${this._onTokenSave}"
                     @delete="${this._onTokenDelete}"

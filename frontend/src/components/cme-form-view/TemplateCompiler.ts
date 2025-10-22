@@ -19,9 +19,10 @@ class TemplateCompiler {
   compile(): string {
     let compiled = this._template;
 
-    this._tokens.forEach(({name, prefix = '', suffix = ''}) => {
+    this._tokens.forEach(({ name, prefix = '', suffix = '', isConditionalToken, linkedToken, matchValue }) => {
       let value = this._tokenValues[name] || '';
-      value = value ? prefix + value + suffix : '';
+      const canShowConditionallyRendered = !isConditionalToken || !linkedToken || this._tokenValues[linkedToken.name] === matchValue;
+      value = value && canShowConditionallyRendered ? prefix + value + suffix : '';
       compiled = compiled.replace(new RegExp(`{${name}}`, 'g'), value);
     });
 
