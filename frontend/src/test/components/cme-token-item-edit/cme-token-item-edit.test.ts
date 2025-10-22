@@ -214,4 +214,169 @@ describe('cme-token-item-edit', () => {
       type: 'enum',
     });
   });
+
+  describe('conditional tokens', () => {
+    it('should properly update conditional token related fields', async () => {
+      const el = (await fixture(
+        html`<cme-token-item-edit></cme-token-item-edit>`
+      )) as TokenItemEdit;
+
+      el.active = true;
+      el.tokens = [{
+        name: 'test token',
+        label: 'Test token',
+        type: 'text',
+      }];
+
+      await el.updateComplete;
+
+      const isConditionalToken = el.shadowRoot?.getElementById('isConditionalToken');
+
+      isConditionalToken?.dispatchEvent(
+        new CustomEvent('vsc-change', {detail: {checked: true}})
+      );
+
+      await el.updateComplete;
+      const linkedToken = el.shadowRoot?.getElementById('linkedToken');
+
+      linkedToken?.dispatchEvent(
+        new CustomEvent('vsc-change', {detail: {value: 'test token'}})
+      );
+
+      await el.updateComplete;
+      const matchValue = el.shadowRoot?.getElementById('matchValue');
+
+      matchValue?.dispatchEvent(
+        new CustomEvent('vsc-input', {detail: {value: 'test value'}})
+      );
+
+      await el.updateComplete;
+
+      expect(el.token).to.deep.eq({
+        isConditionalToken: true,
+        linkedToken: el.tokens[0],
+        matchValue: 'test value',
+        label: '',
+        type: 'text',
+        name: '',
+      })
+    });
+
+    it('should render Is conditional token checkbox', async () => {
+      const el = (await fixture(
+        html`<cme-token-item-edit></cme-token-item-edit>`
+      )) as TokenItemEdit;
+
+      el.active = true;
+
+      await el.updateComplete;
+
+      expect(el.shadowRoot?.getElementById('isConditionalToken')).to.exist;
+    });
+
+    it('should render a dropdown to select the linked token if conditional token is checked', async () => {
+      const el = (await fixture(
+        html`<cme-token-item-edit></cme-token-item-edit>`
+      )) as TokenItemEdit;
+
+      el.active = true;
+      el.token = {
+        ...el.token,
+        isConditionalToken: true
+      };
+
+      await el.updateComplete;
+
+      expect(el.shadowRoot?.getElementById('linkedToken')).to.exist;
+    });
+
+    it('should render match value text input if linked token is selected and token is conditional', async () => {
+      const el = (await fixture(
+        html`<cme-token-item-edit></cme-token-item-edit>`
+      )) as TokenItemEdit;
+
+      el.active = true;
+      el.token = {
+        ...el.token,
+        isConditionalToken: true,
+        linkedToken: {
+          name: 'test token',
+          label: 'Test token',
+          type: 'text',
+        }
+      };
+
+      await el.updateComplete;
+
+      const matchValueInput = el.shadowRoot?.getElementById('matchValue');
+      expect(matchValueInput).to.exist;
+      expect(matchValueInput?.tagName.toLowerCase()).to.eq('vscode-inputbox');
+    });
+
+    it('should render a select input if linked token is an enum token', async () => {
+      const el = (await fixture(
+        html`<cme-token-item-edit></cme-token-item-edit>`
+      )) as TokenItemEdit;
+
+      el.active = true;
+      el.token = {
+        ...el.token,
+        isConditionalToken: true,
+        linkedToken: {
+          name: 'test token',
+          label: 'Test token',
+          type: 'enum',
+          options: [
+            {
+              label: 'Test option 1',
+              description: '',
+              value: 'testoption1'
+            },
+            {
+              label: 'Test option 2',
+              description: '',
+              value: 'testoption2'
+            },
+          ]
+        }
+      };
+
+      await el.updateComplete;
+
+      const matchValueInput = el.shadowRoot?.getElementById('matchValue');
+      expect(matchValueInput).to.exist;
+      expect(matchValueInput?.tagName.toLowerCase()).to.eq('vscode-single-select');
+      const options = matchValueInput?.querySelectorAll('vscode-option');
+      expect(options?.length).to.eq(2);
+      expect(options?.item(0)?.textContent).to.eq('Test option 1');
+      expect(options?.item(1)?.textContent).to.eq('Test option 2');
+    });
+
+    it('should render a select input if linked token is a boolean token', async () => {
+      const el = (await fixture(
+        html`<cme-token-item-edit></cme-token-item-edit>`
+      )) as TokenItemEdit;
+
+      el.active = true;
+      el.token = {
+        ...el.token,
+        isConditionalToken: true,
+        linkedToken: {
+          name: 'test token',
+          label: 'Test token',
+          type: 'boolean',
+        }
+      };
+
+      await el.updateComplete;
+
+      const matchValueInput = el.shadowRoot?.getElementById('matchValue');
+      expect(matchValueInput).to.exist;
+      expect(matchValueInput?.tagName.toLowerCase()).to.eq('vscode-single-select');
+      const options = matchValueInput?.querySelectorAll('vscode-option');
+      expect(options?.length).to.eq(2);
+      expect(options?.item(0)?.textContent).to.eq('true');
+      expect(options?.item(1)?.textContent).to.eq('false');
+    });
+  });
 });

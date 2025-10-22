@@ -19,12 +19,23 @@ class FormBuilder {
     return this._tokens;
   }
 
+  set tokenValues(val: { [name: string]: string | string[] }) {
+    this._tokenValues = val;
+  }
+
+  get tokenValues(): { [name: string]: string | string[] } {
+    return this._tokenValues;
+  }
+
   set formItemChangeHandler(fn: () => void) {
     this._handleFormItemChange = fn;
   }
 
   build(): TemplateResult[] {
     const formElements = this._tokens.map((token) => {
+      if (token.isConditionalToken && token.linkedToken && token.matchValue && this.tokenValues?.[token.linkedToken.name] !== token.matchValue) {
+        return html`${nothing}`;
+      }
       switch (token.type) {
         case 'enum':
           return this._renderEnumTypeWidget(token);
@@ -41,6 +52,8 @@ class FormBuilder {
   }
 
   private _tokens: Token[] = [];
+
+  private _tokenValues: { [name: string]: string | string[] } = {};
 
   private _handleFormItemChange: () => void = noop;
 

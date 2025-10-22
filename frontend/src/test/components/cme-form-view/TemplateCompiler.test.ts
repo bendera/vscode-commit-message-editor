@@ -7,109 +7,147 @@ const createTemplate = () => [
   '',
   '{body}',
   '',
+  '{root_cause}',
+  '',
+  '{fix}',
+  '',
   '{breaking_change}{footer}',
 ];
 
-const createTokens = (): Token[] => [
-  {
-    label: 'Type',
-    name: 'type',
+const createTokens = (): Token[] => {
+  const issueTypeToken: Token = {
+    label: 'Issue type',
+    name: 'issue_type',
     type: 'enum',
     options: [
       {
-        label: '---',
-        value: '',
+        label: 'bug',
       },
       {
-        label: 'build',
-        description:
-          'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
+        label: 'feature',
       },
-      {
-        label: 'chore',
-        description: 'Updating grunt tasks etc; no production code change',
-      },
-      {
-        label: 'ci',
-        description:
-          'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
-      },
-      {
-        label: 'docs',
-        description: 'Documentation only changes',
-      },
-      {
-        label: 'feat',
-        description: 'A new feature',
-      },
-      {
-        label: 'fix',
-        description: 'A bug fix',
-      },
-      {
-        label: 'perf',
-        description: 'A code change that improves performance',
-      },
-      {
-        label: 'refactor',
-        description:
-          'A code change that neither fixes a bug nor adds a feature',
-      },
-      {
-        label: 'revert',
-      },
-      {
-        label: 'style',
-        description:
-          'Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
-      },
-      {
-        label: 'test',
-        description: 'Adding missing tests or correcting existing tests',
-      },
-    ],
-    description: 'Type of changes',
-  },
-  {
-    label: 'Scope',
-    name: 'scope',
-    description:
-      'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., "feat(parser): add ability to parse arrays".',
-    type: 'text',
-    multiline: false,
-    prefix: '(',
-    suffix: ')',
-  },
-  {
-    label: 'Short description',
-    name: 'description',
-    description: 'Short description in the subject line.',
-    type: 'text',
-    multiline: false,
-  },
-  {
-    label: 'Body',
-    name: 'body',
-    description: 'Optional body',
-    type: 'text',
-    multiline: true,
-    lines: 5,
-    maxLines: 10,
-  },
-  {
-    label: 'Breaking change',
-    name: 'breaking_change',
-    type: 'boolean',
-    value: 'BREAKING CHANGE: ',
-  },
-  {
-    label: 'Footer',
-    name: 'footer',
-    description: 'Optional footer',
-    type: 'text',
-    multiline: true,
-  },
-];
+    ]
+  };
+  return [
+    {
+      label: 'Type',
+      name: 'type',
+      type: 'enum',
+      options: [
+        {
+          label: '---',
+          value: '',
+        },
+        {
+          label: 'build',
+          description:
+            'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
+        },
+        {
+          label: 'chore',
+          description: 'Updating grunt tasks etc; no production code change',
+        },
+        {
+          label: 'ci',
+          description:
+            'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
+        },
+        {
+          label: 'docs',
+          description: 'Documentation only changes',
+        },
+        {
+          label: 'feat',
+          description: 'A new feature',
+        },
+        {
+          label: 'fix',
+          description: 'A bug fix',
+        },
+        {
+          label: 'perf',
+          description: 'A code change that improves performance',
+        },
+        {
+          label: 'refactor',
+          description:
+            'A code change that neither fixes a bug nor adds a feature',
+        },
+        {
+          label: 'revert',
+        },
+        {
+          label: 'style',
+          description:
+            'Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
+        },
+        {
+          label: 'test',
+          description: 'Adding missing tests or correcting existing tests',
+        },
+      ],
+      description: 'Type of changes',
+    },
+    {
+      label: 'Scope',
+      name: 'scope',
+      description:
+        'A scope may be provided to a commit’s type, to provide additional contextual information and is contained within parenthesis, e.g., "feat(parser): add ability to parse arrays".',
+      type: 'text',
+      multiline: false,
+      prefix: '(',
+      suffix: ')',
+    },
+    {
+      label: 'Short description',
+      name: 'description',
+      description: 'Short description in the subject line.',
+      type: 'text',
+      multiline: false,
+    },
+    {
+      label: 'Body',
+      name: 'body',
+      description: 'Optional body',
+      type: 'text',
+      multiline: true,
+      lines: 5,
+      maxLines: 10,
+    },
+    {
+      label: 'Breaking change',
+      name: 'breaking_change',
+      type: 'boolean',
+      value: 'BREAKING CHANGE: ',
+    },
+    {
+      label: 'Footer',
+      name: 'footer',
+      description: 'Optional footer',
+      type: 'text',
+      multiline: true,
+    },
+    issueTypeToken,
+    {
+      label: 'Root cause',
+      name: 'root_cause',
+      prefix: 'Root cause: ',
+      type: 'text',
+      isConditionalToken: true,
+      linkedToken: issueTypeToken,
+      matchValue: 'bug',
+    },
+    {
+      label: 'Fix',
+      name: 'fix',
+      prefix: 'Fix: ',
+      type: 'text',
+      isConditionalToken: true,
+      linkedToken: issueTypeToken,
+      matchValue: 'bug',
+    },
+  ]
+};
 
 const createTokenValues = (): TokenValueDTO => ({
   type: 'feat',
@@ -117,6 +155,9 @@ const createTokenValues = (): TokenValueDTO => ({
   description: 'test description',
   body: 'Test body',
   breaking_change: 'BREAKING CHANGE: ',
+  issue_type: 'story',
+  root_cause: 'I\'m an idiot',
+  fix: 'Increased intelluct'
 });
 
 describe('TemplateCompiler', () => {
@@ -133,6 +174,32 @@ describe('TemplateCompiler', () => {
     expected += 'feat(lorem|ipsum): test description\n';
     expected += '\n';
     expected += 'Test body\n';
+    expected += '\n';
+    expected += 'BREAKING CHANGE: ';
+
+    expect(result).to.eq(expected);
+  });
+
+  it('conditional fields should be rendered', () => {
+    const template = createTemplate();
+    const tokens = createTokens();
+    const tokenValues = {
+      ...createTokenValues(),
+      issue_type: 'bug',
+    }
+
+    const compiler = new TemplateCompiler(template, tokens, tokenValues);
+    const result = compiler.compile();
+
+    let expected = '';
+
+    expected += 'feat(lorem|ipsum): test description\n';
+    expected += '\n';
+    expected += 'Test body\n';
+    expected += '\n';
+    expected += 'Root cause: I\'m an idiot\n';
+    expected += '\n';
+    expected += 'Fix: Increased intelluct\n';
     expected += '\n';
     expected += 'BREAKING CHANGE: ';
 

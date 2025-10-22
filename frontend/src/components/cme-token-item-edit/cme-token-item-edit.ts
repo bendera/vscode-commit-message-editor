@@ -39,6 +39,9 @@ export class TokenItemEdit extends LitElement {
       options,
       lines,
       value,
+      isConditionalToken,
+      linkedToken,
+      matchValue
     } = val;
 
     this._label = label ?? 'Untitled';
@@ -60,6 +63,9 @@ export class TokenItemEdit extends LitElement {
     this._options = options ?? [];
     this._lines = !isUndefined(lines) ? String(lines) : '';
     this._value = value ?? '';
+    this._isConditionalToken = isConditionalToken ?? false;
+    this._linkedToken = linkedToken;
+    this._matchValue = matchValue ?? '';
   }
 
   get token(): Token {
@@ -125,11 +131,20 @@ export class TokenItemEdit extends LitElement {
       retval.options = this._options;
     }
 
+    if (this._isConditionalToken) {
+      retval.isConditionalToken = true;
+      retval.linkedToken = this._linkedToken;
+      retval.matchValue = this._matchValue;
+    }
+
     return retval;
   }
 
   @property({type: Boolean})
   active = false;
+
+  @property({ type: Array })
+  tokens: Token[] = [];
 
   @state()
   private _label = '';
@@ -183,7 +198,20 @@ export class TokenItemEdit extends LitElement {
   private _value = '';
 
   @state()
+  private _isConditionalToken = false;
+
+  @state()
+  private _linkedToken?: Token;
+
+  @state()
+  private _matchValue = '';
+
+  @state()
   private _isOptionsWindowVisible = false;
+
+  get tokenOptions() {
+    return this.tokens?.filter((t) => t.name !== this._name) ?? [];
+  }
 
   private _onNameChange(ev: CustomEvent) {
     this._name = ev.detail;
@@ -257,6 +285,30 @@ export class TokenItemEdit extends LitElement {
 
   private _onOptionsSave(ev: CustomEvent<EnumTokenOption[]>) {
     this._options = ev.detail;
+  }
+
+  private _onIsConditionalTokenChange(ev: CustomEvent) {
+    this._isConditionalToken = ev.detail.checked;
+    if (!ev.detail.checked) {
+      this._linkedToken = undefined;
+      this._matchValue = '';
+    }
+  }
+
+  private _onLinkedTokenChange(ev: CustomEvent) {
+    const val = (ev.detail.value as string);
+
+    this._linkedToken = this.tokenOptions.find((t) => t.name === val);
+    this._matchValue = '';
+  }
+
+  private _onMatchValueChange(ev: CustomEvent) {
+    this._matchValue = ev.detail.value as string;
+  }
+
+  private _onMatchValueEnumChange(ev: CustomEvent) {
+    const valueLabel = ev.detail.value as string;
+    this._matchValue = this._linkedToken?.options?.find((o) => o.label === valueLabel)?.value as string;
   }
 
   private _onEditClick() {
@@ -646,6 +698,93 @@ export class TokenItemEdit extends LitElement {
       </div>
     `;
 
+    const isConditionalTokenWidget = html`
+      <vscode-form-group class="${classMap({ disabled: !this.tokenOptions?.length })}">
+        <vscode-label for="isConditionalToken">Conditional Token</vscode-label>
+        <vscode-checkbox
+          id="isConditionalToken"
+          name="flags"
+          value="isConditionalToken"
+          ?checked="${this._isConditionalToken}"
+          @vsc-change="${this._onIsConditionalTokenChange}"
+        ></vscode-checkbox>
+      </vscode-form-group>
+    `;
+
+    const linkedTokenWidget = html`
+      <vscode-form-group variant="horizontal">
+        <vscode-label for="linkedToken" required>Linked Token</vscode-label>
+        <vscode-single-select
+          id="linkedToken"
+          name="linkedToken"
+          combobox
+          @vsc-change="${this._onLinkedTokenChange}"
+        >
+          <vscode-option hidden ?selected="true"> </vscode-option>
+          ${this.tokenOptions.map(token => html`
+            <vscode-option ?selected="${this._linkedToken?.name === token.name}">
+              ${token.name}
+            </vscode-option>
+          `)}
+        </vscode-single-select>
+      </vscode-form-group>
+    `;
+
+    const matchValueEnumWidget = html`
+      <vscode-form-group variant="horizontal">
+        <vscode-label for="matchValue">Match Value</vscode-label>
+        <vscode-single-select
+          id="matchValue"
+          name="matchValue"
+          @vsc-change="${this._onMatchValueEnumChange}"
+        >
+          ${this._linkedToken?.options?.map(option => html`
+            <vscode-option ?selected="${this._matchValue === option.value}"
+              >${option.label}</vscode-option
+            >
+          `)}
+        </vscode-single-select>
+      </vscode-form-group>
+    `;
+
+    const matchValueTextWidget = html`
+      <vscode-form-group>
+        <vscode-label for="matchValue">Match Value</vscode-label>
+        <vscode-inputbox
+          value="${this._matchValue}"
+          id="matchValue"
+          name="matchValue"
+          @vsc-input="${this._onMatchValueChange}"
+        ></vscode-inputbox>
+      </vscode-form-group>
+    `;
+
+    const _matchValueBooleanWidget = html`
+      <vscode-form-group variant="horizontal">
+        <vscode-label for="matchValue">Match Value</vscode-label>
+        <vscode-single-select
+          id="matchValue"
+          name="matchValue"
+          @vsc-change="${this._onMatchValueChange}"
+        >
+          <vscode-option ?selected="${this._matchValue === 'true'}"
+            >true</vscode-option
+          >
+          <vscode-option ?selected="${this._matchValue === 'false'}"
+            >false</vscode-option
+          >
+        </vscode-single-select>
+      </vscode-form-group>
+    `;
+
+    const _matchValueWidget = !this._isConditionalToken || !this._linkedToken
+      ? nothing
+      : this._linkedToken.type === 'boolean'
+        ? _matchValueBooleanWidget
+        : this._linkedToken.type === 'enum'
+          ? matchValueEnumWidget
+          : matchValueTextWidget;
+
     const activeView = html`
       <div>
         <vscode-form-container id="form" responsive>
@@ -654,6 +793,9 @@ export class TokenItemEdit extends LitElement {
           ${multilineWidget} ${monospaceWidget} ${linesWidget} ${maxLinesWidget}
           ${maxLengthWidget} ${maxLineLengthWidget} ${multipleWidget} ${separatorWidget}
           ${comboboxWidget} ${optionsWidget}
+          ${isConditionalTokenWidget}
+          ${this._isConditionalToken ? linkedTokenWidget : nothing}
+          ${_matchValueWidget}
           ${this._isOptionsWindowVisible ? optionsWindow : nothing}
           <vscode-form-group>
             <vscode-button @click="${this._onSaveClick}">Save</vscode-button>

@@ -76,6 +76,9 @@ declare global {
     separator?: string;
     prefix?: string;
     suffix?: string;
+    isConditionalToken?: boolean;
+    linkedToken?: Token;
+    matchValue?: string;
   }
 
   type DefaultViewConfig = 'text' | 'form';
